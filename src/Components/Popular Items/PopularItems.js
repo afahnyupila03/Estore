@@ -7,6 +7,7 @@ const PopularItemsCard = props => {
     const [items, setItems] = useState([]);
     const [error, setError] = useState(null)
     const [isLoading, setIsLoading] = useState(false);
+    
 
     const fetchData = useCallback(async () => {
         

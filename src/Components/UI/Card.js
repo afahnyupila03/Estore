@@ -1,16 +1,16 @@
+import ProductForm from '../Products/ProductItem/Product Form/ProductForm';
+import CartContext from './../../Store/cart-context';
 import { useContext } from 'react';
-import CartContext from '../../Store/cart-context';
 
 const Card = props => {
 
     const cartCtx = useContext(CartContext);
-
-    const addItemHandler = (item) => {
+    const addItemToCartHandler = amount => {
         cartCtx.addItem({
             key: props.id,
             image: props.image,
             name: props.name,
-            amount: item.amount,
+            amount,
             price: props.price
         });
     }
@@ -32,14 +32,7 @@ const Card = props => {
                 {props.price}
             </span>
         </div>
-        <div className="
-            flex justify-center tracking-wide
-        ">
-            <button
-                className="border-2 rounded font-bold bg-red-500 text-white tracking-widest border-red-500 p-4"
-                onClick={addItemHandler}
-            >Add to Cart</button>
-        </div>
+        <ProductForm onAddToCart={addItemToCartHandler} />
     </div>
 
 };

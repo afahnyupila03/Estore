@@ -9,14 +9,14 @@ const CartProvider = props => {
     const addItemHandler = item => {
         dispatchCart({
             type: 'ADD',
-            item: item
+            item: item,
         })
     }
 
     const removeItemHandler = id => {
         dispatchCart({
             type: 'REMOVE',
-            id: id
+            id: id,
         })
     }
 

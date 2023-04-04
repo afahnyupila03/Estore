@@ -7,8 +7,10 @@ const HeaderCartButton = props => {
     const cartCtx = useContext(CartContext);
 
     const cartCounter = cartCtx.products.reduce(
-        (curNumber, item) => {
-            return curNumber + item.amount;},
+        (acc, item) => {
+            // acc += item.amount || 0
+            return acc + item.amount;
+        },
         0
     );
 
@@ -24,4 +26,4 @@ const HeaderCartButton = props => {
 
 };
 
-export default HeaderCartButton;
+export default HeaderCartButton ;
