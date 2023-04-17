@@ -12,11 +12,12 @@ const ProductForm = props => {
         event.preventDefault();
 
         const enteredAmount = amountRef.current.value;
-        const amount = +enteredAmount;
+        const quantity = +enteredAmount;
 
-        props.onAddToCart(amount);
+        props.onAddToCart(quantity);
+        console.log(quantity);
 
-        if(enteredAmount.trim().length === 0 || amount < 1) {
+        if (enteredAmount.trim().length === 0 || quantity < 1) {
             setAmountIsValid(false);
             return;
         }
@@ -24,7 +25,7 @@ const ProductForm = props => {
     }
 
     return <form onSubmit={submitFormHandler}>
-        <Input 
+        <Input
             ref={amountRef}
             label='Amount'
             input={{
@@ -36,7 +37,10 @@ const ProductForm = props => {
             }}
         />
         {amountIsValid && <p>Please at least 1 must be added to cart</p>}
-        <button>Add to Cart</button>
+        <button className='
+        rounded tracking-wilder font-bold text-white
+        text-l bg-red-500 p-2 mt-4
+        '>Add to Cart</button>
     </form>
 
 }

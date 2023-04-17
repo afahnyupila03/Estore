@@ -8,7 +8,7 @@ const hasFiveChars = value => value.trim().length === 5;
 const CheckoutForm = props => {
 
     const [formInputsValidity, setFormInputsValidity] = useState({
-        name: true,
+        name: false,
         postalCode: true,
         city: true,
         street: true
@@ -29,7 +29,7 @@ const CheckoutForm = props => {
 
         const nameIsValid = !isEmpty( enteredName );
         const cityIsValid = !isEmpty( enteredCity );
-        const postalCodeIsValid = !hasFiveChars( enteredPostalCode );
+        const postalCodeIsValid = hasFiveChars( enteredPostalCode );
         const streetIsValid = !isEmpty( enteredStreet );
 
         setFormInputsValidity({
@@ -44,74 +44,99 @@ const CheckoutForm = props => {
             return;
         }
 
-        const userData = {
+        // const userData = {
+        //     name: enteredName,
+        //     city: enteredCity,
+        //     postalCode: enteredPostalCode,
+        //     street: enteredStreet
+        // }
+
+        props.onPost({
             name: enteredName,
             city: enteredCity,
+            street: enteredStreet,
             postalCode: enteredPostalCode,
-            street: enteredStreet
-        }
-
-        props.onPost(userData);
+        });
 
     }
 
     return <form className="grid gap-10" onSubmit={orderConfirmHandler}>
         <div className='flex items-center'>
-            <label className="text-xl tracking-wilder font-bold text-red-500 items-center">Name:</label>
-            <input
-                className="
+            <label className="text-xl tracking-wilder font-bold text-red-500 items-center">Enter Name:</label>
+            <div className='grid'>
+                <input
+                    className="
                 bg-gray-300 ml-4 
                 form-input px-4 
                 py-3 rounded-full
                 font-bold text-red-500'
             "
-                ref={nameRef}
-                type="text"
-            />
+                    ref={nameRef}
+                    type="text"
+                />
+                { 
+                    formInputsValidity.name && <p className='ml-6 text-red-400'>Please enter your name <span>*</span></p>
+                }
+            </div>
         </div>
         <div className="flex items-center">
-            <label className="text-xl tracking-wilder font-bold text-red-500 items-center">City Name:</label>
-            <input
-                className="
+            <label className="text-xl tracking-wilder font-bold text-red-500 items-center">City Address:</label>
+            <div className='grid'>
+                <input
+                    className="
                 bg-gray-300 ml-4 
                 form-input px-4 
                 py-3 rounded-full
                 font-bold text-red-500'
             "
-                ref={cityRef}
-                type="text"
-            />
+                    ref={cityRef}
+                    type="text"
+                />
+                {
+                    formInputsValidity.city && <p className='ml-6 text-red-400'>Please enter your city address <span>*</span></p>
+                }
+            </div>
         </div>
         <div className="flex items-center">
-            <label className="text-xl tracking-wilder font-bold text-red-500 items-center">Street Name:</label>
-            <input
-                className="
+            <label className="text-xl tracking-wilder font-bold text-red-500 items-center">Street Address:</label>
+            <div className='grid'>
+                <input
+                    className="
                 bg-gray-300 ml-4 
                 form-input px-4 
                 py-3 rounded-full
                 font-bold text-red-500'
             "
-                ref={streetAddressRef}
-                type="text"
-            />
+                    ref={streetAddressRef}
+                    type="text"
+                />
+                {
+                    formInputsValidity.street && <p className='ml-6 text-red-400'>Please enter your street address <span>*</span></p>
+                }
+            </div>
         </div>
         <div className="flex items-center">
             <label className="text-xl tracking-wilder font-bold text-red-500 items-center">Postal Code:</label>
-            <input
-                className="
+            <div className='grid'>
+                <input
+                    className="
                 bg-gray-300 ml-4 
                 form-input px-4 
                 py-3 rounded-full
                 font-bold text-red-500'
             "
-                ref={postalCodeRef}
-                type="number"
-            />
+                    ref={postalCodeRef}
+                    type="number"
+                />
+                {
+                    !formInputsValidity.postalCode && <p className='ml-6 text-red-400'>Please enter your postal-code <span>*</span></p>
+                }
+            </div>
         </div>
         <div className="mt-4">
-            <button 
+            <button     
                 disabled={!formInputsValidity}
-             className="
+                className="
                 bg-red-500 font-bold p-2 
                 w-40 mr-3 rounded-full 
                 text-white">

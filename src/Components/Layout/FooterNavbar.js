@@ -6,13 +6,13 @@ import facebook from './facebook.png';
 const FooterNavbar = () => {
     return (
         <div className="bg-red-100 p-2">
-            <div className='container mt-40 mb-40 mx-auto px-4'>
+            <div className='container mt-40 mb-20 mx-auto px-4'>
 
                 {/* Footer Navbar */}
                 <div className='px-4 mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-10'>
                     {/* Footer Brand */}
                     <div>
-                        <a href="/#" className="font-bold text-xl cursor-pointer">
+                        <a href="/#" className="font-bold text-3xl cursor-pointer">
                             <span>Time</span>
                             <span className="text-red-500">Zone</span>
                         </a>
@@ -42,7 +42,7 @@ const FooterNavbar = () => {
                     <div>
                         {/* Header */}
                         <div>
-                            <h4 className="text-red-500 mb-10 font-bold text-xl">
+                            <h4 className="text-red-500 mb-10 font-bold text-3xl">
                                 Quick Links
                             </h4>
                         </div>
@@ -68,7 +68,7 @@ const FooterNavbar = () => {
                     <div>
                         {/* Header */}
                         <div>
-                            <h4 className="text-red-500 mb-10 font-bold text-xl">
+                            <h4 className="text-red-500 mb-10 font-bold text-3xl">
                                 New Products
                             </h4>
                         </div>
@@ -94,7 +94,7 @@ const FooterNavbar = () => {
                     <div>
                         {/* Header */}
                         <div>
-                            <h4 className="text-red-500 mb-10 font-bold text-xl">
+                            <h4 className="text-red-500 mb-10 font-bold text-3xl">
                                 Support
                             </h4>
                         </div>
@@ -117,6 +117,10 @@ const FooterNavbar = () => {
                         </div>
                     </div>
                 </div>
+            </div>
+            <hr className='container border-red-500 border-3 mb-5 mx-auto' />
+            <div className='container flex justify-center font-bold text-3l tracking-wildest text-red-500 mx-auto mb-10'>
+                All copyrights reserved &copy;{new Date().getFullYear()}
             </div>
         </div>
     );

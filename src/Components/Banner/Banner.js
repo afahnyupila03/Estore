@@ -7,14 +7,13 @@ const Banner = () => {
             <div className='container flex justify-center items-center mx-auto grid lg:grid-cols-2 gap-80'>
                 {/* Banner Text */}
                 <div className="justify-center">
-                    <span className="font-bold text-xl mb-10 uppercase text-red-500">
+                    <p className="font-bold text-5xl mb-10 uppercase text-red-500">
                         select your new perfect style
-                    </span>
-                    <br />
-                    <span className='uppercase mb-7 text-red-500'>
+                    </p>
+                    <p className='uppercase mt-4 mb-7 text-3xl text-red-500'>
                         enjoy up to 20% off select pre-owned with code 
                         <span className='font-bold'> MARCH4103'</span>
-                    </span>
+                    </p>
                     <div className='flex justify-center mt-4'>
                         <button className='
                         text-red-500

@@ -36,6 +36,7 @@ const PopularItemsCard = props => {
             };
 
         } catch (err) {
+            setIsLoading(false);
             setError(err.message);
         }
 
@@ -75,15 +76,15 @@ const PopularItemsCard = props => {
                 {error && content}
                 {isLoading && content}
             </div>
-            <div className="grid md:grid-cols-3 gap-10" style={{ marginTop: '5rem' }}>
+            <div className="grid gap-20 md:grid-cols-2 lg:grid-cols-3" style={{ marginTop: '5rem' }}>
                 {items && popularCard}
             </div>
             <div className="flex justify-center">
                 {
-                    !error && isLoading && <button
+                    !error && !isLoading && <button
                         className="
-                        rounded-full cursor-pointer text-red-500 border-red-500 border-2 p-2 flex items-center uppercase
-                        font-bold mt-8 hover:bg-red-500 hover:text-white transition:ease-out duration-200
+                        rounded-full cursor-pointer text-red-500 border-red-500 border-2 p-3 flex items-center uppercase
+                        font-bold mt-8 hover:bg-red-500 hover:text-white transition:ease-out duration-200 mt-20
                         "
                     >view more products</button>
                 }

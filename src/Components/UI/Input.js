@@ -5,21 +5,22 @@ import { forwardRef } from "react";
 
 const Input = forwardRef((props, ref) => {
 
-    return <div className="items-center">
-        <div className="mb-2">
-            <label className="text-xl text-red-500 ml-6" htmlFor={props.input.id}>
+    return <div className="flex p-2 justify-self-center">
+        {/* <div className="mb-2 ml-8">
+            <label className="" htmlFor={props.input.id}>
                 {props.label}:
             </label>
-        </div>
+        </div> */}
         <input
             className="
-                bg-gray-200 font-bold text-red-500 rounded text-xl p-2 justify-center
+                text-red-500 bg-gray-200 font-bold
+                text-2l w-10 p-1 items-center
             "
             ref={ref}
             {...props.input}
 
         />
     </div>
-} );
+});
 
 export default Input;

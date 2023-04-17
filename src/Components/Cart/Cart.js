@@ -1,42 +1,48 @@
-import { Fragment, useState, useContext } from "react";
+import { Fragment, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+
+
 import CheckoutForm from "./CheckoutForm";
-import CartContext from '../../Store/cart-context';
 import Modal from '../UI/Modal';
 import CartCard from "../UI/CartCard";
+import { cartAction } from "../../Store/cart-slice";
 
 const Cart = props => {
-
-    const cartCtx = useContext(CartContext);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [isChecked, setIsChecked] = useState(false);
-    const hasItems = cartCtx.products.length > 0;
-
-    // Add and Remove Items from cart Function
-    const addItemToCartHandler = item => {
-        cartCtx.addItem({
-            ...item,
-            amount: 1
-        });
-    }
-    const removeItemFromCartHandler = id => {
-        cartCtx.removeItem(id);
-    }
+    const items = useSelector(
+        state => state.cart.products
+    )
+    const hasItems = items.length > 0;
 
     // TotalAmount Function
-    const updatedTotalAmount = `$${cartCtx.totalAmount.toFixed(2)}`;
+    const updatedTotalAmount = useSelector(
+        state => state.cart.totalAmount
+    );
+    
+    // const totalAmount = `$${updatedTotalAmount.toFixed(2)}`
+    // TotalAmount Function
     console.log(updatedTotalAmount);
+    
 
     // Items Counter
-    const itemsCounter = cartCtx.products.reduce(
-        (acc, item) => {
-            return acc + item.amount;
-        }, 0
+    const itemsCounter = useSelector(
+        state => state.cart.totalQuantity
+    )
+    const totalAmount = updatedTotalAmount * itemsCounter;
+    const amount = +totalAmount;
+    console.log(amount);
+
+    const products = useSelector(
+        state => state.cart
     )
 
+    const dispatch = useDispatch();
     // Post API function
     const postHandler = async(userData) => {
+        console.log(userData)
         setIsSubmitting(true);
         
         await fetch(
@@ -45,28 +51,30 @@ const Cart = props => {
             method: "POST",
             body: JSON.stringify({
                 user: userData,
-                orderedItems: cartCtx.products,
+                orderedItems: products,
             }),
-            
+            headers: {
+                'content-type': 'application/json'
+            }
         });
 
         setIsSubmitting(false);
         setIsSubmitted(true);
-        cartCtx.clearCart();
+        dispatch(
+            cartAction.clearCart()
+        )
     }
 
     // Displayed Cart Items
     const cartItems = (
         <ul>{
-            cartCtx.products.map(item=> (
+            items.map(item=> (
                 <CartCard
                     key={item.id}
                     image={item.image}
                     name={item.name}
                     price={item.price}
-                    amount={item.amount}
-                    onAdd={addItemToCartHandler.bind(null, item)}
-                    onRemove={removeItemFromCartHandler.bind(null, item.id)}
+                    quantity={item.quantity}
                 />
             ))
         }</ul>
@@ -113,7 +121,7 @@ const Cart = props => {
     </Fragment>
 
     const isSubmittedContent = <Fragment>
-        <p>Orders successfully completed...!</p>
+        <p className='text-red-500 font-bold text-3xl'>Orders successfully completed...!</p>
         <button 
             onClick={props.onClose} 
             className="
@@ -130,7 +138,7 @@ const Cart = props => {
         </button>
     </Fragment>
 
-    const isSubmittingContent = <p>Sending orders items...</p>
+    const isSubmittingContent = <p className='text-red-500 font-bold text-3xl'>Sending orders items...</p>
 
     return (
         <Modal className="mx-auto box-border p-20 max">

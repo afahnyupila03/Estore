@@ -34,6 +34,7 @@ const NewArrivals = (props) => {
                 setArrival(loadedItems);
             }
         } catch (err) {
+            setIsLoading(false);
             setError(err.message);
         }
     }, []);
@@ -59,9 +60,7 @@ const NewArrivals = (props) => {
         </p>;
     }
     if (isLoading) {
-        content = <button type='button' className='bg-red-200' disabled>
-            <svg className="animate-spin h-5 w-5 mr-3 ..." viewBox="0 0 24 24" />
-        </button>;
+        content = <p>Fetching Products...</p>
     }
 
     return (
