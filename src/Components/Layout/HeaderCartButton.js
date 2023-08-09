@@ -1,15 +1,26 @@
 
 
+import { uiAction } from '../../Store/ui-slice';
 import CartIcon from './../UI/CartIcon';
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 const HeaderCartButton = props => {
 
     const cartCounter = useSelector(
         state => state.cart.totalQuantity
     );
+    // const showCart = useSelector(
+    //     state => state.ui.cartIsVisible
+    // )
+    const dispatch = useDispatch();
 
-    return <button className='bg-red-500 items-center flex p-2 rounded-full' onClick={props.onOpen}>
+    const openCartHandler = () => {
+        dispatch(
+            uiAction.toggle()
+        )
+    }
+
+    return <button className='bg-red-500 items-center flex p-2 rounded-full' onClick={openCartHandler}>
         <span className="ml-2 mr-3 text-white">
             <CartIcon />
         </span>

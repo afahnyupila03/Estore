@@ -1,53 +1,37 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import Card from '../UI/Card';
+import useHttp from './../../Hooks/use-fetch';
+
 
 
 const PopularItemsCard = props => {
 
-    const [items, setItems] = useState([]);
-    const [error, setError] = useState(null)
-    const [isLoading, setIsLoading] = useState(false);
-    
+    const [popularItems, setPopularItems] = useState([]);
+    const { error, isLoading, requestHandler: fetchHandler } = useHttp()
 
-    const fetchData = useCallback(async () => {
-        
-        setError(null);
-        setIsLoading(true);
-
-        try {
-            const response = await fetch(
-                'https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular.json'
-            );
-            if (!response.ok) {
-                throw new Error('Request failed');
-            };
-            const data = await response.json();
-            const loadedItems = [];
-
-            for (const key in data) {
-                loadedItems.push({
-                    id: key,
-                    image: data[key].image,
-                    name: data[key].name,
-                    price: data[key].price
-                });
-                setIsLoading(false);
-                setItems(loadedItems);
-            };
-
-        } catch (err) {
-            setIsLoading(false);
-            setError(err.message);
-        }
-
-    }, [])
-
+    // useEffect function to handle the fetch-api command.
     useEffect(() => {
-        fetchData();
+        const popularProducts = popularObj => {
+            const loadedItems = [];
+            for (const popularKey in popularObj) {
+                loadedItems.push({
+                    id: popularKey,
+                    image: popularObj[popularKey].image,
+                    name: popularObj[popularKey].name,
+                    price: popularObj[popularKey].price
+                });
+                setPopularItems(loadedItems);
+            };
+        }
+        fetchHandler(
+            {
+                url: 'https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular.json'
+            }, popularProducts
+        );
 
-    }, [fetchData]);
+    }, [fetchHandler]);
 
-    const popularCard = items.map(popular => (
+    const popularCard = popularItems.map(popular => (
         <Card
             key={popular.id}
             image={popular.image}
@@ -59,9 +43,23 @@ const PopularItemsCard = props => {
     let content;
 
     if (error) {
-        content = <p>
-            {error}
-        </p>
+        content = <React.Fragment>
+            <div className='grid overflow-hidden'>
+                <p className='mb-4'>
+                    {error}
+                </p>
+                <button
+                    onClick={fetchHandler}
+                    className="
+                border-red-500 border-2 rounded-full
+                p-2 text-lg font-bold hover:bg-red-500
+                hover:text-white transition:ease-in-out
+                duration-800
+                ">
+                    Try again
+                </button>
+            </div>
+        </React.Fragment>
     }
     if (isLoading) {
         content = <p>Fetching Products...</p>
@@ -70,14 +68,20 @@ const PopularItemsCard = props => {
     return (
         <div className='container mx-auto px-4' style={{ marginTop: '8rem', marginBottom: '8rem' }}>
             <div className='flex'>
-                <h3 className=" border-red-500 border-b-2 text-red-500 font-bold uppercase" style={{ fontSize: '3rem' }}>popular items</h3>
+                <h3 className="
+                border-red-500 border-b-2 overflow-hidden
+                text-red-500 font-bold uppercase
+                md:text-3xl sm:text-xl ml-10
+                ">
+                    popular items
+                </h3>
             </div>
             <div className="font-bold text-red-500 flex justify-center" style={{ marginTop: '5rem', marginBottom: '5rem', fontSize: '1.5rem' }}>
                 {error && content}
                 {isLoading && content}
             </div>
             <div className="grid gap-20 md:grid-cols-2 lg:grid-cols-3" style={{ marginTop: '5rem' }}>
-                {items && popularCard}
+                {popularItems && popularCard}
             </div>
             <div className="flex justify-center">
                 {
