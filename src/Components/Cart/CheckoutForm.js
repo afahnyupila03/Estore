@@ -1,11 +1,19 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { uiAction } from "../../Store/ui-slice";
 // import Input from "../UI/Input";
-// import useInput from '../../Hooks/use-input';
+import useInput from '../../Hooks/use-input';
 
-const isEmpty = value => value.trim() === " ";
-const hasFiveChars = value => value.trim().length === 5;
+
 
 const CheckoutForm = props => {
+
+    const dispatch = useDispatch()
+    const closeCart = () => {
+        dispatch(
+            uiAction.toggle()
+        )
+    }
 
     const [formInputsValidity, setFormInputsValidity] = useState({
         name: false,
@@ -14,23 +22,50 @@ const CheckoutForm = props => {
         street: true
     });
 
-    const nameRef = useRef();
-    const cityRef = useRef();
-    const postalCodeRef = useRef();
-    const streetAddressRef = useRef();
+    const {
+        value: nameRef,
+        valueIsValid: nameIsValid,
+        enteredValue: enteredName,
+        reset: resetName, valueIsInvalid: nameIsInvalid,
+        inputBlurHandler: nameBlurHandler
+    } = useInput(
+        value => value !== " "
+    )
+    const {
+        value: cityRef,
+        valueIsValid: cityIsValid,
+        enteredValue: enteredCity,
+        reset: resetCity, valueIsInvalid: cityIsInvalid,
+        inputBlurHandler: cityBlurHandler
+    } = useInput(
+        value => value !== " "
+    )
+    const {
+        value: streetAddressRef,
+        valueIsValid: streetIsValid,
+        enteredValue: enteredStreet,
+        reset: resetStreet, valueIsInvalid: streetIsInvalid,
+        inputBlurHandler: streetBlurHandler
+    } = useInput(
+        value => value.trim() !== " "
+    )
+    const {
+        value: postalCodeRef,
+        postalCodeIsValid,
+        enteredValue: enteredPostalCode,
+        reset:  resetPostalCode, valueIsInvalid: postalCodeIsInvalid,
+        inputBlurHandler: postalCodeBlurHandler
+    } = useInput(
+        value => value === '5'
+    )
 
     const orderConfirmHandler = event => {
         event.preventDefault();
 
-        const enteredName = nameRef.current.value;
-        const enteredCity = cityRef.current.value;
-        const enteredPostalCode = postalCodeRef.current.value;
-        const enteredStreet = streetAddressRef.current.value;
-
-        const nameIsValid = !isEmpty( enteredName );
-        const cityIsValid = !isEmpty( enteredCity );
-        const postalCodeIsValid = hasFiveChars( enteredPostalCode );
-        const streetIsValid = !isEmpty( enteredStreet );
+        enteredName();
+        enteredCity();
+        enteredStreet();
+        enteredPostalCode();
 
         setFormInputsValidity({
             name: nameIsValid,
@@ -58,9 +93,15 @@ const CheckoutForm = props => {
             postalCode: enteredPostalCode,
         });
 
+        resetName();
+        resetCity();
+        resetStreet();
+        resetPostalCode();
+
     }
 
     return <form className="grid gap-10" onSubmit={orderConfirmHandler}>
+    {/* Name Input */}
         <div className='flex items-center'>
             <label className="text-xl tracking-wilder font-bold text-red-500 items-center">Enter Name:</label>
             <div className='grid'>
@@ -73,12 +114,14 @@ const CheckoutForm = props => {
             "
                     ref={nameRef}
                     type="text"
+                    onBlur={nameBlurHandler}
                 />
                 { 
-                    formInputsValidity.name && <p className='ml-6 text-red-400'>Please enter your name <span>*</span></p>
+                    nameIsInvalid && <p className='ml-6 text-red-400'>Please enter your name <span>*</span></p>
                 }
             </div>
         </div>
+        {/* City Input */}
         <div className="flex items-center">
             <label className="text-xl tracking-wilder font-bold text-red-500 items-center">City Address:</label>
             <div className='grid'>
@@ -91,12 +134,14 @@ const CheckoutForm = props => {
             "
                     ref={cityRef}
                     type="text"
+                    onBlur={cityBlurHandler}
                 />
                 {
-                    formInputsValidity.city && <p className='ml-6 text-red-400'>Please enter your city address <span>*</span></p>
+                    cityIsInvalid && <p className='ml-6 text-red-400'>Please enter your city address <span>*</span></p>
                 }
             </div>
         </div>
+        {/* Street Input */}
         <div className="flex items-center">
             <label className="text-xl tracking-wilder font-bold text-red-500 items-center">Street Address:</label>
             <div className='grid'>
@@ -109,12 +154,14 @@ const CheckoutForm = props => {
             "
                     ref={streetAddressRef}
                     type="text"
+                    onBlur={streetBlurHandler}
                 />
                 {
-                    formInputsValidity.street && <p className='ml-6 text-red-400'>Please enter your street address <span>*</span></p>
+                    streetIsInvalid && <p className='ml-6 text-red-400'>Please enter your street address <span>*</span></p>
                 }
             </div>
         </div>
+        {/* PostalCode Input */}
         <div className="flex items-center">
             <label className="text-xl tracking-wilder font-bold text-red-500 items-center">Postal Code:</label>
             <div className='grid'>
@@ -127,9 +174,10 @@ const CheckoutForm = props => {
             "
                     ref={postalCodeRef}
                     type="number"
+                    onBlur={postalCodeBlurHandler}
                 />
                 {
-                    !formInputsValidity.postalCode && <p className='ml-6 text-red-400'>Please enter your postal-code <span>*</span></p>
+                    postalCodeIsInvalid && <p className='ml-6 text-red-400'>Please enter your postal-code <span>*</span></p>
                 }
             </div>
         </div>
@@ -147,7 +195,7 @@ const CheckoutForm = props => {
                 className="border-red-500 
                 font-bold border-2 text-red-500 
                 transition ease-in-out hover:bg-red-500 
-                hover:text-white p-2 w-40 rounded-full" onClick={props.onClose}
+                hover:text-white p-2 w-40 rounded-full" onClick={closeCart}
                 >
                     Close
                 </button>

@@ -1,0 +1,17 @@
+.nav {
+    display: flex;
+    gap: 4;
+}
+
+.nav a {
+    color: white;
+    font-size: 1.7rem;
+}
+
+.nav a.activeLink {
+    color: red;
+}
+
+.nav a.inactiveLInk {
+    color: white
+}

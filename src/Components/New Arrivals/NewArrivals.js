@@ -1,47 +1,39 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom'
+
+import useHttp from './../../Hooks/use-fetch';
+
+
+import { getProd } from './new-data';
 import Card from '../UI/Card';
 
 
 const NewArrivals = (props) => {
 
     const [arrival, setArrival] = useState([]);
-    const [error, setError] = useState(null);
-    const [isLoading, setIsLoading] = useState(false);
 
-    const fetchData = useCallback(async () => {
+    const { error, isLoading, requestHandler: fetchHandler } = useHttp();
 
-        setError(null);
-        setIsLoading(true);
-        
-        try {
-            const response = await fetch(
-                'https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json'
-            );
-            if (!response.ok) {
-                throw new Error('Request failed');
-            }
-            const data = await response.json();
-
+    // useEffect function to handle the fetch-api command.
+    useEffect(() => {
+        const arrivalItems = arrivalObj => {
             const loadedItems = [];
-            for (const item in data) {
+            for (const arrivalKey in arrivalObj) {
                 loadedItems.push({
-                    id: item,
-                    image: data[item].image,
-                    name: data[item].name,
-                    price: data[item].price
+                    id: arrivalKey,
+                    image: arrivalObj[arrivalKey].image,
+                    name: arrivalObj[arrivalKey].name,
+                    price: arrivalObj[arrivalKey].price
                 });
-                setIsLoading(false);
                 setArrival(loadedItems);
             }
-        } catch (err) {
-            setIsLoading(false);
-            setError(err.message);
-        }
-    }, []);
-
-    useEffect( () => {
-        fetchData();
-    }, [fetchData]);
+        };
+        fetchHandler(
+            {
+                url: 'https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json'
+            }, arrivalItems
+        );
+    }, [fetchHandler]);
 
     const arrivalProducts = arrival.map(itemA => (
         <Card
@@ -54,20 +46,40 @@ const NewArrivals = (props) => {
 
     let content;
 
-    if (error) {
-        content = <p>
-            {error}
-        </p>;
+    if ( error ) {
+        content = <React.Fragment>
+            <div className='grid overflow-hidden'>
+                <p className='mb-4'>
+                    {error}
+                </p>
+                <button
+                    onClick={fetchHandler}
+                    className="
+                border-red-500 border-2 rounded-full
+                p-2 text-lg font-bold hover:bg-red-500
+                hover:text-white transition:ease-in-out
+                duration-800
+                ">
+                    Try again
+                </button>
+            </div>
+        </React.Fragment>;
     }
-    if (isLoading) {
+    if ( isLoading ) {
         content = <p>Fetching Products...</p>
     }
+
+    let prod = getProd()
 
     return (
         <React.StrictMode>
             <div className='container mx-auto px-4' style={{ marginTop: '5rem', marginBottom: '5rem' }}>
-                <div className="flex">
-                    <h2 className=" border-red-500 border-b-2 text-red-500 font-bold uppercase" style={{ fontSize: '3rem' }}>
+                <div className="flex md:justify-start sm:justify-center">
+                    <h2 className=" 
+                    border-red-500 border-b-2 overflow-hidden
+                    text-red-500 font-bold uppercase
+                    md:text-3xl sm:text-xl ml-10
+                    ">
                         new arrivals
                     </h2>
                 </div>
@@ -75,8 +87,27 @@ const NewArrivals = (props) => {
                     {error && content}
                     {isLoading && content}
                 </div>
-                <div className="grid lg:grid-cols-3 gap-10">
+                <div className="grid lg:grid-cols-4 gap-10">
                     {arrival && arrivalProducts}
+                    
+
+                    {/* Test */}
+                    {
+                        prod.map(
+                            prods => (
+                                <div key={prods.number}>
+                                    <p>{prods.name}</p>
+                                    <p>{prods.due}</p>
+                                    <p>{prods.amount}</p>
+                                    <Link 
+                                        to={`/time-zone/product-details/${prods.number}`}
+                                    >
+                                        {prods.number}
+                                    </Link>
+                                </div>
+                            )
+                        )
+                    }
                 </div>
             </div>
         </React.StrictMode>
