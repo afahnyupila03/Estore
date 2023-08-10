@@ -1,78 +1,51 @@
-import { NavLink } from "react-router-dom";
-
 import HeaderCartButton from "./HeaderCartButton";
-import classes from './nav.module.css';
-
 
 
 const Header = props => {
 
-    const activeLinkStyle = ({ isActive }) => (isActive ? `${ classes.activeLink }`: `${ classes.inactiveLInk }`)
-
     return (
         <>
-            <div className=' bg-black font-bold text-xl p-4' style={{ top: '0', left: '0', width: '100%' }}>
+            <div className='fixed bg-black font-bold text-xl p-4' style={{ top: '0', left: '0', width: '100%' }}>
                 <div className='flex items-center justify-around'>
                     {/* Navbar Brand */}
-                    <div className='navbar-header hidden sm:block'>
-                        <NavLink to="/" className="cursor-pointer text-3xl">
+                    <div className='navbar-header'>
+                        <a href="/#" className="cursor-pointer">
                             <span className='text-white'>Time</span>
                             <span className='text-red-500'>Zone</span>
-                        </NavLink>
+                        </a>
                     </div>
                     {/* Navbar Links */}
                     <div className="navbar-links hidden lg:block">
-                        <ul className={classes.nav}>
-
-                            {/* Home Link */}
+                        <ul className='text-white flex' id="navbar-links">
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/home' className={activeLinkStyle}>
-                                    Home
-                                </NavLink>
+                                <a href='//' className='nav-link'>Home</a>
                             </li>
-                            
-                            {/* Shop Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/shop' className={activeLinkStyle}>
-                                    Shop
-                                </NavLink>
+                                <a href='//' className='nav-link'>Shop</a>
                             </li>
-
-                            {/* About Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/about' className={activeLinkStyle}>
-                                    About
-                                </NavLink>
+                                <a href='//' className='nav-link'>About</a>
                             </li>
-
-                            {/* Latest Link = New Arrival Products */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/latest'  className={activeLinkStyle}>
-                                    Latest
-                                </NavLink>
+                                <a href='//' className='nav-link'>Latest</a>
                             </li>
-
-                            {/* Blog Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/blog'  className={activeLinkStyle}>
-                                    Blog
-                                </NavLink>
+                                <a href='//' className='nav-link'>Blog</a>
                             </li>
-
-                            {/* Contact Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/contact' className={activeLinkStyle}>
-                                    Contact
-                                </NavLink>
+                                <a href='//' className='nav-link'>Pages</a>
+                            </li>
+                            <li className='nav-item mr-4'>
+                                <a href='//' className='nav-link'>Contact</a>
                             </li>
                         </ul>
                     </div>
                     {/* Menu Text */}
-                    <div className='text-white uppercase sm:block lg:hidden text-white' id="menu">
-                        <a href="#/">menu</a>
-                    </div>
+                    {/* <div className='text-white uppercase hidden sm:block' id="menu">
+                    <a href="#/">menu</a>
+                </div> */}
                     {/* Cart Icon */}
-                    <div className='navbar-button md:hidden lg:block'>
+                    <div className='navbar-button hidden lg:block'>
                         <HeaderCartButton onOpen={props.onOpen} id='navbar-links' />
                     </div>
                 </div>

@@ -1,40 +1,33 @@
-// TODO: Try implementing Custom Input and fetch-post hooks in the Checkout form and other places where possible.
-
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from 'react-redux';
-import { useRoutes } from 'react-router-dom'
 
 
-import Header from './Components/Layout/Header.js'
+import Banner from "./Components/Banner/Banner";
+import FinePens from "./Components/fine-pens/FinePens";
+import Header from "./Components/Layout/Header";
+import NewArrivals from "./Components/New Arrivals/NewArrivals";
+import PopularItemsCard from './Components/Popular Items/PopularItems';
 import FooterNavbar from './Components/Layout/FooterNavbar';
 import Cart from './Components/Cart/Cart';
-
-
 import Notification from './Components/UI/Notification';
 import { sendCartData, fetchCartData } from './Store/cart-actions';
-import { routes } from "./Routes/routes.js";
-
 
 
 let isInitial = true;
 
 function App() {
 
+  const [isClosed, setIsClosed] = useState(false);
+
   const cart = useSelector(
     state => state.cart
   )
-  // ShowCart Function
-  const showCart = useSelector(
-    state => state.ui.cartIsVisible
-  )
-  // Show Cart Function
   const showNotification = useSelector(
     state => state.ui.notification
   )
-  // Dispatch Function
   const dispatch = useDispatch()
 
-  // useEffect function to enable fetch cart products after page loading
+  // useEffect function to enbale fetch cart products after page loading
   useEffect(
     () => {
       dispatch(
@@ -50,10 +43,14 @@ function App() {
       return;
     }
     dispatch(sendCartData(cart))
-  }, [cart, dispatch]);
+  }, [cart, dispatch])
 
-  // useRoutes Navigation
-  const route = useRoutes(routes)
+  const hideCartHandler = () => {
+    setIsClosed(false)
+  }
+  const openCartHandler = () => {
+    setIsClosed(true);
+  }
 
   return (
     <React.StrictMode>
@@ -64,11 +61,12 @@ function App() {
           message={showNotification.message}
         />
       }
-      <Header />
-      {showCart && <Cart  />}
-      
-      { route }
-      
+      <Header onOpen={openCartHandler} />
+      {isClosed && <Cart onClose={hideCartHandler} />}
+      <Banner />
+      <NewArrivals />
+      <FinePens />
+      <PopularItemsCard />
       <FooterNavbar />
     </React.StrictMode>
   );

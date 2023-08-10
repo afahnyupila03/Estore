@@ -26,7 +26,7 @@ const Card = props => {
         justify-self-center
     ">
         <div className="flex justify-center">
-            <img src={image} alt='' className="overflow-hidden" />
+            <img src={image} alt='' className="overflow-hidden w-100" />
         </div>
         <div className="font-bold flex justify-center mt-4 tracking-wide text-xl">
             <span className="text-2l text-red-500">{name}</span>
