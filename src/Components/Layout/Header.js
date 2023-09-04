@@ -26,42 +26,42 @@ const Header = props => {
 
                             {/* Home Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/home' className={activeLinkStyle}>
+                                <NavLink to='/home' className={activeLinkStyle}>
                                     Home
                                 </NavLink>
                             </li>
                             
                             {/* Shop Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/shop' className={activeLinkStyle}>
+                                <NavLink to='/shop' className={activeLinkStyle}>
                                     Shop
                                 </NavLink>
                             </li>
 
                             {/* About Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/about' className={activeLinkStyle}>
+                                <NavLink to='/about' className={activeLinkStyle}>
                                     About
                                 </NavLink>
                             </li>
 
                             {/* Latest Link = New Arrival Products */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/latest'  className={activeLinkStyle}>
+                                <NavLink to='/latest'  className={activeLinkStyle}>
                                     Latest
                                 </NavLink>
                             </li>
 
                             {/* Blog Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/blog'  className={activeLinkStyle}>
+                                <NavLink to='/blog'  className={activeLinkStyle}>
                                     Blog
                                 </NavLink>
                             </li>
 
                             {/* Contact Link */}
                             <li className='nav-item mr-4'>
-                                <NavLink to='/time-zone/contact' className={activeLinkStyle}>
+                                <NavLink to='/contact' className={activeLinkStyle}>
                                     Contact
                                 </NavLink>
                             </li>

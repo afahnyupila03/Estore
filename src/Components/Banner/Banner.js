@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import watch from './watch.png.webp';
 
 const Banner = () => {
@@ -27,7 +28,7 @@ const Banner = () => {
                         transition:ease-out duration-300 
                         tracking-widest p-3'
                         >
-                            shop now
+                            <Link>shop now</Link>
                         </button>
                     </div>
                 </div>

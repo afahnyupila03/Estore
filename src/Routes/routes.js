@@ -27,111 +27,111 @@ export const routes = [
   },
   // Navbar Page Links
   {
-    path: "/time-zone/home",
+    path: "/home",
     element: <Home />,
   },
   {
-    path: "/time-zone/shop",
+    path: "/shop",
     element: <Shop />,
     children: [
       {
-        path: "/time-zone/shop",
+        path: "/shop",
         element: <ShopHome />,
       },
       {
-        path: "/time-zone/shop/watches",
+        path: "/shop/watches",
         element: <Watches />,
       },
       {
-        path: "/time-zone/shop/woman-cloth",
+        path: "/shop/woman-cloth",
         element: <WomanCloth />,
       },
       {
-        path: "/time-zone/shop/man-accessories",
+        path: "/shop/man-accessories",
         element: <ManAccessories />,
       },
       {
-        path: "/time-zone/shop/fashion-accessories",
+        path: "/shop/fashion-accessories",
         element: <FashionAccessories />,
       },
       {
-        path: "/time-zone/shop/rubber-toys",
+        path: "/shop/rubber-toys",
         element: <RubberToys />,
       },
     ],
   },
   {
-    path: "/time-zone/about",
+    path: "/about",
     element: <About />,
   },
   {
-    path: "/time-zone/contact",
+    path: "/contact",
     element: <Contact />,
   },
   {
-    path: "/time-zone/blog",
+    path: "/blog",
     element: <Blog />,
   },
   {
-    path: "/time-zone/latest",
+    path: "/latest",
     element: <Latest />,
   },
   {
-    path: "/time-zone/cart",
+    path: "/cart",
     element: <CartPage />,
   },
   // Product Detail Page Link
   {
-    path: "/time-zone/product-details/:productId",
+    path: "/product-details/:productId",
     element: <ProductDetails />,
   },
   // Footer Page Links
   {
-    path: "/time-zone/rubber-toys",
+    path: "/rubber-toys",
     element: <RubberToys />,
   },
   {
-    path: "/time-zone/woman-cloth",
+    path: "/woman-cloth",
     element: <WomanCloth />,
   },
   {
-    path: "/time-zone/fashion-accessories",
+    path: "/fashion-accessories",
     element: <FashionAccessories />,
   },
   {
-    path: "/time-zone/man-accessories",
+    path: "/man-accessories",
     element: <ManAccessories />,
   },
   {
-    path: "/time-zone/about",
+    path: "/about",
     element: <About />,
   },
   {
-    path: "/time-zone/contact",
+    path: "/contact",
     element: <Contact />,
   },
   {
-    path: "/time-zone/faq",
+    path: "/faq",
     element: <FAQ />,
   },
   {
-    path: "/time-zone/get-coupons",
+    path: "/get-coupons",
     element: <GetCoupon />,
   },
   {
-    path: "/time-zone/offers-&-discounts",
+    path: "/offers-&-discounts",
     element: <OffersAndDiscounts />,
   },
   {
-    path: "/time-zone/privacy-policy",
+    path: "/privacy-policy",
     element: <PrivacyPolicy />,
   },
   {
-    path: "/time-zone/report-payment-issue",
+    path: "/report-payment-issue",
     element: <ReportIssue />,
   },
   {
-    path: "/time-zone/terms-&-conditions",
+    path: "/terms-&-conditions",
     element: <TermsAndCondition />,
   },
 ];
