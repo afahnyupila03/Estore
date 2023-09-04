@@ -3,23 +3,28 @@ import { useQuery } from "react-query";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
 import Card from "../UI/Card";
-import { getNewArrivals } from "../../Services/HomeService";
+import { getNewArrivals } from "../../Services/HomeService/HomeService";
 
 const NewArrivals = () => {
-const { data= [], isLoading, error, refetch } = useQuery("arrivalItems", () =>
-  getNewArrivals(
-    "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json/"
-  )
-);
+  const {
+    data = [],
+    isLoading,
+    error,
+    refetch,
+  } = useQuery("arrivalItems", () =>
+    getNewArrivals(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json/"
+    )
+  );
 
-const arrivalProducts = data?.map((itemA) => (
-  <Card
-    key={itemA.id}
-    image={itemA.image}
-    name={itemA.name}
-    price={`$${itemA.price.toFixed(2)}`}
-  />
-));
+  const arrivalProducts = data?.map((itemA) => (
+    <Card
+      key={itemA.id}
+      image={itemA.image}
+      name={itemA.name}
+      price={`$${itemA.price.toFixed(2)}`}
+    />
+  ));
 
   let content;
 

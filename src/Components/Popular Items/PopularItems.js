@@ -1,20 +1,19 @@
 import React from "react";
 import Card from "../UI/Card";
 import { useQuery } from "react-query";
-import { getPopularItemsService } from "../../Services/HomeService";
+import { getPopularItemsService } from "../../Services/HomeService/HomeService";
 
-const PopularItemsCard = (props) => {
-    const {
-        error,
-        isLoading,
-        data = [],
-        refetch,
-      } = useQuery(
-        "popularItems", () =>
-        getPopularItemsService(
-          "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular.json"
-        )
-      );
+const PopularItemsCard = () => {
+  const {
+    error,
+    isLoading,
+    data = [],
+    refetch,
+  } = useQuery("popularItems", () =>
+    getPopularItemsService(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular.json"
+    )
+  );
 
   let content;
 
@@ -56,19 +55,21 @@ const PopularItemsCard = (props) => {
       </div>
     );
   } else {
-    const popularCard = data.map((popular) => (
-        <Card
-          key={popular.id}
-          image={popular.image}
-          name={popular.name}
-          price={`$${popular.price.toFixed(2)}`}
-        />
-      ));
-      content = (
-        <React.Fragment>
-          <div className="grid lg:grid-cols-4 gap-10">{popularCard} okay</div>
-        </React.Fragment>
-      );
+    content = (
+      <React.Fragment>
+        <div className="grid lg:grid-cols-4 gap-10">
+          {data.map((popular) => (
+            <Card
+              key={popular.id}
+              image={popular.image}
+              name={popular.name}
+              price={`$${popular.price.toFixed(2)}`}
+            />
+          ))}
+          okay
+        </div>
+      </React.Fragment>
+    );
   }
 
   return (
