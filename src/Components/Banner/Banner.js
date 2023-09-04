@@ -9,6 +9,7 @@ const Banner = () => {
             items-center mx-auto px-auto grid lg:grid-cols-2
             gap-80'>
                 {/* Banner Text */}
+                {/* OKAY */}
                 <div className='grid justify-center items-center mb-8 my-8 px-20 overflow-hidden'>
                     <p className="font-bold text-5xl mb-10 uppercase text-red-500">
                         select your new perfect style
