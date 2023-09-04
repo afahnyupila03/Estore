@@ -13,12 +13,15 @@ import Cart from './Components/Cart/Cart';
 import Notification from './Components/UI/Notification';
 import { sendCartData, fetchCartData } from './Store/cart-actions';
 import { routes } from "./Routes/routes.js";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 
 
 let isInitial = true;
 
 function App() {
+
+  // const queryClient = new QueryClient()
 
   const cart = useSelector(
     state => state.cart
@@ -57,6 +60,7 @@ function App() {
 
   return (
     <React.StrictMode>
+      <QueryClientProvider client={new QueryClient()}>
       {
         showNotification && <Notification 
           status={showNotification.status}
@@ -70,6 +74,7 @@ function App() {
       { route }
       
       <FooterNavbar />
+      </QueryClientProvider>
     </React.StrictMode>
   );
 }
