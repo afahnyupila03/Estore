@@ -27,8 +27,9 @@ const Banner = () => {
                         cursor-pointer uppercase font-bold 
                         transition:ease-out duration-300 
                         tracking-widest p-3'
+                        onClick={()=>window.scrollTo(0,0)}
                         >
-                            <Link>shop now</Link>
+                            <Link to='/shop'>shop now</Link>
                         </button>
                     </div>
                 </div>

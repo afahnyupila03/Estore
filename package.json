@@ -3,9 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@ionic/react": "^7.3.2",
     "@reduxjs/toolkit": "^1.9.3",
     "@tanstack/react-query": "^4.33.0",
     "cra-template-react-tailwindcss": "1.1.4",
+    "formik": "^2.4.3",
+    "ionicons": "^7.1.2",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-icons": "^4.8.0",
