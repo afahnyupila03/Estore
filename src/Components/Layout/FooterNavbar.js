@@ -59,16 +59,16 @@ const FooterNavbar = () => {
                         <div>
                             <ul>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-200">
-                                    <NavLink to="/time-zone/about" onClick={scrollToTop}>About</NavLink>
+                                    <NavLink to="/about" onClick={scrollToTop}>About</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-200">
-                                    <NavLink to="/time-zone/offers-&amp;-discounts" onClick={scrollToTop}>Offers &amp; Discounts</NavLink>
+                                    <NavLink to="/offers-&amp;-discounts" onClick={scrollToTop}>Offers &amp; Discounts</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-200">
-                                    <NavLink to="/time-zone/get-coupons" onClick={scrollToTop}>Get Coupon</NavLink>
+                                    <NavLink to="/get-coupons" onClick={scrollToTop}>Get Coupon</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-200">
-                                    <NavLink to="/time-zone/contact" onClick={scrollToTop}>Contact Us</NavLink>
+                                    <NavLink to="/contact" onClick={scrollToTop}>Contact Us</NavLink>
                                 </li>
                             </ul>
                         </div>
@@ -86,16 +86,16 @@ const FooterNavbar = () => {
                         <div>
                             <ul>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-200">
-                                    <NavLink to="/time-zone/woman-cloth" onClick={scrollToTop}>Woman Cloth</NavLink>
+                                    <NavLink to="/woman-cloth" onClick={scrollToTop}>Woman Cloth</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-200">
-                                    <NavLink to="/time-zone/fashion-accessories" onClick={scrollToTop}>Fashion Accessories</NavLink>
+                                    <NavLink to="/fashion-accessories" onClick={scrollToTop}>Fashion Accessories</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-200">
-                                    <NavLink to="/time-zone/man-accessories" onClick={scrollToTop}>Man Accessories</NavLink>
+                                    <NavLink to="/man-accessories" onClick={scrollToTop}>Man Accessories</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-200">
-                                    <NavLink to="/time-zone/rubber-toys" onClick={scrollToTop}>Rubber made Toys</NavLink>
+                                    <NavLink to="/rubber-toys" onClick={scrollToTop}>Rubber made Toys</NavLink>
                                 </li>
                             </ul>
                         </div>
@@ -113,16 +113,16 @@ const FooterNavbar = () => {
                         <div>
                             <ul>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition ease-in-out  duration-300">
-                                    <NavLink to="/time-zone/faq" onClick={scrollToTop}>FAQ</NavLink>
+                                    <NavLink to="/faq" onClick={scrollToTop}>FAQ</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-300">
-                                    <NavLink to="/time-zone/terms-&amp;-conditions" onClick={scrollToTop}>Terms &amp; Conditions</NavLink>
+                                    <NavLink to="/terms-&amp;-conditions" onClick={scrollToTop}>Terms &amp; Conditions</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold text-2xl cursor-pointer hover:text-red-500 transition:ease-in duration-300">
-                                    <NavLink to="/time-zone/privacy-policy" onClick={scrollToTop}>Privacy Policy</NavLink>
+                                    <NavLink to="/privacy-policy" onClick={scrollToTop}>Privacy Policy</NavLink>
                                 </li>
                                 <li className="mb-4 font-bold cursor-pointer text-2xl hover:text-red-500 transition:ease-in duration-300">
-                                    <NavLink to="/time-zone/report-payment-issue" onClick={scrollToTop}>Report a Payment Issue</NavLink>
+                                    <NavLink to="/report-payment-issue" onClick={scrollToTop}>Report a Payment Issue</NavLink>
                                 </li>
                             </ul>
                         </div>
