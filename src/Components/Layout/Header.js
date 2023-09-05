@@ -2,10 +2,20 @@ import { NavLink } from "react-router-dom";
 
 import HeaderCartButton from "./HeaderCartButton";
 import classes from './nav.module.css';
+import Login from './Login'
+import { useState } from "react";
 
 
 
 const Header = props => {
+
+    const [isLogin, setIsLogin] = useState(false)
+    const handleLogin = (email, password) => {
+        setIsLogin(true)
+    }
+    const handleLogout = () => {
+        setIsLogin(false)
+    }
 
     const activeLinkStyle = ({ isActive }) => (isActive ? `${ classes.activeLink }`: `${ classes.inactiveLInk }`)
 
@@ -74,6 +84,7 @@ const Header = props => {
                     {/* Cart Icon */}
                     <div className='navbar-button md:hidden lg:block'>
                         <HeaderCartButton onOpen={props.onOpen} id='navbar-links' />
+                        <Login isLogin={isLogin} onLogin={handleLogin} onLogout={handleLogout} />
                     </div>
                 </div>
             </div>
