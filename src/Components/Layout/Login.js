@@ -1,14 +1,22 @@
 import React from "react";
 
-import { Icon } from 'react-icons-kit';
-import {ic_login_twotone} from 'react-icons-kit/md/ic_login_twotone'
+import { Icon } from "react-icons-kit";
+import {user} from 'react-icons-kit/fa/user';
 
-const Login = () => {
+const Login = ({ isLogin, onLogin, onLogout }) => {
   return (
     <div>
-      <h1 style={{ color: "white" }}>Login</h1>
-      <Icon icon={ic_login_twotone} size={30} style={{ color: "white" }} />
-      
+      {isLogin ? (
+        <button onClick={onLogout}>
+          <Icon icon={user} size={30} style={{ color: "white" }} />
+          <h1 style={{ color: "white" }}>user Name</h1>
+        </button>
+      )  : (
+        <button className='row-reverse' onClick={onLogin}>
+          <Icon icon={user} size={30} style={{ color: "white" }} />
+          <h1 style={{ color: "white" }}>Sign in</h1>
+        </button>
+      )}
     </div>
   );
 };
