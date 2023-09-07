@@ -2,7 +2,9 @@ import React from "react";
 
 import Card from "../UI/Card";
 import { useQuery } from "react-query";
+import loading from "react-useanimations/lib/loading";
 import { getMenAccessoriesProductsService } from "../../Services/ShopService/ShopService";
+import UseAnimations from "react-useanimations";
 
 const MenAccessories = () => {
   const {
@@ -13,7 +15,21 @@ const MenAccessories = () => {
   } = useQuery("menAsseccories", () =>
     getMenAccessoriesProductsService(
       "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/men.json"
-    )
+    ),
+    {
+      retry: (failureCount, error) => {
+        // Retry for a maximum of 3 times
+        if (failureCount >= 3) return false;
+  
+        // Only retry for specific error types
+        if (error.message === 'Network Error') return true;
+  
+        // Don't retry for other error types
+        return false;
+      },
+      // Use exponential backoff for retry delay: 2^retryAttempt * 1000ms
+      retryDelay: attempt => Math.pow(2, attempt) * 1000,
+    }
   );
 
   let content;
@@ -38,7 +54,11 @@ const MenAccessories = () => {
       </React.Fragment>
     );
   } else if (isLoading) {
-    content = <p>Fetching Products...</p>;
+    content = (
+      <React.StrictMode>
+        <UseAnimations animation={loading} size={60} />
+      </React.StrictMode>
+    );
   } else {
     content = data.map((menAcc) => (
       <Card

@@ -6,6 +6,7 @@ import Card from "../UI/Card";
 import { getNewArrivals } from "../../Services/HomeService/HomeService";
 
 const NewArrivals = () => {
+  // TODO: ADD A RETRY FUNCTION TO USE-QUERY HOOK
   const {
     data = [],
     isLoading,
@@ -14,17 +15,22 @@ const NewArrivals = () => {
   } = useQuery("arrivalItems", () =>
     getNewArrivals(
       "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json/"
-    )
+    ),
+    {
+      retry: (failureCount, error) => {
+        // Retry for a maximum of 3 times
+        if (failureCount >= 3) return false;
+  
+        // Only retry for specific error types
+        if (error.message === 'Network Error') return true;
+  
+        // Don't retry for other error types
+        return false;
+      },
+      // Use exponential backoff for retry delay: 2^retryAttempt * 1000ms
+      retryDelay: attempt => Math.pow(2, attempt) * 1000,
+    }
   );
-
-  const arrivalProducts = data?.map((itemA) => (
-    <Card
-      key={itemA.id}
-      image={itemA.image}
-      name={itemA.name}
-      price={`$${itemA.price.toFixed(2)}`}
-    />
-  ));
 
   let content;
 
@@ -36,7 +42,7 @@ const NewArrivals = () => {
           <button
             onClick={() => refetch()}
             className="
-                border-red-500 border-2 rounded-full
+            border-red-500 border-2 rounded-full
                 p-2 text-lg font-bold hover:bg-red-500
                 hover:text-white transition:ease-in-out
                 duration-800
@@ -54,7 +60,16 @@ const NewArrivals = () => {
   } else {
     content = (
       <React.Fragment>
-        <div className="grid lg:grid-cols-4 gap-10">{arrivalProducts}</div>
+        <div className="grid lg:grid-cols-4 gap-10">
+          {data.map((itemA) => (
+            <Card
+              key={itemA.id}
+              image={itemA.image}
+              name={itemA.name}
+              price={`$${itemA.price.toFixed(2)}`}
+            />
+          ))}
+        </div>
       </React.Fragment>
     );
   }

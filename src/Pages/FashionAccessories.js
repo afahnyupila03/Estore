@@ -2,6 +2,8 @@ import React from "react";
 import FashionItems from "../Components/Fashion/fashion-item";
 import {useQuery} from 'react-query'
 import { getFashionProductsService } from "../Services/ShopService/ShopService";
+import UseAnimations from "react-useanimations";
+import loading from "react-useanimations/lib/loading";
 
 const FashionAccessories = () => {
   const {
@@ -12,7 +14,21 @@ const FashionAccessories = () => {
   } = useQuery("fashionItems", () =>
     getFashionProductsService(
       "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/fashion.json"
-    )
+    ),
+    {
+      retry: (failureCount, error) => {
+        // Retry for a maximum of 3 times
+        if (failureCount >= 3) return false;
+  
+        // Only retry for specific error types
+        if (error.message === 'Network Error') return true;
+  
+        // Don't retry for other error types
+        return false;
+      },
+      // Use exponential backoff for retry delay: 2^retryAttempt * 1000ms
+      retryDelay: attempt => Math.pow(2, attempt) * 1000,
+    }
   );
 
   let content;
@@ -39,7 +55,10 @@ const FashionAccessories = () => {
   } else if (isLoading) {
     content = (
       <React.Fragment>
-        <p>Fetching Fashion Accessories</p>
+        <UseAnimations 
+          animation={loading}
+          size={60}
+        />
       </React.Fragment>
     );
   } else {
