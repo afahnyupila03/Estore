@@ -3,7 +3,7 @@ import Card from "../UI/Card";
 import { useQuery } from "react-query";
 import { getPopularItemsService } from "../../Services/HomeService/HomeService";
 import UseAnimations from "react-useanimations";
-import loading from 'react-useanimations/lib/loading';
+import loading from "react-useanimations/lib/loading";
 
 const PopularItemsCard = () => {
   const {
@@ -14,21 +14,7 @@ const PopularItemsCard = () => {
   } = useQuery("popularItems", () =>
     getPopularItemsService(
       "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular.json"
-    ), 
-    {
-      retry: (failureCount, error) => {
-        // Retry for a maximum of 3 times
-        if (failureCount >= 3) return false;
-  
-        // Only retry for specific error types
-        if (error.message === 'Network Error') return true;
-  
-        // Don't retry for other error types
-        return false;
-      },
-      // Use exponential backoff for retry delay: 2^retryAttempt * 1000ms
-      retryDelay: attempt => Math.pow(2, attempt) * 1000,
-    }
+    )
   );
 
   let content;
@@ -67,10 +53,7 @@ const PopularItemsCard = () => {
         className="font-bold text-red-500 flex justify-center"
         style={{ marginTop: "5rem", marginBottom: "5rem", fontSize: "1.5rem" }}
       >
-        <UseAnimations 
-          animation={loading}
-          size={60}
-        />
+        <UseAnimations animation={loading} size={60} />
       </div>
     );
   } else {
@@ -85,7 +68,6 @@ const PopularItemsCard = () => {
               price={`$${popular.price.toFixed(2)}`}
             />
           ))}
-          okay
         </div>
       </React.Fragment>
     );

@@ -6,7 +6,7 @@ import Card from "../UI/Card";
 import { getNewArrivals } from "../../Services/HomeService/HomeService";
 
 const NewArrivals = () => {
-  // TODO: ADD A RETRY FUNCTION TO USE-QUERY HOOK
+  // TODO: FIX BUT FOR FETCHING PRODUCTS
   const {
     data = [],
     isLoading,
@@ -15,21 +15,7 @@ const NewArrivals = () => {
   } = useQuery("arrivalItems", () =>
     getNewArrivals(
       "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json/"
-    ),
-    {
-      retry: (failureCount, error) => {
-        // Retry for a maximum of 3 times
-        if (failureCount >= 3) return false;
-  
-        // Only retry for specific error types
-        if (error.message === 'Network Error') return true;
-  
-        // Don't retry for other error types
-        return false;
-      },
-      // Use exponential backoff for retry delay: 2^retryAttempt * 1000ms
-      retryDelay: attempt => Math.pow(2, attempt) * 1000,
-    }
+    )
   );
 
   let content;

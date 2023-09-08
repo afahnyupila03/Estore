@@ -1,6 +1,6 @@
 import React from "react";
-import aboutData from "../Components/About/about-data";
-import AboutItems from "../Components/About/AboutItems";
+import aboutData from "../../Components/About/about-data";
+import AboutItems from "../../Components/About/AboutItems";
 
 const About = (props) => {
   const aboutCard = aboutData.map((about) => (

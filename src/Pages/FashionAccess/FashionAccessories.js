@@ -1,7 +1,7 @@
 import React from "react";
-import FashionItems from "../Components/Fashion/fashion-item";
+import FashionItems from "../../Components/Fashion/fashion-item";
 import {useQuery} from 'react-query'
-import { getFashionProductsService } from "../Services/ShopService/ShopService";
+import { getFashionProductsService } from "../../Services/ShopService/ShopService";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
 
