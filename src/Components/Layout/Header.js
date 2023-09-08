@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 import HeaderCartButton from "./HeaderCartButton";
 import classes from "./nav.module.css";
@@ -92,6 +92,7 @@ const Header = (props) => {
               onLogin={handleLogin}
               onLogout={handleLogout}
             />
+            <button><Link to="/login" style={{color: 'white'}}>login</Link></button>
           </div>
         </div>
       </div>

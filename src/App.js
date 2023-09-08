@@ -14,6 +14,8 @@ import Notification from './Components/UI/Notification';
 import { sendCartData, fetchCartData } from './Store/cart-actions';
 import { routes } from "./Routes/routes.js";
 import { QueryClientProvider, QueryClient } from "react-query";
+import { LoginRoute } from "./Routes/Auth/login.js";
+import Login from "./Pages/Login/Login.js";
 
 
 
@@ -68,6 +70,11 @@ function App() {
           message={showNotification.message}
         />
       }
+
+      {/* {LoginRoute} */}
+
+      <Login />
+
       <Header />
       {showCart && <Cart  />}
       
@@ -80,3 +87,4 @@ function App() {
 }
 
 export default App;
+

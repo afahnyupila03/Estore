@@ -11,6 +11,7 @@ import ManAccessories from "../../Pages/ManAccess/ManAccessories";
 import FashionAccessories from "../../Pages/FashionAccess/FashionAccessories";
 import About from "../../Pages/About/About";
 import CartPage from "../../Pages/CartPage/cart-page";
+import Login from "../../Pages/Login/Login";
 
 export const NavbarRoutes = [
   {
@@ -72,4 +73,9 @@ export const NavbarRoutes = [
     path: "/cart",
     element: <CartPage />,
   },
+  // {
+  //   path: "/login",
+  //   element: <Login />
+  // },
+  // {path: "/sign-up"}
 ];
