@@ -1,17 +1,9 @@
-
-
-import ProductDetails from "../Pages/product-details";
-
 import { NavbarRoutes } from "./NavbarRoutes/NavbarRoutes"
 import { FooterRoutes } from "./FooterRoutes/FooterRoutes"
+import { ProductDetailsRoute } from "./ProductDetails/productsDetailsRoute";
 
 export const routes = [
   ...NavbarRoutes,
-  // Product Detail Page Link
-  {
-    path: "/product-details/:productId",
-    element: <ProductDetails />,
-  },
-  // Footer Page Links
+  ...ProductDetailsRoute,
   ...FooterRoutes
 ];
