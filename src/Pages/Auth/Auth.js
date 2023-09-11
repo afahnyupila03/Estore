@@ -3,22 +3,17 @@
 
 import { useState } from "react";
 import Modal from "../../Components/UI/Modal";
+import { Field, Formik } from "formik";
+import CustomTextInput from "../../Components/TextInput";
+import { closed, locked } from "react-icons-kit/iconic";
 
 const Login = () => {
   const path = window.location.pathname;
 
-  const [enteredEmail, setEnteredEmail] = useState('')
-  const [enteredPassword, setEnteredPassword] = useState('')
+  const [isSignup, setIsSignup] = useState(true);
 
-  const emailChangeHandler = e => setEnteredEmail(e.target.value)
-  const passwordChangeHandler = e => setEnteredPassword(e.target.value)
-
-  const submitHandler= event => {
-    event.preventDefault()
-    console.log(enteredEmail, enteredPassword)
-    setEnteredEmail("")
-    setEnteredPassword("")
-  }
+  const handleUserSignup = async (email, password) => {};
+  const handleUserLogin = async ({ email = "", password = "" }) => {};
 
   return (
     <div
@@ -30,7 +25,7 @@ const Login = () => {
       }}
     >
       <Modal>
-        <form onSubmit={submitHandler} className="items-center">
+        {/* <form onSubmit={submitHandler} className="items-center">
           <div>
             <label>email</label>
             <input
@@ -59,7 +54,42 @@ const Login = () => {
             <button>
             </button>
           </div>
-        </form>
+        </form> */}
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          validationSchema={"still to apply"}
+          onSubmit={isSignup ? handleUserSignup : handleUserLogin}
+        >
+          {({ handleSubmit, isValid, values, setFieldValue }) => (
+            <>
+              <Field
+                component={CustomTextInput}
+                name="email"
+                iconName={closed}
+                placeholder={values.email}
+                autoCapitalize="none"
+                type="emailAddress"
+                autoCorrect={false}
+                autoCompleteType="email"
+                editable
+              />
+              <Field
+                component={CustomTextInput}
+                iconName={locked}
+                onChange={(e) => { setFieldValue('password', e)}}
+                name="password"
+                placeholder="Password"
+                secureTextEntry
+              />
+              {error?.message && (<p>{error.message}</p>)}
+
+              <div></div>
+            </>
+          )}
+        </Formik>
+
+        <input type="emil" placeholder="enter email" />
+        <input type="password" placeholder="enter password" />
       </Modal>
     </div>
   );
