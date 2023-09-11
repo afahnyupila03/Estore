@@ -1,23 +1,4 @@
 import Icon from "react-icons-kit";
-import styled from "styled-components";
-
-const getStyles = () => ({
-  textFieldContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    backgroundColor: "transparent",
-  },
-  inputStyle: {
-    flex: 1,
-  },
-  errorText: {
-    fontSize: 20,
-    color: "red",
-  },
-  errorInput: {
-    borderColor: "red",
-  },
-});
 
 export default (props) => {
   const {
@@ -34,8 +15,6 @@ export default (props) => {
     ...inputProps
   } = props;
 
-  const styles = getStyles();
-
   const hasError = errors[name] && touched[name];
 
   const trimmedValue = value ? value.trim() : "";
@@ -43,10 +22,7 @@ export default (props) => {
   return (
     <div style={style}>
       {label && <label>{label}</label>}
-      <div style={styles.textFieldContainer}>
-        {/* <Field 
-                    type={type}
-                /> */}
+      <div>
         <input
           // placeholdeTextColor={setColor}
           multiline={multiline}
@@ -59,11 +35,6 @@ export default (props) => {
             onBlur(name);
           }}
           {...inputProps}
-          style={[
-            { ...styles.inputStyle, paddingLeft: iconName ? "5%" : "10%" },
-            multiline && { height: numberOfLines * 40 },
-            hasError && styles.errorInput,
-          ]}
         />
         {iconName && (
           <Icon
@@ -75,7 +46,7 @@ export default (props) => {
         )}
       </div>
       {/* style error message */}
-      {hasError && <p style={styles.errorText}>{errors[name]}</p>}
+      {hasError && <p>{errors[name]}</p>}
     </div>
   );
 };

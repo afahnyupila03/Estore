@@ -10,7 +10,9 @@ import { closed, locked } from "react-icons-kit/iconic";
 const Login = () => {
   const path = window.location.pathname;
 
-  const [isSignup, setIsSignup] = useState(true);
+  const [isSignUp, setIsSignUp] = useState(true);
+  const [error, setError] = useState({})
+  const [loading, setLoading] = useState(false)
 
   const handleUserSignup = async (email, password) => {};
   const handleUserLogin = async ({ email = "", password = "" }) => {};
@@ -25,40 +27,10 @@ const Login = () => {
       }}
     >
       <Modal>
-        {/* <form onSubmit={submitHandler} className="items-center">
-          <div>
-            <label>email</label>
-            <input
-              className="rounded ml-2 "
-              placeholder="Email"
-              value={enteredEmail}
-              onChange={emailChangeHandler}
-            />
-          </div>
-          <div>
-            <label>Password</label>
-            <input
-              className="rounded ml-2"
-              placeholder="Password"
-              value={enteredPassword}
-              onChange={passwordChangeHandler}
-            />
-          </div>
-          <button
-            className="bg-red-200 p-2 rounded text-white"
-          >
-          Login
-          </button>
-          <div>
-            <p>Already have an account ?</p>
-            <button>
-            </button>
-          </div>
-        </form> */}
         <Formik
           initialValues={{ email: "", password: "" }}
           validationSchema={"still to apply"}
-          onSubmit={isSignup ? handleUserSignup : handleUserLogin}
+          onSubmit={isSignUp ? handleUserSignup : handleUserLogin}
         >
           {({ handleSubmit, isValid, values, setFieldValue }) => (
             <>
@@ -83,7 +55,12 @@ const Login = () => {
               />
               {error?.message && (<p>{error.message}</p>)}
 
-              <div></div>
+              <button
+              disabled={!isValid || !values?.email || !values.email.trim() || loading}
+              onClick={handleSubmit}
+              >
+                <p>{isSignUp ? "signup" : "login"}</p>
+              </button>
             </>
           )}
         </Formik>
