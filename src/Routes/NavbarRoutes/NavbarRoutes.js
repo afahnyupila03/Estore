@@ -11,7 +11,7 @@ import ManAccessories from "../../Pages/ManAccess/ManAccessories";
 import FashionAccessories from "../../Pages/FashionAccess/FashionAccessories";
 import About from "../../Pages/About/About";
 import CartPage from "../../Pages/CartPage/cart-page";
-import Login from "../../Pages/Login/Login";
+import Login from "../../Pages/Auth/Auth";
 
 export const NavbarRoutes = [
   {

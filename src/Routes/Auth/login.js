@@ -1,4 +1,4 @@
-import Login from "../../Pages/Login/Login"
+import Login from "../../Pages/Auth/Login"
 
 export const LoginRoute = [
     {
