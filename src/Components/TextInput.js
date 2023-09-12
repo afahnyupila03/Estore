@@ -1,6 +1,6 @@
 import Icon from "react-icons-kit";
 
-export default (props) => {
+const CustomTextInput = (props) => {
   const {
     field: { name, onBlur, onChange, value },
     form: { errors, touched, setFieldTouched },
@@ -22,8 +22,15 @@ export default (props) => {
   return (
     <div style={style}>
       {label && <label>{label}</label>}
-      <div>
+      <div
+        style={{
+          flexDirection: "row",
+          alignItems: "center",
+          backgroundColor: "transparent",
+        }}
+      >
         <input
+          style={{ flex: 1, borderColor: hasError && "red" }}
           // placeholdeTextColor={setColor}
           multiline={multiline}
           numberOfLines={numberOfLines}
@@ -38,15 +45,17 @@ export default (props) => {
         />
         {iconName && (
           <Icon
-            style={{ padding: "4%", paddingTop: "8%", position: "absolute" }}
-            name={iconName}
+          style={style}
+            icon={iconName}
             size={size}
             color={color}
           />
         )}
       </div>
       {/* style error message */}
-      {hasError && <p>{errors[name]}</p>}
+      {hasError && <p style={{ fontSize: 10, color: "red" }}>{errors[name]}</p>}
     </div>
   );
 };
+
+export default CustomTextInput;

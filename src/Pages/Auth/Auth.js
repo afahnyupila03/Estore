@@ -3,9 +3,11 @@
 
 import { useState } from "react";
 import Modal from "../../Components/UI/Modal";
-import { Field, Formik } from "formik";
+import { Field, Formik, } from "formik";
+import { useQuery } from 'react-query'
 import CustomTextInput from "../../Components/TextInput";
-import { closed, locked } from "react-icons-kit/iconic";
+import {closed} from 'react-icons-kit/iconic/closed'
+import {locked} from 'react-icons-kit/iconic/locked'
 
 const Login = () => {
   const path = window.location.pathname;
@@ -13,6 +15,8 @@ const Login = () => {
   const [isSignUp, setIsSignUp] = useState(true);
   const [error, setError] = useState({})
   const [loading, setLoading] = useState(false)
+
+  const {isLoading} = useQuery()
 
   const handleUserSignup = async (email, password) => {};
   const handleUserLogin = async ({ email = "", password = "" }) => {};
@@ -37,17 +41,19 @@ const Login = () => {
               <Field
                 component={CustomTextInput}
                 name="email"
+                label="Email"
                 iconName={closed}
-                placeholder={values.email}
+                value={values.email}
+                placeholder="Email"
                 autoCapitalize="none"
                 type="emailAddress"
-                autoCorrect={false}
+                autoCorrect="false"
                 autoCompleteType="email"
-                editable
               />
               <Field
                 component={CustomTextInput}
                 iconName={locked}
+                label="Password"
                 onChange={(e) => { setFieldValue('password', e)}}
                 name="password"
                 placeholder="Password"
@@ -64,9 +70,10 @@ const Login = () => {
             </>
           )}
         </Formik>
-
-        <input type="emil" placeholder="enter email" />
-        <input type="password" placeholder="enter password" />
+        <p>
+          <p>{isSignUp ? 'Already have an account ' : 'Don\'t have account ?'}</p>
+          <p onClick={() => setIsSignUp(!isSignUp)}>{isSignUp ? "Login" : "Signup"}</p>
+        </p>
       </Modal>
     </div>
   );
