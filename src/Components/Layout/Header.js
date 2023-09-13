@@ -2,19 +2,10 @@ import { NavLink } from "react-router-dom";
 
 import HeaderCartButton from "./HeaderCartButton";
 import classes from "./nav.module.css";
-import Login from "./Login";
-import { useState } from "react";
+import { person } from "react-icons-kit/iconic/person";
+import IconName from "../Icon";
 
-const Header = ({ onShowAuthModal, onOpen }) => {
-  const [isLogin, setIsLogin] = useState(false);
-
-  const handleLogin = (email, password) => {
-    setIsLogin(true);
-  };
-  const handleLogout = () => {
-    setIsLogin(false);
-  };
-
+const Header = ({ onShowAuthModal, onOpen, showAuthModal }) => {
   const activeLinkStyle = ({ isActive }) =>
     isActive ? `${classes.activeLink}` : `${classes.inactiveLInk}`;
 
@@ -88,21 +79,12 @@ const Header = ({ onShowAuthModal, onOpen }) => {
           {/* Cart Icon */}
           <div className="navbar-button md:hidden lg:block">
             <HeaderCartButton onOpen={onOpen} id="navbar-links" />
-            <Login
-              isLogin={isLogin}
-              onLogin={handleLogin}
-              onLogout={handleLogout}
-            />
-
-            {/* Auth Page Modal nav */}
-            <div>
-              <button
-                onClick={onShowAuthModal}
-                style={{ color: "white" }}
-              >
-                Auth Controller
-              </button>
-            </div>
+          </div>
+          {/* Auth Page Modal nav */}
+          <div>
+            <button onClick={onShowAuthModal} style={{ color: "white" }}>
+              {!showAuthModal && <IconName icon={person} />}
+            </button>
           </div>
         </div>
       </div>

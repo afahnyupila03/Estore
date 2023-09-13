@@ -3,12 +3,10 @@ import { uiAction } from "../../Store/ui-slice";
 import { Formik } from "formik";
 
 const CheckoutForm = () => {
-
   const dispatch = useDispatch();
   const closeCart = () => {
     dispatch(uiAction.toggle());
   };
-
 
   return (
     <div>

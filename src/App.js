@@ -27,9 +27,9 @@ function App() {
       <QueryClientProvider client={new QueryClient()}>
         {showAuthModal && <Login onHideAuthModal={handleShowAuthModal} />}
 
-        <Header onShowAuthModal={handleShowAuthModal} />
+        <Header onShowAuthModal={handleShowAuthModal} showAuthModal={showAuthModal} />
 
-        <Cart />
+        {/* <Cart /> */}
 
         {route}
 
