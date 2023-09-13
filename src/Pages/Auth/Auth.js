@@ -3,23 +3,28 @@
 
 import { useState } from "react";
 import Modal from "../../Components/UI/Modal";
-import { Field, Formik, } from "formik";
-import { useQuery } from 'react-query'
+import { Field, Formik } from "formik";
+import { useQuery } from "react-query";
 import CustomTextInput from "../../Components/TextInput";
-import {closed} from 'react-icons-kit/iconic/closed'
-import {locked} from 'react-icons-kit/iconic/locked'
+import { closed } from "react-icons-kit/iconic/closed";
+import { locked } from "react-icons-kit/iconic/locked";
 
-const Login = ({onHideAuthModal}) => {
+const Login = ({ onHideAuthModal, userName, handleUserName }) => {
   const path = window.location.pathname;
 
   const [isSignUp, setIsSignUp] = useState(true);
-  const [error, setError] = useState({})
-  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState({});
+  const [loading, setLoading] = useState(false);
 
-  const {isLoading} = useQuery()
+  const { isLoading } = useQuery();
 
   const handleUserSignup = async (email, password) => {};
   const handleUserLogin = async ({ email = "", password = "" }) => {};
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    // userName(userName)
+  };
 
   return (
     <div
@@ -54,16 +59,20 @@ const Login = ({onHideAuthModal}) => {
                 component={CustomTextInput}
                 iconName={locked}
                 label="Password"
-                onChange={(e) => { setFieldValue('password', e)}}
+                onChange={(e) => {
+                  setFieldValue("password", e);
+                }}
                 name="password"
                 placeholder="Password"
                 secureTextEntry
               />
-              {error?.message && (<p>{error.message}</p>)}
+              {error?.message && <p>{error.message}</p>}
 
               <button
-              disabled={!isValid || !values?.email || !values.email.trim() || loading}
-              onClick={handleSubmit}
+                disabled={
+                  !isValid || !values?.email || !values.email.trim() || loading
+                }
+                onClick={handleSubmit}
               >
                 <p>{isSignUp ? "signup" : "login"}</p>
               </button>
@@ -71,10 +80,24 @@ const Login = ({onHideAuthModal}) => {
           )}
         </Formik>
         <p>
-          <p>{isSignUp ? 'Already have an account ' : 'Don\'t have account ?'}</p>
-          <p onClick={() => setIsSignUp(!isSignUp)}>{isSignUp ? "Login" : "Signup"}</p>
+          <p>
+            {isSignUp ? "Already have an account " : "Don't have account ?"}
+          </p>
+          <p onClick={() => setIsSignUp(!isSignUp)}>
+            {isSignUp ? "Login" : "Signup"}
+          </p>
         </p>
         <button onClick={onHideAuthModal}>Cancel</button>
+
+        <form onSubmit={submitHandler}>
+          <label>Input username</label>
+          <input
+            placeholder="Enter user name"
+            value={userName}
+            onChange={handleUserName}
+          />
+          <button type="submit">Submit</button>
+        </form>
       </Modal>
     </div>
   );

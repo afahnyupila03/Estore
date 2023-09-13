@@ -5,7 +5,7 @@ import classes from "./nav.module.css";
 import { person } from "react-icons-kit/iconic/person";
 import IconName from "../Icon";
 
-const Header = ({ onShowAuthModal, onOpen, showAuthModal }) => {
+const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
   const activeLinkStyle = ({ isActive }) =>
     isActive ? `${classes.activeLink}` : `${classes.inactiveLInk}`;
 
@@ -83,7 +83,12 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal }) => {
           {/* Auth Page Modal nav */}
           <div>
             <button onClick={onShowAuthModal} style={{ color: "white" }}>
-              {!showAuthModal && <IconName icon={person} />}
+              {!showAuthModal && (
+                <div>
+                  <IconName icon={person} />
+                  <p>{userName}</p>
+                </div>
+              )}
             </button>
           </div>
         </div>

@@ -19,15 +19,19 @@ function App() {
 
   const handleShowAuthModal = () => setShowAuthModal(!showAuthModal)
 
+  const [userName, setUserName] = useState("")
+
+  const handleUserName = e => setUserName(e.target.value)
+
   // useRoutes Navigation
   const route = useRoutes(routes);
 
   return (
     <React.StrictMode>
       <QueryClientProvider client={new QueryClient()}>
-        {showAuthModal && <Login onHideAuthModal={handleShowAuthModal} />}
+        {showAuthModal && <Login userName={userName} handleUserName={handleUserName} onHideAuthModal={handleShowAuthModal} />}
 
-        <Header onShowAuthModal={handleShowAuthModal} showAuthModal={showAuthModal} />
+        <Header userName={userName} onShowAuthModal={handleShowAuthModal} showAuthModal={showAuthModal} />
 
         {/* <Cart /> */}
 
