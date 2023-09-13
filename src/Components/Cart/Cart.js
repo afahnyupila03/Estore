@@ -75,6 +75,7 @@ const Cart = () => {
   return (
     <Modal className="mx-auto box-border p-20 max">
       <p>remodify the and turn to a cart page</p>
+      <CheckoutForm />
     </Modal>
   );
 };

@@ -8,6 +8,7 @@ import FooterNavbar from "./Components/Layout/FooterNavbar";
 import { routes } from "./Routes/routes.js";
 import { QueryClientProvider, QueryClient } from "react-query";
 import Login from "./Pages/Auth/Auth.js";
+import Cart from "./Components/Cart/Cart.js";
 
 function App() {
   // const queryClient = new QueryClient()
@@ -27,6 +28,8 @@ function App() {
         {showAuthModal && <Login onHideAuthModal={handleShowAuthModal} />}
 
         <Header onShowAuthModal={handleShowAuthModal} />
+
+        <Cart />
 
         {route}
 
