@@ -1,5 +1,5 @@
 import React from "react";
-import ShopNav from "../Components/Shop/ShopHeader/shop-nav";
+import ShopNav from "../../Components/Shop/ShopHeader/shop-nav";
 import { Outlet } from "react-router-dom";
 
 const Shop = (props) => {

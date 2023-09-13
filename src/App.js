@@ -1,75 +1,44 @@
 // TODO: Try implementing Custom Input and fetch-post hooks in the Checkout form and other places where possible.
 
-import React, { useEffect } from "react";
-import { useDispatch, useSelector } from 'react-redux';
-import { useRoutes } from 'react-router-dom'
+import React, { useState } from "react";
+import { useRoutes } from "react-router-dom";
 
-
-import Header from './Components/Layout/Header.js'
-import FooterNavbar from './Components/Layout/FooterNavbar';
-import Cart from './Components/Cart/Cart';
-
-
-import Notification from './Components/UI/Notification';
-import { sendCartData, fetchCartData } from './Store/cart-actions';
+import Header from "./Components/Layout/Header.js";
+import FooterNavbar from "./Components/Layout/FooterNavbar";
 import { routes } from "./Routes/routes.js";
-
-
-
-let isInitial = true;
+import { QueryClientProvider, QueryClient } from "react-query";
+import Login from "./Pages/Auth/Auth.js";
+import Cart from "./Components/Cart/Cart.js";
 
 function App() {
+  // const queryClient = new QueryClient()
 
-  const cart = useSelector(
-    state => state.cart
-  )
-  // ShowCart Function
-  const showCart = useSelector(
-    state => state.ui.cartIsVisible
-  )
-  // Show Cart Function
-  const showNotification = useSelector(
-    state => state.ui.notification
-  )
-  // Dispatch Function
-  const dispatch = useDispatch()
+  // TODO: HANDLE THE LOGIN && SIGNUP STATES HERE TO SWITCH BETWEEN FORMS.
+  // TODO: REMOVE CART FROM MODAL TO PAGE.
+  const [showAuthModal, setShowAuthModal] = useState(false);
 
-  // useEffect function to enable fetch cart products after page loading
-  useEffect(
-    () => {
-      dispatch(
-        fetchCartData
-      )
-    }, [dispatch]
-  )
+  const handleShowAuthModal = () => setShowAuthModal(!showAuthModal)
 
-  // useEffect function to stop the cart from re-rendering when it's first loaded 
-  useEffect(() => {
-    if(isInitial) {
-      isInitial = false;
-      return;
-    }
-    dispatch(sendCartData(cart))
-  }, [cart, dispatch]);
+  const [userName, setUserName] = useState("")
+
+  const handleUserName = e => setUserName(e.target.value)
 
   // useRoutes Navigation
-  const route = useRoutes(routes)
+  const route = useRoutes(routes);
 
   return (
     <React.StrictMode>
-      {
-        showNotification && <Notification 
-          status={showNotification.status}
-          title={showNotification.title}
-          message={showNotification.message}
-        />
-      }
-      <Header />
-      {showCart && <Cart  />}
-      
-      { route }
-      
-      <FooterNavbar />
+      <QueryClientProvider client={new QueryClient()}>
+        {showAuthModal && <Login userName={userName} handleUserName={handleUserName} onHideAuthModal={handleShowAuthModal} />}
+
+        <Header userName={userName} onShowAuthModal={handleShowAuthModal} showAuthModal={showAuthModal} />
+
+        {/* <Cart /> */}
+
+        {route}
+
+        <FooterNavbar />
+      </QueryClientProvider>
     </React.StrictMode>
   );
 }

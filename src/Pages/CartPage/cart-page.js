@@ -1,12 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 
-import Junghan from "./../Components/Watches/Junghans.jpg";
-import Maurice from "./../Components/Watches/Maurice Lacroix.jpg";
-import Polar from "./../Components/Watches/Polar_Vantage-M2_frontleft_black_HR153.jpg";
-import Unisex from "./../Components/Watches/Unisex Marathon.jpg";
+import Junghan from "./../../Components/Watches/Junghans.jpg";
+import Maurice from "./../../Components/Watches/Maurice Lacroix.jpg";
+import Polar from "./../../Components/Watches/Polar_Vantage-M2_frontleft_black_HR153.jpg";
+import Unisex from "./../../Components/Watches/Unisex Marathon.jpg";
 
 export default function CartPage() {
+
   const cartItems = useSelector((state) => state.cart.products);
 
   const cartCounter = React.useState(0);
