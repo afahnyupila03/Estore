@@ -5,7 +5,6 @@ import { useRoutes } from "react-router-dom";
 
 import Header from "./Components/Layout/Header.js";
 import FooterNavbar from "./Components/Layout/FooterNavbar";
-import Cart from "./Components/Cart/Cart";
 import { routes } from "./Routes/routes.js";
 import { QueryClientProvider, QueryClient } from "react-query";
 import Login from "./Pages/Auth/Auth.js";
@@ -15,7 +14,9 @@ function App() {
 
   // TODO: HANDLE THE LOGIN && SIGNUP STATES HERE TO SWITCH BETWEEN FORMS.
   // TODO: REMOVE CART FROM MODAL TO PAGE.
-  const [loginForm, setLoginForm] = useState(true);
+  const [showAuthModal, setShowAuthModal] = useState(false);
+
+  const handleShowAuthModal = () => setShowAuthModal(!showAuthModal)
 
   // useRoutes Navigation
   const route = useRoutes(routes);
@@ -23,9 +24,9 @@ function App() {
   return (
     <React.StrictMode>
       <QueryClientProvider client={new QueryClient()}>
-        <Login />
+        {showAuthModal && <Login onHideAuthModal={handleShowAuthModal} />}
 
-        <Header />
+        <Header onShowAuthModal={handleShowAuthModal} />
 
         {route}
 

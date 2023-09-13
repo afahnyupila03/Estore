@@ -9,7 +9,7 @@ import CustomTextInput from "../../Components/TextInput";
 import {closed} from 'react-icons-kit/iconic/closed'
 import {locked} from 'react-icons-kit/iconic/locked'
 
-const Login = () => {
+const Login = ({onHideAuthModal}) => {
   const path = window.location.pathname;
 
   const [isSignUp, setIsSignUp] = useState(true);
@@ -74,6 +74,7 @@ const Login = () => {
           <p>{isSignUp ? 'Already have an account ' : 'Don\'t have account ?'}</p>
           <p onClick={() => setIsSignUp(!isSignUp)}>{isSignUp ? "Login" : "Signup"}</p>
         </p>
+        <button onClick={onHideAuthModal}>Cancel</button>
       </Modal>
     </div>
   );

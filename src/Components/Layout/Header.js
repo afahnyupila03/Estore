@@ -1,12 +1,13 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import HeaderCartButton from "./HeaderCartButton";
 import classes from "./nav.module.css";
 import Login from "./Login";
 import { useState } from "react";
 
-const Header = (props) => {
+const Header = ({ onShowAuthModal, onOpen }) => {
   const [isLogin, setIsLogin] = useState(false);
+
   const handleLogin = (email, password) => {
     setIsLogin(true);
   };
@@ -86,13 +87,22 @@ const Header = (props) => {
           </div>
           {/* Cart Icon */}
           <div className="navbar-button md:hidden lg:block">
-            <HeaderCartButton onOpen={props.onOpen} id="navbar-links" />
+            <HeaderCartButton onOpen={onOpen} id="navbar-links" />
             <Login
               isLogin={isLogin}
               onLogin={handleLogin}
               onLogout={handleLogout}
             />
-            <button><Link to="/login" style={{color: 'white'}}>login</Link></button>
+
+            {/* Auth Page Modal nav */}
+            <div>
+              <button
+                onClick={onShowAuthModal}
+                style={{ color: "white" }}
+              >
+                Auth Controller
+              </button>
+            </div>
           </div>
         </div>
       </div>
