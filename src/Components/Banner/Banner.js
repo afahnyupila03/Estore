@@ -22,6 +22,7 @@ const Banner = () => {
           <div className="flex justify-center mt-4">
             <button
               className="
+
                         text-red-500 text-xl
                         animate-bounce
                         rounded-full border-4 border-red-500 
