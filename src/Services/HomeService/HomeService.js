@@ -1,15 +1,17 @@
-export const getNewArrivals = async (items) => {
+export const getArrivalItemsService = async () => {
   try {
-    const response = await fetch(items)
-    const data = await response.json()
-    const loadedItems = []
+    const response = await fetch(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json/"
+    );
+    const data = await response.json();
+    const loadedItems = [];
     for (const arrivalItemsKey in data) {
       loadedItems.push({
         id: arrivalItemsKey,
         image: data[arrivalItemsKey].image,
         name: data[arrivalItemsKey].name,
-        price: data[arrivalItemsKey].price
-      })
+        price: data[arrivalItemsKey].price,
+      });
     }
     return loadedItems;
   } catch (err) {
@@ -17,9 +19,11 @@ export const getNewArrivals = async (items) => {
   }
 };
 
-export const getPopularItemsService = async (items) => {
+export const getPopularItemsService = async () => {
   try {
-    const response = await fetch(items);
+    const response = await fetch(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular.json"
+    );
     const data = await response.json();
     const loadedItems = [];
     for (const popularKey in data) {
