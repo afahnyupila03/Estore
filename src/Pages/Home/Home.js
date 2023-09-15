@@ -4,14 +4,17 @@ import NewArrivals from "../../Components/New Arrivals/NewArrivals";
 import FinePens from "../../Components/fine-pens/FinePens";
 import PopularItemsCard from "../../Components/Popular Items/PopularItems";
 import { useQuery } from "react-query";
-import { getArrivalItemsService } from "../../Services/HomeService/HomeService";
+import {
+  getArrivalItemsService,
+  getPopularItemsService,
+} from "../../Services/HomeService/HomeService";
 
 const Home = () => {
   const { data: arrivalProducts = [] } = useQuery("arrivalQuery", () =>
     getArrivalItemsService()
   );
-  const { data: popularProducts = [] } = useQuery("arrivalQuery", () =>
-    getArrivalItemsService()
+  const { data: popularProducts = [] } = useQuery("popularQuery", () =>
+    getPopularItemsService()
   );
 
   return (

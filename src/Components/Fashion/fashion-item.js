@@ -1,20 +1,14 @@
-import React from "react"
-import Card from '../../Components/UI/Card'
+import React from "react";
 
+const FashionItems = ({ fashionData }) => {
+  const { name, price } = fashionData || [];
 
-const FashionItems = props => {
-
-    const { image, name, price, id } = props.fashion
-
-    return <React.Fragment>
-        <Card 
-            image={image}
-            name={name}
-            price={price}
-            key={id}
-        />
+  return (
+    <React.Fragment>
+      <p>{name}</p>
+      <p>{price}</p>
     </React.Fragment>
+  );
+};
 
-}
-
-export default FashionItems
+export default FashionItems;
