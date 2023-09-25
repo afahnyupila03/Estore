@@ -24,8 +24,8 @@ const FooterNavbar = () => {
               onClick={scrollToTop}
               className="font-bold text-4xl cursor-pointer"
             >
-              <span>Time</span>
-              <span className="text-red-500">Zone</span>
+              <span>{t('navbarLinks.time')}</span>
+              <span className="text-red-500">{t('navbarLinks.zone')}</span>
             </NavLink>
 
             {/* Footer Media Pages */}
