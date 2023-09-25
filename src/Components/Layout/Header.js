@@ -19,7 +19,7 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
   return (
     <>
       <div
-        className=" bg-black font-bold text-xl p-4"
+        className="bg-black font-bold text-xl p-4 fixed"
         style={{ top: "0", left: "0", width: "100%" }}
       >
         <div className="flex items-center justify-around">

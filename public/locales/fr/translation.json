@@ -1,12 +1,53 @@
 {
-    "home": "Maison",
+  "english": "En",
+  "french": "Fr",
+  "navbarLinks": {
+    "home": "",
     "time": "",
     "zone": "",
     "shop": "",
     "about": "",
     "latest": "",
     "blog": "",
-    "contact": "",
-    "english": "En",
-    "french": "Fr"
+    "contact": ""
+  },
+  "products": {
+    "arrivalList": "",
+    "popularList": ""
+  },
+  "errorMessages": {
+    "failed": "",
+    "reload": ""
+  },
+  "banner": {
+    "selectNew": "",
+    "selectWithCode": "",
+    "march": ""
+  },
+  "shop": {
+    "shopCorporate": "",
+    "shopNow": ""
+  },
+  "footerLinks": {
+    "quickLinks": {
+      "quickLinks": " ",
+      "offerDiscount": " ",
+      "coupon": " "
+    },
+    "newProducts": {
+      "newProducts": "",
+      "womanCloth": "",
+      "fashionAccessories": "",
+      "menAccessories": "",
+      "rubberToys": ""
+    },
+    "support": {
+      "support": "",
+      "faq": "",
+      "conditions": "",
+      "privacyPolicy": "",
+      "reportPayment": ""
+    },
+    "rightsReserved": ""
   }
+}

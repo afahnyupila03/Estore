@@ -1,16 +1,22 @@
 import React from "react";
-import Banner from "../../Components/Banner/Banner";
-import NewArrivals from "../../Components/New Arrivals/NewArrivals";
-import FinePens from "../../Components/fine-pens/FinePens";
-import PopularItemsCard from "../../Components/Popular Items/PopularItems";
 import { useQuery } from "react-query";
+import { Link } from "react-router-dom";
+
 import {
   getArrivalItemsService,
   getPopularItemsService,
 } from "../../Services/HomeService/HomeService";
+
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
 import { useTranslation } from "react-i18next";
+
+import Banner from "../../Components/Banner/Banner";
+import NewArrivals from "../../Components/New Arrivals/NewArrivals";
+import FinePens from "../../Components/fine-pens/FinePens";
+import PopularItemsCard from "../../Components/Popular Items/PopularItems";
+import watch from "../../Components/Banner/watch.png.webp";
+import finePens from "../../Components/fine-pens/new-fine-pens-copy.jpg";
 
 const Home = () => {
   const {
@@ -38,9 +44,9 @@ const Home = () => {
   } else if (arrivalIsError) {
     arrivalContent = (
       <div>
-        <p className="text-red-500">{t('errorMessages.failed')}</p>
+        <p className="text-red-500">{t("errorMessages.failed")}</p>
         <button onClick={() => refetchArrival()}>
-        {t('errorMessages.reload')}
+          {t("errorMessages.reload")}
         </button>
       </div>
     );
@@ -59,9 +65,9 @@ const Home = () => {
   } else if (popularIsError) {
     popularContent = (
       <div>
-        <p className="text-red-500">{t('errorMessages.failed')}</p>
+        <p className="text-red-500">{t("errorMessages.failed")}</p>
         <button onClick={() => refetchPopular()}>
-        {t('errorMessages.reload')}
+          {t("errorMessages.reload")}
         </button>
       </div>
     );
@@ -77,13 +83,41 @@ const Home = () => {
 
   return (
     <React.Fragment>
-      <Banner />
+      <div>
+        <div>
+          <div>
+            <h3>{t("banner.selectNew")}</h3>
+            <p>
+              {t("banner.selectWithCode")}
+              <span>{t("banner.march")}</span>
+            </p>
+            <div>
+              <Link to="/shop" onClick={() => window.scrollTo(0, 0)}>
+                {t("shop.shopNow")}
+              </Link>
+            </div>
+          </div>
 
-      <h3>{t('products.arrivalList')}</h3>
+          <div>
+            <img src={watch} alt="banner-img" />
+          </div>
+        </div>
+      </div>
+
+      <h3>{t("products.arrivalList")}</h3>
       {arrivalContent}
-      <FinePens />
 
-      <h3>{t('products.popularList')}</h3>
+      {/* TODO: RETHINK  THIS SECTION IF IT IS NECESSARY */}
+      <div>
+        <div>
+          <img src={finePens} alt="" />
+        </div>
+        <div>
+          <Link to="/shop">{t("shop.shopCorporate")}</Link>
+        </div>
+      </div>
+
+      <h3>{t("products.popularList")}</h3>
       {popularContent}
     </React.Fragment>
   );
