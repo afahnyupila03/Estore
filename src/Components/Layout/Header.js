@@ -1,4 +1,5 @@
 import { NavLink } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 import HeaderCartButton from "./HeaderCartButton";
 import classes from "./nav.module.css";
@@ -6,6 +7,12 @@ import { person } from "react-icons-kit/iconic/person";
 import IconName from "../Icon";
 
 const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
+  const { t, i18n } = useTranslation();
+
+  const handleLanguageSwitch = lang => {
+    i18n.changeLanguage(lang)
+  };
+
   const activeLinkStyle = ({ isActive }) =>
     isActive ? `${classes.activeLink}` : `${classes.inactiveLInk}`;
 
@@ -29,42 +36,42 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
               {/* Home Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/home" className={activeLinkStyle}>
-                  Home
+                  {t('home')}
                 </NavLink>
               </li>
 
               {/* Shop Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/shop" className={activeLinkStyle}>
-                  Shop
+                  {t('shop')}
                 </NavLink>
               </li>
 
               {/* About Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/about" className={activeLinkStyle}>
-                  About
+                  {t('about')}
                 </NavLink>
               </li>
 
               {/* Latest Link = New Arrival Products */}
               <li className="nav-item mr-4">
                 <NavLink to="/latest" className={activeLinkStyle}>
-                  Latest
+                  {t('latest')}
                 </NavLink>
               </li>
 
               {/* Blog Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/blog" className={activeLinkStyle}>
-                  Blog
+                  {t('blog')}
                 </NavLink>
               </li>
 
               {/* Contact Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/contact" className={activeLinkStyle}>
-                  Contact
+                  {t('contact')}
                 </NavLink>
               </li>
             </ul>
@@ -91,6 +98,16 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
               )}
             </button>
           </div>
+          {/* Language Sector */}
+          <div>
+            <button style={{color: 'white'}} onClick={()=>handleLanguageSwitch('en')}>
+              {t('english')}
+            </button>
+            <button style={{color: 'white'}} onClick={()=>handleLanguageSwitch('fr')}>
+              {t('french')}
+            </button>
+          </div>
+          {/* Language Sector */}
         </div>
       </div>
     </>

@@ -6,9 +6,7 @@ import { useRoutes } from "react-router-dom";
 import Header from "./Components/Layout/Header.js";
 import FooterNavbar from "./Components/Layout/FooterNavbar";
 import { routes } from "./Routes/routes.js";
-import { QueryClientProvider, QueryClient } from "react-query";
 import Login from "./Pages/Auth/Auth.js";
-import Cart from "./Components/Cart/Cart.js";
 
 function App() {
   // const queryClient = new QueryClient()
@@ -28,7 +26,6 @@ function App() {
 
   return (
     <React.StrictMode>
-      <QueryClientProvider client={new QueryClient()}>
         {showAuthModal && <Login userName={userName} handleUserName={handleUserName} onHideAuthModal={handleShowAuthModal} />}
 
         <Header userName={userName} onShowAuthModal={handleShowAuthModal} showAuthModal={showAuthModal} />
@@ -38,7 +35,6 @@ function App() {
         {route}
 
         <FooterNavbar />
-      </QueryClientProvider>
     </React.StrictMode>
   );
 }

@@ -10,6 +10,7 @@ import {
 } from "../../Services/HomeService/HomeService";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
+import { useTranslation } from "react-i18next";
 
 const Home = () => {
   const {
@@ -26,6 +27,8 @@ const Home = () => {
     isError: popularIsError,
     refetch: refetchPopular,
   } = useQuery("popularQuery", () => getPopularItemsService());
+
+  const { t } = useTranslation();
 
   let arrivalContent;
   let popularContent;
@@ -45,10 +48,7 @@ const Home = () => {
     arrivalContent = (
       <div>
         {arrivalProducts.map((arrival) => (
-          <NewArrivals
-            key={arrival.id}
-            arrivalData={arrival}
-          />
+          <NewArrivals key={arrival.id} arrivalData={arrival} />
         ))}
       </div>
     );
@@ -78,6 +78,8 @@ const Home = () => {
   return (
     <React.Fragment>
       <Banner />
+
+      <p>{t('home')}</p>
 
       <h3>Arrival product list</h3>
       {arrivalContent}
