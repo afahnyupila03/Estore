@@ -38,9 +38,9 @@ const Home = () => {
   } else if (arrivalIsError) {
     arrivalContent = (
       <div>
-        <p className="text-red-500">{arrivalError.message}</p>
+        <p className="text-red-500">{t('errorMessages.failed')}</p>
         <button onClick={() => refetchArrival()}>
-          refetch new arrival products...
+        {t('errorMessages.reload')}
         </button>
       </div>
     );
@@ -59,9 +59,9 @@ const Home = () => {
   } else if (popularIsError) {
     popularContent = (
       <div>
-        <p className="text-red-500">{popularError.message}</p>
+        <p className="text-red-500">{t('errorMessages.failed')}</p>
         <button onClick={() => refetchPopular()}>
-          refetch popular products...
+        {t('errorMessages.reload')}
         </button>
       </div>
     );
@@ -79,13 +79,11 @@ const Home = () => {
     <React.Fragment>
       <Banner />
 
-      <p>{t('home')}</p>
-
-      <h3>Arrival product list</h3>
+      <h3>{t('products.arrivalList')}</h3>
       {arrivalContent}
       <FinePens />
 
-      <h3>Popular product list</h3>
+      <h3>{t('products.popularList')}</h3>
       {popularContent}
     </React.Fragment>
   );

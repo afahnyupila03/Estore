@@ -1,4 +1,7 @@
 {
+  "english": "En",
+  "french": "Fr",
+  "navbarLinks": {
     "home": "Home",
     "time": "Time",
     "zone": "Zone",
@@ -6,8 +9,18 @@
     "about": "About",
     "latest": "Latest",
     "blog": "Blog",
-    "contact": "Contact",
-    "english": "English",
-    "french": "French"
+    "contact": "Contact"
+  },
+  "products": {
+    "arrivalList": "Arrival Products",
+    "popularList": "Popular Products"
+  },
+  "errorMessages": {
+    "failed": "Failed to fetch, retry",
+    "reload": "Reload"
+  },
+  "shop": {
+    "shopCorporate": "shop corporate gifts",
+    "shopNow": "shop now"
   }
-  
+}

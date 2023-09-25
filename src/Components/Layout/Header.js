@@ -26,8 +26,8 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
           {/* Navbar Brand */}
           <div className="navbar-header hidden sm:block">
             <NavLink to="/" className="cursor-pointer text-3xl">
-              <span className="text-white">Time</span>
-              <span className="text-red-500">Zone</span>
+              <span className="text-white">{t('navbarLinks.time')}</span>
+              <span className="text-red-500">{t('navbarLinks.zone')}</span>
             </NavLink>
           </div>
           {/* Navbar Links */}
@@ -36,42 +36,42 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
               {/* Home Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/home" className={activeLinkStyle}>
-                  {t('home')}
+                  {t('navbarLinks.home')}
                 </NavLink>
               </li>
 
               {/* Shop Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/shop" className={activeLinkStyle}>
-                  {t('shop')}
+                  {t('navbarLinks.shop')}
                 </NavLink>
               </li>
 
               {/* About Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/about" className={activeLinkStyle}>
-                  {t('about')}
+                  {t('navbarLinks.about')}
                 </NavLink>
               </li>
 
               {/* Latest Link = New Arrival Products */}
               <li className="nav-item mr-4">
                 <NavLink to="/latest" className={activeLinkStyle}>
-                  {t('latest')}
+                  {t('navbarLinks.latest')}
                 </NavLink>
               </li>
 
               {/* Blog Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/blog" className={activeLinkStyle}>
-                  {t('blog')}
+                  {t('navbarLinks.blog')}
                 </NavLink>
               </li>
 
               {/* Contact Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/contact" className={activeLinkStyle}>
-                  {t('contact')}
+                  {t('navbarLinks.contact')}
                 </NavLink>
               </li>
             </ul>
