@@ -115,7 +115,7 @@ const Home = () => {
           <img src={finePens} alt="" />
         </div>
         <div>
-          <Link to="/shop/shop-corporate-gifts">{t("shop.shopCorporate")}</Link>
+          <Link to="/home/shop-corporate-gifts">{t("shop.shopCorporate")}</Link>
         </div>
       </div>
 

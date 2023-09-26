@@ -2,7 +2,7 @@ import ShopCorporateGifts from "../Pages/Shop/ShopCorporateGifts"
 
 export const ShopCorporate = [
     {
-        path: '/shop/shop-corporate-gifts',
+        path: '/home/shop-corporate-gifts',
         element: <ShopCorporateGifts />
     }
 ]
