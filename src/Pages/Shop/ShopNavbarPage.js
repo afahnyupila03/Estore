@@ -1,15 +1,13 @@
-import React from "react";
+import { useState } from "react";
 import { NavLink } from "react-router-dom";
 
-export default function ShopNav() {
-  const [state, setState] = React.useState(false);
-
-  const stateHandler = () => {
-    setState((prevState) => !prevState);
-  };
+const ShopNavbarPage = () => {
+  const [menuActive, setMenuActive] = useState(false);
 
   return (
-    <div className="bg-red-300 ">
+    <div
+      className="bg-red-300 mt-4"
+    >
       <div className="flex items-center justify-around">
         <div className="nav-links hidden md:block">
           <ul className="flex gap-4 py-2">
@@ -49,9 +47,13 @@ export default function ShopNav() {
           </ul>
         </div>
         <div className="nav-icon md:hidden sm:block">
-          <button onClick={stateHandler}>{state ? "Menu" : "Cancel"}</button>
+          <button onClick={() => setMenuActive(!menuActive)}>
+            {menuActive ? "Cancel" : "Menu"}
+          </button>
         </div>
       </div>
     </div>
   );
-}
+};
+
+export default ShopNavbarPage;

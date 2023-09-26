@@ -46,7 +46,7 @@ const Home = () => {
       <div>
         <p className="text-red-500">{t("errorMessages.failed")}</p>
         <button onClick={() => refetchArrival()}>
-        console.log({arrivalError})
+        {/* console.log({arrivalError}) */}
           {t("errorMessages.reload")}
         </button>
       </div>
@@ -68,7 +68,7 @@ const Home = () => {
       <div>
         <p className="text-red-500">{t("errorMessages.failed")}</p>
         <button onClick={() => refetchPopular()}>
-          console.log({popularError.message})
+          {/* console.log({popularError.message}) */}
           {t("errorMessages.reload")}
         </button>
       </div>

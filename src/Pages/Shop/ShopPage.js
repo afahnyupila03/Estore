@@ -1,15 +1,17 @@
 import React from "react";
-import NewArrivals from "../../New Arrivals/NewArrivals";
-import PopularItemsCard from "../../Popular Items/PopularItems";
-import {
-  getArrivalItemsService,
-  getPopularItemsService,
-} from "../../../Services/HomeService/HomeService";
 import { useQuery } from "react-query";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
 
-export default function ShopHome() {
+import ShopNavbarPage from "./ShopNavbarPage";
+import NewArrivals from "../../Components/New Arrivals/NewArrivals";
+import PopularItemsCard from "../../Components/Popular Items/PopularItems";
+import {
+  getArrivalItemsService,
+  getPopularItemsService,
+} from "../../Services/HomeService/HomeService";
+
+const ShopPage = () => {
   const {
     data: arrivalProducts = [],
     isFetching: fetchingArrival,
@@ -55,5 +57,14 @@ export default function ShopHome() {
     );
   }
 
-  return <React.Fragment>{content}</React.Fragment>;
-}
+  return (
+    <React.Fragment>
+      <div className="mt-20">
+        <ShopNavbarPage />
+      </div>
+      {content}
+    </React.Fragment>
+  );
+};
+
+export default ShopPage;

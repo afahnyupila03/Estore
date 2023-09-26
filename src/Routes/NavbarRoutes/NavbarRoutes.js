@@ -1,8 +1,6 @@
-import ShopHome from "../../Components/Shop/ShopHome/shop-home";
 import Watches from "../../Components/Watches/Watches";
 import Blog from "../../Pages/Blog/Blog";
 import Contact from "../../Pages/Contact/Contact";
-import Shop from "../../Pages/Shop/Shop";
 import WomanCloth from "../../Pages/WomanCloth/WomanCloth";
 import Latest from "../../Pages/Latest/Latest";
 import RubberToys from "../../Pages/RubberToys/RubberToys";
@@ -11,11 +9,8 @@ import ManAccessories from "../../Pages/ManAccess/ManAccessories";
 import FashionAccessories from "../../Pages/FashionAccess/FashionAccessories";
 import About from "../../Pages/About/About";
 import CartPage from "../../Pages/CartPage/cart-page";
-import Login from "../../Pages/Auth/Auth";
-import TimeZoneBrandsPage from "../../Pages/About/TimeZoneBrandsPage";
-import ReadMorePage from "../../Pages/About/ReadMorePage";
-import DiscoverMorePage from "../../Pages/About/DiscoverMorePage";
 import ShopCorporateGifts from "../../Pages/Shop/ShopCorporateGifts";
+import ShopPage from "../../Pages/Shop/ShopPage";
 
 export const NavbarRoutes = [
   {
@@ -29,11 +24,11 @@ export const NavbarRoutes = [
   },
   {
     path: "/shop",
-    element: <Shop />,
+    element: <ShopPage />,
     children: [
       {
         path: "/shop",
-        element: <ShopHome />,
+        element: <ShopPage />,
       },
       {
         path: "/shop/watches",
@@ -80,10 +75,5 @@ export const NavbarRoutes = [
   {
     path: "/cart",
     element: <CartPage />,
-  },
-  // {
-  //   path: "/login",
-  //   element: <Login />
-  // },
-  // {path: "/sign-up"}
+  }
 ];
