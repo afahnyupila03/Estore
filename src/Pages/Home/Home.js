@@ -11,9 +11,7 @@ import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
 import { useTranslation } from "react-i18next";
 
-import Banner from "../../Components/Banner/Banner";
 import NewArrivals from "../../Components/New Arrivals/NewArrivals";
-import FinePens from "../../Components/fine-pens/FinePens";
 import PopularItemsCard from "../../Components/Popular Items/PopularItems";
 import watch from "../../Components/Banner/watch.png.webp";
 import finePens from "../../Components/fine-pens/new-fine-pens-copy.jpg";

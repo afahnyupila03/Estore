@@ -1,16 +1,15 @@
 import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import HeaderCartButton from "./HeaderCartButton";
-import classes from "./nav.module.css";
+import classes from './nav.module.css'
 import { person } from "react-icons-kit/iconic/person";
-import IconName from "../Icon";
+import IconName from '../../Components/Icon'
 
-const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
+export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
   const { t, i18n } = useTranslation();
 
-  const handleLanguageSwitch = lang => {
-    i18n.changeLanguage(lang)
+  const handleLanguageSwitch = (lang) => {
+    i18n.changeLanguage(lang);
   };
 
   const activeLinkStyle = ({ isActive }) =>
@@ -26,8 +25,8 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
           {/* Navbar Brand */}
           <div className="navbar-header hidden sm:block">
             <NavLink to="/" className="cursor-pointer text-3xl">
-              <span className="text-white">{t('navbarLinks.time')}</span>
-              <span className="text-red-500">{t('navbarLinks.zone')}</span>
+              <span className="text-white">{t("navbarLinks.time")}</span>
+              <span className="text-red-500">{t("navbarLinks.zone")}</span>
             </NavLink>
           </div>
           {/* Navbar Links */}
@@ -36,42 +35,42 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
               {/* Home Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/home" className={activeLinkStyle}>
-                  {t('navbarLinks.home')}
+                  {t("navbarLinks.home")}
                 </NavLink>
               </li>
 
               {/* Shop Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/shop" className={activeLinkStyle}>
-                  {t('navbarLinks.shop')}
+                  {t("navbarLinks.shop")}
                 </NavLink>
               </li>
 
               {/* About Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/about" className={activeLinkStyle}>
-                  {t('navbarLinks.about')}
+                  {t("navbarLinks.about")}
                 </NavLink>
               </li>
 
               {/* Latest Link = New Arrival Products */}
               <li className="nav-item mr-4">
                 <NavLink to="/latest" className={activeLinkStyle}>
-                  {t('navbarLinks.latest')}
+                  {t("navbarLinks.latest")}
                 </NavLink>
               </li>
 
               {/* Blog Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/blog" className={activeLinkStyle}>
-                  {t('navbarLinks.blog')}
+                  {t("navbarLinks.blog")}
                 </NavLink>
               </li>
 
               {/* Contact Link */}
               <li className="nav-item mr-4">
                 <NavLink to="/contact" className={activeLinkStyle}>
-                  {t('navbarLinks.contact')}
+                  {t("navbarLinks.contact")}
                 </NavLink>
               </li>
             </ul>
@@ -85,7 +84,6 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
           </div>
           {/* Cart Icon */}
           <div className="navbar-button md:hidden lg:block">
-            <HeaderCartButton onOpen={onOpen} id="navbar-links" />
           </div>
           {/* Auth Page Modal nav */}
           <div>
@@ -100,11 +98,17 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
           </div>
           {/* Language Sector */}
           <div>
-            <button style={{color: 'white'}} onClick={()=>handleLanguageSwitch('en')}>
-              {t('english')}
+            <button
+              style={{ color: "white" }}
+              onClick={() => handleLanguageSwitch("en")}
+            >
+              {t("english")}
             </button>
-            <button style={{color: 'white'}} onClick={()=>handleLanguageSwitch('fr')}>
-              {t('french')}
+            <button
+              style={{ color: "white" }}
+              onClick={() => handleLanguageSwitch("fr")}
+            >
+              {t("french")}
             </button>
           </div>
           {/* Language Sector */}
@@ -113,5 +117,3 @@ const Header = ({ onShowAuthModal, onOpen, showAuthModal, userName }) => {
     </>
   );
 };
-
-export default Header;
