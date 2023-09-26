@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const NewArrivals = ({ arrivalData }) => {
   const { name, price } = arrivalData || [];
@@ -16,6 +17,8 @@ const NewArrivals = ({ arrivalData }) => {
       <div>
         <p>{getName(name)}</p>
         <p>{price}</p>
+        <Link>View Product</Link>
+        <button>Like Product</button>
       </div>
     </React.StrictMode>
   );

@@ -28,6 +28,18 @@
     "shopCorporate": "shop corporate gifts",
     "shopNow": "shop now"
   },
+  "aboutPage": {
+    "aboutUs": "About Us",
+    "whoAre": "Who we are",
+    "biggestFan": "Your biggest fans, that's who",
+    "timeZone101": "read the timezone 101",
+    "timeZoneBrand": "The TIMEZONE Brands",
+    "madeByUs": "Made by us, loved by you",
+    "rightWay": "right this way",
+    "timeZoneEx": "The TIMEZONE experience",
+    "muchMore": "Cos there's much more to us",
+    "discover": "discover it now"
+  },
   "footerLinks": {
     "quickLinks": {
       "quickLinks": "Quick Links",

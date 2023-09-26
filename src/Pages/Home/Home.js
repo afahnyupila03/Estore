@@ -46,6 +46,7 @@ const Home = () => {
       <div>
         <p className="text-red-500">{t("errorMessages.failed")}</p>
         <button onClick={() => refetchArrival()}>
+        console.log({arrivalError})
           {t("errorMessages.reload")}
         </button>
       </div>
@@ -67,6 +68,7 @@ const Home = () => {
       <div>
         <p className="text-red-500">{t("errorMessages.failed")}</p>
         <button onClick={() => refetchPopular()}>
+          console.log({popularError.message})
           {t("errorMessages.reload")}
         </button>
       </div>
@@ -85,7 +87,7 @@ const Home = () => {
     <React.Fragment>
       <div>
         <div>
-          <div>
+          <div className='mt-8'>
             <h3>{t("banner.selectNew")}</h3>
             <p>
               {t("banner.selectWithCode")}
@@ -113,7 +115,7 @@ const Home = () => {
           <img src={finePens} alt="" />
         </div>
         <div>
-          <Link to="/shop">{t("shop.shopCorporate")}</Link>
+          <Link to="/shop/shop-corporate-gifts">{t("shop.shopCorporate")}</Link>
         </div>
       </div>
 
