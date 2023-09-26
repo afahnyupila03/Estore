@@ -7,6 +7,7 @@ import { Field, Formik } from "formik";
 import { useQuery } from "react-query";
 import CustomTextInput from "../../Components/TextInput";
 import { closed } from "react-icons-kit/iconic/closed";
+import { useTranslation } from "react-i18next";
 import { locked } from "react-icons-kit/iconic/locked";
 
 const Login = ({ onHideAuthModal, userName, handleUserName }) => {
@@ -15,6 +16,7 @@ const Login = ({ onHideAuthModal, userName, handleUserName }) => {
   const [isSignUp, setIsSignUp] = useState(true);
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
+  const { t } = useTranslation();
 
   const { isLoading } = useQuery();
 
@@ -46,10 +48,10 @@ const Login = ({ onHideAuthModal, userName, handleUserName }) => {
               <Field
                 component={CustomTextInput}
                 name="email"
-                label="Email"
+                label={t("auth.email")}
                 iconName={closed}
                 value={values.email}
-                placeholder="Email"
+                placeholder={t("auth.email")}
                 autoCapitalize="none"
                 type="emailAddress"
                 autoCorrect="false"
@@ -58,12 +60,12 @@ const Login = ({ onHideAuthModal, userName, handleUserName }) => {
               <Field
                 component={CustomTextInput}
                 iconName={locked}
-                label="Password"
+                label={t("auth.password")}
                 onChange={(e) => {
                   setFieldValue("password", e);
                 }}
                 name="password"
-                placeholder="Password"
+                placeholder={t("auth.password")}
                 secureTextEntry
               />
               {error?.message && <p>{error.message}</p>}
@@ -74,30 +76,20 @@ const Login = ({ onHideAuthModal, userName, handleUserName }) => {
                 }
                 onClick={handleSubmit}
               >
-                <p>{isSignUp ? "signup" : "login"}</p>
+                <p>{isSignUp ? `${t("auth.signup")}` : `${t("auth.login")}`}</p>
               </button>
             </>
           )}
         </Formik>
-        <p>
+        <div>
           <p>
-            {isSignUp ? "Already have an account " : "Don't have account ?"}
+            {isSignUp ? `${t('auth.alreadyHave')}` : `${t('auth.newUser')}`}
           </p>
-          <p onClick={() => setIsSignUp(!isSignUp)}>
-            {isSignUp ? "Login" : "Signup"}
-          </p>
-        </p>
-        <button onClick={onHideAuthModal}>Cancel</button>
-
-        <form onSubmit={submitHandler}>
-          <label>Input username</label>
-          <input
-            placeholder="Enter user name"
-            value={userName}
-            onChange={handleUserName}
-          />
-          <button type="submit">Submit</button>
-        </form>
+          <button onClick={() => setIsSignUp(!isSignUp)}>
+            {isSignUp ? `${t("auth.login")}` : `${t("auth.signup")}`}
+          </button>
+        </div>
+        <button onClick={onHideAuthModal}>{t("auth.cancel")}</button>
       </Modal>
     </div>
   );

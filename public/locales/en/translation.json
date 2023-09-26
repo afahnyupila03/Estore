@@ -62,5 +62,14 @@
       "reportPayment": "Report payment Issue"
     },
     "rightsReserved": "All copyrights reserved "
+  },
+  "auth": {
+    "email": "Email",
+    "signup": "Signup",
+    "password": "Password",
+    "login": "Login",
+    "cancel": "Cancel",
+    "alreadyHave": "Already have an account ?",
+    "newUser": "Don't have an account ?"
   }
 }
