@@ -41,7 +41,7 @@ export default function CartPage() {
         style={{ marginTop: "1rem", marginBottom: "1rem", borderColor: "red" }}
       />
 
-      {hasItems ? (
+      {!hasItems ? (
         <div>
           <p>No items added to cart</p>
         </div>
@@ -52,15 +52,20 @@ export default function CartPage() {
             <CartItems key={cart.id} cartData={cart} />
           ))}
           <div>
-            <button onClick={() => setShowFormModal(!showFormModal)}>Fill Cart Form</button>
+            <button onClick={() => setShowFormModal(!showFormModal)}>
+              Fill Cart Form
+            </button>
           </div>
         </div>
       )}
 
-      {!showFormModal && <CartFormModal showFormModal={() => setShowFormModal(!showFormModal)} />}
+      {!showFormModal && (
+        <CartFormModal showFormModal={() => setShowFormModal(!showFormModal)} />
+      )}
 
-<h1 className='mt-6 mb-6'>Wait for designs to see what could fill up this area</h1>
-
+      <h1 className="mt-6 mb-6">
+        Wait for designs to see what could fill up this area
+      </h1>
     </Fragment>
   );
 }
