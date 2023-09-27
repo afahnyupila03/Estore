@@ -8,10 +8,10 @@ import Home from "../../Pages/Home/Home";
 import ManAccessories from "../../Pages/ManAccess/ManAccessories";
 import FashionAccessories from "../../Pages/FashionAccess/FashionAccessories";
 import About from "../../Pages/About/About";
-import CartPage from "../../Pages/CartPage/cart-page";
 import ShopCorporateGifts from "../../Pages/Shop/ShopCorporateGifts";
 import ShopPage from "../../Pages/Shop/ShopPage";
 import ShopHome from "../../Pages/Shop/ShopHome";
+import CartPage from "../../Pages/Cart/CartPage";
 
 export const NavbarRoutes = [
   {
@@ -74,7 +74,7 @@ export const NavbarRoutes = [
     element: <Latest />,
   },
   {
-    path: "/cart",
-    element: <CartPage />,
+    path: '/cart',
+    element: <CartPage />
   }
 ];

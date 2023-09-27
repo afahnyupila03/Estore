@@ -99,7 +99,7 @@ const Home = () => {
           </div>
 
           <div>
-            <img src={watch} alt="banner-img" />
+            <img src={watch} alt="banner-img" loading="lazy" />
           </div>
         </div>
       </div>
@@ -110,7 +110,7 @@ const Home = () => {
       {/* TODO: RETHINK  THIS SECTION IF IT IS NECESSARY */}
       <div>
         <div>
-          <img src={finePens} alt="" />
+          <img src={finePens} alt="" loading="lazy" />
         </div>
         <div>
           <Link to="/home/shop-corporate-gifts">{t("shop.shopCorporate")}</Link>

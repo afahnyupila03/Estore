@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 
 import CheckoutForm from "./CheckoutForm";
 import Modal from "../UI/Modal";
-import CartCard from "../UI/CartCard";
 
 import { cartAction } from "../../Store/cart-slice";
 import { uiAction } from "../../Store/ui-slice";
@@ -16,30 +15,9 @@ import {
 // TODO: IMPLEMENT, FETCH && DELETE CALLS FROM RTDB WITH REACT-QUERY.
 
 const Cart = () => {
-  const [isChecked, setIsChecked] = useState(false);
-  const items = useSelector((state) => state.cart.products);
-  const hasItems = items.length > 0;
+ 
 
-  // Function
-  const dispatch = useDispatch();
-  const closeCart = () => {
-    dispatch(uiAction.toggle());
-  };
-
-  // TotalAmount Function
-  const updatedTotalAmount = useSelector((state) => state.cart.totalAmount);
-
-  // const totalAmount = `$${updatedTotalAmount.toFixed(2)}`
-  // TotalAmount Function
-  console.log(updatedTotalAmount);
-
-  // Items Counter
-  const itemsCounter = useSelector((state) => state.cart.totalQuantity);
-  const totalAmount = updatedTotalAmount * itemsCounter;
-  const amount = +totalAmount;
-  console.log(amount);
-
-  const products = useSelector((state) => state.cart);
+  
 
   //   NEW POST API CALL WITH useMutation
   const { mutate, isFetching, isError } = useMutation(
