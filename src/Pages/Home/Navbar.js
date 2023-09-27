@@ -1,9 +1,11 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import classes from "./nav.module.css";
 import { person } from "react-icons-kit/iconic/person";
 import IconName from "../../Components/Icon";
+import CartButton from "./components/CartButton";
+// import shopping from 'react-icons-kit/iconic/shopping';
 
 export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
   const { t, i18n } = useTranslation();
@@ -83,7 +85,9 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
             <a href="#/">menu</a>
           </div>
           {/* Cart Icon */}
-          <div className="navbar-button md:hidden lg:block"></div>
+          <div className="navbar-button md:hidden lg:block">
+            <CartButton />
+          </div>
           {/* Auth Page Modal nav */}
           <div>
             <button onClick={onShowAuthModal} style={{ color: "white" }}>

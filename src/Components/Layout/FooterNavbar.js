@@ -33,7 +33,7 @@ const FooterNavbar = () => {
               <ul className="flex">
                 <li>
                   <NavLink
-                    to="/"
+                    to="/twitter"
                     onClick={scrollToTop}
                     className=" mr-2 cursor-pointer hover:text-red-500 transition:ease-out duration-1000"
                   >
@@ -46,7 +46,7 @@ const FooterNavbar = () => {
                 </li>
                 <li>
                   <NavLink
-                    to="/"
+                    to="/facebook"
                     onClick={scrollToTop}
                     className="mr-2 cursor-pointer hover:text-red-500 transition:ease-out duration-1000"
                   >
@@ -59,7 +59,7 @@ const FooterNavbar = () => {
                 </li>
                 <li>
                   <NavLink
-                    to="/"
+                    to="/instagram"
                     onClick={scrollToTop}
                     className="mr-2 cursor-pointer hover:text-red-500 transition:ease-out duration-1000"
                   >

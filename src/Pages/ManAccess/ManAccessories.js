@@ -40,7 +40,7 @@ const ManAccessories = () => {
 
   return (
     <div>
-      <h3>Men product list</h3>
+      <h3 style={{marginTop: '5rem'}}>Men product list</h3>
       {content}
     </div>
   );

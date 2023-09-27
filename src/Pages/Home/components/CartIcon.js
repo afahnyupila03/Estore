@@ -8,7 +8,7 @@ export default function (){
       viewBox="0 0 24 24"
       strokeWidth="1.5"
       stroke="currentColor"
-      className="w-6 h-6"
+      className="w-7 h-7 text-white"
     >
       <path
         strokeLinecap="round"

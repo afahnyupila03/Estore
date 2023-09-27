@@ -30,7 +30,7 @@ const FashionAccessories = () => {
     );
   } else {
     content = (
-      <div>
+      <div >
         {fashionProducts.map((fashion) => (
           <FashionItems key={fashion.id} fashionData={fashion} />
         ))}
@@ -40,7 +40,7 @@ const FashionAccessories = () => {
 
   return (
     <React.Fragment>
-      <h3>Fashion product list</h3>
+      <h3 style={{marginTop: '5rem'}}>Fashion product list</h3>
       {content}
     </React.Fragment>
   );

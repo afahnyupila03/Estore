@@ -11,6 +11,7 @@ import About from "../../Pages/About/About";
 import CartPage from "../../Pages/CartPage/cart-page";
 import ShopCorporateGifts from "../../Pages/Shop/ShopCorporateGifts";
 import ShopPage from "../../Pages/Shop/ShopPage";
+import ShopHome from "../../Pages/Shop/ShopHome";
 
 export const NavbarRoutes = [
   {
@@ -27,8 +28,8 @@ export const NavbarRoutes = [
     element: <ShopPage />,
     children: [
       {
-        path: "/shop",
-        element: <ShopPage />,
+        path: "/shop/shop",
+        element: <ShopHome />,
       },
       {
         path: "/shop/watches",
