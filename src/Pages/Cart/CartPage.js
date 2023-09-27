@@ -6,10 +6,11 @@ import { Fragment, useState } from "react";
 import CartHeader from "./CartHeader";
 import CartItems from "./CartItems";
 import { useQuery } from "react-query";
+import CartFormModal from "./CartForm/CartFormModal";
 
 export default function CartPage() {
   const { data = [] } = useQuery();
-  const [isChecked, setIsChecked] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(false);
   const items = useSelector((state) => state.cart.products);
 
   const hasItems = items.length > 0;
@@ -40,7 +41,7 @@ export default function CartPage() {
         style={{ marginTop: "1rem", marginBottom: "1rem", borderColor: "red" }}
       />
 
-      {!hasItems ? (
+      {hasItems ? (
         <div>
           <p>No items added to cart</p>
         </div>
@@ -50,8 +51,13 @@ export default function CartPage() {
           {data.map((cart) => (
             <CartItems key={cart.id} cartData={cart} />
           ))}
+          <div>
+            <button onClick={() => setShowFormModal(!showFormModal)}>Fill Cart Form</button>
+          </div>
         </div>
       )}
+
+      {!showFormModal && <CartFormModal showFormModal={() => setShowFormModal(!showFormModal)} />}
 
 <h1 className='mt-6 mb-6'>Wait for designs to see what could fill up this area</h1>
 
