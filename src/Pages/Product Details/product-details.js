@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import React from "react";
 
-import { getProdNum } from "../Components/New Arrivals/new-data";
+import { getProdNum } from "../../Components/New Arrivals/new-data";
 
 export default function ProductDetails({ prodId }) {
   const params = useParams();

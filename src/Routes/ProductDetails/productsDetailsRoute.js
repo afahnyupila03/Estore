@@ -1,4 +1,4 @@
-import ProductDetails from "../../Pages/product-details";
+import ProductDetails from "../../Pages/Product Details/product-details";
 
 export const ProductDetailsRoute = [
   {
