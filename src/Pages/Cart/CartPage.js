@@ -1,17 +1,36 @@
 import { cartAction } from "../../Store/cart-slice";
-import { uiAction } from "../../Store/ui-slice";
 
 import { useDispatch, useSelector } from "react-redux";
 import { Fragment, useState } from "react";
 import CartHeader from "./CartHeader";
 import CartItems from "./CartItems";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import CartFormModal from "./CartForm/CartFormModal";
+import { getCartItemsService, postCartItemService } from "../../Services/CartService/CartService";
 
 export default function CartPage() {
-  const { data = [] } = useQuery();
-  const [showFormModal, setShowFormModal] = useState(false);
+  const [showFormModal, setShowFormModal] = useState(true);
   const items = useSelector((state) => state.cart.products);
+
+//   Fetch Products added to cart.
+  const {
+    data = [],
+    isLoading: loadingCartItems,
+    isError: cartItemsError,
+    error: errorCartItems,
+  } = useQuery("cartItems", () => getCartItemsService(), {
+    refetchOnWindowFocus: true,
+  });
+
+//   Post userProducts and userData to database
+const {mutate} = useMutation(
+    () => postCartItemService(), 
+    {
+        onSuccess: () => {
+            dispatch(cartAction.clearCart())
+        }
+    }
+)
 
   const hasItems = items.length > 0;
 
@@ -41,7 +60,7 @@ export default function CartPage() {
         style={{ marginTop: "1rem", marginBottom: "1rem", borderColor: "red" }}
       />
 
-      {!hasItems ? (
+      {hasItems ? (
         <div>
           <p>No items added to cart</p>
         </div>
