@@ -1,10 +1,11 @@
-import { Link, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import classes from "./nav.module.css";
 import { person } from "react-icons-kit/iconic/person";
 import IconName from "../../Components/Icon";
 import CartButton from "./components/CartButton";
+import LanguageButton from "./Buttons/LanguageButton";
 // import shopping from 'react-icons-kit/iconic/shopping';
 
 export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
@@ -100,20 +101,7 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
             </button>
           </div>
           {/* Language Sector */}
-          <div>
-            <button
-              style={{ color: "white" }}
-              onClick={() => handleLanguageSwitch("en")}
-            >
-              {t("english")}
-            </button>
-            <button
-              style={{ color: "white" }}
-              onClick={() => handleLanguageSwitch("fr")}
-            >
-              {t("french")}
-            </button>
-          </div>
+          <LanguageButton />
           {/* Language Sector */}
         </div>
       </div>
