@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.7.17",
     "@ionic/react": "^7.3.2",
     "@reduxjs/toolkit": "^1.9.3",
     "@tanstack/react-query": "^4.33.0",
