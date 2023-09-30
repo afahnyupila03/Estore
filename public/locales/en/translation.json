@@ -71,5 +71,10 @@
     "cancel": "Cancel",
     "alreadyHave": "Already have an account ?",
     "newUser": "Don't have an account ?"
+  },
+  "cart": {
+    "items": "Items",
+    "amount": "Amount",
+    "orders": "Place Orders"
   }
 }
