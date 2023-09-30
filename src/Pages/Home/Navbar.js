@@ -6,14 +6,9 @@ import { person } from "react-icons-kit/iconic/person";
 import IconName from "../../Components/Icon";
 import CartButton from "./components/CartButton";
 import LanguageButton from "./Buttons/LanguageButton";
-// import shopping from 'react-icons-kit/iconic/shopping';
 
 export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
-  const { t, i18n } = useTranslation();
-
-  const handleLanguageSwitch = (lang) => {
-    i18n.changeLanguage(lang);
-  };
+  const { t } = useTranslation();
 
   const activeLinkStyle = ({ isActive }) =>
     isActive ? `${classes.activeLink}` : `${classes.inactiveLInk}`;
