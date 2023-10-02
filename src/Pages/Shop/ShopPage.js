@@ -62,8 +62,7 @@ const ShopPage = () => {
       <div className="mt-20">
         <ShopNavbarPage />
       </div>
-      <h1>Shop Home Page</h1>
-      {content}
+      {/* {content} */}
       <Outlet />
     </React.Fragment>
   );

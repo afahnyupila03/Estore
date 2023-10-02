@@ -40,7 +40,7 @@ export default function () {
   } else {
     content = (
       <div>
-        {popularProducts.map((shopHome) => (
+        {data.map((shopHome) => (
           <div key={shopHome.id}>
             <p>{shopHome.name}</p>
             <p>{shopHome.price}</p>
@@ -53,7 +53,7 @@ export default function () {
   return (
     <Fragment>
       <h1>Shop List Products</h1>
-      {content}
+      {content} 
     </Fragment>
   );
 }
