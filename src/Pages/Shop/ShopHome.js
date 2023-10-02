@@ -12,49 +12,48 @@ import { Fragment } from "react";
 
 export default function () {
   const {
-    data: arrivalProducts = [],
-    isFetching: fetchingArrival,
-    isError: isErrorArrival,
-    error: errorArrival,
-    refetch: refetchArrival,
-  } = useQuery("arrivalQuery", () => getArrivalItemsService());
-
-  const {
-    data: popularProducts = [],
-    isFetching: fetchingPopular,
-    isError: isErrorPopular,
-    error: errorPopular,
-    refetch: refetchPopular,
-  } = useQuery("popularQuery", () => getPopularItemsService());
+    data = [],
+    isFetching,
+    isError,
+    error,
+    refetch,
+  } = useQuery("shopHome", async () => {
+    const arrivalItems = await getArrivalItemsService();
+    const popularItems = await getPopularItemsService();
+    return { arrivalItems, popularItems };
+  });
 
   let content;
-  if (fetchingArrival && fetchingPopular) {
+  if (isFetching) {
     content = (
       <div>
         <UseAnimations animation={loading} />
       </div>
     );
-  } else if (isErrorArrival && isErrorPopular) {
+  } else if (isError) {
     content = (
       <div>
-        <p>{errorArrival.message || errorPopular.message}</p>
-        <button onClick={() => refetchArrival() && refetchPopular()}>
-          refetch
-        </button>
+        <p>{error.message}</p>
+        <button onClick={() => refetch()}>refetch</button>
       </div>
     );
   } else {
     content = (
       <div>
-        {popularProducts.map((popular) => (
-          <PopularItemsCard key={popular.id} popularData={popular} />
-        ))}
-        {arrivalProducts.map((arrival) => (
-          <NewArrivals key={arrival.id} arrivalData={arrival} />
+        {popularProducts.map((shopHome) => (
+          <div key={shopHome.id}>
+            <p>{shopHome.name}</p>
+            <p>{shopHome.price}</p>
+          </div>
         ))}
       </div>
     );
   }
 
-  return <Fragment><h1>Shop List Products</h1>{content}</Fragment>;
+  return (
+    <Fragment>
+      <h1>Shop List Products</h1>
+      {content}
+    </Fragment>
+  );
 }
