@@ -1,6 +1,8 @@
+// TODO: INSTALL MDBIcon WITH YARN.
 import { useTranslation } from "react-i18next";
 import { Fragment, useState } from "react";
 import { Menu, Transition } from "@headlessui/react";
+import ReactCountryFlag from "react-country-flag";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join("");
@@ -30,13 +32,13 @@ export default function LanguageButton() {
         >
           {defaultLang === "en" ? (
             <div>
-              {/* <img src="" alt="en_flag" /> */}
-              {t('english')}
+              <ReactCountryFlag countryCode="US" svg className='mr-2 mb-1' />
+              {t("english")}
             </div>
           ) : (
             <div>
-              {/* <img src="" alt="fr_flag" /> */}
-              {t('french')}
+              <ReactCountryFlag countryCode="FR" svg className='mr-2 mb-1' />
+              {t("french")}
             </div>
           )}
         </Menu.Button>
@@ -72,8 +74,8 @@ export default function LanguageButton() {
                         "block px-4 py-2 text-sm rounded-md"
                       )}
                     >
-                      {/* <img src="" alt="fr_flag" className="w-20" /> */}
-                      {t('french')}
+                      <ReactCountryFlag countryCode="FR" svg className='mr-2 mb-1' />
+                      {t("french")}
                     </button>
                   </div>
                 )}
@@ -90,8 +92,8 @@ export default function LanguageButton() {
                       "block px-4 py-2 text-sm rounded-md"
                     )}
                   >
-                    {/* <img src="" alt="en_flag" className="w-20" /> */}
-                    {t('english')}
+                    <ReactCountryFlag countryCode="US" svg className='mr-2 mb-1' />
+                    {t("english")}
                   </button>
                 )}
               </Menu.Item>

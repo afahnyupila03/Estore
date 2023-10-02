@@ -1,80 +1,83 @@
 {
-  "english": "",
-  "french": "",
+  "english": "Anglais",
+  "french": "Français",
+  "routes": {
+    "home": "maison"
+  },
   "navbarLinks": {
-    "home": "",
-    "time": "",
-    "zone": "",
-    "shop": "",
-    "about": "",
-    "latest": "",
-    "blog": "",
-    "contact": ""
+    "home": "Maison",
+    "time": "Time",
+    "zone": "Zone",
+    "shop": "Boutique",
+    "about": "À propos",
+    "latest": "Dernier",
+    "blog": "Blog",
+    "contact": "Contact"
   },
   "products": {
-    "arrivalList": "",
-    "popularList": ""
+    "arrivalList": "Produits d'arrivée",
+    "popularList": "Produits populaires"
   },
   "errorMessages": {
-    "failed": "",
-    "reload": ""
+    "failed": "Échec de la récupération, réessayez",
+    "reload": "Recharger"
   },
   "banner": {
-    "selectNew": "",
-    "selectWithCode": "",
-    "march": ""
+    "selectNew": "sélectionnez votre nouveau style parfait",
+    "selectWithCode": "profitez jusqu'à 20 % de réduction sur une sélection d'occasions avec code",
+    "march": "MARCH4103"
   },
   "shop": {
-    "shopCorporate": "",
-    "shopNow": "",
-    "watches": ""
+    "shopCorporate": "acheter des cadeaux d'entreprise",
+    "shopNow": "achetez maintenant",
+    "watches": "montres"
   },
   "aboutPage": {
-    "aboutUs": "",
-    "whoAre": "",
-    "biggestFan": "",
-    "timeZone101": "",
-    "timeZoneBrand": "",
-    "madeByUs": "",
-    "rightWay": "",
-    "timeZoneEx": "",
-    "muchMore": "",
-    "discover": ""
+    "aboutUs": "À propos de nous",
+    "whoAre": "Qui nous sommes",
+    "biggestFan": "Vos plus grands fans, c'est qui",
+    "timeZone101": "lire le fuseau horaire 101",
+    "timeZoneBrand": "Les marques TIMEZONE",
+    "madeByUs": "Fabriqué par nous, aimé par vous",
+    "rightWay": "par ici",
+    "timeZoneEx": "L'expérience TIMEZONE",
+    "muchMore": "Parce que nous avons bien plus à offrir",
+    "discover": "découvrez-le maintenant"
   },
   "footerLinks": {
     "quickLinks": {
-      "quickLinks": " ",
-      "offerDiscount": " ",
-      "coupon": " "
+      "quickLinks": "Liens rapides",
+      "offerDiscount": "Offres et réductions",
+      "coupon": "Obtenir un coupon"
     },
     "newProducts": {
-      "newProducts": "",
-      "womanCloth": "",
-      "fashionAccessories": "",
-      "menAccessories": "",
-      "rubberToys": ""
+      "newProducts": "Nouveaux produits",
+      "womanCloth": "Tissu Femme",
+      "fashionAccessories": "Accessoires de mode",
+      "menAccessories": "Accessoires Homme",
+      "rubberToys": "Jouets en caoutchouc"
     },
     "support": {
-      "support": "",
-      "faq": "",
-      "conditions": "",
-      "privacyPolicy": "",
-      "reportPayment": ""
+      "support": "Soutien",
+      "faq": "FAQ",
+      "conditions": "Termes & Conditions",
+      "privacyPolicy": "Politique de Confidentialité",
+      "reportPayment": "Signaler un problème de paiement"
     },
-    "rightsReserved": ""
+    "rightsReserved": "All copyrights reserved"
   },
   "auth": {
-    "email": "",
-    "signup": "",
-    "password": "",
-    "login": "",
-    "cancel": "",
-    "alreadyHave": "",
-    "newUser": ""
+    "email": "E-mail",
+    "signup": "S'inscrire",
+    "password": "Mot de passe",
+    "login": "Connexion",
+    "cancel": "Annuler",
+    "alreadyHave": "Vous avez déjà un compte ?",
+    "newUser": "Vous n'avez pas de compte ?"
   },
   "cart": {
-    "items": "",
-    "amount": "",
-    "orders": ""
+    "items": "Des produits",
+    "amount": "Montant",
+    "orders": "Passer des commandes"
   }
 }

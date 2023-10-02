@@ -1,6 +1,9 @@
 {
   "english": "English",
   "french": "French",
+  "routes": {
+    "home": "home"
+  },
   "navbarLinks": {
     "home": "Home",
     "time": "Time",
@@ -61,7 +64,7 @@
       "privacyPolicy": "Privacy Policy",
       "reportPayment": "Report payment Issue"
     },
-    "rightsReserved": "All copyrights reserved "
+    "rightsReserved": "All copyrights reserved"
   },
   "auth": {
     "email": "Email",
@@ -73,7 +76,7 @@
     "newUser": "Don't have an account ?"
   },
   "cart": {
-    "items": "Items",
+    "items": "Products",
     "amount": "Amount",
     "orders": "Place Orders"
   }
