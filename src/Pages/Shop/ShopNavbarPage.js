@@ -7,12 +7,12 @@ const ShopNavbarPage = () => {
   const [menuActive, setMenuActive] = useState(false);
 
   return (
-    <div className="bg-red-300">
+    <div className="bg-red-300 mt-40">
       <div className="flex items-center justify-around">
         <div className="nav-links hidden md:block">
           <ul className="flex gap-4 py-2">
             <li>
-              <NavLink to="/shop/shop" className="font-bold text-xl">
+              <NavLink to="/shop" className="font-bold text-xl">
                 {t('navbarLinks.shop')}
               </NavLink>
             </li>

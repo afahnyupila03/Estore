@@ -33,13 +33,13 @@ const ShopPage = () => {
 
   if (isFetching) {
     content = (
-      <div>
+      <div className='mt-40'>
         <UseAnimations animation={loading} />
       </div>
     );
   } else if (isError) {
     return (
-      <div>
+      <div className='mt-40'>
         {error.message}
         <button onClick={() => refetch()}>Refetch</button>
       </div>
@@ -59,10 +59,9 @@ const ShopPage = () => {
 
   return (
     <React.Fragment>
-      <div className="mt-20">
+      <div className="mt-40">
         <ShopNavbarPage />
       </div>
-      {/* {content} */}
       <Outlet />
     </React.Fragment>
   );

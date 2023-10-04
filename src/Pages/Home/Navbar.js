@@ -6,6 +6,7 @@ import { person } from "react-icons-kit/iconic/person";
 import IconName from "../../Components/Icon";
 import CartButton from "./components/CartButton";
 import LanguageButton from "./Buttons/LanguageButton";
+import AuthButton from "./Buttons/AuthButton";
 
 export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
   const { t } = useTranslation();
@@ -80,12 +81,17 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
           >
             <a href="#/">menu</a>
           </div>
+
+{/* New Auth */}
+<AuthButton />
+{/* New Auth */}
+
           {/* Cart Icon */}
           <div className="navbar-button md:hidden lg:block">
             <CartButton />
           </div>
           {/* Auth Page Modal nav */}
-          <div>
+          {/* <div>
             <button onClick={onShowAuthModal} style={{ color: "white" }}>
               {!showAuthModal && (
                 <div>
@@ -94,7 +100,7 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
                 </div>
               )}
             </button>
-          </div>
+          </div> */}
           {/* Language Sector */}
           <LanguageButton />
           {/* Language Sector */}

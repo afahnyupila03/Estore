@@ -28,7 +28,7 @@ export const NavbarRoutes = [
     element: <ShopPage />,
     children: [
       {
-        path: "/shop/shop",
+        path: "/shop",
         element: <ShopHome />,
       },
       {
