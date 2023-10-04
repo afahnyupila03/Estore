@@ -82,25 +82,14 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
             <a href="#/">menu</a>
           </div>
 
-{/* New Auth */}
-<AuthButton />
-{/* New Auth */}
+          {/* New Auth */}
+          <AuthButton />
 
           {/* Cart Icon */}
           <div className="navbar-button md:hidden lg:block">
             <CartButton />
           </div>
-          {/* Auth Page Modal nav */}
-          {/* <div>
-            <button onClick={onShowAuthModal} style={{ color: "white" }}>
-              {!showAuthModal && (
-                <div>
-                  <IconName icon={person} />
-                  <p>{userName}</p>
-                </div>
-              )}
-            </button>
-          </div> */}
+
           {/* Language Sector */}
           <LanguageButton />
           {/* Language Sector */}
