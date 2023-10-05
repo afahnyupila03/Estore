@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-import { heartO, envelopeO, creditCard, truck } from "react-icons-kit/fa";
+import { heartO, envelopeO, creditCard } from "react-icons-kit/fa";
 import { commentDiscussion } from "react-icons-kit/oct";
-import { ic_https_outline } from "react-icons-kit/md";
+import { ic_https_outline, ic_keyboard_arrow_down_twotone, ic_local_shipping_outline } from "react-icons-kit/md";
 import IconName from "../../../Components/Icon";
 
 export default function LanguageButton() {
@@ -24,6 +24,7 @@ export default function LanguageButton() {
         "
         >
           {t("auth.signIn")}
+          <IconName icon={ic_keyboard_arrow_down_twotone} />
         </Menu.Button>
       </div>
 
@@ -46,7 +47,7 @@ export default function LanguageButton() {
         >
           <div className="py-4">
             <Menu.Item>
-              <Link className="bg-black text-white py-2 px-8" to="/signin">
+              <Link className="bg-black text-white py-2 px-8" to="signin">
                 {t("auth.signInCreateAccount")}
               </Link>
             </Menu.Item>
@@ -63,7 +64,7 @@ export default function LanguageButton() {
             </Menu.Item>
             <Menu.Item className="px-4 py-2">
               <Link className="flex text-sm">
-                <IconName icon={truck} style={{marginRight: '1rem'}} />
+                <IconName icon={ic_local_shipping_outline} style={{marginRight: '1rem'}} />
                 {t("auth.deliveryAddresses")}
               </Link>
             </Menu.Item>

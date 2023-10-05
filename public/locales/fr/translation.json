@@ -84,14 +84,18 @@
     "createAccount": "Creer le Compte",
     "trackEasily": "Suivez facilement les commandes",
     "checkOutFaster": "Découvrez plus rapidement",
-    "keepSignedIn": "Gardez-moi connecté."
+    "keepSignedIn": "Gardez-moi connecté.",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille"
   },
   "actions": {
     "createAccount": "Creer le Compte",
     "signIn": "Connecxion",
+    "next": "Suivant",
     "details": "Détails",
     "termsConditions": "Termes & Conditions",
-    "privacyPolicy": "Politique de Confidentialité"
+    "privacyPolicy": "Politique de Confidentialité",
+    "signUp": "Sign Up"
   },
   "cart": {
     "items": "Des produits",

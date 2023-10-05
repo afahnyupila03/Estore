@@ -75,11 +75,11 @@ export const NavbarRoutes = [
     element: <Latest />,
   },
   {
-    path: '/cart',
+    path: 'cart',
     element: <CartPage />
   }, 
   {
-    path: '/signin',
+    path: 'signin',
     element: <Login />
   }
 ];

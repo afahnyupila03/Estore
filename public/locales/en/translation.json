@@ -84,14 +84,18 @@
     "trackEasily": "Track orders easily",
     "checkOutFaster": "Check out faster",
     "signIn": "Sign In",
-    "keepSignedIn": "Keep me signed in."
+    "keepSignedIn": "Keep me signed in.",
+    "firstName": "First Name",
+    "lastName": "Last Name"
   },
   "actions": {
     "signIn": "Sign In",
     "createAccount": "Create Account",
     "details": "Details",
+    "next": "Next",
     "termsConditions": "Terms & Condition",
-    "privacyPolicy": "Privacy Policy"
+    "privacyPolicy": "Privacy Policy",
+    "signUp": "Sign Up"
   },
   "cart": {
     "items": "Products",
