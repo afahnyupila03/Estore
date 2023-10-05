@@ -2,11 +2,12 @@ import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import classes from "./nav.module.css";
-import { person } from "react-icons-kit/iconic/person";
-import IconName from "../../Components/Icon";
 import CartButton from "./components/CartButton";
 import LanguageButton from "./Buttons/LanguageButton";
 import AuthButton from "./Buttons/AuthButton";
+import { NavObjects } from "./Nav Component/NavObjects";
+import IconName from "../../Components/Icon";
+import { commentDiscussion } from "react-icons-kit/oct";
 
 export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
   const { t } = useTranslation();
@@ -17,7 +18,7 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
   return (
     <>
       <div
-        className="bg-black font-bold text-xl p-4 fixed"
+        className="bg-black font-bold text-xl px-2 py-2 fixed"
         style={{ top: "0", left: "0", width: "100%" }}
       >
         <div className="flex items-center justify-around">
@@ -28,50 +29,17 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
               <span className="text-red-500">{t("navbarLinks.zone")}</span>
             </NavLink>
           </div>
+
           {/* Navbar Links */}
           <div className="navbar-links hidden lg:block">
             <ul className={classes.nav}>
-              {/* Home Link */}
-              <li className="nav-item mr-4">
-                <NavLink to="/home" className={activeLinkStyle}>
-                  {t("navbarLinks.home")}
-                </NavLink>
-              </li>
-
-              {/* Shop Link */}
-              <li className="nav-item mr-4">
-                <NavLink to="/shop" className={activeLinkStyle}>
-                  {t("navbarLinks.shop")}
-                </NavLink>
-              </li>
-
-              {/* About Link */}
-              <li className="nav-item mr-4">
-                <NavLink to="/about" className={activeLinkStyle}>
-                  {t("navbarLinks.about")}
-                </NavLink>
-              </li>
-
-              {/* Latest Link = New Arrival Products */}
-              <li className="nav-item mr-4">
-                <NavLink to="/latest" className={activeLinkStyle}>
-                  {t("navbarLinks.latest")}
-                </NavLink>
-              </li>
-
-              {/* Blog Link */}
-              <li className="nav-item mr-4">
-                <NavLink to="/blog" className={activeLinkStyle}>
-                  {t("navbarLinks.blog")}
-                </NavLink>
-              </li>
-
-              {/* Contact Link */}
-              <li className="nav-item mr-4">
-                <NavLink to="/contact" className={activeLinkStyle}>
-                  {t("navbarLinks.contact")}
-                </NavLink>
-              </li>
+              {NavObjects.map((navLinks) => (
+                <li className="nav-item mx-2">
+                  <NavLink className={activeLinkStyle} to={navLinks.NavLink}>
+                    {navLinks.NavName}
+                  </NavLink>
+                </li>
+              ))}
             </ul>
           </div>
           {/* Menu Text */}
