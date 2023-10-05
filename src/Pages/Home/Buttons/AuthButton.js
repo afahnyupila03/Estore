@@ -1,12 +1,12 @@
 // TODO: INSTALL MDBIcon WITH YARN.
 import { useTranslation } from "react-i18next";
-import { Fragment, useState } from "react";
+import { Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { Link } from "react-router-dom";
-
-function classNames(...classes) {
-  return classes.filter(Boolean).join("");
-}
+import { heartO, envelopeO, creditCard, truck } from "react-icons-kit/fa";
+import { commentDiscussion } from "react-icons-kit/oct";
+import { ic_https_outline } from "react-icons-kit/md";
+import IconName from "../../../Components/Icon";
 
 export default function LanguageButton() {
   const { t } = useTranslation();
@@ -23,7 +23,7 @@ export default function LanguageButton() {
         ring-gray-300 hover:bg-gray-50
         "
         >
-          {t('auth.signIn')}
+          {t("auth.signIn")}
         </Menu.Button>
       </div>
 
@@ -47,71 +47,69 @@ export default function LanguageButton() {
           <div className="py-4">
             <Menu.Item>
               <Link className="bg-black text-white py-2 px-8" to="/signin">
-                {t('auth.signInCreateAccount')}
+                {t("auth.signInCreateAccount")}
               </Link>
             </Menu.Item>
-            <Menu.Item className='px-4 mt-4 py-2'>
+            <Menu.Item className="px-4 mt-4 py-2">
               <div className="flex space-between">
-                  <h4>
-                    {t('auth.yourAccount')}
-                  </h4>
-                </div>
+                <h4>{t("auth.yourAccount")}</h4>
+              </div>
             </Menu.Item>
-            <Menu.Item className='px-4 py-2'>
-              <div className="flex space-between">
-                  <Link className='text-sm'>
-                    {t('auth.wishList')}
-                  </Link>
-                </div>
+            <Menu.Item className="px-4 py-2">
+              <Link className="flex text-sm">
+                <IconName icon={heartO} style={{ marginRight: "1rem" }} />
+                {t("auth.wishList")}
+              </Link>
             </Menu.Item>
-            <Menu.Item className='px-4 py-2'>
-              <div className="flex space-between">
-                  <Link className='text-sm'>
-                  {t('auth.deliveryAddresses')}
-                  </Link>
-                </div>
+            <Menu.Item className="px-4 py-2">
+              <Link className="flex text-sm">
+                <IconName icon={truck} style={{marginRight: '1rem'}} />
+                {t("auth.deliveryAddresses")}
+              </Link>
             </Menu.Item>
-            <Menu.Item className='px-4 py-2'>
+            <Menu.Item className="px-4 py-2">
               <div className="flex space-between">
-                  <Link className='text-sm'>
-                  {t('auth.paymentMethods')}
-                  </Link>
-                </div>
+                <Link className="text-sm">
+                  <IconName icon={creditCard} style={{ marginRight: "1rem" }} />
+                  {t("auth.paymentMethods")}
+                </Link>
+              </div>
             </Menu.Item>
-            <Menu.Item className='px-4 py-4 mt-2'>
+            <Menu.Item className="px-4 py-4 mt-2">
               <div className="flex space-between">
-                  <h4>
-                    {t('auth.accountSettings')}
-                  </h4>
-                </div>
+                <h4>{t("auth.accountSettings")}</h4>
+              </div>
             </Menu.Item>
-            <Menu.Item className='px-4 py-2'>
-              <div className="flex space-between">
-                  <Link className='text-sm'>
-                    {t('auth.password')} &amp; {t('auth.personalInfo')}
-                  </Link>
-                </div>
+            <Menu.Item className="px-4 py-2">
+              <Link className="flex text-sm">
+                <IconName
+                  icon={ic_https_outline}
+                  style={{ marginRight: "1rem" }}
+                />
+                {t("auth.password")} &amp; {t("auth.personalInfo")}
+              </Link>
             </Menu.Item>
-            <Menu.Item className='px-4 py-2'>
-              <div className="flex space-between">
-                  <Link className='text-sm'>
-                    {t('auth.email')} &amp; {t('auth.mailPreferences')}
-                  </Link>
-                </div>
+            <Menu.Item className="px-4 py-2">
+              <div className=" space-between">
+                <Link className="flex text-sm">
+                  <IconName icon={envelopeO} style={{ marginRight: "1rem" }} />
+                  {t("auth.email")} &amp; {t("auth.mailPreferences")}
+                </Link>
+              </div>
             </Menu.Item>
-            <Menu.Item className='px-4 py-4 mt-2'>
+            <Menu.Item className="px-4 py-4 mt-2">
               <div className="flex space-between">
-                  <h4>
-                  {t('auth.needHelp')}
-                  </h4>
-                </div>
+                <h4>{t("auth.needHelp")}</h4>
+              </div>
             </Menu.Item>
-            <Menu.Item className='px-4'>
-              <div className="flex space-between">
-                  <Link className='text-sm'>
-                    {t('auth.contactUs')}
-                  </Link>
-                </div>
+            <Menu.Item className="px-4">
+              <Link className="flex text-sm">
+                <IconName
+                  icon={commentDiscussion}
+                  style={{ marginRight: "1rem" }}
+                />
+                {t("auth.contactUs")}
+              </Link>
             </Menu.Item>
           </div>
         </Menu.Items>

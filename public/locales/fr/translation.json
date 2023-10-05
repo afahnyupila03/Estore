@@ -69,7 +69,7 @@
   "auth": {
     "signInCreateAccount": "Connexion | Creer le Compte",
     "yourAccount": "Votre compte",
-    "wishList": "liste de souhaits",
+    "wishList": "Liste de souhaits",
     "deliveryAddresses": "Adresses de livraison",
     "paymentMethods": "Modes de paiement",
     "accountSettings": "Paramètres du compte",
@@ -80,11 +80,18 @@
     "needHelp": "Besoin d'aide ?",
     "contactUs": "Contactez nous",
     "signIn": "Connecxion",
-    "signup": "S'inscrire",
-    "login": "Connexion",
     "cancel": "Annuler",
-    "alreadyHave": "Vous avez déjà un compte ?",
-    "newUser": "Vous n'avez pas de compte ?"
+    "createAccount": "Creer le Compte",
+    "trackEasily": "Suivez facilement les commandes",
+    "checkOutFaster": "Découvrez plus rapidement",
+    "keepSignedIn": "Gardez-moi connecté."
+  },
+  "actions": {
+    "createAccount": "Creer le Compte",
+    "signIn": "Connecxion",
+    "details": "Détails",
+    "termsConditions": "Termes & Conditions",
+    "privacyPolicy": "Politique de Confidentialité"
   },
   "cart": {
     "items": "Des produits",

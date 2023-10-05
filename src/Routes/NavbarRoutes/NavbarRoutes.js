@@ -12,6 +12,7 @@ import ShopCorporateGifts from "../../Pages/Shop/ShopCorporateGifts";
 import ShopPage from "../../Pages/Shop/ShopPage";
 import ShopHome from "../../Pages/Shop/ShopHome";
 import CartPage from "../../Pages/Cart/CartPage";
+import Login from './../../Pages/Auth/Auth';
 
 export const NavbarRoutes = [
   {
@@ -76,5 +77,9 @@ export const NavbarRoutes = [
   {
     path: '/cart',
     element: <CartPage />
+  }, 
+  {
+    path: '/signin',
+    element: <Login />
   }
 ];

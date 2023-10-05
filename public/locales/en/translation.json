@@ -79,13 +79,19 @@
     "mailPreferences": "Mail Preferences",
     "needHelp": "Need help ?",
     "contactUs": "Contact Us",
-    "signIn": "Sign In",
-    "signup": "Signup",
-    "password": "Password",
-    "login": "Login",
     "cancel": "Cancel",
-    "alreadyHave": "Already have an account ?",
-    "newUser": "Don't have an account ?"
+    "createAccount": "Create Account",
+    "trackEasily": "Track orders easily",
+    "checkOutFaster": "Check out faster",
+    "signIn": "Sign In",
+    "keepSignedIn": "Keep me signed in."
+  },
+  "actions": {
+    "signIn": "Sign In",
+    "createAccount": "Create Account",
+    "details": "Details",
+    "termsConditions": "Terms & Condition",
+    "privacyPolicy": "Privacy Policy"
   },
   "cart": {
     "items": "Products",
