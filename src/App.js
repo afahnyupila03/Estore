@@ -3,10 +3,10 @@
 import React, { useState } from "react";
 import { useRoutes } from "react-router-dom";
 
-import Navbar from "./Pages/Home/Navbar.js";
-import FooterNavbar from "./Components/Layout/FooterNavbar";
+import Navbar from "./Pages/Home/Layout/Navbar";
 import { routes } from "./Routes/routes.js";
 import Login from "./Pages/Auth/Auth.js";
+import FooterNavbar from './Pages/Home/Layout/FooterPage.js'
 
 function App() {
   // const queryClient = new QueryClient()
@@ -45,6 +45,7 @@ function App() {
       {route}
 
       <FooterNavbar />
+      {/* <FooterNavbar /> */}
     </React.StrictMode>
   );
 }

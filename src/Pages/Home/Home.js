@@ -15,6 +15,7 @@ import NewArrivals from "../../Components/New Arrivals/NewArrivals";
 import PopularItemsCard from "../../Components/Popular Items/PopularItems";
 import watch from "../../Components/Banner/watch.png.webp";
 import finePens from "../../Components/fine-pens/new-fine-pens-copy.jpg";
+import ProductItemCard from "../../Components/ProductItemCard";
 
 const Home = () => {
   const {
@@ -101,6 +102,9 @@ const Home = () => {
           </div>
         </div>
       </div>
+
+      {/* Text Product Item Card */}
+      <ProductItemCard />
 
       <h3>{t("products.arrivalList")}</h3>
       {arrivalContent}

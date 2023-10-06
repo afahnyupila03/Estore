@@ -2,15 +2,14 @@ import { NavLink } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import classes from "./nav.module.css";
-import CartButton from "./components/CartButton";
-import LanguageButton from "./Buttons/LanguageButton";
-import AuthButton from "./Buttons/AuthButton";
-import { NavObjects } from "./Nav Component/NavObjects";
-import IconName from "../../Components/Icon";
-import { commentDiscussion } from "react-icons-kit/oct";
+import CartButton from "../components/CartButton";
+import LanguageButton from "../Buttons/LanguageButton";
+import AuthButton from "../Buttons/AuthButton";
+import { NavObjects } from "../Layout Component/NavObjects";
 
-export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
+export default function () {
   const { t } = useTranslation();
+  const navBar = NavObjects(t)
 
   const activeLinkStyle = ({ isActive }) =>
     isActive ? `${classes.activeLink}` : `${classes.inactiveLInk}`;
@@ -18,7 +17,7 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
   return (
     <>
       <div
-        className="bg-black font-bold text-xl px-2 py-2 fixed"
+        className="bg-gray-700 text-lg px-2 py-2 fixed"
         style={{ top: "0", left: "0", width: "100%" }}
       >
         <div className="flex items-center justify-around">
@@ -33,8 +32,8 @@ export default function ({ onShowAuthModal, onOpen, showAuthModal, userName }) {
           {/* Navbar Links */}
           <div className="navbar-links hidden lg:block">
             <ul className={classes.nav}>
-              {NavObjects.map((navLinks) => (
-                <li className="nav-item mx-2">
+              {navBar.map((navLinks) => (
+                <li key={navLinks.NavName} className="nav-item mx-2">
                   <NavLink className={activeLinkStyle} to={navLinks.NavLink}>
                     {navLinks.NavName}
                   </NavLink>

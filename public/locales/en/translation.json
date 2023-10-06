@@ -8,11 +8,14 @@
     "home": "Home",
     "time": "Time",
     "zone": "Zone",
-    "shop": "Shop",
-    "about": "About",
-    "latest": "Latest",
-    "blog": "Blog",
-    "contact": "Contact"
+    "sale": "Sale",
+    "men": "Men",
+    "women": "Women",
+    "shoes": "Shoes",
+    "kids": "Kids",
+    "beauty": "Beauty",
+    "holidayGifts": "Holiday Gifts",
+    "explore": "Explore"
   },
   "products": {
     "arrivalList": "Arrival Products",
@@ -45,26 +48,24 @@
     "discover": "discover it now"
   },
   "footerLinks": {
-    "quickLinks": {
-      "quickLinks": "Quick Links",
-      "offerDiscount": "Offers & Discounts",
-      "coupon": "Get Coupon"
-    },
-    "newProducts": {
-      "newProducts": "New Products",
-      "womanCloth": "Woman Cloth",
-      "fashionAccessories": "Fashion Accessories",
-      "menAccessories": "Men Accessories",
-      "rubberToys": "Rubber Toys"
-    },
-    "support": {
-      "support": "Support",
-      "faq": "FAQ",
-      "conditions": "Terms & Conditions",
-      "privacyPolicy": "Privacy Policy",
-      "reportPayment": "Report payment Issue"
-    },
-    "rightsReserved": "All copyrights reserved"
+    "customerService": "Customer Service",
+    "contactUs": "Contact Us",
+    "orderStatus": "Order Status",
+    "delivery": "Delivery",
+    "returnPolicy": "Return Policy & Exchanges",
+    "priceAdjustment": "Price Adjustments",
+    "faq": "FAQ",
+    "productRecall": "Product Recalls",
+    "cameroon": "Cameroon",
+    "aboutUs": "About Us",
+    "brands": "All Brands",
+    "career": "Careers",
+    "corporateSocial": "Corporate Social Responsibility",
+    "diversityEquity": "Diversity, Equity, Inclusion & Belonging",
+    "emailUpdates":"Get Email Updates",
+    "timeZoneBlog": "Timzone Blog",
+    "theThread": "The Thread",
+    "getApp": "Get our app"
   },
   "auth": {
     "signInCreateAccount": "Sign In | Create Account",

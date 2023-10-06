@@ -8,11 +8,14 @@
     "home": "Maison",
     "time": "Time",
     "zone": "Zone",
-    "shop": "Boutique",
-    "about": "À propos",
-    "latest": "Dernier",
-    "blog": "Blog",
-    "contact": "Contact"
+    "sale": "Vente",
+    "men": "Hommes",
+    "women": "Femme",
+    "shoes": "Chaussures",
+    "kids": "Enfants",
+    "beauty": "Beauté",
+    "holidayGifts": "Cadeaux de vacances",
+    "explore": "Explorer"
   },
   "products": {
     "arrivalList": "Produits d'arrivée",
@@ -45,26 +48,24 @@
     "discover": "découvrez-le maintenant"
   },
   "footerLinks": {
-    "quickLinks": {
-      "quickLinks": "Liens rapides",
-      "offerDiscount": "Offres et réductions",
-      "coupon": "Obtenir un coupon"
-    },
-    "newProducts": {
-      "newProducts": "Nouveaux produits",
-      "womanCloth": "Tissu Femme",
-      "fashionAccessories": "Accessoires de mode",
-      "menAccessories": "Accessoires Homme",
-      "rubberToys": "Jouets en caoutchouc"
-    },
-    "support": {
-      "support": "Soutien",
-      "faq": "FAQ",
-      "conditions": "Termes & Conditions",
-      "privacyPolicy": "Politique de Confidentialité",
-      "reportPayment": "Signaler un problème de paiement"
-    },
-    "rightsReserved": "All copyrights reserved"
+    "customerService": "Service à la clientèle",
+    "contactUs": "Contactez-nous",
+    "orderStatus": "Status de la commande",
+    "delivery": "Livraison",
+    "returnPolicy": "Politique de retour et échanges",
+    "priceAdjustment": "Adjustements de prix",
+    "faq": "FAQ",
+    "productRecall": "Rappels de produits",
+    "cameroon": "Cameroun",
+    "aboutUs": "À propos de nous",
+    "brands": "Toutes les marques",
+    "career": "Carrières",
+    "corporateSocial": "Responsabilité sociale des entreprises",
+    "diversityEquity": "Diversité, équité, inclusion et appartenance",
+    "emailUpdates": "Obtenir email mises à jour",
+    "timeZoneBlog": "TimeZone Blog",
+    "theThread": "Le fil",
+    "getApp": "Obtenez nos applications"
   },
   "auth": {
     "signInCreateAccount": "Connexion | Creer le Compte",

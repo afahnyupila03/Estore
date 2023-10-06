@@ -37,7 +37,7 @@ export default function LanguageButton() {
       >
         <Menu.Items
           className="
-            absolute right-0 z-10 mt-2 origin-top-right
+            absolute right-0 z-10 mt-4 origin-top-right
             rounded-md bg-white shadow-lg ring-1 ring-black
             ring-opacity-5 focus:outline-none
         "
@@ -45,7 +45,7 @@ export default function LanguageButton() {
         >
           <div className="py-4">
             <Menu.Item>
-              <Link className="bg-black text-white py-2 px-8" to="signin">
+              <Link className="bg-gray-700 text-white py-2 px-8" to="signin">
                 {t("auth.signInCreateAccount")}
               </Link>
             </Menu.Item>
