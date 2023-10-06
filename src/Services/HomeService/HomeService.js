@@ -40,19 +40,19 @@ export const getPopularItemsService = async () => {
   }
 };
 
-export const getPopularProductService = async (productId) => {
+export const getPopularProductService = async (productName) => {
   try {
     const response = await fetch(
-      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular/${productId}.json`
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular/${productName}.json`
     );
     const data = await response.json();
     if (!data) {
       throw new Error("Product not found");
     }
     const product = {
-      id: productId,
+      id: data.id,
       image: data.image,
-      name: data.name,
+      name: productName,
       price: data.price,
     };
 
@@ -62,19 +62,19 @@ export const getPopularProductService = async (productId) => {
   }
 };
 
-export const getArrivalProductService = async (productId) => {
+export const getArrivalProductService = async (productName) => {
   try {
     const response = await fetch(
-      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals/${productId}.json`
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals/${productName}.json`
     );
     const data = await response.json();
     if (!data) {
       throw new Error("Product not found");
     }
     const product = {
-      id: productId,
+      id: data.id,
       image: data.image,
-      name: data.name,
+      name: productName,
       price: data.price,
     };
 
