@@ -1,6 +1,8 @@
+import ShopHome from "../../Components/Shop/ShopHome/shop-home";
 import Watches from "../../Components/Watches/Watches";
 import Blog from "../../Pages/Blog/Blog";
 import Contact from "../../Pages/Contact/Contact";
+import Shop from "../../Pages/Shop/Shop";
 import WomanCloth from "../../Pages/WomanCloth/WomanCloth";
 import Latest from "../../Pages/Latest/Latest";
 import RubberToys from "../../Pages/RubberToys/RubberToys";
@@ -8,11 +10,8 @@ import Home from "../../Pages/Home/Home";
 import ManAccessories from "../../Pages/ManAccess/ManAccessories";
 import FashionAccessories from "../../Pages/FashionAccess/FashionAccessories";
 import About from "../../Pages/About/About";
-import ShopCorporateGifts from "../../Pages/Shop/ShopCorporateGifts";
-import ShopPage from "../../Pages/Shop/ShopPage";
-import ShopHome from "../../Pages/Shop/ShopHome";
-import CartPage from "../../Pages/Cart/CartPage";
-import Login from './../../Pages/Auth/Auth';
+import CartPage from "../../Pages/CartPage/cart-page";
+import Login from "../../Pages/Auth/Auth";
 
 export const NavbarRoutes = [
   {
@@ -26,7 +25,7 @@ export const NavbarRoutes = [
   },
   {
     path: "/shop",
-    element: <ShopPage />,
+    element: <Shop />,
     children: [
       {
         path: "/shop",
@@ -52,10 +51,6 @@ export const NavbarRoutes = [
         path: "/shop/rubber-toys",
         element: <RubberToys />,
       },
-      {
-        path: "shop/shop-corporate-gifts",
-        element: <ShopCorporateGifts />
-      }
     ],
   },
   {
@@ -75,11 +70,12 @@ export const NavbarRoutes = [
     element: <Latest />,
   },
   {
-    path: 'cart',
-    element: <CartPage />
-  }, 
-  {
-    path: 'signin',
-    element: <Login />
-  }
+    path: "/cart",
+    element: <CartPage />,
+  },
+  // {
+  //   path: "/login",
+  //   element: <Login />
+  // },
+  // {path: "/sign-up"}
 ];

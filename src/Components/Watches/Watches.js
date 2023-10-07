@@ -6,7 +6,7 @@ import Unisex from './Unisex Marathon.jpg';
 const Watches = () => {
 
     return (
-        <div className= "container mx-auto px-4 grid lg:grid-cols-3" style={{ marginTop: '10rem', marginBottom: '8rem' }}>
+        <div className= "container mx-auto px-4 grid lg:grid-cols-3" style={{ marginTop: '8rem', marginBottom: '8rem' }}>
             <div>
                 <img src={Polar} alt='polar_vantage_watch' style={{ height: '40.5rem', width: '20rem' }} />
             </div>

@@ -15,7 +15,7 @@ const HeaderCartButton = (props) => {
 
   return (
     <button
-      className="bg-red-500 items-center flex"
+      className="bg-red-500 items-center flex p-2 rounded-full"
       onClick={openCartHandler}
     >
       <span className="ml-2 mr-3 text-white">

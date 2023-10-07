@@ -13,10 +13,10 @@ const Banner = () => {
         {/* Banner Text */}
         <div className="grid justify-center items-center mb-8 my-8 px-20 overflow-hidden">
           <p className="font-bold text-5xl mb-10 uppercase text-red-500">
-          select your new perfect style
+            select your new perfect style
           </p>
           <p className="uppercase mt-4 mb-7 text-2xl text-red-500">
-          enjoy up to 20% off select pre-owned with code
+            enjoy up to 20% off select pre-owned with code
             <span className="font-bold"> MARCH4103'</span>
           </p>
           <div className="flex justify-center mt-4">

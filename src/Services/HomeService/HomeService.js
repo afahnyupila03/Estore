@@ -1,17 +1,15 @@
-export const getArrivalItemsService = async () => {
+export const getNewArrivals = async (items) => {
   try {
-    const response = await fetch(
-      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json/"
-    );
-    const data = await response.json();
-    const loadedItems = [];
+    const response = await fetch(items)
+    const data = await response.json()
+    const loadedItems = []
     for (const arrivalItemsKey in data) {
       loadedItems.push({
         id: arrivalItemsKey,
         image: data[arrivalItemsKey].image,
         name: data[arrivalItemsKey].name,
-        price: data[arrivalItemsKey].price,
-      });
+        price: data[arrivalItemsKey].price
+      })
     }
     return loadedItems;
   } catch (err) {
@@ -19,11 +17,9 @@ export const getArrivalItemsService = async () => {
   }
 };
 
-export const getPopularItemsService = async () => {
+export const getPopularItemsService = async (items) => {
   try {
-    const response = await fetch(
-      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular.json"
-    );
+    const response = await fetch(items);
     const data = await response.json();
     const loadedItems = [];
     for (const popularKey in data) {
@@ -35,50 +31,6 @@ export const getPopularItemsService = async () => {
       });
     }
     return loadedItems;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
-export const getPopularProductService = async (productName) => {
-  try {
-    const response = await fetch(
-      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular/${productName}.json`
-    );
-    const data = await response.json();
-    if (!data) {
-      throw new Error("Product not found");
-    }
-    const product = {
-      id: data.id,
-      image: data.image,
-      name: productName,
-      price: data.price,
-    };
-
-    return product;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
-export const getArrivalProductService = async (productName) => {
-  try {
-    const response = await fetch(
-      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals/${productName}.json`
-    );
-    const data = await response.json();
-    if (!data) {
-      throw new Error("Product not found");
-    }
-    const product = {
-      id: data.id,
-      image: data.image,
-      name: productName,
-      price: data.price,
-    };
-
-    return product;
   } catch (err) {
     return Promise.reject(err);
   }

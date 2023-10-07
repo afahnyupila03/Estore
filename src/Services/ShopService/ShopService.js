@@ -1,10 +1,8 @@
 // TODO: IMPLEMENT LOGIC TO NAVIGATE TO A SINGLE PRODUCT
 
-export const getFashionProductsService = async () => {
+export const getFashionProductsService = async (item) => {
   try {
-    const response = await fetch(
-      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/fashion.json"
-    );
+    const response = await fetch(item);
     const data = await response.json();
     const loadedItems = [];
     for (const fashionProductsKey in data) {
@@ -21,11 +19,9 @@ export const getFashionProductsService = async () => {
   }
 };
 
-export const getMenAccessoriesProductsService = async () => {
+export const getMenAccessoriesProductsService = async (item) => {
   try {
-    const response = await fetch(
-      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/men.json"
-    );
+    const response = await fetch(item);
     const data = await response.json();
     const loadedItems = [];
     for (const menAccessoriesProductKey in data) {
