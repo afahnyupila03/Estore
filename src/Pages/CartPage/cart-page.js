@@ -43,6 +43,39 @@ export default function CartPage() {
           <h2 className="flex justify-start uppercase p-4 mt-40">
             you might also like
           </h2>
+
+          <div className="grid grid-cols-3 mt-20">
+            <div>
+              <img
+                src={Polar}
+                alt="polar_vantage_watch"
+                style={{ height: "40.5rem", width: "20rem" }}
+              />
+            </div>
+            <div>
+              <img
+                src={Unisex}
+                alt="unisex_marathon_watch"
+                style={{ height: "40.5rem", width: "20rem" }}
+              />
+            </div>
+            <div className="grid lg:grid-rows-2 gap-2">
+              <div>
+                <img
+                  src={Junghan}
+                  alt="junghans_watch"
+                  style={{ height: "20rem", width: "20rem" }}
+                />
+              </div>
+              <div>
+                <img
+                  src={Maurice}
+                  alt="maurice_lacroix"
+                  style={{ height: "20rem", width: "20rem" }}
+                />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </React.Fragment>

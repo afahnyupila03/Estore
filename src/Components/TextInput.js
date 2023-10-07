@@ -36,7 +36,7 @@ const CustomTextInput = (props) => {
           numberOfLines={numberOfLines}
           type={type}
           value={type === "email" ? trimmedValue : value}
-          onChange={(event) => onChange(event)}
+          onChange={(event) => onChange(name)(event)}
           onBlur={() => {
             setFieldTouched(name);
             onBlur(name);

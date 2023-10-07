@@ -1,29 +1,31 @@
-import { useState } from "react";
+import React from "react";
 import { NavLink } from "react-router-dom";
-import { useTranslation } from "react-i18next";
 
-const ShopNavbarPage = () => {
-  const { t } = useTranslation();
-  const [menuActive, setMenuActive] = useState(false);
+export default function ShopNav() {
+  const [state, setState] = React.useState(false);
+
+  const stateHandler = () => {
+    setState((prevState) => !prevState);
+  };
 
   return (
-    <div className="bg-red-300 mt-40">
+    <div className="bg-red-300 ">
       <div className="flex items-center justify-around">
         <div className="nav-links hidden md:block">
           <ul className="flex gap-4 py-2">
             <li>
               <NavLink to="/shop" className="font-bold text-xl">
-                {t('navbarLinks.shop')}
+                Shop
               </NavLink>
             </li>
             <li>
               <NavLink to="/shop/watches" className="font-bold text-xl">
-                {t('shop.watches')}
+                Watches
               </NavLink>
             </li>
             <li>
               <NavLink to="/shop/woman-cloth" className="font-bold text-xl">
-              {t('footerLinks.newProducts.womanCloth')}
+                Woman Accessories
               </NavLink>
             </li>
             <li>
@@ -31,29 +33,25 @@ const ShopNavbarPage = () => {
                 to="/shop/fashion-accessories"
                 className="font-bold text-xl"
               >
-                {t('footerLinks.newProducts.fashionAccessories')}
+                Fashion Accessories
               </NavLink>
             </li>
             <li>
               <NavLink to="/shop/man-accessories" className="font-bold text-xl">
-              {t('footerLinks.newProducts.menAccessories')}
+                Man Accessories
               </NavLink>
             </li>
             <li>
               <NavLink to="/shop/rubber-toys" className="font-bold text-xl">
-              {t('footerLinks.newProducts.rubberToys')}
+                Rubber Toys
               </NavLink>
             </li>
           </ul>
         </div>
         <div className="nav-icon md:hidden sm:block">
-          <button onClick={() => setMenuActive(!menuActive)}>
-            {menuActive ? "Cancel" : "Menu"}
-          </button>
+          <button onClick={stateHandler}>{state ? "Menu" : "Cancel"}</button>
         </div>
       </div>
     </div>
   );
-};
-
-export default ShopNavbarPage;
+}
