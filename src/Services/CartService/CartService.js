@@ -1,15 +1,18 @@
-export const postCartItemService = async (items, userData, orderedItems) => {
+export const postCartItemService = async (userData, orderedItems) => {
   try {
-    const response = await fetch(items, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: userData,
-        orderedItems: orderedItems,
-      }),
-    });
+    const response = await fetch(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/orders.json",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: userData,
+          orderedItems: orderedItems,
+        }),
+      }
+    );
     const data = await response.json();
     return data;
   } catch (err) {
@@ -17,9 +20,11 @@ export const postCartItemService = async (items, userData, orderedItems) => {
   }
 };
 
-export const getCartItemsService = async (items) => {
+export const getCartItemsService = async () => {
   try {
-    const response = await fetch(items);
+    const response = await fetch(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/orders.json"
+    );
     const data = await response.json();
     const loadedItems = [];
     for (const cartItemsKey in data) {

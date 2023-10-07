@@ -3,12 +3,10 @@
 import React, { useState } from "react";
 import { useRoutes } from "react-router-dom";
 
-import Header from "./Components/Layout/Header.js";
-import FooterNavbar from "./Components/Layout/FooterNavbar";
+import Navbar from "./Pages/Home/Layout/Navbar";
 import { routes } from "./Routes/routes.js";
-import { QueryClientProvider, QueryClient } from "react-query";
 import Login from "./Pages/Auth/Auth.js";
-import Cart from "./Components/Cart/Cart.js";
+import FooterNavbar from './Pages/Home/Layout/FooterPage.js'
 
 function App() {
   // const queryClient = new QueryClient()
@@ -17,28 +15,37 @@ function App() {
   // TODO: REMOVE CART FROM MODAL TO PAGE.
   const [showAuthModal, setShowAuthModal] = useState(false);
 
-  const handleShowAuthModal = () => setShowAuthModal(!showAuthModal)
+  const handleShowAuthModal = () => setShowAuthModal(!showAuthModal);
 
-  const [userName, setUserName] = useState("")
+  const [userName, setUserName] = useState("");
 
-  const handleUserName = e => setUserName(e.target.value)
+  const handleUserName = (e) => setUserName(e.target.value);
 
   // useRoutes Navigation
   const route = useRoutes(routes);
 
   return (
     <React.StrictMode>
-      <QueryClientProvider client={new QueryClient()}>
-        {showAuthModal && <Login userName={userName} handleUserName={handleUserName} onHideAuthModal={handleShowAuthModal} />}
+      {showAuthModal && (
+        <Login
+          userName={userName}
+          handleUserName={handleUserName}
+          onHideAuthModal={handleShowAuthModal}
+        />
+      )}
 
-        <Header userName={userName} onShowAuthModal={handleShowAuthModal} showAuthModal={showAuthModal} />
+      <Navbar
+        userName={userName}
+        onShowAuthModal={handleShowAuthModal}
+        showAuthModal={showAuthModal}
+      />
 
-        {/* <Cart /> */}
+      {/* <Cart /> */}
 
-        {route}
+      {route}
 
-        <FooterNavbar />
-      </QueryClientProvider>
+      <FooterNavbar />
+      {/* <FooterNavbar /> */}
     </React.StrictMode>
   );
 }
