@@ -25,7 +25,37 @@ export const NavbarRoutes = [
   },
 ];
 
-export const CustomerServiceRoutes = t => ([
+export const AccountRoutes = (t, heartOutline, cardOutline, bicycleOutline) => [
+  {
+    iconName: heartOutline,
+    navRoute: "account/wish-list",
+    navLink: "Wish List",
+  },
+  {
+    iconName: bicycleOutline,
+    navRoute: "account/delivery",
+    navLink: "Delivery",
+  },
+  {
+    iconName: cardOutline,
+    navRoute: "account/payment-method",
+    navLink: "Payment Method",
+  },
+];
+export const AccountSettingsRoutes = (t, mailOutline, lockClosedOutline) => [
+  {
+    iconName: lockClosedOutline,
+    navLink: "Password & Personal Info",
+    navRoute: "password-&-personal-info",
+  },
+  {
+    iconName: mailOutline,
+    navLink: "Email & Mail Preferences",
+    navRoute: "email-&-mail-preferences",
+  },
+];
+
+export const CustomerServiceRoutes = (t) => [
   {
     navLink: "Contact Us",
     navRoute: "contact",
@@ -57,9 +87,9 @@ export const CustomerServiceRoutes = t => ([
   {
     navLink: "Product Recalls",
     navRoute: "product-recalls",
-  }
-]);
-export const AboutRoutes = t => ([
+  },
+];
+export const AboutRoutes = (t) => [
   { navLink: "All Brands", navRoute: "brands" },
   { navLink: "Careers", navRoute: "careers" },
   {
@@ -74,4 +104,4 @@ export const AboutRoutes = t => ([
   { navLink: "TimeZone Blog", navRoute: "blog" },
   { navLink: "The Thread", navRoute: "thread" },
   { navLink: "TimeZone Podcast", navRoute: "podcast" },
-]);
+];

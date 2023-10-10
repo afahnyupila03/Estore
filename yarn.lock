@@ -1638,7 +1638,7 @@
     ionicons "7.1.0"
     tslib "^2.1.0"
 
-"@ionic/react@^7.3.2":
+"@ionic/react@^7.4.3":
   version "7.4.3"
   resolved "https://registry.yarnpkg.com/@ionic/react/-/react-7.4.3.tgz#f37929cd0a96b683d6c781fe876031491236b54c"
   integrity sha512-j33s8CFe3Cu3AQtIlZdI/W4+e5hDzjRcX6uwqRrizcMQS66Sj9Ik9RN5v3jV/9R8MHLElXZof/AhofNEhe7BTw==
