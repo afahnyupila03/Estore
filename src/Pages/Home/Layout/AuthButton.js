@@ -18,9 +18,6 @@ import {
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function () {
   const { t } = useTranslation();

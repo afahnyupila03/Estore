@@ -1,49 +1,88 @@
 import React from "react";
 import Banner from "../../Components/Banner/Banner";
-// import NewArrivals from "../../Components/New Arrivals/NewArrivals";
+import {Link} from 'react-router-dom'
 import FinePens from "../../Components/fine-pens/FinePens";
-import PopularItemsCard from "../../Components/Popular Items/PopularItems";
-import {useQuery} from 'react-query'
-import { getArrivalProducts } from "../../Services/HomeService/HomeService";
+import { useQuery } from "react-query";
+import {
+  getArrivalProductsService,
+  getPopularProductsService,
+} from "../../Services/HomeService/HomeService";
 import ProductItemCard from "../../Components/ProductItemCard";
 
-const Home = () => {
+const classNames = (...classes) => classes.filter(Boolean).join("");
 
-  const {data, isError, isLoading, error} = useQuery('products', () => getArrivalProducts())
+const Home = () => {
+  const { data, isError, isLoading, error, refetch } = useQuery(
+    "products",
+    () => getArrivalProductsService()
+    // const arrivalProducts = getArrivalProductsService();
+    // const popularProducts = getPopularProductsService();
+    // return {arrivalProducts, popularProducts};
+  );
 
   let productItems;
   if (isLoading) {
-     productItems = <p>Loading items</p>
+    productItems = <p>Loading items</p>;
   } else if (isError) {
-     productItems = <p>{error.message}</p>
-  } else {
-     productItems = (
-      <div className="bg-white">
-      <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <h2 className="text-2xl font-bold tracking-tight text-gray-900">
-          Customers also purchased
-        </h2>
-
-        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-          {data.map((arrivalProducts) => (
-            <ProductItemCard 
-              productData={arrivalProducts}
-              key={arrivalProducts.id}
-            />
-          ))}
-        </div>
+    productItems = (
+      <div>
+        <p>{error.message}</p>
+        <button onClick={() => refetch()}>Try again</button>
       </div>
-    </div>
-    )
+    );
+  } else {
+    productItems = (
+      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        {data.map((products) => (
+          <ProductItemCard productData={products} key={products.id} />
+        ))}
+      </div>
+    );
   }
+
+  const handleShowAllProducts = () => {};
+
+  const handleShowArrivalProducts = (id) => {};
+
+  const handleShowPopularProducts = (id) => {};
 
   return (
     <React.Fragment>
       <Banner />
-      {/* <NewArrivals /> */}
-      {productItems}
+      <div className="bg-white">
+        <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+            Featured Products
+          </h2>
+
+          <div>
+            <div className="flex px-4 py-4">
+              {({ active }) => (
+                <Link
+                  onClick={handleShowAllProducts}
+                  className={classNames(
+                    active
+                      ? "mr-4 border-b-black b-2 text-red-500"
+                      : "mr-4 text-indigo-500-700"
+                  )}
+                >
+                  All
+                </Link>
+              )}
+
+              <Link onClick={handleShowArrivalProducts} className="mr-4">
+                Arrival Products
+              </Link>
+              <Link onClick={handleShowPopularProducts} className="mr-4">
+                Popular Products
+              </Link>
+            </div>
+          </div>
+
+          {productItems}
+        </div>
+      </div>
       <FinePens />
-      <PopularItemsCard />
     </React.Fragment>
   );
 };

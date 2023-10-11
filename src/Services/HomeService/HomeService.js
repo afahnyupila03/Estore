@@ -1,4 +1,4 @@
-export const getArrivalProducts = async () => {
+export const getArrivalProductsService = async () => {
   try {
     const response = await fetch(
       "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json/"
@@ -19,9 +19,11 @@ export const getArrivalProducts = async () => {
   }
 };
 
-export const getPopularItemsService = async (items) => {
+export const getPopularProductsService = async () => {
   try {
-    const response = await fetch(items);
+    const response = await fetch(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular.json"
+    );
     const data = await response.json();
     const loadedItems = [];
     for (const popularKey in data) {
