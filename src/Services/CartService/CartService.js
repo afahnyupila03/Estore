@@ -35,3 +35,7 @@ export const getCartItemsService = async (items) => {
     return Promise.reject(error);
   }
 };
+
+export const trendingNearYouProductsService = async () => {};
+
+export const trendingNearYouProductService = async () => {};

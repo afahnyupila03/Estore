@@ -13,7 +13,7 @@ const FashionAccessories = () => {
     refetch,
   } = useQuery("fashionItems", () =>
     getFashionProductsService(
-      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/fashion.json"
+      
     ),
     {
       retry: (failureCount, error) => {

@@ -1,8 +1,10 @@
 // TODO: IMPLEMENT LOGIC TO NAVIGATE TO A SINGLE PRODUCT
 
-export const getFashionProductsService = async (item) => {
+export const getFashionProductsService = async () => {
   try {
-    const response = await fetch(item);
+    const response = await fetch(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/fashion.json"
+    );
     const data = await response.json();
     const loadedItems = [];
     for (const fashionProductsKey in data) {
@@ -19,9 +21,32 @@ export const getFashionProductsService = async (item) => {
   }
 };
 
-export const getMenAccessoriesProductsService = async (item) => {
+export const getFashionProductService = async (productId, productName) => {
   try {
-    const response = await fetch(item);
+    const response = await fetch(
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/fashion/${productId}/${productName}.json`
+    );
+    const data = await response.json();
+    const loadedItem = [];
+    for (const fashionProductKey in data) {
+      loadedItem.push({
+        id: productId,
+        name: productName,
+        image: data[fashionProductKey].image,
+        price: data[fashionProductKey].price,
+      });
+    }
+    return loadedItem;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const getMenAccessoriesService = async () => {
+  try {
+    const response = await fetch(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/men.json"
+    );
     const data = await response.json();
     const loadedItems = [];
     for (const menAccessoriesProductKey in data) {
@@ -37,3 +62,32 @@ export const getMenAccessoriesProductsService = async (item) => {
     return Promise.reject(err);
   }
 };
+
+export const getMenAccessoryService = async (productId, productName) => {
+  try {
+    const response = await fetch(
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/men/${productId}/${productName}.json`
+    );
+    const data = await response.json();
+    const loadedItem = [];
+    for (const menAccessoryKey in data) {
+      loadedItem.push({
+        id: productId,
+        name: productName,
+        image: data[menAccessoryKey].image,
+        price: data[menAccessoryKey].price,
+      });
+    }
+    return loadedItem;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const saleMenProductsService = async () => {};
+
+export const saleMenProductService = async () => {};
+
+export const saleWomenProductsService = async () => {};
+
+export const saleWomenProductService = async () => {};
