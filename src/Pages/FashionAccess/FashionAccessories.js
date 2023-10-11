@@ -1,9 +1,9 @@
 import React from "react";
-import FashionItems from "../../Components/Fashion/fashion-item";
 import {useQuery} from 'react-query'
 import { getFashionProductsService } from "../../Services/ShopService/ShopService";
 import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
+import ProductItemCard from "../../Components/ProductItemCard";
 
 const FashionAccessories = () => {
   const {
@@ -12,23 +12,7 @@ const FashionAccessories = () => {
     error,
     refetch,
   } = useQuery("fashionItems", () =>
-    getFashionProductsService(
-      
-    ),
-    {
-      retry: (failureCount, error) => {
-        // Retry for a maximum of 3 times
-        if (failureCount >= 3) return false;
-  
-        // Only retry for specific error types
-        if (error.message === 'Network Error') return true;
-  
-        // Don't retry for other error types
-        return false;
-      },
-      // Use exponential backoff for retry delay: 2^retryAttempt * 1000ms
-      retryDelay: attempt => Math.pow(2, attempt) * 1000,
-    }
+    getFashionProductsService()
   );
 
   let content;
@@ -62,8 +46,11 @@ const FashionAccessories = () => {
       </React.Fragment>
     );
   } else {
-    content = data.map((fashion, index) => (
-      <FashionItems fashion={fashion} key={fashion.index} />
+    content = data.map((fashion) => (
+      <ProductItemCard 
+        productData={fashion}
+        key={fashion.id}
+      />
     ));
   }
 

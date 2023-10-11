@@ -1,6 +1,6 @@
 import React from "react";
 import Banner from "../../Components/Banner/Banner";
-import {Link} from 'react-router-dom'
+import { Link } from "react-router-dom";
 import FinePens from "../../Components/fine-pens/FinePens";
 import { useQuery } from "react-query";
 import {
@@ -12,7 +12,7 @@ import ProductItemCard from "../../Components/ProductItemCard";
 const classNames = (...classes) => classes.filter(Boolean).join("");
 
 const Home = () => {
-  const { data, isError, isLoading, error, refetch } = useQuery(
+  const { data = [], isError, isLoading, error, refetch } = useQuery(
     "products",
     () => getArrivalProductsService()
     // const arrivalProducts = getArrivalProductsService();
@@ -51,7 +51,7 @@ const Home = () => {
       <Banner />
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-          <h2 className="text-2xl font-bold tracking-tight text-gray-900">
+          <h2 className="text-lg font-semibold tracking-tight">
             Featured Products
           </h2>
 
