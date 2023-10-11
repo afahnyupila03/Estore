@@ -1,6 +1,11 @@
 import React from "react";
+import { useRoutes } from "react-router";
+import { routes } from "./Routes/routes";
 
 function App() {
+
+  const routes = useRoutes()
+
 
   return (
     <React.StrictMode>
