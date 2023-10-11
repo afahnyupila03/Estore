@@ -1,6 +1,8 @@
-export const getNewArrivals = async (items) => {
+export const getArrivalProducts = async () => {
   try {
-    const response = await fetch(items)
+    const response = await fetch(
+      "https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals.json/"
+    )
     const data = await response.json()
     const loadedItems = []
     for (const arrivalItemsKey in data) {

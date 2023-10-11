@@ -1,6 +1,6 @@
 import { useState, Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
-import { useTranslation } from "react-i18next"
+import { Popover, Transition } from "@headlessui/react";
+import { useTranslation } from "react-i18next";
 
 import {
   AccountRoutes,
@@ -14,8 +14,9 @@ import {
   mailOutline,
   chatbubblesOutline,
   bicycleOutline,
-  chevronDownOutline
+  chevronDownOutline,
 } from "ionicons/icons";
+import MenuItemsCard from "../../../Components/MenuItemsCard";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -38,20 +39,15 @@ export default function () {
   );
 
   return (
-    <Menu as="div" className="relative mt-2 text-center">
-      <div>
-        <Menu.Button
-          onMouseEnter={() => setMenuOpen(true)}
-          onMouseLeave={() => setMenuOpen(false)}
-          className="
-        inline-flex w-full justify-center text-lg"
-        >
-          Sign In
-          <IonIcon 
-            icon={chevronDownOutline} className='ml-2 mt-2'
-          />
-        </Menu.Button>
-      </div>
+    <Popover as="div" className="relative mt-2 text-center">
+      <Popover.Button
+        onMouseEnter={() => setMenuOpen(true)}
+        onMouseLeave={() => setMenuOpen(false)}
+        className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+      >
+        Sign In
+        <IonIcon icon={chevronDownOutline} className="ml-2 mt-2" />
+      </Popover.Button>
 
       <Transition
         show={menuOpen}
@@ -63,67 +59,50 @@ export default function () {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items
+        <Popover.Panel
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
-          className="
-        absolute center mt-4
-        transform -translate-x-20
-        w-80 origin-top rounded-md 
-        bg-white shadow-lg ring-1 ring-black 
-        ring-opacity-5 focus:outline-none 
-        justify-center
-        "
+          className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4"
         >
-          <div className="py-6">
-            <Menu.Item className='px-4'>
-            <a className="bg-black px-2 py-2 text-white">Sign In | Create Account</a>
-            </Menu.Item>
-
-            <h4 className="text-left px-4 font-semibold mt-2 mb-2">
-              Your Account
-            </h4>
-            {accountNavigation.map((accountNav) => (
-              <Menu.Item className="px-4">
-                <a href={accountNav.navRoute} className="flex items-center">
-                  <IonIcon
-                    icon={accountNav.iconName}
-                    style={{ fontSize: "1.5rem" }}
-                    className="mr-2"
-                  />
-                  {accountNav.navLink}
-                </a>
-              </Menu.Item>
-            ))}
-
-            <h4 className="text-left px-4 font-semibold mt-4 mb-2">
-              Account Settings
-            </h4>
-            {accSettingsNavigation.map((accSettings) => (
-              <Menu.Item className="px-4">
-                <a href={accSettings.navRoute} className="flex items-center">
-                  <IonIcon
-                    icon={accSettings.iconName}
-                    style={{ fontSize: "1.5rem" }}
-                    className="mr-2"
-                  />
-                  {accSettings.navLink}
-                </a>
-              </Menu.Item>
-            ))}
-
-            <h4 className="text-left px-4 font-semibold mt-4 mb-2">
-              Need Help ?
-            </h4>
-            <Menu.Item className="px-4">
-              <a href="account/customer-support" className="flex items-center">
-                <IonIcon icon={chatbubblesOutline} className="mr-2" />
-                Contact Us
-              </a>
-            </Menu.Item>
+          <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
+            <div className="p-4">
+              {/* Your Account Routes */}
+              <h4 className="text-left px-4 font-semibold mt-2 mb-2">
+                Your Account
+              </h4>
+              {accountNavigation.map((accountNav) => (
+                <MenuItemsCard
+                  key={accountNav.navLink}
+                  navigationRoute={accountNav.navRoute}
+                  navigationLink={accountNav.navLink}
+                  icon={accountNav.iconName}
+                />
+              ))}
+              {/* Account Settings Routes */}
+              <h4 className="text-left px-4 font-semibold mt-2 mb-2">
+                Account Settings
+              </h4>
+              {accSettingsNavigation.map((accSettings) => (
+                <MenuItemsCard
+                  key={accSettings.navLink}
+                  navigationLink={accSettings.navLink}
+                  navigationRoute={accSettings.navRoute}
+                  icon={accSettings.iconName}
+                />
+              ))}
+              {/* Customer Line Route */}
+              <h4 className="text-left px-4 font-semibold mt-4 mb-2">
+                Need Help ?
+              </h4>
+              <MenuItemsCard
+                navigationRoute="/account/customer-service"
+                navigationLink="Contact Us"
+                icon={chatbubblesOutline}
+              />
+            </div>
           </div>
-        </Menu.Items>
+        </Popover.Panel>
       </Transition>
-    </Menu>
+    </Popover>
   );
 }

@@ -1,5 +1,18 @@
-const Contact = (props) => {
-  return <h1 className="mt-40">Contact Page</h1>;
+import PageNotFound from '../../Components/404Page'
+
+const Contact = () => {
+  return (
+    <>
+        <PageNotFound 
+          messageHeader='404'
+          pageAlert='Page Not Found'
+          contactSupport='Contact Support'
+          homeRoute='/home'
+          homeNavigation='Home'
+          messageBody='Coming Soon ㊗️'
+        />
+      </>
+  );
 };
 
 export default Contact;
