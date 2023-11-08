@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import {
   AccountRoutes,
   AccountSettingsRoutes,
+  AuthRoute,
 } from "../components/LayoutNavigation";
 import { IonIcon } from "@ionic/react";
 import {
@@ -17,7 +18,6 @@ import {
   chevronDownOutline,
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
-
 
 export default function () {
   const { t } = useTranslation();
@@ -34,6 +34,7 @@ export default function () {
     mailOutline,
     lockClosedOutline
   );
+  const authRoutes = AuthRoute(t)
 
   return (
     <Popover as="div" className="relative mt-2 text-center">
@@ -63,6 +64,14 @@ export default function () {
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
+
+              {authRoutes.map((authKey) => (
+                <MenuItemsCard 
+                  navigationLink={authKey.navLink}
+                  navigationRoute={authKey.navRoute}
+                />
+              ))}
+
               {/* Your Account Routes */}
               <h4 className="text-left px-4 font-semibold mt-2 mb-2">
                 Your Account

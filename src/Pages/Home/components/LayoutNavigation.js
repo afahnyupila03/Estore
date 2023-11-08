@@ -1,4 +1,4 @@
-export const NavbarRoutes = [
+export const NavbarRoutes = (t) => [
   {
     navLink: "Home",
     navRoute: "home",
@@ -25,6 +25,13 @@ export const NavbarRoutes = [
   },
 ];
 
+export const AuthRoute = (t) => [
+  { 
+    navLink: "Sign In | Create Account", 
+    navRoute: "sign-in&create-account" 
+  },
+];
+
 export const AccountRoutes = (t, heartOutline, cardOutline, bicycleOutline) => [
   {
     iconName: heartOutline,
@@ -42,6 +49,7 @@ export const AccountRoutes = (t, heartOutline, cardOutline, bicycleOutline) => [
     navLink: "Payment Method",
   },
 ];
+
 export const AccountSettingsRoutes = (t, mailOutline, lockClosedOutline) => [
   {
     iconName: lockClosedOutline,
