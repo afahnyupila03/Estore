@@ -60,15 +60,17 @@ export default function () {
         <Popover.Panel
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
-          className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4"
+          className="absolute left-1/2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 px-4"
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
 
               {authRoutes.map((authKey) => (
                 <MenuItemsCard 
+                  key={authKey.navLink}
                   navigationLink={authKey.navLink}
                   navigationRoute={authKey.navRoute}
+                  style={{fontWeight: 'bold'}}
                 />
               ))}
 

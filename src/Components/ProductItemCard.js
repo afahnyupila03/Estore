@@ -1,6 +1,16 @@
+import { useState } from "react";
+import ProductModal from "./ProductModal";
+
 export default function ({ productData }) {
+  const [openProductModal, setOpenProductModal] = useState(false);
 
   const { name, image, price } = productData || [];
+
+  const handleShowProductModal = () => {
+    setOpenProductModal(
+      prevState => !prevState
+    )
+  }
 
   return (
     <div className="group relative">
@@ -23,6 +33,13 @@ export default function ({ productData }) {
         </div>
         <p className="text-sm font-medium text-gray-900">{price}</p>
       </div>
+
+      <button className="mt-4 text-red-500" onClick={handleShowProductModal}>View Product</button>
+      {!openProductModal && (
+        <ProductModal>
+          <button onClick={handleShowProductModal}>Close</button>
+        </ProductModal>
+      )}
     </div>
   );
 }

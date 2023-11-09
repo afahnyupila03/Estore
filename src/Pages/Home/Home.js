@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import Banner from "../../Components/Banner/Banner";
 import { Link } from "react-router-dom";
 import FinePens from "../../Components/fine-pens/FinePens";
@@ -12,13 +12,22 @@ import ProductItemCard from "../../Components/ProductItemCard";
 const classNames = (...classes) => classes.filter(Boolean).join("");
 
 const Home = () => {
-  const { data = [], isError, isLoading, error, refetch } = useQuery(
+  const {
+    data = [],
+    isError,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery(
     "products",
     () => getArrivalProductsService()
     // const arrivalProducts = getArrivalProductsService();
     // const popularProducts = getPopularProductsService();
     // return {arrivalProducts, popularProducts};
   );
+
+  // Product Filtering Conditions.
+  const [featuredProductItems, setFeaturedProductsItem] = useState(data);
 
   let productItems;
   if (isLoading) {
