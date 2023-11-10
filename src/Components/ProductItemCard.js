@@ -6,9 +6,9 @@ export default function ({ productData }) {
 
   const { name, image, price } = productData || [];
 
-  const handleShowProductModal = () => {
+  function handleShowProductModal () {
     setOpenProductModal(
-      prevState => !prevState
+      (prevState) => !prevState
     )
   }
 
@@ -34,20 +34,16 @@ export default function ({ productData }) {
         <p className="text-sm font-medium text-gray-900">{price}</p>
       </div>
 
-      <button className="mt-2 text-red-500" onClick={handleShowProductModal}>View Product</button>
-      {!openProductModal && (
-        <ProductModal>
-          <p>pppppppppppppppppppppppppppppppppppppp</p>
-          <p>pppppppppppppppppppppppppppppppppppppp</p>
-          <p>pppppppppppppppppppppppppppppppppppppp</p>
-          <p>pppppppppppppppppppppppppppppppppppppp</p>
-          <p>pppppppppppppppppppppppppppppppppppppp</p>
-          <p>pppppppppppppppppppppppppppppppppppppp</p>
-          <p>pppppppppppppppppppppppppppppppppppppp</p>
-          <p>pppppppppppppppppppppppppppppppppppppp</p>
-          <button onClick={handleShowProductModal}>Close</button>
-        </ProductModal>
-      )}
+      <button className="mt-2 text-red-500" onClick={handleShowProductModal}>Quick View</button>
+      {
+        openProductModal && <ProductModal 
+        image={image}
+          name={name}
+          price={price}
+          actionButton='Close Modal'
+          onCloseModal={handleShowProductModal}
+        />
+      }
     </div>
   );
 }
