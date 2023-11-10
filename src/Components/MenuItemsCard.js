@@ -1,9 +1,8 @@
-import {useState} from 'react'
+import { useState } from "react";
 import { IonIcon } from "@ionic/react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 export default function ({ style, icon, navigationRoute, navigationLink }) {
-
   // const [defaultElement] = useState('Link')
 
   return (
@@ -12,9 +11,13 @@ export default function ({ style, icon, navigationRoute, navigationLink }) {
         <IonIcon icon={icon} style={{ fontSize: "1.5rem" }} />
       </div>
       <div>
-        <Link style={style} href={navigationRoute} className="flex items-center mt-2">
+        <NavLink
+          style={style}
+          to={navigationRoute}
+          className="flex items-center mt-2"
+        >
           {navigationLink}
-        </Link>
+        </NavLink>
       </div>
     </div>
   );

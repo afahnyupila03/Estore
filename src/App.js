@@ -29,7 +29,7 @@ function App() {
 
   return (
     <React.StrictMode>
-      <Navbar />
+      <Navbar onHideAuthModal={handleShowAuthModal} />
       {/* <Cart /> */}
 
       {route}

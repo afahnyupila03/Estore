@@ -34,9 +34,17 @@ export default function ({ productData }) {
         <p className="text-sm font-medium text-gray-900">{price}</p>
       </div>
 
-      <button className="mt-4 text-red-500" onClick={handleShowProductModal}>View Product</button>
+      <button className="mt-2 text-red-500" onClick={handleShowProductModal}>View Product</button>
       {!openProductModal && (
         <ProductModal>
+          <p>pppppppppppppppppppppppppppppppppppppp</p>
+          <p>pppppppppppppppppppppppppppppppppppppp</p>
+          <p>pppppppppppppppppppppppppppppppppppppp</p>
+          <p>pppppppppppppppppppppppppppppppppppppp</p>
+          <p>pppppppppppppppppppppppppppppppppppppp</p>
+          <p>pppppppppppppppppppppppppppppppppppppp</p>
+          <p>pppppppppppppppppppppppppppppppppppppp</p>
+          <p>pppppppppppppppppppppppppppppppppppppp</p>
           <button onClick={handleShowProductModal}>Close</button>
         </ProductModal>
       )}

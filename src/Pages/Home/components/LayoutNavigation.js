@@ -28,7 +28,7 @@ export const NavbarRoutes = (t) => [
 export const AuthRoute = (t) => [
   { 
     navLink: "Sign In | Create Account", 
-    navRoute: "sign-in&create-account" 
+    navRoute: "/sign-in&create-account" 
   },
 ];
 
