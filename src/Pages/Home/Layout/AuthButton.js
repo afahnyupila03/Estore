@@ -41,10 +41,10 @@ export default function () {
       <Popover.Button
         onMouseEnter={() => setMenuOpen(true)}
         onMouseLeave={() => setMenuOpen(false)}
-        className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+        className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
       >
         Sign In
-        <IonIcon icon={chevronDownOutline} className="ml-2 mt-2" />
+        <IonIcon icon={chevronDownOutline} className="ml-2" />
       </Popover.Button>
 
       <Transition
