@@ -73,9 +73,8 @@ export const NavbarRoutes = [
     path: "/cart",
     element: <CartPage />,
   },
-  // {
-  //   path: "/login",
-  //   element: <Login />
-  // },
-  // {path: "/sign-up"}
+  {
+    path: '/sign-in-&-create-account',
+    element: <Login />
+  }
 ];

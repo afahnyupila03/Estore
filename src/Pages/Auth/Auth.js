@@ -1,106 +1,124 @@
 // TODO: USE FORMIK INSTEAD OF THE TRADITIONAL FORM ELEMENTS
 // TODO: IMPLEMENT THROTTLING OR DEBOUNCING TO STOP RE-RENDER LISTENING TO EVERY KEY STROKE.
+// TODO: IMPLEMENT FIREBASE ANONYMOUS SIGN-IN METHOD
 
 import { useState } from "react";
-import Modal from "../../Components/UI/Modal";
-import { Field, Formik } from "formik";
+import { Field, Form, Formik } from "formik";
 import { useQuery } from "react-query";
 import CustomTextInput from "../../Components/TextInput";
-import { closed } from "react-icons-kit/iconic/closed";
-import { locked } from "react-icons-kit/iconic/locked";
 
-const Login = ({ onHideAuthModal, userName, handleUserName }) => {
-  const path = window.location.pathname;
-
+export default function Login() {
   const [isSignUp, setIsSignUp] = useState(true);
   const [error, setError] = useState({});
   const [loading, setLoading] = useState(false);
 
   const { isLoading } = useQuery();
 
-  const handleUserSignup = async (email, password) => {};
-  const handleUserLogin = async ({ email = "", password = "" }) => {};
-
-  const submitHandler = (e) => {
-    e.preventDefault();
-    // userName(userName)
+  const initialValues = {
+    email: "",
+    firstName: "",
+    lastName: "",
+    password: "",
+    confirmPassword: "",
+  };
+  const validate = (values) => {
+    const errors = {};
+    if (!values.email) {
+      errors.email = "Email is required";
+    }
+    if (!values.firstName) {
+      errors.firstName = "First name is required";
+    }
+    if (!values.lastName) {
+      errors.lastName = "Last name is required";
+    }
+    if (!values.password > 4) {
+      errors.password = "Password must be more than 4 characters";
+    }
+    if (values.confirmPassword != values.password) {
+      errors.confirmPassword = "Passwords do not match";
+    }
+    return errors;
   };
 
+  const handleSubmit = (values, { setSubmitting, resetForm }) => {
+    // API call to validate submission
+    setTimeout(() => {
+      alert("Account created" + JSON.stringify(values, null, 4));
+      setSubmitting(false);
+      resetForm();
+    }, 400);
+  };
+
+  const handleLogin = async (email, password) => {};
+  const handleSignUp = async ({ email = "", password = "" }) => {};
+
   return (
-    <div
-      style={{
-        backgroundImage:
-          path === "/login" || path === "/signup"
-            ? 'url("./auth-bgImage.jpeg")'
-            : null,
-      }}
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validate}
+      onSubmit={handleSubmit}
     >
-      <Modal>
-        <Formik
-          initialValues={{ email: "", password: "" }}
-          validationSchema={"still to apply"}
-          onSubmit={isSignUp ? handleUserSignup : handleUserLogin}
-        >
-          {({ handleSubmit, isValid, values, setFieldValue }) => (
-            <>
-              <Field
-                component={CustomTextInput}
-                name="email"
-                label="Email"
-                iconName={closed}
-                value={values.email}
-                placeholder="Email"
-                autoCapitalize="none"
-                type="emailAddress"
-                autoCorrect="false"
-                autoCompleteType="email"
-              />
-              <Field
-                component={CustomTextInput}
-                iconName={locked}
-                label="Password"
-                onChange={(e) => {
-                  setFieldValue("password", e);
-                }}
-                name="password"
-                placeholder="Password"
-                secureTextEntry
-              />
-              {error?.message && <p>{error.message}</p>}
-
-              <button
-                disabled={
-                  !isValid || !values?.email || !values.email.trim() || loading
-                }
-                onClick={handleSubmit}
-              >
-                <p>{isSignUp ? "signup" : "login"}</p>
-              </button>
-            </>
-          )}
-        </Formik>
-        <p>
-          <p>
-            {isSignUp ? "Already have an account " : "Don't have account ?"}
-          </p>
-          <p onClick={() => setIsSignUp(!isSignUp)}>
-            {isSignUp ? "Login" : "Signup"}
-          </p>
-        </p>
-        <button onClick={onHideAuthModal}>Cancel</button>
-
-        <form onSubmit={submitHandler}>
-          <label>Input username</label>
-          <input
-            placeholder="Enter user name"
-            value={userName}
-            onChange={handleUserName}
+      {({ isSubmitting, values }) => (
+        <Form>
+          <Field
+            component={CustomTextInput}
+            name="email"
+            label="Email"
+            value={values.email}
+            placeholder="Email"
+            autoCapitalize="none"
+            type="email"
+            autoCorrect="false"
+            autoCompleteType="email"
           />
-          <button type="submit">Submit</button>
-        </form>
-      </Modal>
-    </div>
-  );
-};
+          <Field
+            component={CustomTextInput}
+            name="firstName"
+            label="First Name"
+            value={values.firstName}
+            placeholder="First Name"
+            autoCapitalize="true"
+            type="text"
+            autoCorrect="false"
+            autoCompleteType="text"
+          />
+          <Field
+            component={CustomTextInput}
+            name="lastName"
+            label="Last Name"
+            value={values.lastName}
+            placeholder="Last Name"
+            autoCapitalize="true"
+            type="text"
+            autoCorrect="false"
+            autoCompleteType="text"
+          />
+          <Field
+            component={CustomTextInput}
+            label="Password"
+            name="password"
+            placeholder="Password"
+            secureTextEntry
+          />
+          <Field
+            component={CustomTextInput}
+            label="Confirm Password"
+            name="confirmPassword"
+            placeholder="Confirm Password"
+            secureTextEntry
+          />
+          {error?.message && <p>{error.message}</p>}
 
-export default Login;
+          <button
+            disabled={isSubmitting}
+            // onClick={handleSubmit}
+          >
+            {/* Relace submit with a condition, if email exist, show LOGIN, else NEXT */}
+            Submit
+          </button>
+        </Form>
+      )}
+    </Formik>
+  );
+}
