@@ -13,29 +13,41 @@ export default function () {
   }
 
   return (
-    <Formik
-      initialValues={initialValues}
-      onSubmit={onSubmit}
-      validationSchema={NewsSignupSchema}
-    >
-      {({ values, isSubmitting, handleChange, handleBlur }) => (
-        <Form>
-          <Field
-            name="signupEmail"
-            id="signupEmail"
-            type="signupEmail"
-            component={CustomTextInput}
-            value={values.signupEmail}
-            onChange={handleChange}
-            onBlur={handleBlur}
-            label="Email"
-            placeholder="Subscribe to daily news and updates"
-          />
-          <button type="submit" disabled={isSubmitting}>
-            Subscribe
-          </button>
-        </Form>
-      )}
-    </Formik>
+    <div className="container mx-auto px-28 flex justify-end">
+      <Formik
+        initialValues={initialValues}
+        onSubmit={onSubmit}
+        validationSchema={NewsSignupSchema}
+      >
+        {({ values, isSubmitting, handleChange, handleBlur }) => (
+          <Form>
+            <Field
+              name="signupEmail"
+              id="signupEmail"
+              type="signupEmail"
+              component={CustomTextInput}
+              value={values.signupEmail}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              label="Subscribe to daily news"
+              // placeholder="Subscribe to daily news and updates"
+            />
+            <div className="flex justify-end text-white">
+              <button
+                type="submit"
+                className={
+                  isSubmitting
+                    ? "bg-gray-300 p-2 rounded-lg text-sm"
+                    : "bg-gray-500 p-2 rounded-lg text-sm"
+                }
+                disabled={isSubmitting}
+              >
+                Subscribe
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </div>
   );
 }
