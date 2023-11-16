@@ -1,7 +1,16 @@
 export default function ({ field, form, ...props }) {
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
-  const { label, type, multiline, rows, formControl, formError, style } = props;
+  const {
+    label,
+    type,
+    placeholder,
+    multiline,
+    rows,
+    formControl,
+    formError,
+    style,
+  } = props;
 
   const trimmedValue = value ? value.trim() : "";
 
@@ -12,10 +21,11 @@ export default function ({ field, form, ...props }) {
         <textarea
           id={name}
           name={name}
-          value={value}
+          value={trimmedValue}
           onChange={onChange}
           rows={rows}
           className={formControl}
+          {...props}
         />
       ) : (
         <input
@@ -25,7 +35,10 @@ export default function ({ field, form, ...props }) {
           value={value}
           onChange={onChange}
           onBlur={onBlur}
+          label={label}
+          placeholder={placeholder}
           className={formControl}
+          {...props}
         />
       )}
       {/* style error message */}
@@ -33,5 +46,29 @@ export default function ({ field, form, ...props }) {
         <div className={formError}>{errors[name]}</div>
       )}
     </div>
+  );
+}
+
+export function CustomCheckbox({ field, form, ...props }) {
+  const { name, value, onChange, onBlur } = field;
+  const { errors, touched } = form;
+  const { label, formError, type } = props;
+
+  return (
+    <>
+      <input
+        id={name}
+        name={name}
+        type={type}
+        onChange={onChange}
+        onBlur={onBlur}
+        value={value}
+        {...props}
+      />
+      <span>{label}</span>
+      {errors[name] && touched[name] && (
+        <div className={formError}>{errors[name]}</div>
+      )}
+    </>
   );
 }

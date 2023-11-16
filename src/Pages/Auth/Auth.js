@@ -1,124 +1,124 @@
-// TODO: USE FORMIK INSTEAD OF THE TRADITIONAL FORM ELEMENTS
-// TODO: IMPLEMENT THROTTLING OR DEBOUNCING TO STOP RE-RENDER LISTENING TO EVERY KEY STROKE.
-// TODO: IMPLEMENT FIREBASE ANONYMOUS SIGN-IN METHOD
-
-import { useState } from "react";
 import { Field, Form, Formik } from "formik";
-import { useQuery } from "react-query";
-import CustomTextInput from "../../Components/TextInput";
+import CustomTextInput, { CustomCheckbox } from "../../Components/TextInput";
+import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
+import NewSignup from "./NewSignup";
 
-export default function Login() {
-  const [isSignUp, setIsSignUp] = useState(true);
-  const [error, setError] = useState({});
-  const [loading, setLoading] = useState(false);
-
-  const { isLoading } = useQuery();
-
-  const initialValues = {
-    email: "",
-    firstName: "",
-    lastName: "",
-    password: "",
-    confirmPassword: "",
-  };
-  const validate = (values) => {
-    const errors = {};
-    if (!values.email) {
-      errors.email = "Email is required";
-    }
-    if (!values.firstName) {
-      errors.firstName = "First name is required";
-    }
-    if (!values.lastName) {
-      errors.lastName = "Last name is required";
-    }
-    if (!values.password > 4) {
-      errors.password = "Password must be more than 4 characters";
-    }
-    if (values.confirmPassword != values.password) {
-      errors.confirmPassword = "Passwords do not match";
-    }
-    return errors;
-  };
-
-  const handleSubmit = (values, { setSubmitting, resetForm }) => {
-    // API call to validate submission
+export default function () {
+  const onSubmit = (values, actions) => {
     setTimeout(() => {
-      alert("Account created" + JSON.stringify(values, null, 4));
-      setSubmitting(false);
-      resetForm();
-    }, 400);
+      console.log(values);
+      console.log(actions);
+      actions.resetForm({
+        values: {
+          email: "",
+          firstName: "",
+          lastName: "",
+          password: "",
+          confirmPassword: "",
+          checkbox: "",
+        },
+      });
+    }, 1000);
   };
-
-  const handleLogin = async (email, password) => {};
-  const handleSignUp = async ({ email = "", password = "" }) => {};
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={validate}
-      onSubmit={handleSubmit}
+    <div>
+      <Formik
+      initialValues={{
+        email: "",
+        firstName: "",
+        lastName: "",
+        password: "",
+        confirmPassword: "",
+        checkbox: "",
+      }}
+      validationSchema={AuthSchema}
+      onSubmit={onSubmit}
     >
-      {({ isSubmitting, values }) => (
-        <Form>
+      {({ values, handleChange, handleBlur, isSubmitting }) => (
+        <Form className="column">
           <Field
             component={CustomTextInput}
+            id="email"
             name="email"
-            label="Email"
-            value={values.email}
-            placeholder="Email"
-            autoCapitalize="none"
             type="email"
-            autoCorrect="false"
-            autoCompleteType="email"
+            value={values.email}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="Email Address"
+            placeholder="Enter EMail"
           />
           <Field
             component={CustomTextInput}
+            id="firstName"
             name="firstName"
-            label="First Name"
+            type="text"
             value={values.firstName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="First Name"
             placeholder="First Name"
-            autoCapitalize="true"
-            type="text"
-            autoCorrect="false"
-            autoCompleteType="text"
           />
           <Field
             component={CustomTextInput}
+            id="lastName"
             name="lastName"
-            label="Last Name"
-            value={values.lastName}
-            placeholder="Last Name"
-            autoCapitalize="true"
             type="text"
-            autoCorrect="false"
-            autoCompleteType="text"
+            value={values.lastName}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="Last Name"
+            placeholder="Last Name"
           />
           <Field
             component={CustomTextInput}
-            label="Password"
+            id="password"
             name="password"
-            placeholder="Password"
-            secureTextEntry
+            type="password"
+            value={values.password}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="Password"
+            placeholder="Enter Password"
           />
           <Field
             component={CustomTextInput}
-            label="Confirm Password"
+            id="confirmPassword"
             name="confirmPassword"
+            type="password"
+            value={values.confirmPassword}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="Confirm Password"
             placeholder="Confirm Password"
-            secureTextEntry
           />
-          {error?.message && <p>{error.message}</p>}
-
+          <Field
+            type="checkbox"
+            name="checkbox"
+            id="checkbox"
+            component={CustomCheckbox}
+            value={values.checkbox}
+            onChange={handleChange}
+            onBlur={handleBlur}
+            label="I have read and I accept the terms and conditions"
+          />
+          <br />
           <button
             disabled={isSubmitting}
-            // onClick={handleSubmit}
+            className={
+              isSubmitting
+                ? "border-2 bg-gray-300 text-white"
+                : "border-2 bg-gray-500 text-white"
+            }
+            type="submit"
           >
-            {/* Relace submit with a condition, if email exist, show LOGIN, else NEXT */}
             Submit
           </button>
         </Form>
       )}
     </Formik>
+
+    <NewSignup />
+    </div>
   );
 }
