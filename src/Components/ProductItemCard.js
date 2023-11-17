@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
-import { getArrivalProductService } from "../Services/HomeService/HomeService";
+import { getArrivalProductService, getPopularProductService, getProductService } from "../Services/HomeService/HomeService";
 import { Link } from "react-router-dom";
 
 export default function ({ productData }) {
@@ -9,9 +9,7 @@ export default function ({ productData }) {
 
   const { name, image, price, id } = productData || [];
 
-  function handleShowModalButton() {
-    setShowModalButton(!showModalButton);
-  }
+  
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
   }
@@ -22,32 +20,23 @@ export default function ({ productData }) {
     }
     return name;
   };
-  const handleViewProduct = async () => {
+  const handleViewProduct = async (productId, productName) => {
     try {
-      const loadedItems = await getArrivalProductService();
-      const product = loadedItems.find((item) => item.name === name);
-      if (product) {
-        console.log(
-          "Product name:",
-          product.name,
-          "Product Price",
-          product.price
-        );
-        window.location.href = `product-details/${product.id}/${product.name}`;
-      } else {
-        console.log("Product not found");
-      }
+      const product = await getArrivalProductService(productId, productName);
+      console.log("Product name:", productName, "Product Price", product.price);
+      window.location.href = `product-details/${productId}/${productName}`;
     } catch (err) {
-      console.log("Failed to view product:", err);
+      console.log("Failed to view product:", err.message);
     }
   };
+
 
   return (
     <div
       onMouseEnter={() => setShowModalButton(true)}
       onMouseLeave={() => setShowModalButton(false)}
     >
-      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+      <div id={id} className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
         <img
           src={image}
           //   alt={product.imageAlt}
