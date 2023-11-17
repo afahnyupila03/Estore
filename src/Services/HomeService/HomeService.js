@@ -19,6 +19,29 @@ export const getArrivalProductsService = async () => {
   }
 };
 
+export const getArrivalProductService = async (productName) => {
+  try {
+    const response = await fetch(
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals/${productName}.json`
+    );
+    
+    const data = await response.json();
+    if (!data) {
+      throw new Error("Error loading product");
+    }
+    const product = {
+      id: data.id,
+      image: data.image,
+      name: productName,
+      price: data.price,
+    };
+
+    return product;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+}
+
 export const getPopularProductsService = async () => {
   try {
     const response = await fetch(
@@ -35,6 +58,28 @@ export const getPopularProductsService = async () => {
       });
     }
     return loadedItems;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const getPopularProductService = async (productName) => {
+  try {
+    const response = await fetch(
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular/${productName}.json`
+    );
+    const data = await response.json();
+    if (!data) {
+      throw new Error("Error loading product");
+    }
+    const product = {
+      id: data.id,
+      image: data.image,
+      name: productName,
+      price: data.price,
+    };
+
+    return product;
   } catch (err) {
     return Promise.reject(err);
   }

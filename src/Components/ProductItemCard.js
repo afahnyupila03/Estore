@@ -1,19 +1,40 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
+import { getArrivalProductService } from "../Services/HomeService/HomeService";
+import { Link } from "react-router-dom";
 
 export default function ({ productData }) {
   const [openProductModal, setOpenProductModal] = useState(false);
 
   const { name, image, price } = productData || [];
 
-  function handleShowProductModal () {
-    setOpenProductModal(
-      (prevState) => !prevState
-    )
+  function handleShowProductModal() {
+    setOpenProductModal(!openProductModal);
   }
+  const getName = (name) => {
+    const MAX_NAME_CHARS = 20;
+    if (name.length > MAX_NAME_CHARS) {
+      return `${name.slice(0, MAX_NAME_CHARS)}...`;
+    }
+    return name;
+  };
+  const handleViewProduct = async () => {
+    try {
+      const loadedItems = await getArrivalProductService();
+      const product = loadedItems.find(item => item.name === name);
+      if (product) {
+        console.log("Product name:", product.name, "Product Price", product.price);
+        window.location.href = `/product-details/${product.name}`;
+      } else {
+        console.log("Product not found");
+      }
+    } catch (err) {
+      console.log("Failed to view product:", err);
+    }
+  };
 
   return (
-    <div className="group relative">
+    <div>
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
         <img
           src={image}
@@ -26,7 +47,7 @@ export default function ({ productData }) {
           <h3 className="text-sm text-gray-700">
             <a>
               <span aria-hidden="true" className="absolute inset-0" />
-              {name}
+              {getName(name)}
             </a>
           </h3>
           {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
@@ -34,16 +55,22 @@ export default function ({ productData }) {
         <p className="text-sm font-medium text-gray-900">{price}</p>
       </div>
 
-      <button className="mt-2 text-red-500" onClick={handleShowProductModal}>Quick View</button>
-      {
-        openProductModal && <ProductModal 
-        image={image}
+      <Link className="mt-10 mr-10" onClick={handleViewProduct}>
+        View Product
+      </Link>
+
+      <button className="mt-10 text-red-500" onClick={handleShowProductModal}>
+        Quick View
+      </button>
+      {openProductModal && (
+        <ProductModal
+          image={image}
           name={name}
           price={price}
-          actionButton='Close Modal'
+          actionButton="Close Modal"
           onCloseModal={handleShowProductModal}
         />
-      }
+      )}
     </div>
   );
 }
