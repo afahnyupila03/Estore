@@ -19,18 +19,18 @@ export const getArrivalProductsService = async () => {
   }
 };
 
-export const getArrivalProductService = async (productName) => {
+export const getArrivalProductService = async (productId, productName) => {
   try {
     const response = await fetch(
-      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals/${productName}.json`
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/arrivals/${productId}/${productName}.json`
     );
-    
+
     const data = await response.json();
     if (!data) {
       throw new Error("Error loading product");
     }
     const product = {
-      id: data.id,
+      id: productId,
       image: data.image,
       name: productName,
       price: data.price,
@@ -40,7 +40,7 @@ export const getArrivalProductService = async (productName) => {
   } catch (err) {
     return Promise.reject(err);
   }
-}
+};
 
 export const getPopularProductsService = async () => {
   try {
@@ -63,17 +63,17 @@ export const getPopularProductsService = async () => {
   }
 };
 
-export const getPopularProductService = async (productName) => {
+export const getPopularProductService = async (productId, productName) => {
   try {
     const response = await fetch(
-      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular/${productName}.json`
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/popular/${productId}/${productName}.json`
     );
     const data = await response.json();
     if (!data) {
       throw new Error("Error loading product");
     }
     const product = {
-      id: data.id,
+      id: productId,
       image: data.image,
       name: productName,
       price: data.price,

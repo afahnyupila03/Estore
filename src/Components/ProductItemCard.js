@@ -5,9 +5,13 @@ import { Link } from "react-router-dom";
 
 export default function ({ productData }) {
   const [openProductModal, setOpenProductModal] = useState(false);
+  const [showModalButton, setShowModalButton] = useState(false);
 
-  const { name, image, price } = productData || [];
+  const { name, image, price, id } = productData || [];
 
+  function handleShowModalButton() {
+    setShowModalButton(!showModalButton);
+  }
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
   }
@@ -21,10 +25,15 @@ export default function ({ productData }) {
   const handleViewProduct = async () => {
     try {
       const loadedItems = await getArrivalProductService();
-      const product = loadedItems.find(item => item.name === name);
+      const product = loadedItems.find((item) => item.name === name);
       if (product) {
-        console.log("Product name:", product.name, "Product Price", product.price);
-        window.location.href = `/product-details/${product.name}`;
+        console.log(
+          "Product name:",
+          product.name,
+          "Product Price",
+          product.price
+        );
+        window.location.href = `product-details/${product.id}/${product.name}`;
       } else {
         console.log("Product not found");
       }
@@ -34,7 +43,10 @@ export default function ({ productData }) {
   };
 
   return (
-    <div>
+    <div
+      onMouseEnter={() => setShowModalButton(true)}
+      onMouseLeave={() => setShowModalButton(false)}
+    >
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
         <img
           src={image}
@@ -55,13 +67,11 @@ export default function ({ productData }) {
         <p className="text-sm font-medium text-gray-900">{price}</p>
       </div>
 
-      <Link className="mt-10 mr-10" onClick={handleViewProduct}>
-        View Product
-      </Link>
-
-      <button className="mt-10 text-red-500" onClick={handleShowProductModal}>
-        Quick View
-      </button>
+      {showModalButton && (
+        <button className="mt-10 text-red-500" onClick={handleShowProductModal}>
+          Quick View
+        </button>
+      )}
       {openProductModal && (
         <ProductModal
           image={image}
@@ -69,6 +79,7 @@ export default function ({ productData }) {
           price={price}
           actionButton="Close Modal"
           onCloseModal={handleShowProductModal}
+          viewAction={handleViewProduct}
         />
       )}
     </div>

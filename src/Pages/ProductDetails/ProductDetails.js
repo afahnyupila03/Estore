@@ -4,9 +4,9 @@ import React from "react";
 import { getArrivalProductService } from "../../Services/HomeService/HomeService";
 
 export default function ProductDetails({ prodId }) {
-  const { productName } = useParams();
+  const { productId, productName } = useParams();
   const { data, isLoading, error } = useQuery("product", () =>
-    getArrivalProductService(productName)
+    getArrivalProductService(productId, productName)
   );
 
   if (isLoading) {

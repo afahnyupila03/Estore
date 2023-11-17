@@ -25,9 +25,11 @@ const portalElement = document.getElementById("productModal");
 export default function ({
   name,
   price,
+  image,
   location,
   actionButton,
   onCloseModal,
+  viewAction
 }) {
   //   const { name, price, image } = productData || [];
 
@@ -37,10 +39,10 @@ export default function ({
       {ReactDOM.createPortal(
         <ModalOverlay>
           <div className="flex justify-around">
-            {/* Product Image */}
+            <img src={image} alt='product-image' />
             <div>
               <p className="mb-8">{name}</p>
-              <Link to="#" className="b-2 bg-red-500 p-2 rounded text-white">
+              <Link onClick={viewAction} className="b-2 bg-red-500 p-2 rounded text-white">
                 <IonIcon icon={eyeOutline} className="mr-2" />
                 View
               </Link>
