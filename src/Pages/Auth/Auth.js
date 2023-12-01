@@ -105,7 +105,11 @@ export default function () {
             <div className="my-4 flex justify-center text-white">
               <button
                 disabled={isSubmitting}
-                className={isSubmitting ? "bg-gray-300 p-2 rounded-lg text-sm" : "bg-gray-500 p-2 rounded-lg text-sm"}
+                className={
+                  isSubmitting
+                    ? "bg-gray-300 p-2 rounded-lg text-sm"
+                    : "bg-gray-500 p-2 rounded-lg text-sm"
+                }
                 type="submit"
               >
                 Submit

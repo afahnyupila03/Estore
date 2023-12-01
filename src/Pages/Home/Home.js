@@ -8,6 +8,8 @@ import {
   getPopularProductsService,
 } from "../../Services/HomeService/HomeService";
 import ProductItemCard from "../../Components/ProductItemCard";
+import UseAnimations from "react-useanimations";
+import loading from "react-useanimations/lib/loading"
 
 const classNames = (...classes) => classes.filter(Boolean).join("");
 
@@ -31,7 +33,11 @@ const Home = () => {
 
   let productItems;
   if (isLoading) {
-    productItems = <p>Loading items</p>;
+    productItems = (
+      <React.Fragment>
+        <UseAnimations animation={loading }size={60} />
+      </React.Fragment>
+      )
   } else if (isError) {
     productItems = (
       <div>

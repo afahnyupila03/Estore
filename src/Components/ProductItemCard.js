@@ -1,7 +1,6 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
-import { getArrivalProductService, getPopularProductService, getProductService } from "../Services/HomeService/HomeService";
-import { Link } from "react-router-dom";
+import { getArrivalProductService } from "../Services/HomeService/HomeService";
 
 export default function ({ productData }) {
   const [openProductModal, setOpenProductModal] = useState(false);
@@ -9,7 +8,6 @@ export default function ({ productData }) {
 
   const { name, image, price, id } = productData || [];
 
-  
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
   }
@@ -30,13 +28,15 @@ export default function ({ productData }) {
     }
   };
 
-
   return (
     <div
       onMouseEnter={() => setShowModalButton(true)}
       onMouseLeave={() => setShowModalButton(false)}
     >
-      <div id={id} className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80">
+      <div
+        id={id}
+        className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
+      >
         <img
           src={image}
           //   alt={product.imageAlt}
