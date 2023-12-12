@@ -2,7 +2,7 @@ import React from "react";
 import aboutData from "../../Components/About/about-data";
 import AboutItems from "../../Components/About/AboutItems";
 
-const About = (props) => {
+export default function About() {
   const aboutCard = aboutData.map((about) => (
     <AboutItems key={about.id} about={about} />
   ));
@@ -29,6 +29,4 @@ const About = (props) => {
       </div>
     </React.Fragment>
   );
-};
-
-export default About;
+}

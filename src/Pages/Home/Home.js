@@ -13,7 +13,7 @@ import loading from "react-useanimations/lib/loading"
 
 const classNames = (...classes) => classes.filter(Boolean).join("");
 
-const Home = () => {
+export default function Home  () {
   const {
     data = [],
     isError,
@@ -21,11 +21,7 @@ const Home = () => {
     error,
     refetch,
   } = useQuery(
-    "products",
-    () => getArrivalProductsService()
-    // const arrivalProducts = getArrivalProductsService();
-    // const popularProducts = getPopularProductsService();
-    // return {arrivalProducts, popularProducts};
+    "products", () => getArrivalProductsService()
   );
 
   // Product Filtering Conditions.
@@ -55,11 +51,6 @@ const Home = () => {
     );
   }
 
-  const handleShowAllProducts = () => {};
-
-  const handleShowArrivalProducts = (id) => {};
-
-  const handleShowPopularProducts = (id) => {};
 
   return (
     <React.Fragment>
@@ -70,30 +61,6 @@ const Home = () => {
             Featured Products
           </h2>
 
-          <div>
-            <div className="flex px-4 py-4">
-              {({ active }) => (
-                <Link
-                  onClick={handleShowAllProducts}
-                  className={classNames(
-                    active
-                      ? "mr-4 border-b-black b-2 text-red-500"
-                      : "mr-4 text-indigo-500-700"
-                  )}
-                >
-                  All
-                </Link>
-              )}
-
-              <Link onClick={handleShowArrivalProducts} className="mr-4">
-                Arrival Products
-              </Link>
-              <Link onClick={handleShowPopularProducts} className="mr-4">
-                Popular Products
-              </Link>
-            </div>
-          </div>
-
           {productItems}
         </div>
       </div>
@@ -101,5 +68,3 @@ const Home = () => {
     </React.Fragment>
   );
 };
-
-export default Home;

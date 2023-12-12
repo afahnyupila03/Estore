@@ -8,7 +8,7 @@ export const defaultAuthState = {
   password: null,
 };
 
-const cartReducer = (state, action) => {
+export default function cartReducer (state, action) {
   if (action.type === "ADD") {
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
@@ -64,7 +64,7 @@ const cartReducer = (state, action) => {
   }
 
   return state;
-};
+}
 
 export const AuthReducer = (state, action) => {
   if (action.type === "SIGNUP") {
@@ -94,5 +94,3 @@ export const AuthReducer = (state, action) => {
 
   return state;
 };
-
-export default cartReducer;
