@@ -1,39 +1,28 @@
-import React, { useState } from "react";
+import React from "react";
 import Banner from "../../Components/Banner/Banner";
-import { Link } from "react-router-dom";
 import FinePens from "../../Components/fine-pens/FinePens";
 import { useQuery } from "react-query";
 import {
   getArrivalProductsService,
-  getPopularProductsService,
+  // getPopularProductsService,
 } from "../../Services/HomeService/HomeService";
 import ProductItemCard from "../../Components/ProductItemCard";
 import UseAnimations from "react-useanimations";
-import loading from "react-useanimations/lib/loading"
+import loading from "react-useanimations/lib/loading";
 
-const classNames = (...classes) => classes.filter(Boolean).join("");
 
-export default function Home  () {
+export default function Home() {
   const {
     data = [],
     isError,
     isLoading,
     error,
     refetch,
-  } = useQuery(
-    "products", () => getArrivalProductsService()
-  );
-
-  // Product Filtering Conditions.
-  const [featuredProductItems, setFeaturedProductsItem] = useState(data);
+  } = useQuery("products", () => getArrivalProductsService());
 
   let productItems;
   if (isLoading) {
-    productItems = (
-      <React.Fragment>
-        <UseAnimations animation={loading }size={60} />
-      </React.Fragment>
-      )
+    productItems = <UseAnimations animation={loading} size={60} />;
   } else if (isError) {
     productItems = (
       <div>
@@ -51,7 +40,6 @@ export default function Home  () {
     );
   }
 
-
   return (
     <React.Fragment>
       <Banner />
@@ -67,4 +55,4 @@ export default function Home  () {
       <FinePens />
     </React.Fragment>
   );
-};
+}
