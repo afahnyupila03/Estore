@@ -2,21 +2,21 @@ import { useState } from "react";
 import ProductModal from "./ProductModal";
 import { getArrivalProductService } from "../Services/HomeService/HomeService";
 
-export default function ({ productData }) {
+export default function (props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [showModalButton, setShowModalButton] = useState(false);
 
-  const { name, image, price, id } = productData || [];
+  const { title, image, price, id, category } = props.productData || [];
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
   }
-  const getName = (name) => {
+  const getName = (title) => {
     const MAX_NAME_CHARS = 20;
-    if (name.length > MAX_NAME_CHARS) {
-      return `${name.slice(0, MAX_NAME_CHARS)}...`;
+    if (title.length > MAX_NAME_CHARS) {
+      return `${title.slice(0, MAX_NAME_CHARS)}...`;
     }
-    return name;
+    return title;
   };
   const handleViewProduct = async (productId, productName) => {
     try {
@@ -47,11 +47,12 @@ export default function ({ productData }) {
         <div>
           <h3 className="text-sm text-gray-700">
             <a>
-              <span aria-hidden="true" className="absolute inset-0" />
-              {getName(name)}
+              <span aria-hidden="true">
+                {getName(title)}
+              </span>
             </a>
           </h3>
-          {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
+          <p className="mt-1 text-sm text-gray-500">{category}</p>
         </div>
         <p className="text-sm font-medium text-gray-900">{price}</p>
       </div>
@@ -64,7 +65,7 @@ export default function ({ productData }) {
       {openProductModal && (
         <ProductModal
           image={image}
-          name={name}
+          name={title}
           price={price}
           actionButton="Close Modal"
           onCloseModal={handleShowProductModal}

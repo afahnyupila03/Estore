@@ -22,36 +22,16 @@ export const NavbarRoutes = [
   {
     path: "/home",
     element: <Home />,
+    children: [
+      {
+        path: "/home/shop",
+        element: <Shop />
+      }
+    ]
   },
   {
     path: "/shop",
     element: <Shop />,
-    children: [
-      {
-        path: "/shop",
-        element: <ShopHome />,
-      },
-      {
-        path: "/shop/watches",
-        element: <Watches />,
-      },
-      {
-        path: "/shop/woman-cloth",
-        element: <WomanCloth />,
-      },
-      {
-        path: "/shop/man-accessories",
-        element: <ManAccessories />,
-      },
-      {
-        path: "/shop/fashion-accessories",
-        element: <FashionAccessories />,
-      },
-      {
-        path: "/shop/rubber-toys",
-        element: <RubberToys />,
-      },
-    ],
   },
   {
     path: "/about",
