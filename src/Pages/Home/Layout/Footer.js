@@ -16,8 +16,8 @@ export default function(){
             <div>
                 <h3 className='py-4'>Customer Service</h3>
                 <ul>
-                {customerNavigation.map((customerRoutes) => (
-                    <li key={customerRoutes.navLink} className='py-1'>
+                {customerNavigation.map((customerRoutes, customerIndex) => (
+                    <li key={customerIndex} className='py-1'>
                         <Link to={customerRoutes.navRoute}>{customerRoutes.navLink}</Link>
                     </li>
                 ))}
@@ -31,8 +31,8 @@ export default function(){
             <div>
                 <h3 className='py-4'>About Us</h3>
                 <ul>
-                {aboutNavigation.map((aboutRoutes) => (
-                    <li key={aboutNavigation.navLink} className='py-1'>
+                {aboutNavigation.map((aboutRoutes, aboutIndex) => (
+                    <li key={aboutIndex} className='py-1'>
                         <Link to={aboutRoutes.navRoute}>{aboutRoutes.navLink}</Link>
                     </li>
                 ))}

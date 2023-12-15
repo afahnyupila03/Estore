@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import {
   AccountRoutes,
   AccountSettingsRoutes,
+  AuthRoute,
 } from "../components/LayoutNavigation";
 import { IonIcon } from "@ionic/react";
 import {
@@ -17,7 +18,6 @@ import {
   chevronDownOutline,
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
-
 
 export default function () {
   const { t } = useTranslation();
@@ -34,16 +34,17 @@ export default function () {
     mailOutline,
     lockClosedOutline
   );
+  const authRoutes = AuthRoute(t)
 
   return (
     <Popover as="div" className="relative mt-2 text-center">
       <Popover.Button
         onMouseEnter={() => setMenuOpen(true)}
         onMouseLeave={() => setMenuOpen(false)}
-        className="inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
+        className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
       >
         Sign In
-        <IonIcon icon={chevronDownOutline} className="ml-2 mt-2" />
+        <IonIcon icon={chevronDownOutline} className="ml-2" />
       </Popover.Button>
 
       <Transition
@@ -59,10 +60,20 @@ export default function () {
         <Popover.Panel
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
-          className="absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4"
+          className="absolute left-1/2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 px-4"
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
+
+              {authRoutes.map((authKey) => (
+                <MenuItemsCard 
+                  key={authKey.navLink}
+                  navigationLink={authKey.navLink}
+                  navigationRoute={authKey.navRoute}
+                  style={{fontWeight: 'bold'}}
+                />
+              ))}
+
               {/* Your Account Routes */}
               <h4 className="text-left px-4 font-semibold mt-2 mb-2">
                 Your Account

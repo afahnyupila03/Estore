@@ -1,4 +1,9 @@
+import { NavbarRoutes } from "./NavbarRoutes/NavbarRoutes"
+import { FooterRoutes } from "./FooterRoutes/FooterRoutes"
+import { ProductDetailsRoute } from "./ProductDetails/productsDetailsRoute";
 
 export const routes = [
-    'Pila', 1, 2, 3
-]
+  ...NavbarRoutes,
+  ...ProductDetailsRoute,
+  ...FooterRoutes
+];

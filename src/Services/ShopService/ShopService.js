@@ -1,5 +1,3 @@
-// TODO: IMPLEMENT LOGIC TO NAVIGATE TO A SINGLE PRODUCT
-
 export const getFashionProductsService = async () => {
   try {
     const response = await fetch(

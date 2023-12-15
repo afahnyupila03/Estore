@@ -1,28 +1,28 @@
 import React from "react";
 import Banner from "../../Components/Banner/Banner";
-import { Link } from "react-router-dom";
 import FinePens from "../../Components/fine-pens/FinePens";
 import { useQuery } from "react-query";
 import {
   getArrivalProductsService,
-  getPopularProductsService,
+  // getPopularProductsService,
 } from "../../Services/HomeService/HomeService";
 import ProductItemCard from "../../Components/ProductItemCard";
+import UseAnimations from "react-useanimations";
+import loading from "react-useanimations/lib/loading";
 
-const classNames = (...classes) => classes.filter(Boolean).join("");
 
-const Home = () => {
-  const { data = [], isError, isLoading, error, refetch } = useQuery(
-    "products",
-    () => getArrivalProductsService()
-    // const arrivalProducts = getArrivalProductsService();
-    // const popularProducts = getPopularProductsService();
-    // return {arrivalProducts, popularProducts};
-  );
+export default function Home() {
+  const {
+    data = [],
+    isError,
+    isLoading,
+    error,
+    refetch,
+  } = useQuery("products", () => getArrivalProductsService());
 
   let productItems;
   if (isLoading) {
-    productItems = <p>Loading items</p>;
+    productItems = <UseAnimations animation={loading} size={60} />;
   } else if (isError) {
     productItems = (
       <div>
@@ -40,12 +40,6 @@ const Home = () => {
     );
   }
 
-  const handleShowAllProducts = () => {};
-
-  const handleShowArrivalProducts = (id) => {};
-
-  const handleShowPopularProducts = (id) => {};
-
   return (
     <React.Fragment>
       <Banner />
@@ -55,36 +49,10 @@ const Home = () => {
             Featured Products
           </h2>
 
-          <div>
-            <div className="flex px-4 py-4">
-              {({ active }) => (
-                <Link
-                  onClick={handleShowAllProducts}
-                  className={classNames(
-                    active
-                      ? "mr-4 border-b-black b-2 text-red-500"
-                      : "mr-4 text-indigo-500-700"
-                  )}
-                >
-                  All
-                </Link>
-              )}
-
-              <Link onClick={handleShowArrivalProducts} className="mr-4">
-                Arrival Products
-              </Link>
-              <Link onClick={handleShowPopularProducts} className="mr-4">
-                Popular Products
-              </Link>
-            </div>
-          </div>
-
           {productItems}
         </div>
       </div>
       <FinePens />
     </React.Fragment>
   );
-};
-
-export default Home;
+}
