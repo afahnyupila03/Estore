@@ -1,7 +1,7 @@
 export const NavbarRoutes = (t) => [
   {
     navLink: "Home",
-    navRoute: "home",
+    navRoute: "/home",
   },
   {
     navLink: "Shop",
