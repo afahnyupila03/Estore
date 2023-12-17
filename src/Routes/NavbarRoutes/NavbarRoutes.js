@@ -6,6 +6,7 @@ import Home from "../../Pages/Home/Home";
 import About from "../../Pages/About/About";
 import CartPage from "../../Pages/CartPage/cart-page";
 import Login from "../../Pages/Auth/Auth";
+import ProductDetails from "../../Pages/ProductDetails/ProductDetails";
 
 export const NavbarRoutes = [
   {
@@ -18,13 +19,18 @@ export const NavbarRoutes = [
     element: <Home />,
   },
   {
+    path: "/home/product-details/:id/:title",
+    element: <ProductDetails />,
+  },
+  {
     path: "/home/shop",
-    element: <Shop />
+    element: <Shop />,
   },
   {
     path: "/shop",
     element: <Shop />,
   },
+
   {
     path: "/about",
     element: <About />,
@@ -46,7 +52,7 @@ export const NavbarRoutes = [
     element: <CartPage />,
   },
   {
-    path: '/sign-in-&-create-account',
-    element: <Login />
-  }
+    path: "/sign-in-&-create-account",
+    element: <Login />,
+  },
 ];

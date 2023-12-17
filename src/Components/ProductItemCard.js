@@ -1,12 +1,13 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
-import { getArrivalProductService } from "../Services/HomeService/HomeService";
+import { getFeaturedProductService } from "../Services/HomeService/HomeService";
+import { Link } from "react-router-dom";
 
 export default function (props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [showModalButton, setShowModalButton] = useState(false);
 
-  const { title, image, price, id, category } = props.productData || [];
+  const { title, image, price, id, category, ratings} = props.productData || [];
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
@@ -18,11 +19,11 @@ export default function (props) {
     }
     return title;
   };
-  const handleViewProduct = async (productId, productName) => {
+  const handleViewProduct = async (id, title) => {
     try {
-      const product = await getArrivalProductService(productId, productName);
-      console.log("Product name:", productName, "Product Price", product.price);
-      window.location.href = `product-details/${productId}/${productName}`;
+      const product = await getFeaturedProductService(id, title);
+      console.log("Product name:", title, "Product Price", product.price);
+      window.location.href = `product-details/${id}/${title}`;
     } catch (err) {
       console.log("Failed to view product:", err.message);
     }
@@ -54,7 +55,13 @@ export default function (props) {
           </h3>
           <p className="mt-1 text-sm text-gray-500">{category}</p>
         </div>
+        <div>
         <p className="text-sm font-medium text-gray-900">{price}</p>
+        <br />
+        {/* <p>Ratings: {rate}</p> */}
+        {/* <p>Count: {count}</p> */}
+        </div>
+        <Link to={`/product-details/${id}/${title}`}>View</Link>
       </div>
 
       {showModalButton && (

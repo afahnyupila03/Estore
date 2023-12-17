@@ -52,7 +52,7 @@ export default function Home() {
     error,
     refetch,
   } = useQuery("products", () => getFeaturedProducts());
-
+console.log(data)
   let productItems;
   if (isLoading) {
     productItems = <UseAnimations animation={loading} size={60} />;

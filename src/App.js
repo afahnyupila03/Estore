@@ -28,14 +28,14 @@ function App() {
   const route = useRoutes(routes);
 
   return (
-    <React.StrictMode>
-      <Navbar onHideAuthModal={handleShowAuthModal} />
+      <React.Fragment>
+        <Navbar onHideAuthModal={handleShowAuthModal} />
       {/* <Cart /> */}
 
       {route}
 
       <Footer />
-    </React.StrictMode>
+      </React.Fragment>
   );
 }
 
