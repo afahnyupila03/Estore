@@ -52,14 +52,14 @@ export default function Home() {
     error,
     refetch,
   } = useQuery("products", () => getFeaturedProducts());
-console.log(data)
+  console.log(data);
   let productItems;
   if (isLoading) {
-    productItems = <UseAnimation animation={loading} size={60} />
+    productItems = <UseAnimation animation={loading} size={60} />;
   } else if (isError) {
     productItems = (
       <div>
-        <p>{error.message}</p>
+        <p>{error}</p>
 
         <button onClick={() => refetch()}>Try again</button>
       </div>
