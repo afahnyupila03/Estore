@@ -3,7 +3,7 @@ import FinePens from "../../Components/fine-pens/FinePens";
 import { useQuery } from "react-query";
 import { getFeaturedProducts } from "../../Services/HomeService/HomeService";
 import ProductItemCard from "../../Components/ProductItemCard";
-import UseAnimations from "react-useanimations";
+import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import ProductCategoryCardItem from "../../Components/ProductCategoryCardItem";
 
@@ -55,11 +55,12 @@ export default function Home() {
 console.log(data)
   let productItems;
   if (isLoading) {
-    productItems = <UseAnimations animation={loading} size={60} />;
+    productItems = <UseAnimation animation={loading} size={60} />
   } else if (isError) {
     productItems = (
       <div>
         <p>{error.message}</p>
+
         <button onClick={() => refetch()}>Try again</button>
       </div>
     );
@@ -77,6 +78,7 @@ console.log(data)
     <React.Fragment>
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
+          {/* Category Card */}
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
             {CATEGORY_FEATURES.map((catFeat, catIndexes) => (
               <ProductCategoryCardItem
