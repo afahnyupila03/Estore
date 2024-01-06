@@ -1,3 +1,5 @@
+import { useId } from "react";
+
 export default function ({ field, form, ...props }) {
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
@@ -11,6 +13,8 @@ export default function ({ field, form, ...props }) {
     formError,
     style,
   } = props;
+
+  const id = useId();
 
   const trimmedValue = value ? value.trim() : "";
 
@@ -37,9 +41,11 @@ export default function ({ field, form, ...props }) {
 
   return (
     <div className="grid justify-center">
-      <label className="font-semibold">{label}</label>
+      <label htmlFor={id} className="font-semibold">
+        {label}
+      </label>
       <input
-        id={name}
+        id={id + name}
         name={name}
         type={type}
         value={value}
@@ -52,7 +58,7 @@ export default function ({ field, form, ...props }) {
       />
       {/* style error message */}
       {errors[name] && touched[name] && (
-        <p style={{color: "red"}}>{errors[name]}</p>
+        <p style={{ color: "red" }}>{errors[name]}</p>
       )}
     </div>
   );
@@ -63,11 +69,13 @@ export function CustomCheckbox({ field, form, ...props }) {
   const { errors, touched } = form;
   const { label, formError, type } = props;
 
+  const id = useId();
+
   return (
     <div>
       <div className="flex justify-center">
-      <input
-          id={name}
+        <input
+          id={id + name}
           name={name}
           type={type}
           onChange={onChange}
@@ -77,11 +85,11 @@ export function CustomCheckbox({ field, form, ...props }) {
         />
         <span className="mx-4">{label}</span>
       </div>
-        <div className="flex justify-center">
+      <div className="flex justify-center">
         {errors[name] && touched[name] && (
-          <p style={{color: "red"}}>{errors[name]}</p>
+          <p style={{ color: "red" }}>{errors[name]}</p>
         )}
-        </div>
+      </div>
     </div>
   );
 }

@@ -1,28 +1,29 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
-import { getArrivalProductService } from "../Services/HomeService/HomeService";
+import { getFeaturedProductService } from "../Services/HomeService";
+import { Link } from "react-router-dom";
 
-export default function ({ productData }) {
+export default function (props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [showModalButton, setShowModalButton] = useState(false);
 
-  const { name, image, price, id } = productData || [];
+  const { title, image, price, id, category, ratings} = props.productData || [];
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
   }
-  const getName = (name) => {
+  const getName = (title) => {
     const MAX_NAME_CHARS = 20;
-    if (name.length > MAX_NAME_CHARS) {
-      return `${name.slice(0, MAX_NAME_CHARS)}...`;
+    if (title.length > MAX_NAME_CHARS) {
+      return `${title.slice(0, MAX_NAME_CHARS)}...`;
     }
-    return name;
+    return title;
   };
-  const handleViewProduct = async (productId, productName) => {
+  const handleViewProduct = async (id, title) => {
     try {
-      const product = await getArrivalProductService(productId, productName);
-      console.log("Product name:", productName, "Product Price", product.price);
-      window.location.href = `product-details/${productId}/${productName}`;
+      const product = await getFeaturedProductService(id, title);
+      console.log("Product name:", title, "Product Price", product.price);
+      window.location.href = `product-details/${id}/${title}`;
     } catch (err) {
       console.log("Failed to view product:", err.message);
     }
@@ -47,13 +48,17 @@ export default function ({ productData }) {
         <div>
           <h3 className="text-sm text-gray-700">
             <a>
-              <span aria-hidden="true" className="absolute inset-0" />
-              {getName(name)}
+              <span aria-hidden="true">
+                {getName(title)}
+              </span>
             </a>
           </h3>
-          {/* <p className="mt-1 text-sm text-gray-500">{product.color}</p> */}
+          <p className="mt-1 text-sm text-gray-500">{category}</p>
         </div>
+        <div>
         <p className="text-sm font-medium text-gray-900">{price}</p>
+        </div>
+        <Link to={`/product-details/${id}/${title}`}>View</Link>
       </div>
 
       {showModalButton && (
@@ -64,7 +69,7 @@ export default function ({ productData }) {
       {openProductModal && (
         <ProductModal
           image={image}
-          name={name}
+          name={title}
           price={price}
           actionButton="Close Modal"
           onCloseModal={handleShowProductModal}

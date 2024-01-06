@@ -9,7 +9,7 @@ const FinePens = () => {
                 <img src={finePens} alt='fine_pens' />
             </div>
             <div className="flex justify-center">
-                <Link to="/time-zone/shop"
+                <Link to="/shop"
                     className="
                     rounded-full cursor-pointer 
                     text-red-500 border-red-500 
