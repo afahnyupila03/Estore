@@ -1,8 +1,8 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import React from "react";
-import { getFeaturedProductService} from "../../Services/HomeService/HomeService";
-import { shopProductService } from "../../Services/ShopService/ShopService";
+import { getFeaturedProductService} from "../../Services/HomeService";
+import { shopProductService } from "../../Services/ShopService";
 
 export default function ProductDetails() {
   const { id, title } = useParams();

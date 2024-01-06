@@ -1,13 +1,13 @@
 import React from "react";
 import FinePens from "../../Components/fine-pens/FinePens";
 import { useQuery } from "react-query";
-import { getFeaturedProducts } from "../../Services/HomeService/HomeService";
+import { getFeaturedProducts } from "../../Services/HomeService";
 import ProductItemCard from "../../Components/ProductItemCard";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import ProductCategoryCardItem from "../../Components/ProductCategoryCardItem";
 
-import Jewelery from "../../Assets/jewelery.jpg";
+import Jewelry from "../../Assets/jewelry.jpg";
 import MenCloths from "../../Assets/men_clothing.jpg";
 import WomenCloths from "../../Assets/women_clothing.jpg";
 import Electronics from "../../Assets/electronics.jpg";
@@ -15,33 +15,29 @@ import { Link } from "react-router-dom";
 
 const CATEGORY_FEATURES = [
   {
-    categoryImage: Jewelery,
-    categoryImageText: "jewelery",
-    categoryText: "Jewelery",
-    categoryRoute: "jewelery",
-    categoryLink: "Jewelery",
+    categoryImage: Jewelry,
+    categoryImageText: "jewelry",
+    categoryRoute: "jewelry",
+    categoryLink: "Jewelry",
   },
   {
     categoryImage: MenCloths,
     categoryImageText: "men_cloths",
-    categoryText: "Men's Clothings",
     categoryRoute: "men-clothing",
     categoryLink: "Men Clothings",
   },
   {
     categoryImage: Electronics,
-    categoryImageText: "electronics",
-    categoryText: "Electronics",
+    categoryImageText: "electronic",
     categoryRoute: "electronics",
     categoryLink: "Electronics",
   },
   {
     categoryImage: WomenCloths,
     categoryImageText: "women_cloths",
-    categoryText: "Women's Clothings",
     categoryRoute: "women-clothings",
     categoryLink: "Women Clothings",
-  },
+  }
 ];
 
 export default function Home() {
@@ -55,12 +51,15 @@ export default function Home() {
   console.log(data);
   let productItems;
   if (isLoading) {
-    productItems = <UseAnimation animation={loading} size={60} />;
+    productItems = (
+      <div className="flex justify-center">
+        <UseAnimation animation={loading} size={60} />
+      </div>
+    );
   } else if (isError) {
     productItems = (
-      <div>
+      <div className="flex justify-center">
         <p>{error}</p>
-
         <button onClick={() => refetch()}>Try again</button>
       </div>
     );
@@ -80,9 +79,9 @@ export default function Home() {
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           {/* Category Card */}
           <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-            {CATEGORY_FEATURES.map((catFeat, catIndexes) => (
+            {CATEGORY_FEATURES.map((catFeat) => (
               <ProductCategoryCardItem
-                key={catIndexes}
+                key={catFeat.id}
                 categoryData={catFeat}
               />
             ))}
@@ -95,7 +94,7 @@ export default function Home() {
           {productItems}
 
           <div className="flex justify-content-center">
-            <Link to="/home/shop">Load More</Link>
+            {!isLoading && <Link to="/home/shop">Load More</Link>}
           </div>
         </div>
       </div>

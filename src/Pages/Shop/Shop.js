@@ -2,14 +2,15 @@ import React from "react";
 import { useQuery } from "react-query";
 import UseAnimation from "../../Components/Loader"
 import loading from "react-useanimations/lib/loading"
-import { ShopProductsService } from "../../Services/ShopService/ShopService";
+import { ShopProductsService } from "../../Services/ShopService";
 import { Link } from "react-router-dom";
 import ProductItemCard from "../../Components/ProductItemCard";
 
 const Shop = (props) => {
-  const { data, isLoading, isError, error, refetch } = useQuery("shopProducts", () =>
+  const { data = {}, isLoading, isError, error, refetch } = useQuery("shopProducts", () =>
     ShopProductsService()
   );
+  console.log(data)
 
   let shopProducts;
 

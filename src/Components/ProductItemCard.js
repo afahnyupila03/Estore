@@ -1,6 +1,6 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
-import { getFeaturedProductService } from "../Services/HomeService/HomeService";
+import { getFeaturedProductService } from "../Services/HomeService";
 import { Link } from "react-router-dom";
 
 export default function (props) {
@@ -57,9 +57,6 @@ export default function (props) {
         </div>
         <div>
         <p className="text-sm font-medium text-gray-900">{price}</p>
-        <br />
-        {/* <p>Ratings: {rate}</p> */}
-        {/* <p>Count: {count}</p> */}
         </div>
         <Link to={`/product-details/${id}/${title}`}>View</Link>
       </div>

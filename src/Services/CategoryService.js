@@ -12,6 +12,8 @@ export const JewelryCategory = async () => {
         id: jewelryKey,
         title: data[jewelryKey].title,
         price: data[jewelryKey].price,
+        image: data[jewelryKey].image,
+        category: data[jewelryKey].category
       });
     }
     return jewelryItems;
@@ -23,7 +25,7 @@ export const JewelryCategory = async () => {
 export const ElectronicCategory = async () => {
   try {
     const response = await fetch(
-      "https://fakestoreapi.com/products/category/electronic"
+      "https://fakestoreapi.com/products/category/electronics"
     );
     const data = await response.json();
     const electronicItems = [];
@@ -33,6 +35,7 @@ export const ElectronicCategory = async () => {
         title: data[electronicItemsKey].title,
         image: data[electronicItemsKey].image,
         price: data[electronicItemsKey].price,
+        category: data[electronicItemsKey].category
       });
     }
     return electronicItems;
@@ -44,7 +47,7 @@ export const ElectronicCategory = async () => {
 export const MenClothingCategory = async () => {
   try {
     const response = await fetch(
-      "https://fakestoreapi.com/products/category/men"
+      "https://fakestoreapi.com/products/category/men's clothing"
     );
     const data = await response.json();
     const menItems = [];
@@ -54,6 +57,7 @@ export const MenClothingCategory = async () => {
         title: data[mensItemKey].title,
         image: data[mensItemKey].image,
         price: data[mensItemKey].price,
+        category: data[mensItemKey].category
       });
     }
     return menItems;
@@ -65,7 +69,7 @@ export const MenClothingCategory = async () => {
 export const WomenClothingCategory = async () => {
   try {
     const response = await fetch(
-      "https://fakestoreapi.com/products/category/women"
+      "https://fakestoreapi.com/products/category/women's clothing"
     );
     const data = await response.json();
     const womenItems = [];
@@ -75,6 +79,7 @@ export const WomenClothingCategory = async () => {
         title: data[womenItemsKey].title,
         image: data[womenItemsKey].image,
         price: data[womenItemsKey].price,
+        category: data[womenItemsKey].category
       });
     }
     return womenItems;
