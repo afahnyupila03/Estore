@@ -31,22 +31,25 @@ export default function ({
   onCloseModal,
   viewAction,
 }) {
-  //   const { name, price, image } = productData || [];
-
   return (
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
       {ReactDOM.createPortal(
         <ModalOverlay>
-          <div>
-            <img src={image} alt="product-image" className="h-40 w-40" />
+          <div className="flex">
             <div>
-              <p className="mb-8">{name}</p>
-              
+              <img
+                src={image}
+                alt="product-image"
+                className="object-cover h-48 w-96"
+              />
             </div>
             {/* Product Information */}
             <div>
-              <div className="flex flex-col">
+              <div>
+                <p className="mb-8">{name}</p>
+              </div>
+              <div>
                 <p>{price}</p>
                 <p>{description}</p>
                 <div className="flex gap-3">
@@ -60,7 +63,16 @@ export default function ({
                   </button>
                 </div>
               </div>
-              <button onClick={onCloseModal}>{actionButton}</button>
+              <div className="flex flex-row-reverse mx-4">
+                <button onClick={onCloseModal}>{actionButton}</button>
+                <Link
+                  onClick={viewAction}
+                  className="b-2 bg-red-500 p-2 rounded text-white"
+                >
+                  <IonIcon icon={eyeOutline} className="mr-2" />
+                  View
+                </Link>
+              </div>
             </div>
           </div>
         </ModalOverlay>,
