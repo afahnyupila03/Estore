@@ -7,7 +7,7 @@ export default function (props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [showModalButton, setShowModalButton] = useState(false);
 
-  const { title, image, price, id, category, ratings} = props.productData || [];
+  const { title, image, price, id, category, description} = props.productData || [];
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
@@ -71,6 +71,7 @@ export default function (props) {
           image={image}
           name={title}
           price={price}
+          description={description}
           actionButton="Close Modal"
           onCloseModal={handleShowProductModal}
           viewAction={handleViewProduct}

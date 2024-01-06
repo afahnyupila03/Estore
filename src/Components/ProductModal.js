@@ -26,10 +26,10 @@ export default function ({
   name,
   price,
   image,
-  location,
+  description,
   actionButton,
   onCloseModal,
-  viewAction
+  viewAction,
 }) {
   //   const { name, price, image } = productData || [];
 
@@ -38,30 +38,27 @@ export default function ({
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
       {ReactDOM.createPortal(
         <ModalOverlay>
-          <div className="flex justify-around">
-            <img src={image} alt='product-image' />
+          <div>
+            <img src={image} alt="product-image" className="h-40 w-40" />
             <div>
               <p className="mb-8">{name}</p>
-              <Link onClick={viewAction} className="b-2 bg-red-500 p-2 rounded text-white">
-                <IonIcon icon={eyeOutline} className="mr-2" />
-                View
-              </Link>
+              
             </div>
             {/* Product Information */}
             <div>
-              <div>
+              <div className="flex flex-col">
                 <p>{price}</p>
-                <p>{location}</p>
-              </div>
-              <div className="flex gap-3">
-                <button className="b-2 bg-red-500 p-2 text-white rounded">
-                  <IonIcon icon={bagHandleOutline} className="mr-2" />
-                  Add to Bag
-                </button>
-                <button className="b-2 bg-red-500 p-2 text-white rounded">
-                  <IonIcon icon={heartOutline} className="mr-2" />
-                  Add to Wish List
-                </button>
+                <p>{description}</p>
+                <div className="flex gap-3">
+                  <button className="b-2 bg-red-500 p-2 text-white rounded">
+                    <IonIcon icon={bagHandleOutline} className="mr-2" />
+                    Add to Bag
+                  </button>
+                  <button className="b-2 bg-red-500 p-2 text-white rounded">
+                    <IonIcon icon={heartOutline} className="mr-2" />
+                    Add to Wish List
+                  </button>
+                </div>
               </div>
               <button onClick={onCloseModal}>{actionButton}</button>
             </div>
