@@ -36,13 +36,9 @@ export default function ({
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
       {ReactDOM.createPortal(
         <ModalOverlay>
-          <div className="flex">
+          <div className="flex items-center gap-8 p-6">
             <div>
-              <img
-                src={image}
-                alt="product-image"
-                className="object-cover h-48 w-96"
-              />
+              <img src={image} alt={name} className="object-fill" />
             </div>
             {/* Product Information */}
             <div>
@@ -53,23 +49,37 @@ export default function ({
                 <p>{price}</p>
                 <p>{description}</p>
                 <div className="flex gap-3">
-                  <button className="b-2 bg-red-500 p-2 text-white rounded">
+                  <button
+                    className="border-red-500 mr-4 rounded hover:bg-red-500 hover:text-white 
+                  transition:ease-out duration-1000
+                  border-2 flex items-center text-red-500"
+                  >
                     <IonIcon icon={bagHandleOutline} className="mr-2" />
-                    Add to Bag
+                    Buy
                   </button>
-                  <button className="b-2 bg-red-500 p-2 text-white rounded">
+                  <button
+                    className="border-red-500 mr-4 rounded hover:bg-red-500 hover:text-white 
+                  transition:ease-out duration-1000
+                  border-2 flex items-center text-red-500"
+                  >
                     <IonIcon icon={heartOutline} className="mr-2" />
-                    Add to Wish List
+                    Wish List
                   </button>
                 </div>
               </div>
-              <div className="flex flex-row-reverse mx-4">
+              <div className="flex flex-row-reverse mx-4 items-center ">
                 <button onClick={onCloseModal}>{actionButton}</button>
                 <Link
                   onClick={viewAction}
-                  className="b-2 bg-red-500 p-2 rounded text-white"
+                  className="border-red-500 mr-4 rounded hover:bg-red-500 hover:text-white 
+                  transition:ease-out duration-1000
+                  border-2 flex items-center text-red-500"
                 >
-                  <IonIcon icon={eyeOutline} className="mr-2" />
+                  <IonIcon
+                    icon={eyeOutline}
+                    style={{ color: "red" }}
+                    className="mr-2"
+                  />
                   View
                 </Link>
               </div>

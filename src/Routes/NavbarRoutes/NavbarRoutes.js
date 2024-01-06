@@ -7,12 +7,34 @@ import About from "../../Pages/About/About";
 import CartPage from "../../Pages/CartPage/cart-page";
 import Login from "../../Pages/Auth/Auth";
 import ProductDetails from "../../Pages/ProductDetails/ProductDetails";
+import CategoryPage from "../../Pages/Category/Category";
 
 export const NavbarRoutes = [
   {
     path: "/",
     index: true,
     element: <Home />,
+  },
+  {
+    path: "/category/:category", // Static part of the path
+    element: <CategoryPage />,
+  },
+  // Add more dynamic routes based on category names
+  {
+    path: "/category/jewelerey",
+    element: <CategoryPage />,
+  },
+  {
+    path: "/category/mens-clothing",
+    element: <CategoryPage />,
+  },
+  {
+    path: "/category/womens-clothing",
+    element: <CategoryPage />,
+  },
+  {
+    path: "/category/electronic",
+    element: <CategoryPage />,
   },
   {
     path: "/home",
