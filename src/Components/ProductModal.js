@@ -52,19 +52,21 @@ export default function ({
                 <p className="font-mono">{description}</p>
                 <div className="flex gap-3 mt-4">
                   <button
-                    className="border-red-500 p-1 mr-4 rounded hover:bg-red-500 hover:text-white 
+                    className="border-red-500 p-1 mr-4 font-semibold
+                    rounded hover:bg-red-500 hover:text-white 
                   transition:ease-out duration-1000
                   border-2 flex items-center text-red-500"
                   >
-                    <IonIcon icon={bagHandleOutline} className="mr-2" />
+                    <IonIcon icon={bagHandleOutline} className="mr-2" style={{fontSize: '1.5rem'}} />
                     Buy
                   </button>
                   <button
-                    className="border-red-500 p-1 mr-4 rounded hover:bg-red-500 hover:text-white 
+                    className="border-red-500 p-1 mr-4 font-semibold
+                    rounded hover:bg-red-500 hover:text-white 
                   transition:ease-out duration-1000
                   border-2 flex items-center text-red-500"
                   >
-                    <IonIcon icon={heartOutline} className="mr-2" />
+                    <IonIcon icon={heartOutline} className="mr-2" style={{fontSize: '1.5rem'}} />
                     Wish List
                   </button>
                 </div>
@@ -74,13 +76,14 @@ export default function ({
 
                 <Link
                   to={`/product-details/${id}/${name}`}
-                  className="border-red-500 p-1 mr-4 rounded hover:bg-red-500 hover:text-white 
+                  className="border-red-500 p-1 mr-4 font-semibold
+                  rounded hover:bg-red-500 hover:text-white 
                   transition:ease-out duration-1000
                   border-2 flex items-center text-red-500"
                 >
                   <IonIcon
                     icon={eyeOutline}
-                    style={{ color: "red" }}
+                    style={{ fontSize: '1.5rem' }}
                     className="mr-2"
                   />
                   View
