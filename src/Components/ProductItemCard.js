@@ -1,13 +1,12 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
-import { getFeaturedProductService } from "../Services/HomeService";
-import { Link } from "react-router-dom";
 
 export default function (props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [showModalButton, setShowModalButton] = useState(false);
 
-  const { title, image, price, id, category, description} = props.productData || [];
+  const { title, image, price, id, category, description } =
+    props.productData || [];
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
@@ -19,15 +18,8 @@ export default function (props) {
     }
     return title;
   };
-  const handleViewProduct = async (id, title) => {
-    try {
-      const product = await getFeaturedProductService(id, title);
-      console.log("Product name:", title, "Product Price", product.price);
-      window.location.href = `product-details/${id}/${title}`;
-    } catch (err) {
-      console.log("Failed to view product:", err.message);
-    }
-  };
+
+  const productPrice = `$${price}`;
 
   return (
     <div
@@ -40,23 +32,20 @@ export default function (props) {
       >
         <img
           src={image}
-          //   alt={product.imageAlt}
+          alt={title}
           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
         />
       </div>
       <div className="mt-4 flex justify-between">
         <div>
           <h3 className="text-sm text-gray-700">
-              <span aria-hidden="true">
-                {getName(title)}
-              </span>
+            <span aria-hidden="true">{getName(title)}</span>
           </h3>
           <p className="mt-1 text-sm text-gray-500">{category}</p>
         </div>
         <div>
-        <p className="text-sm font-medium text-gray-900">{price}</p>
+          <p className="text-sm font-medium text-gray-900">{productPrice}</p>
         </div>
-        <Link to={`/product-details/${id}/${title}`}>View</Link>
       </div>
 
       {showModalButton && (
@@ -72,7 +61,6 @@ export default function (props) {
           description={description}
           actionButton="Close Modal"
           onCloseModal={handleShowProductModal}
-          viewAction={handleViewProduct}
         />
       )}
     </div>

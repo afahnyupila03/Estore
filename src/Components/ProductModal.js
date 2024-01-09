@@ -24,13 +24,15 @@ const portalElement = document.getElementById("productModal");
 
 export default function ({
   name,
+  id,
   price,
   image,
   description,
   actionButton,
   onCloseModal,
-  viewAction,
 }) {
+  const productPrice = `$${price}`;
+
   return (
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
@@ -43,14 +45,14 @@ export default function ({
             {/* Product Information */}
             <div>
               <div>
-                <p className="mb-8">{name}</p>
+                <p className="font-mono">{name}</p>
+                <p className="font-mono">{productPrice}</p>
               </div>
-              <div>
-                <p>{price}</p>
-                <p>{description}</p>
-                <div className="flex gap-3">
+              <div className="mt-4">
+                <p className="font-mono">{description}</p>
+                <div className="flex gap-3 mt-4">
                   <button
-                    className="border-red-500 mr-4 rounded hover:bg-red-500 hover:text-white 
+                    className="border-red-500 p-1 mr-4 rounded hover:bg-red-500 hover:text-white 
                   transition:ease-out duration-1000
                   border-2 flex items-center text-red-500"
                   >
@@ -58,7 +60,7 @@ export default function ({
                     Buy
                   </button>
                   <button
-                    className="border-red-500 mr-4 rounded hover:bg-red-500 hover:text-white 
+                    className="border-red-500 p-1 mr-4 rounded hover:bg-red-500 hover:text-white 
                   transition:ease-out duration-1000
                   border-2 flex items-center text-red-500"
                   >
@@ -67,11 +69,12 @@ export default function ({
                   </button>
                 </div>
               </div>
-              <div className="flex flex-row-reverse mx-4 items-center ">
-                <button onClick={onCloseModal}>{actionButton}</button>
+              <div className="flex flex-row-reverse mx-4 mt-4 items-center ">
+                <button onClick={onCloseModal} className="text-white bg-red-500 p-2 rounded">{actionButton}</button>
+
                 <Link
-                  onClick={viewAction}
-                  className="border-red-500 mr-4 rounded hover:bg-red-500 hover:text-white 
+                  to={`/product-details/${id}/${name}`}
+                  className="border-red-500 p-1 mr-4 rounded hover:bg-red-500 hover:text-white 
                   transition:ease-out duration-1000
                   border-2 flex items-center text-red-500"
                 >
