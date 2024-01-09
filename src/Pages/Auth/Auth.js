@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import CustomTextInput, { CustomCheckbox } from "../../Components/TextInput";
 import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
-import NewSignup from "./NewSignup";
+import NewsSubscriptionPage from "./NewsSubscriptionPage";
 
 export default function () {
   const onSubmit = (values, actions) => {
@@ -119,7 +119,7 @@ export default function () {
         )}
       </Formik>
 
-      <NewSignup />
+      <NewsSubscriptionPage />
     </div>
   );
 }

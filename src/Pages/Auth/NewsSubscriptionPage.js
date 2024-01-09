@@ -1,6 +1,6 @@
 import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
-import { NewsSignupSchema } from "../../ValidationSchemas/NewsSignupSchema";
+import { NewsSubscriptionSchema } from "../../ValidationSchemas/NewsSubscriptionSchema";
 
 export default function () {
   const initialValues = { signupEmail: "" };
@@ -17,7 +17,7 @@ export default function () {
       <Formik
         initialValues={initialValues}
         onSubmit={onSubmit}
-        validationSchema={NewsSignupSchema}
+        validationSchema={NewsSubscriptionSchema}
       >
         {({ values, isSubmitting, handleChange, handleBlur }) => (
           <Form>

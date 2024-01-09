@@ -1,5 +1,5 @@
 import * as Yup from "yup";
-import { isEmailTaken } from "./NewsSignupSchema";
+import { isEmailTaken } from "./NewsSubscriptionSchema";
 
 const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
