@@ -11,6 +11,7 @@ export const getFeaturedProducts = async () => {
         price: data[key].price,
         category: data[key].category,
         ratings: data[key].ratings,
+        description: data[key].description,
       });
     }
     return loadedItems;

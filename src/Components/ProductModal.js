@@ -24,46 +24,71 @@ const portalElement = document.getElementById("productModal");
 
 export default function ({
   name,
+  id,
   price,
   image,
-  location,
+  description,
   actionButton,
   onCloseModal,
-  viewAction
 }) {
-  //   const { name, price, image } = productData || [];
+  const productPrice = `$${price}`;
 
   return (
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
       {ReactDOM.createPortal(
         <ModalOverlay>
-          <div className="flex justify-around">
-            <img src={image} alt='product-image' />
+          <div className="flex items-center gap-8 p-6">
             <div>
-              <p className="mb-8">{name}</p>
-              <Link onClick={viewAction} className="b-2 bg-red-500 p-2 rounded text-white">
-                <IonIcon icon={eyeOutline} className="mr-2" />
-                View
-              </Link>
+              <img src={image} alt={name} className="object-fill" />
             </div>
             {/* Product Information */}
             <div>
               <div>
-                <p>{price}</p>
-                <p>{location}</p>
+                <p className="font-mono">{name}</p>
+                <p className="font-mono">{productPrice}</p>
               </div>
-              <div className="flex gap-3">
-                <button className="b-2 bg-red-500 p-2 text-white rounded">
-                  <IonIcon icon={bagHandleOutline} className="mr-2" />
-                  Add to Bag
-                </button>
-                <button className="b-2 bg-red-500 p-2 text-white rounded">
-                  <IonIcon icon={heartOutline} className="mr-2" />
-                  Add to Wish List
-                </button>
+              <div className="mt-4">
+                <p className="font-mono">{description}</p>
+                <div className="flex gap-3 mt-4">
+                  <button
+                    className="border-red-500 p-1 mr-4 font-semibold
+                    rounded hover:bg-red-500 hover:text-white 
+                  transition:ease-out duration-1000
+                  border-2 flex items-center text-red-500"
+                  >
+                    <IonIcon icon={bagHandleOutline} className="mr-2" style={{fontSize: '1.5rem'}} />
+                    Buy
+                  </button>
+                  <button
+                    className="border-red-500 p-1 mr-4 font-semibold
+                    rounded hover:bg-red-500 hover:text-white 
+                  transition:ease-out duration-1000
+                  border-2 flex items-center text-red-500"
+                  >
+                    <IonIcon icon={heartOutline} className="mr-2" style={{fontSize: '1.5rem'}} />
+                    Wish List
+                  </button>
+                </div>
               </div>
-              <button onClick={onCloseModal}>{actionButton}</button>
+              <div className="flex flex-row-reverse mx-4 mt-4 items-center ">
+                <button onClick={onCloseModal} className="text-white bg-red-500 p-2 rounded">{actionButton}</button>
+
+                <Link
+                  to={`/product-details/${id}/${name}`}
+                  className="border-red-500 p-1 mr-4 font-semibold
+                  rounded hover:bg-red-500 hover:text-white 
+                  transition:ease-out duration-1000
+                  border-2 flex items-center text-red-500"
+                >
+                  <IonIcon
+                    icon={eyeOutline}
+                    style={{ fontSize: '1.5rem' }}
+                    className="mr-2"
+                  />
+                  View
+                </Link>
+              </div>
             </div>
           </div>
         </ModalOverlay>,

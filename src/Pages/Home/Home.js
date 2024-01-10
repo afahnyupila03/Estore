@@ -37,7 +37,82 @@ const CATEGORY_FEATURES = [
     categoryImageText: "women_cloths",
     categoryRoute: "women-clothings",
     categoryLink: "Women Clothings",
-  }
+  },
+];
+
+const dummyData = [
+  {
+    id: 0,
+    title: "Item 1",
+    image: Jewelry,
+    price: 12.0,
+    category: "Jewelry",
+    description:
+      "Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.",
+  },
+  {
+    id: 1,
+    title: "Item 2",
+    image: MenCloths,
+    price: 22.0,
+    category: "Men's Clothing",
+    description:
+      "Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.",
+  },
+  {
+    id: 2,
+    title: "Item 3",
+    image: WomenCloths,
+    price: 12.0,
+    category: "Women's Clothing",
+    description:
+      "Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.",
+  },
+  {
+    id: 3,
+    title: "Item 4",
+    image: Electronics,
+    price: 24.0,
+    category: "Electronics",
+    description:
+      "Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.",
+  },
+  {
+    id: 4,
+    title: "Item 5",
+    image: Jewelry,
+    price: 12.0,
+    category: "Jewelry",
+    description:
+      "Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.",
+  },
+  {
+    id: 5,
+    title: "Item 6",
+    image: MenCloths,
+    price: 22.0,
+    category: "Men's Clothing",
+    description:
+      "Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.",
+  },
+  {
+    id: 6,
+    title: "Item 7",
+    image: WomenCloths,
+    price: 12.0,
+    category: "Women's Clothing",
+    description:
+      "Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.",
+  },
+  {
+    id: 7,
+    title: "Item 8",
+    image: Electronics,
+    price: 24.0,
+    category: "Electronics",
+    description:
+      "Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.",
+  },
 ];
 
 export default function Home() {
@@ -92,6 +167,12 @@ export default function Home() {
           </h2>
 
           {productItems}
+
+          <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+            {dummyData.map((products) => (
+              <ProductItemCard productData={products} key={products.id} />
+            ))}
+          </div>
 
           <div className="flex justify-content-center">
             {!isLoading && <Link to="/home/shop">Load More</Link>}
