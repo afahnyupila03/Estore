@@ -83,6 +83,7 @@ export function CustomCheckbox({ field, form, ...props }) {
           value={value}
           {...props}
         />
+        
         <span className="mx-4">{label}</span>
       </div>
       <div className="flex justify-center">

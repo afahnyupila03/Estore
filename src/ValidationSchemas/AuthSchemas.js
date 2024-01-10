@@ -30,7 +30,9 @@ export const AuthSchema = Yup.object().shape({
     .trim()
     .oneOf([Yup.ref("password")], "Passwords do not match!")
     .required("* Confirm password is required!"),
-  checkbox: Yup.boolean().required(
+  checkbox: Yup.boolean()
+  .oneOf([true], "* You must accept terms and conditions to create an account!")
+  .required(
     "* Your must accept terms and condition to create account!"
   ),
 });

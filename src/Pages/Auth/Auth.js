@@ -1,20 +1,19 @@
 import { Field, Form, Formik } from "formik";
 import UseAnimation from "../../Components/Loader";
-import UseAnimations from "react-useanimations";
 import loading from "react-useanimations/lib/loading";
-import github from "react-useanimations/lib/github";
 import CustomTextInput, { CustomCheckbox } from "../../Components/TextInput";
 import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
 import NewsSubscriptionPage from "./NewsSubscriptionPage";
-import { logoGithub } from "ionicons/icons";
 import { useState } from "react";
 
 export default function () {
   const [existingUser, setExistingUser] = useState(false);
+  const [checked, setChecked] = useState(false);
+  console.log(checked)
+
   const handleExistingUserAuth = () => {
     setExistingUser(!existingUser);
   };
-
   const onSubmit = (values, actions) => {
     setTimeout(() => {
       console.log(values);
@@ -26,7 +25,7 @@ export default function () {
           lastName: "",
           password: "",
           confirmPassword: "",
-          checkbox: false,
+          checkbox: checked,
         },
       });
     }, 1000);
@@ -41,12 +40,12 @@ export default function () {
           lastName: "",
           password: "",
           confirmPassword: "",
-          checkbox: false,
+          checkbox: checked,
         }}
         validationSchema={AuthSchema}
         onSubmit={onSubmit}
       >
-        {({ values, handleChange, handleBlur, isSubmitting }) => (
+        {({ values, handleChange, handleBlur, isSubmitting, onSubmit }) => (
           <Form className="column">
             <Field
               component={CustomTextInput}
@@ -125,6 +124,7 @@ export default function () {
                 onBlur={handleBlur}
                 label="I accept the terms and conditions"
                 autoComplete="false"
+                onSubmit={() => {setChecked(!checked)}}
               />
             )}
 
@@ -143,18 +143,14 @@ export default function () {
             <div className="my-4 flex justify-center text-white">
               <button
                 disabled={isSubmitting}
-                className="bg-gray-500 p-2 flex justify-center w-20 rounded-lg text-sm"
+                className={
+                  isSubmitting
+                    ? "bg-gray-300 p-2 flex justify-center w-20 rounded-lg text-sm"
+                    : "bg-gray-500 p-2 flex justify-center w-20 rounded-lg text-sm"
+                }
                 type="submit"
               >
-                {isSubmitting ? (
-                  <UseAnimation
-                    animation={loading}
-                    size={60}
-                    fillColor="green"
-                  />
-                ) : (
-                  "Submit"
-                )}
+                {isSubmitting ? <UseAnimation animation={loading} /> : "Submit"}
               </button>
             </div>
           </Form>
