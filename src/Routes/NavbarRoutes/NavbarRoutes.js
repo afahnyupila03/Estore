@@ -70,6 +70,10 @@ export const NavbarRoutes = [
     element: <Latest />,
   },
   {
+    path: "/cart/sign-in-&-create-account",
+    element: <AuthPage />
+  },
+  {
     path: "/cart",
     element: <CartPage />,
   },

@@ -4,7 +4,7 @@ import Loader from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import { NewsSubscriptionSchema } from "../../ValidationSchemas/NewsSubscriptionSchema";
 
-export default function () {
+export default function NewsSubscriptionPage () {
   function onSubmit(values, actions) {
     setTimeout(() => {
       console.log(values);
