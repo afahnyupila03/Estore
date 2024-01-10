@@ -1,8 +1,8 @@
 import React from 'react'
 import UseAnimations from "react-useanimations"
 
-export default ({animation, size, color}) => {
+export default ({animation, size, fillColor, color}) => {
     return (
-        <UseAnimations animation={animation} size={size} color={color} />
+        <UseAnimations animation={animation} size={size} fillColor={fillColor} color={color} />
     )
 }

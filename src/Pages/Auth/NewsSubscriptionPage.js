@@ -1,35 +1,38 @@
 import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
-import { NewsSignupSchema } from "../../ValidationSchemas/NewsSignupSchema";
+import Loader from "../../Components/Loader";
+import loading from "react-useanimations/lib/loading";
+import { NewsSubscriptionSchema } from "../../ValidationSchemas/NewsSubscriptionSchema";
 
 export default function () {
-  const initialValues = { signupEmail: "" };
   function onSubmit(values, actions) {
     setTimeout(() => {
       console.log(values);
       console.log(actions);
-      actions.resetForm({ email: "" });
+      actions.resetForm({values: {
+        emailSubscription: ""
+      }});
     }, 1000);
   }
 
   return (
     <div className="container mx-auto px-28 flex justify-end">
       <Formik
-        initialValues={initialValues}
+        initialValues={{emailSubscription: ""}}
         onSubmit={onSubmit}
-        validationSchema={NewsSignupSchema}
+        validationSchema={NewsSubscriptionSchema}
       >
         {({ values, isSubmitting, handleChange, handleBlur }) => (
           <Form>
             <Field
-              name="signupEmail"
-              id="signupEmail"
-              type="signupEmail"
+              name="emailSubscription"
+              id="emailSubscription"
+              type="email"
               component={CustomTextInput}
-              value={values.signupEmail}
+              value={values.emailSubscription}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="Subscribe to daily news"
+              label="Subscribe to daily news and updates."
               // placeholder="Subscribe to daily news and updates"
             />
             <div className="flex justify-end text-white">
@@ -42,7 +45,7 @@ export default function () {
                 }
                 disabled={isSubmitting}
               >
-                Subscribe
+                {isSubmitting ? <Loader animation={loading} />  : "Subscribe"}
               </button>
             </div>
           </Form>

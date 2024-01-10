@@ -41,11 +41,11 @@ export default function ({ field, form, ...props }) {
 
   return (
     <div className="grid justify-center">
-      <label htmlFor={id} className="font-semibold">
+      <label htmlFor={name} className="font-semibold font-sans">
         {label}
       </label>
       <input
-        id={id + name}
+        id={name}
         name={name}
         type={type}
         value={value}
@@ -83,6 +83,7 @@ export function CustomCheckbox({ field, form, ...props }) {
           value={value}
           {...props}
         />
+        
         <span className="mx-4">{label}</span>
       </div>
       <div className="flex justify-center">

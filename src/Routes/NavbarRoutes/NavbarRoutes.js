@@ -5,7 +5,7 @@ import Latest from "../../Pages/Latest/Latest";
 import Home from "../../Pages/Home/Home";
 import About from "../../Pages/About/About";
 import CartPage from "../../Pages/CartPage/cart-page";
-import Login from "../../Pages/Auth/Auth";
+import AuthPage from "../../Pages/Auth/Auth";
 import ProductDetails from "../../Pages/ProductDetails/ProductDetails";
 import CategoryPage from "../../Pages/Category/Category";
 
@@ -75,6 +75,6 @@ export const NavbarRoutes = [
   },
   {
     path: "/sign-in-&-create-account",
-    element: <Login />,
+    element: <AuthPage />,
   },
 ];
