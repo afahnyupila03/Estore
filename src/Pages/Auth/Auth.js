@@ -1,4 +1,6 @@
 import { Field, Form, Formik } from "formik";
+import UseAnimation from "../../Components/Loader";
+import loading from "react-useanimations/lib/loading";
 import CustomTextInput, { CustomCheckbox } from "../../Components/TextInput";
 import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
 import NewsSubscriptionPage from "./NewsSubscriptionPage";
@@ -15,7 +17,7 @@ export default function () {
           lastName: "",
           password: "",
           confirmPassword: "",
-          checkbox: "",
+          checkbox: false,
         },
       });
     }, 1000);
@@ -30,7 +32,7 @@ export default function () {
           lastName: "",
           password: "",
           confirmPassword: "",
-          checkbox: "",
+          checkbox: false,
         }}
         validationSchema={AuthSchema}
         onSubmit={onSubmit}
@@ -47,6 +49,7 @@ export default function () {
               onBlur={handleBlur}
               label="Email Address"
               placeholder="Enter Email"
+              autoComplete="false"
             />
             <Field
               component={CustomTextInput}
@@ -58,6 +61,7 @@ export default function () {
               onBlur={handleBlur}
               label="First Name"
               placeholder="First Name"
+              autoComplete="false"
             />
             <Field
               component={CustomTextInput}
@@ -69,6 +73,7 @@ export default function () {
               onBlur={handleBlur}
               label="Last Name"
               placeholder="Last Name"
+              autoComplete="false"
             />
             <Field
               component={CustomTextInput}
@@ -80,6 +85,7 @@ export default function () {
               onBlur={handleBlur}
               label="Password"
               placeholder="Enter Password"
+              autoComplete="false"
             />
             <Field
               component={CustomTextInput}
@@ -91,6 +97,7 @@ export default function () {
               onBlur={handleBlur}
               label="Confirm Password"
               placeholder="Confirm Password"
+              autoComplete="false"
             />
             <Field
               type="checkbox"
@@ -101,18 +108,15 @@ export default function () {
               onChange={handleChange}
               onBlur={handleBlur}
               label="I accept the terms and conditions"
+              autoComplete="false"
             />
             <div className="my-4 flex justify-center text-white">
               <button
                 disabled={isSubmitting}
-                className={
-                  isSubmitting
-                    ? "bg-gray-300 p-2 rounded-lg text-sm"
-                    : "bg-gray-500 p-2 rounded-lg text-sm"
-                }
+                className="bg-gray-500 p-2 flex justify-center w-20 rounded-lg text-sm"
                 type="submit"
               >
-                Submit
+                {isSubmitting ? <UseAnimation animation={loading} size={20} style={{color: "white"}} /> : "Submit"}
               </button>
             </div>
           </Form>

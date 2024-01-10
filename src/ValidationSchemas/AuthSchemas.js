@@ -16,11 +16,11 @@ export const AuthSchema = Yup.object().shape({
     .required("* Email is required"),
   firstName: Yup.string()
     .trim()
-    .min(5, "Must be a min of 4 characters!")
+    .min(4, "Must be a min of 4 characters!")
     .required("* First name is required!"),
   lastName: Yup.string()
     .trim()
-    .min(5, "Must be a min of 4 characters!")
+    .min(4, "Must be a min of 4 characters!")
     .required("* Last name is required!"),
   password: Yup.string()
     .trim()
@@ -30,5 +30,7 @@ export const AuthSchema = Yup.object().shape({
     .trim()
     .oneOf([Yup.ref("password")], "Passwords do not match!")
     .required("* Confirm password is required!"),
-  checkbox: Yup.string().required("* Your must accept terms and condition to create account!"),
+  checkbox: Yup.boolean().required(
+    "* Your must accept terms and condition to create account!"
+  ),
 });

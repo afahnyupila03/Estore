@@ -41,11 +41,11 @@ export default function ({ field, form, ...props }) {
 
   return (
     <div className="grid justify-center">
-      <label htmlFor={id} className="font-semibold">
+      <label htmlFor={name} className="font-semibold">
         {label}
       </label>
       <input
-        id={id + name}
+        id={name}
         name={name}
         type={type}
         value={value}

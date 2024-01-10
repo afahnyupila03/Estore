@@ -53,7 +53,7 @@ export default function Home() {
   if (isLoading) {
     productItems = (
       <div className="flex justify-center">
-        <UseAnimation animation={loading} size={60} />
+        <UseAnimation animation={loading} className="text-red-5000" color="red" size={60} />
       </div>
     );
   } else if (isError) {
