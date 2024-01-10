@@ -41,7 +41,7 @@ export default function ({ field, form, ...props }) {
 
   return (
     <div className="grid justify-center">
-      <label htmlFor={name} className="font-semibold">
+      <label htmlFor={name} className="font-semibold font-sans">
         {label}
       </label>
       <input
