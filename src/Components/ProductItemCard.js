@@ -23,6 +23,7 @@ export default function (props) {
 
   return (
     <div
+      loading="lazy"
       onMouseEnter={() => setShowModalButton(true)}
       onMouseLeave={() => setShowModalButton(false)}
     >
@@ -33,6 +34,7 @@ export default function (props) {
         <img
           src={image}
           alt={title}
+          loading="lazy"
           className="h-full w-full object-cover object-center lg:h-full lg:w-full"
         />
       </div>

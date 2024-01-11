@@ -40,7 +40,12 @@ export default function ({
         <ModalOverlay>
           <div className="flex items-center gap-8 p-6">
             <div>
-              <img src={image} alt={name} className="object-fill" />
+              <img
+                src={image}
+                alt={name}
+                loading="lazy"
+                className="object-fill"
+              />
             </div>
             {/* Product Information */}
             <div>
@@ -57,7 +62,11 @@ export default function ({
                   transition:ease-out duration-1000
                   border-2 flex items-center text-red-500"
                   >
-                    <IonIcon icon={bagHandleOutline} className="mr-2" style={{fontSize: '1.5rem'}} />
+                    <IonIcon
+                      icon={bagHandleOutline}
+                      className="mr-2"
+                      style={{ fontSize: "1.5rem" }}
+                    />
                     Buy
                   </button>
                   <button
@@ -66,13 +75,22 @@ export default function ({
                   transition:ease-out duration-1000
                   border-2 flex items-center text-red-500"
                   >
-                    <IonIcon icon={heartOutline} className="mr-2" style={{fontSize: '1.5rem'}} />
+                    <IonIcon
+                      icon={heartOutline}
+                      className="mr-2"
+                      style={{ fontSize: "1.5rem" }}
+                    />
                     Wish List
                   </button>
                 </div>
               </div>
               <div className="flex flex-row-reverse mx-4 mt-4 items-center ">
-                <button onClick={onCloseModal} className="text-white bg-red-500 p-2 rounded">{actionButton}</button>
+                <button
+                  onClick={onCloseModal}
+                  className="text-white bg-red-500 p-2 rounded"
+                >
+                  {actionButton}
+                </button>
 
                 <Link
                   to={`/product-details/${id}/${name}`}
@@ -83,7 +101,7 @@ export default function ({
                 >
                   <IonIcon
                     icon={eyeOutline}
-                    style={{ fontSize: '1.5rem' }}
+                    style={{ fontSize: "1.5rem" }}
                     className="mr-2"
                   />
                   View
