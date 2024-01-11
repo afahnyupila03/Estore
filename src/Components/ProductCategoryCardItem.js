@@ -20,7 +20,7 @@ export default function ProductCategoryCardItem({ categoryData }) {
             />
           </div>
           <Link
-            className="p-4 text-lg font-semibold flex items-center justify-center "
+            className="p-4 text-lg font-semibold font-mono flex items-center justify-center "
             to={`category/${categoryRoute}`}
           >
             {categoryLink}

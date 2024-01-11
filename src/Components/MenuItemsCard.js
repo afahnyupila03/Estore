@@ -1,5 +1,5 @@
 import { IonIcon } from "@ionic/react";
-import { NavLink, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function ({ style, icon, navigationRoute, navigationLink }) {
   // const [defaultElement] = useState('Link')
@@ -14,7 +14,7 @@ export default function ({ style, icon, navigationRoute, navigationLink }) {
           <Link
             style={style}
             to={navigationRoute}
-            className="flex items-center mt-2"
+            className="flex font-mono items-center mt-2"
           >
             {navigationLink}
           </Link>

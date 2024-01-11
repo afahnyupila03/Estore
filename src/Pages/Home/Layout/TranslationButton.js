@@ -3,10 +3,6 @@ import { Menu, Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
 import ReactCountryFlag from "react-country-flag";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function () {
   const { t, i18n } = useTranslation();
   const [curLang, setCurLang] = useState("en");
@@ -27,17 +23,19 @@ export default function () {
         shadow-sm ring-inset 
         ring-gray-300 hover:bg-gray-50"
         >
-          {curLang === "en" ? (
-            <div>
-              <ReactCountryFlag svg countryCode="Us" className="mr-2" />
-              {t("english")}
-            </div>
-          ) : (
-            <div>
-              <ReactCountryFlag svg countryCode="FR" className="mr-2" />
-              {t("french")}
-            </div>
-          )}
+          <div className="font-mono">
+            {curLang === "en" ? (
+              <>
+                <ReactCountryFlag svg countryCode="US" className="mr-2" />
+                {t("english")}
+              </>
+            ) : (
+              <>
+                <ReactCountryFlag svg countryCode="FR" className="mr-2" />
+                {t("french")}
+              </>
+            )}
+          </div>
         </Menu.Button>
       </div>
 
@@ -61,39 +59,25 @@ export default function () {
           <div>
             {curLang === "en" ? (
               <Menu.Item>
-                {({ active }) => (
-                  <div className="flex space-between">
-                    <button
-                      onClick={() => handleLanguageSwitch("fr")}
-                      className={classNames(
-                        active
-                          ? "bg-gray-100 rounded-md text-gray-900"
-                          : "text-gray-700",
-                        "block px-4 py-2 text-sm rounded-md"
-                      )}
-                    >
-                      <ReactCountryFlag svg countryCode="FR" className="mr-2" />
-                      {t("french")}
-                    </button>
-                  </div>
-                )}
+                <div className="flex space-between">
+                  <button
+                    onClick={() => handleLanguageSwitch("fr")}
+                    className="block px-4 py-2 text-sm font-mono font-semibold rounded-md"
+                  >
+                    <ReactCountryFlag svg countryCode="FR" className="mr-2" />
+                    {t("french")}
+                  </button>
+                </div>
               </Menu.Item>
             ) : (
               <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => handleLanguageSwitch("en")}
-                    className={classNames(
-                      active
-                        ? "bg-gray-100 rounded-md text-gray-900"
-                        : "text-gray-700",
-                      "block px-4 py-2 text-sm rounded-md"
-                    )}
-                  >
-                    <ReactCountryFlag svg countryCode="US" className="mr-2" />
-                    {t("english")}
-                  </button>
-                )}
+                <button
+                  onClick={() => handleLanguageSwitch("en")}
+                  className="block px-4 py-2 font-mono font-semibold text-sm rounded-md"
+                >
+                  <ReactCountryFlag svg countryCode="US" className="mr-2" />
+                  {t("english")}
+                </button>
               </Menu.Item>
             )}
           </div>

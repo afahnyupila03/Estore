@@ -1,22 +1,7 @@
-import { useId } from "react";
-
 export default function ({ field, form, ...props }) {
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
-  const {
-    label,
-    type,
-    placeholder,
-    multiline,
-    rows,
-    formControl,
-    formError,
-    style,
-  } = props;
-
-  const id = useId();
-
-  const trimmedValue = value ? value.trim() : "";
+  const { label, type, placeholder } = props;
 
   const inputField = {
     backgroundColor: "#9ca3af",
@@ -67,15 +52,13 @@ export default function ({ field, form, ...props }) {
 export function CustomCheckbox({ field, form, ...props }) {
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
-  const { label, formError, type } = props;
-
-  const id = useId();
+  const { label, type } = props;
 
   return (
     <div>
       <div className="flex justify-center">
         <input
-          id={id + name}
+          id={name}
           name={name}
           type={type}
           onChange={onChange}
@@ -83,7 +66,7 @@ export function CustomCheckbox({ field, form, ...props }) {
           value={value}
           {...props}
         />
-        
+
         <span className="mx-4">{label}</span>
       </div>
       <div className="flex justify-center">

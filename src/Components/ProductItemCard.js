@@ -22,7 +22,7 @@ export default function (props) {
   const productPrice = `$${price}`;
 
   return (
-    <div
+    <button
       loading="lazy"
       onMouseEnter={() => setShowModalButton(true)}
       onMouseLeave={() => setShowModalButton(false)}
@@ -40,13 +40,15 @@ export default function (props) {
       </div>
       <div className="mt-4 flex justify-between">
         <div>
-          <h3 className="text-sm text-gray-700">
+          <h3 className="text-sm font-mono text-gray-700">
             <span aria-hidden="true">{getName(title)}</span>
           </h3>
-          <p className="mt-1 text-sm text-gray-500">{category}</p>
+          <p className="mt-1 text-sm font-mono text-gray-500">{category}</p>
         </div>
         <div>
-          <p className="text-sm font-medium text-gray-900">{productPrice}</p>
+          <p className="text-sm font-medium font-mono text-gray-900">
+            {productPrice}
+          </p>
         </div>
       </div>
 
@@ -65,6 +67,6 @@ export default function (props) {
           onCloseModal={handleShowProductModal}
         />
       )}
-    </div>
+    </button>
   );
 }
