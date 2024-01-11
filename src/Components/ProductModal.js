@@ -1,6 +1,3 @@
-// TODO:fix to implement productModal design.
-// TODO: ADD SINGLE PRODUCT NAVIGATION TO THE VIEW LINK.
-
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
