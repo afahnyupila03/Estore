@@ -37,46 +37,46 @@ export const CATEGORY_FEATURES = [
   },
   {
     categoryRoute: "womens-shoes",
-    categoryLink: "Women Footwear"
+    categoryLink: "Women Footwear",
   },
   {
     categoryRoute: "mens-shirts",
-    categoryLink: "Men Shirts"
+    categoryLink: "Men Shirts",
   },
   {
     categoryRoute: "mens-shoes",
-    categoryLink: "Men Footwear"
+    categoryLink: "Men Footwear",
   },
   {
     categoryRoute: "men-watches",
-    categoryLink: "Men Watches"
+    categoryLink: "Men Watches",
   },
   {
     categoryRoute: "womens-watches",
-    categoryLink: "Women Watches"
+    categoryLink: "Women Watches",
   },
   {
     categoryRoute: "womens-bags",
-    categoryLink: "Women Bags"
+    categoryLink: "Women Bags",
   },
   {
     categoryRoute: "womens-jewellery",
-    categoryLink: "Women Jewelry"
+    categoryLink: "Women Jewelry",
   },
   {
     categoryRoute: "sunglasses",
-    categoryLink: "Sun Shades"
+    categoryLink: "Sun Shades",
   },
   {
     categoryRoute: "automotive",
-    categoryLink: "Automotive"
+    categoryLink: "Automotive",
   },
   {
     categoryRoute: "motorcycle",
-    categoryLink: "Motorcycle"
+    categoryLink: "Motorcycle",
   },
   {
     categoryRoute: "lighting",
-    categoryLink: "lighting"
+    categoryLink: "lighting",
   },
 ];
