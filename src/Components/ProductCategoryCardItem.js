@@ -11,7 +11,7 @@ export default function ProductCategoryCardItem({ categoryData }) {
     <div>
       <div
         loading="lazy"
-        className="border-black border-2 rounded-full shadow-xl shadow-blue-500 hover:text-white hover:bg-red-500 hover:border-red-500"
+        className="border-black border-2  rounded-full shadow-xl shadow-blue-500 hover:text-white hover:bg-red-500 hover:border-red-500"
       >
         <Link
           className="p-2 text-lg font-semibold font-mono flex items-center justify-center"

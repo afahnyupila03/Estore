@@ -1,7 +1,7 @@
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
-import classes from "../Components/UI/Modal.module.css";
+import classes from "./ProductModal.module.css";
 import { IonIcon } from "@ionic/react";
 import {
   bagHandleOutline,
@@ -10,8 +10,17 @@ import {
   starOutline,
 } from "ionicons/icons";
 
+const backdropColor = {
+  backgroundColor: "hsla(0, 0%, 0%, 0.749)",
+};
+
 export function Backdrop() {
-  return <div className={classes.backdrop} />;
+  return (
+    <div
+      style={backdropColor}
+      className="backdrop-blur-sm  fixed top-0 left-0 z-20 w-full h-full"
+    />
+  );
 }
 
 export const ModalOverlay = ({ children }) => {
