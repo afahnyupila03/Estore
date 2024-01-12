@@ -1,88 +1,38 @@
-// https://fakestoreapi.com/products/category/jewelery
+// https://dummyjson.com/products/category/smartphones
+/* 
+Category List
+-Smartphones
+-Laptops
+-Fragrances
+*/
 
-export const JewelryCategory = async () => {
+export const SmartphonesService = async (category) => {
   try {
     const response = await fetch(
-      "https://fakestoreapi.com/products/category/jewelery"
+      `https://dummyjson.com/products/category/${category}`
     );
     const data = await response.json();
-    const jewelryItems = [];
-    for (const jewelryKey in data) {
-      jewelryItems.push({
-        id: jewelryKey,
-        title: data[jewelryKey].title,
-        price: data[jewelryKey].price,
-        image: data[jewelryKey].image,
-        category: data[jewelryKey].category
-      });
+    const productData = data.products;
+    console.log("Smartphones Service:", productData);
+    const smartphoneItems = [];
+    for (const smartphoneKey in productData) {
+      if (productData.hasOwnProperty(smartphoneKey)) {
+        smartphoneItems.push({
+          id: smartphoneKey,
+          title: productData[smartphoneKey].title,
+          price: productData[smartphoneKey].price,
+          thumbnail: productData[smartphoneKey].thumbnail,
+          category: category,
+          images: productData[smartphoneKey].images,
+          brand: productData[smartphoneKey].brand,
+          description: productData[smartphoneKey].description,
+          discountPercentage: productData[smartphoneKey].discountPercentage,
+          rating: productData[smartphoneKey].rating,
+          stock: productData[smartphoneKey].stock,
+        });
+      }
     }
-    return jewelryItems;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
-export const ElectronicCategory = async () => {
-  try {
-    const response = await fetch(
-      "https://fakestoreapi.com/products/category/electronics"
-    );
-    const data = await response.json();
-    const electronicItems = [];
-    for (const electronicItemsKey in data) {
-      electronicItems.push({
-        id: electronicItemsKey,
-        title: data[electronicItemsKey].title,
-        image: data[electronicItemsKey].image,
-        price: data[electronicItemsKey].price,
-        category: data[electronicItemsKey].category
-      });
-    }
-    return electronicItems;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
-export const MenClothingCategory = async () => {
-  try {
-    const response = await fetch(
-      "https://fakestoreapi.com/products/category/men's clothing"
-    );
-    const data = await response.json();
-    const menItems = [];
-    for (const mensItemKey in data) {
-      menItems.push({
-        id: mensItemKey,
-        title: data[mensItemKey].title,
-        image: data[mensItemKey].image,
-        price: data[mensItemKey].price,
-        category: data[mensItemKey].category
-      });
-    }
-    return menItems;
-  } catch (err) {
-    return Promise.reject(err);
-  }
-};
-
-export const WomenClothingCategory = async () => {
-  try {
-    const response = await fetch(
-      "https://fakestoreapi.com/products/category/women's clothing"
-    );
-    const data = await response.json();
-    const womenItems = [];
-    for (const womenItemsKey in data) {
-      womenItems.push({
-        id: womenItemsKey,
-        title: data[womenItemsKey].title,
-        image: data[womenItemsKey].image,
-        price: data[womenItemsKey].price,
-        category: data[womenItemsKey].category
-      });
-    }
-    return womenItems;
+    return smartphoneItems;
   } catch (err) {
     return Promise.reject(err);
   }

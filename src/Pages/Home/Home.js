@@ -15,27 +15,27 @@ import Electronics from "../../Assets/electronics.jpg";
 const CATEGORY_FEATURES = [
   {
     categoryImage: Jewelry,
-    categoryImageText: "jewelry",
-    categoryRoute: "jewelry",
-    categoryLink: "Jewelry",
+    categoryImageText: "smartphones",
+    categoryRoute: "smartphone",
+    categoryLink: "Smartphones",
   },
   {
     categoryImage: MenCloths,
-    categoryImageText: "men_cloths",
-    categoryRoute: "men-clothing",
-    categoryLink: "Men Clothings",
+    categoryImageText: "laptops",
+    categoryRoute: "laptops",
+    categoryLink: "Laptops",
   },
   {
     categoryImage: Electronics,
-    categoryImageText: "electronic",
-    categoryRoute: "electronics",
-    categoryLink: "Electronics",
+    categoryImageText: "fragrances",
+    categoryRoute: "fragrances",
+    categoryLink: "Fragrances",
   },
   {
     categoryImage: WomenCloths,
-    categoryImageText: "women_cloths",
-    categoryRoute: "women-clothings",
-    categoryLink: "Women Clothings",
+    categoryImageText: "tops",
+    categoryRoute: "automotive",
+    categoryLink: "Automotive",
   },
 ];
 

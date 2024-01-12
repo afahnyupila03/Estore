@@ -7,10 +7,10 @@ export const CategoryRoute = [
       },
       // Add more dynamic routes based on category names
       {
-        path: "home/category/jewelerey",
+        path: "home/category/:category",
         element: <CategoryPage />,
       },
-      {
+      /* {
         path: "home/category/mens-clothing",
         element: <CategoryPage />,
       },
@@ -20,6 +20,6 @@ export const CategoryRoute = [
       },
       {
         path: "home/category/electronic",
-        element: <CategoryPage />,
-      }
+        element: <CategoryPage />, */
+      // }
 ];

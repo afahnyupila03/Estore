@@ -20,8 +20,8 @@ export default function () {
         <div>
           <h3 className="py-4 font-semibold font-mono">Customer Service</h3>
           <ul>
-            {customerNavigation.map((customerRoutes, customerIndex) => (
-              <li key={customerIndex} className="py-1">
+            {customerNavigation.map((customerRoutes) => (
+              <li key={customerRoutes.navLink} className="py-1">
                 <Link
                   to={customerRoutes.navRoute}
                   className="font-semibold font-mono"
@@ -40,8 +40,8 @@ export default function () {
         <div>
           <h3 className="py-4 font-semibold font-mono">About Us</h3>
           <ul>
-            {aboutNavigation.map((aboutRoutes, aboutIndex) => (
-              <li key={aboutIndex} className="py-1">
+            {aboutNavigation.map((aboutRoutes) => (
+              <li key={aboutRoutes.navLink} className="py-1">
                 <Link
                   to={aboutRoutes.navRoute}
                   className="font-semibold font-mono"
@@ -57,7 +57,7 @@ export default function () {
       <div className="flex items-center justify-center">
         <hr className="border-1 border-red-500 w-80 mr-2" />
         <p className="font-semibold font-mono">
-          Done by AfahnyuPila. All Copyrights reserved &copy;{currentYear}
+          All Copyrights reserved &copy;{currentYear}
         </p>
         <hr className="border-1 border-red-500 w-80 ml-2" />
       </div>

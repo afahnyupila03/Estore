@@ -1,34 +1,18 @@
 import { useParams } from "react-router-dom";
 import {
-  JewelryCategory,
-  ElectronicCategory,
-  MenClothingCategory,
-  WomenClothingCategory,
+  SmartphonesService
 } from "../../Services/CategoryService";
 import { useQuery } from "react-query";
 
 export default function CategoryPage() {
   const { category } = useParams();
 
-  const getCategoryData = async () => {
-    switch (category) {
-      case "jewelry":
-        return await JewelryCategory();
-      case "electronics":
-        return await ElectronicCategory();
-      case "men-clothing":
-        return await MenClothingCategory();
-      case "women-clothings":
-        return await WomenClothingCategory();
-    }
-  };
-
   const {
     data = [],
     isLoading,
     isError,
-  } = useQuery(["category", category], getCategoryData);
-  console.log(data)
+  } = useQuery(["category", category], () => SmartphonesService(category));
+  console.log("Category: ", data)
 
   let categoryProducts;
   if (isLoading) {
