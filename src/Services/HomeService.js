@@ -35,8 +35,8 @@ export const getFeaturedProductService = async (id, title) => {
 
     const data = await response.json();
     const dataProduct = data.product;
-    console.log("Data detail call: ", data)
-    console.log("Product Detail Call:", dataProduct)
+    console.log("Data detail call: ", data);
+    console.log("Product Detail Call:", dataProduct);
     const product = {
       id: id,
       title: title,
@@ -55,4 +55,3 @@ export const getFeaturedProductService = async (id, title) => {
     return Promise.reject(err);
   }
 };
-
