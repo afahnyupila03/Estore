@@ -6,7 +6,7 @@ Category List
 -Fragrances
 */
 
-export const SmartphonesService = async (category) => {
+export const CategoryService = async (category) => {
   try {
     const response = await fetch(
       `https://dummyjson.com/products/category/${category}`

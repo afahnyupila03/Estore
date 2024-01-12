@@ -1,6 +1,6 @@
 import { useParams } from "react-router-dom";
 import {
-  SmartphonesService
+  CategoryService,
 } from "../../Services/CategoryService";
 import { useQuery } from "react-query";
 
@@ -11,7 +11,7 @@ export default function CategoryPage() {
     data = [],
     isLoading,
     isError,
-  } = useQuery(["category", category], () => SmartphonesService(category));
+  } = useQuery(["category", category], () => CategoryService(category));
   console.log("Category: ", data)
 
   let categoryProducts;
