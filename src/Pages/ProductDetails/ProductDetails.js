@@ -10,8 +10,7 @@ export default function ProductDetails() {
   const { data = [], isLoading, error } = useQuery("product", () =>
     getFeaturedProductService(id, title)
   );
-  const {data: shopItem} = useQuery("shopProduct", () => shopProductService(shopId, shopTitle))
-console.log("Product Details:" + data)
+  const {data: shopItem = []} = useQuery("shopProduct", () => shopProductService(shopId, shopTitle))
   let productDetail;
   if(isLoading) {
     productDetail = <div>Loading.....</div>

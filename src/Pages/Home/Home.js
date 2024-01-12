@@ -13,7 +13,6 @@ import Jewelry from "../../Assets/jewelry.jpg";
 import MenCloths from "../../Assets/men_clothing.jpg";
 import WomenCloths from "../../Assets/women_clothing.jpg";
 import Electronics from "../../Assets/electronics.jpg";
-import { Link } from "react-router-dom";
 
 const CATEGORY_FEATURES = [
   {
@@ -100,10 +99,6 @@ export default function Home() {
           </h2>
 
           {productItems}
-
-          <div className="flex justify-content-center">
-            {!isLoading && <Link to="/home/shop">Load More</Link>}
-          </div>
         </div>
       </div>
       <FinePens />

@@ -6,7 +6,7 @@ const FinePens = () => {
     return (
         <div className='container mx-auto px-4'>
             <div className="flex justify-center">
-                <img src={finePens} alt='fine_pens' />
+                <img src={finePens} loading='eager' alt='fine_pens' />
             </div>
             <div className="flex justify-center">
                 <Link to="/shop"

@@ -66,11 +66,11 @@ export default function ({
               </div>
               <div className="mt-4">
                 <p className="font-mono">{description}</p>
-                <p>
+                <div className="flex items-center">
                   <IonIcon icon={starOutline} />
                   {rating}
                   <span>({stock})</span>
-                </p>
+                </div>
                 <div className="flex gap-3 mt-4">
                   <button
                     className="border-red-500 p-1 mr-4 font-semibold

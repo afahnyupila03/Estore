@@ -1,6 +1,7 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
 import { IonIcon } from "@ionic/react";
+import {starOutline} from "ionicons/icons"
 
 export default function (props) {
   const [openProductModal, setOpenProductModal] = useState(false);
@@ -64,10 +65,10 @@ export default function (props) {
             {productPrice}
           </p>
           <p>{discountPercentage}%</p>
-          <p>
-            {/*  <IonIcon icon={IonSta} /> */} {rating}
+          <div className="flex items-center">
+             <IonIcon icon={starOutline} className="mr-2" /> {rating}
             <span>({stock})</span>
-          </p>
+          </div>
         </div>
       </div>
 
