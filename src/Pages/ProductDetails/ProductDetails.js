@@ -20,7 +20,7 @@ console.log("Product Details:" + data)
   } else if (data) {
     productDetail = <div>
       <p>{data.id}</p>
-      <img src={data.image} alt={data.title} />
+      <img src={data.thumbnail} alt={data.title} />
       <p>{data.title}</p>
       <p>{data.price}</p>
       <p>{data.category}</p>

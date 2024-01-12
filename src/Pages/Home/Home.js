@@ -1,7 +1,9 @@
 import React from "react";
 import FinePens from "../../Components/fine-pens/FinePens";
 import { useQuery } from "react-query";
-import { getFeaturedProducts } from "../../Services/HomeService";
+import {
+  getFeaturedProducts,
+} from "../../Services/HomeService";
 import ProductItemCard from "../../Components/ProductItemCard";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
@@ -48,7 +50,6 @@ export default function Home() {
     error,
     refetch,
   } = useQuery("products", () => getFeaturedProducts());
-  console.log(data);
   let productItems;
   if (isLoading) {
     productItems = (
@@ -77,6 +78,8 @@ export default function Home() {
       </div>
     );
   }
+
+  let fakeContent;
 
   return (
     <React.Fragment>

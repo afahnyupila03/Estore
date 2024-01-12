@@ -3,7 +3,12 @@ import ReactDOM from "react-dom";
 import { Link } from "react-router-dom";
 import classes from "../Components/UI/Modal.module.css";
 import { IonIcon } from "@ionic/react";
-import { bagHandleOutline, eyeOutline, heartOutline } from "ionicons/icons";
+import {
+  bagHandleOutline,
+  eyeOutline,
+  heartOutline,
+  starOutline,
+} from "ionicons/icons";
 
 export function Backdrop() {
   return <div className={classes.backdrop} />;
@@ -23,8 +28,14 @@ export default function ({
   name,
   id,
   price,
-  image,
+  stock,
+  rating,
+  discount,
+  images,
+  category,
+  brand,
   description,
+  thumbnail,
   actionButton,
   onCloseModal,
 }) {
@@ -38,7 +49,7 @@ export default function ({
           <div className="flex items-center gap-8 p-6">
             <div>
               <img
-                src={image}
+                src={thumbnail}
                 alt={name}
                 loading="lazy"
                 className="object-fill"
@@ -47,11 +58,19 @@ export default function ({
             {/* Product Information */}
             <div>
               <div>
+                <p>{brand}</p>
+                <p>{category}</p>
                 <p className="font-mono">{name}</p>
                 <p className="font-mono">{productPrice}</p>
+                <p>{discount}%</p>
               </div>
               <div className="mt-4">
                 <p className="font-mono">{description}</p>
+                <p>
+                  <IonIcon icon={starOutline} />
+                  {rating}
+                  <span>({stock})</span>
+                </p>
                 <div className="flex gap-3 mt-4">
                   <button
                     className="border-red-500 p-1 mr-4 font-semibold
