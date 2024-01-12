@@ -6,38 +6,9 @@ import ProductItemCard from "../../Components/ProductItemCard";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import ProductCategoryCardItem from "../../Components/ProductCategoryCardItem";
+import { CATEGORY_FEATURES } from "./Layout/CategoryNavigation";
 
-import Jewelry from "../../Assets/jewelry.jpg";
-import MenCloths from "../../Assets/men_clothing.jpg";
-import WomenCloths from "../../Assets/women_clothing.jpg";
-import Electronics from "../../Assets/electronics.jpg";
 
-const CATEGORY_FEATURES = [
-  {
-    categoryImage: Jewelry,
-    categoryImageText: "smartphones",
-    categoryRoute: "smartphone",
-    categoryLink: "Smartphones",
-  },
-  {
-    categoryImage: MenCloths,
-    categoryImageText: "laptops",
-    categoryRoute: "laptops",
-    categoryLink: "Laptops",
-  },
-  {
-    categoryImage: Electronics,
-    categoryImageText: "fragrances",
-    categoryRoute: "fragrances",
-    categoryLink: "Fragrances",
-  },
-  {
-    categoryImage: WomenCloths,
-    categoryImageText: "tops",
-    categoryRoute: "automotive",
-    categoryLink: "Automotive",
-  },
-];
 
 export default function Home() {
   const {
@@ -83,7 +54,8 @@ export default function Home() {
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           {/* Category Card */}
-          <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          <p>Shop By Category</p>
+          <div className="grid grid-cols-1 gap-x-2 gap-y-4 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-4">
             {CATEGORY_FEATURES.map((catFeat) => (
               <ProductCategoryCardItem
                 key={catFeat.id}
