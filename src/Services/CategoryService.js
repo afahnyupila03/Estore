@@ -1,10 +1,4 @@
 // https://dummyjson.com/products/category/smartphones
-/* 
-Category List
--Smartphones
--Laptops
--Fragrances
-*/
 
 export const CategoryService = async (category) => {
   try {
@@ -18,7 +12,7 @@ export const CategoryService = async (category) => {
     for (const smartphoneKey in productData) {
       if (productData.hasOwnProperty(smartphoneKey)) {
         smartphoneItems.push({
-          id: smartphoneKey,
+          id: productData[smartphoneKey].id,
           title: productData[smartphoneKey].title,
           price: productData[smartphoneKey].price,
           thumbnail: productData[smartphoneKey].thumbnail,
@@ -33,6 +27,35 @@ export const CategoryService = async (category) => {
       }
     }
     return smartphoneItems;
+  } catch (err) {
+    return Promise.reject(err);
+  }
+};
+
+export const CategoryServiceItem = async (category, id, title) => {
+  try {
+    const response = await fetch(
+      `https://dummyjson.com/products/${category}/${id}?title=${title}`
+    );
+
+    const data = await response.json();
+    const dataProduct = data.product;
+    console.log("Data detail call: ", data);
+    console.log("Product Detail Call:", dataProduct);
+    const product = {
+      id: id,
+      title: title,
+      thumbnail: data.thumbnail,
+      price: data.price,
+      brand: data.brand,
+      description: data.description,
+      category: category,
+      discountPercentage: data.discountPercentage,
+      images: data.images,
+      rating: data.rating,
+      stock: data.stock,
+    };
+    return product;
   } catch (err) {
     return Promise.reject(err);
   }

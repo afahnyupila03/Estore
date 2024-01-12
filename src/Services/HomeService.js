@@ -7,7 +7,7 @@ export const getFeaturedProducts = async () => {
     for (const key in productData) {
       if (productData.hasOwnProperty(key)) {
         productItems.push({
-          id: key,
+          id: productData[key].id,
           title: productData[key].title,
           thumbnail: productData[key].thumbnail,
           price: productData[key].price,

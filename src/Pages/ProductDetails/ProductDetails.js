@@ -3,6 +3,7 @@ import { useQuery } from "react-query";
 import React from "react";
 import { getFeaturedProductService } from "../../Services/HomeService";
 import { shopProductService } from "../../Services/ShopService";
+import { CategoryServiceItem } from "../../Services/CategoryService";
 
 export default function ProductDetails() {
   const { id, title } = useParams();
@@ -13,7 +14,7 @@ export default function ProductDetails() {
     error,
   } = useQuery("product", () => getFeaturedProductService(id, title));
   const { data: shopItem = [] } = useQuery("shopProduct", () =>
-    shopProductService(shopId, shopTitle)
+    CategoryServiceItem(shopId, shopTitle)
   );
   let productDetail;
   if (isLoading) {
