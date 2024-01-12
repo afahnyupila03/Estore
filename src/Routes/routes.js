@@ -1,9 +1,9 @@
 import { NavbarRoutes } from "./NavbarRoutes/NavbarRoutes"
-import { FooterRoutes } from "./FooterRoutes/FooterRoutes"
 import { ProductDetailsRoute } from "./ProductDetails/productsDetailsRoute";
+import { CategoryRoute } from "./CategoryRoute";
 
 export const routes = [
   ...NavbarRoutes,
   ...ProductDetailsRoute,
-  ...FooterRoutes
+  ...CategoryRoute,
 ];

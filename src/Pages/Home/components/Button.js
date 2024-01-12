@@ -1,3 +1,5 @@
+// COMPONENT NOT IN USE.
+
 import { Menu, Transition } from '@headlessui/react'
 
 export default function({button, className}){

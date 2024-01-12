@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import { useQuery } from "react-query";
 import { getFashionProductsService } from "../../Services/ShopService/ShopService";
 import UseAnimations from "react-useanimations";
@@ -61,3 +61,4 @@ const FashionAccessories = () => {
 };
 
 export default FashionAccessories;
+ */

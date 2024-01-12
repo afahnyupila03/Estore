@@ -1,15 +1,12 @@
 import React from "react";
-import Banner from "../../Components/Banner/Banner";
-import FinePens from "../../Components/fine-pens/FinePens";
+import FinePens from "./Layout/FinePens";
 import { useQuery } from "react-query";
-import {
-  getArrivalProductsService,
-  // getPopularProductsService,
-} from "../../Services/HomeService/HomeService";
+import { getFeaturedProducts } from "../../Services/HomeService";
 import ProductItemCard from "../../Components/ProductItemCard";
-import UseAnimations from "react-useanimations";
+import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-
+import ProductCategoryCardItem from "../../Components/ProductCategoryCardItem";
+import { CATEGORY_FEATURES } from "./Layout/CategoryNavigation";
 
 export default function Home() {
   const {
@@ -18,15 +15,23 @@ export default function Home() {
     isLoading,
     error,
     refetch,
-  } = useQuery("products", () => getArrivalProductsService());
-
+  } = useQuery("products", () => getFeaturedProducts());
   let productItems;
   if (isLoading) {
-    productItems = <UseAnimations animation={loading} size={60} />;
+    productItems = (
+      <div className="flex justify-center">
+        <UseAnimation
+          animation={loading}
+          className="text-red-5000"
+          color="red"
+          size={60}
+        />
+      </div>
+    );
   } else if (isError) {
     productItems = (
-      <div>
-        <p>{error.message}</p>
+      <div className="flex justify-center">
+        <p>{error}</p>
         <button onClick={() => refetch()}>Try again</button>
       </div>
     );
@@ -40,17 +45,30 @@ export default function Home() {
     );
   }
 
+  let fakeContent;
+
   return (
     <React.Fragment>
-      <Banner />
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-          <h2 className="text-lg font-semibold tracking-tight">
+          {/* Category Card */}
+          <p className="mb-10">Shop By Category</p>
+          <div className="grid grid-cols-1 gap-x-2 gap-y-4 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-4">
+            {CATEGORY_FEATURES.map((catFeat) => (
+              <ProductCategoryCardItem
+                key={catFeat.id}
+                categoryData={catFeat}
+              />
+            ))}
+          </div>
+
+          <h2 className="mt-40 text-lg font-semibold tracking-tight">
             Featured Products
           </h2>
 
           {productItems}
         </div>
+
       </div>
       <FinePens />
     </React.Fragment>

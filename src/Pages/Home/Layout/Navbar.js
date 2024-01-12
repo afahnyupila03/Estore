@@ -6,16 +6,15 @@ import TranslationButton from "./TranslationButton";
 import { useTranslation } from "react-i18next";
 
 export default function () {
+  const { t } = useTranslation();
 
-  const {t} = useTranslation()
-
-  const navbarRoutes = NavbarRoutes(t)
+  const navbarRoutes = NavbarRoutes(t);
 
   return (
     <div className="mx-auto px-2 py-2 text-lg">
       <div className="flex items-center justify-around">
         <div className="navbar-header">
-          <NavLink className="navbar-header" to="/">
+          <NavLink className="navbar-header font-semibold font-mono" to="/">
             TimeZone
           </NavLink>
         </div>
@@ -24,7 +23,10 @@ export default function () {
           <ul className="flex gap-4">
             {navbarRoutes.map((navNavigation) => (
               <li key={navNavigation.navLink} className="nav-item mr-4">
-                <NavLink to={navNavigation.navRoute}>
+                <NavLink
+                  className="font-semibold font-mono"
+                  to={navNavigation.navRoute}
+                >
                   {navNavigation.navLink}
                 </NavLink>
               </li>

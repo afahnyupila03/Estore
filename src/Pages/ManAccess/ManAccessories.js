@@ -1,4 +1,4 @@
-import React from "react";
+/* import React from "react";
 import { useQuery } from "react-query";
 import { getMenAccessoriesService } from "../../Services/ShopService/ShopService";
 import UseAnimations from "react-useanimations";
@@ -47,3 +47,4 @@ export default function ManAccessories() {
     </React.Fragment>
   );
 }
+ */
