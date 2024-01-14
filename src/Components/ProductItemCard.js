@@ -5,7 +5,6 @@ import { starOutline } from "ionicons/icons";
 
 export default function (props) {
   const [openProductModal, setOpenProductModal] = useState(false);
-  const [showModalButton, setShowModalButton] = useState(false);
 
   const {
     title,
@@ -35,14 +34,9 @@ export default function (props) {
   const productPrice = `$${price}`;
 
   return (
-    <button
-      loading="lazy"
-      onMouseEnter={() => setShowModalButton(true)}
-      onMouseLeave={() => setShowModalButton(false)}
-    >
+    <button loading="lazy">
       <div
         id={id}
-        // animate-pulse
         className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
       >
         <img
@@ -57,9 +51,11 @@ export default function (props) {
           <h4 className="text-sm font-mono text-gray-700">
             <span aria-hidden="true">{getName(title)}</span>
           </h4>
-          <p>{brand}</p>
+          <p className="flex justify-start">{brand}</p>
 
-          <p className="mt-1 text-sm font-mono text-gray-500">{category}</p>
+          <p className="mt-1 flex justify-start text-sm font-mono text-gray-500">
+            {category}
+          </p>
         </div>
         <div>
           <p className="text-sm font-medium font-mono text-gray-900">
@@ -73,11 +69,12 @@ export default function (props) {
         </div>
       </div>
 
-      {showModalButton && (
-        <button className="mt-10 text-red-500" onClick={handleShowProductModal}>
-          Quick View
-        </button>
-      )}
+      <button
+        className="mt-10 visible hover:invisible text-red-500"
+        onClick={handleShowProductModal}
+      >
+        Quick View
+      </button>
       {openProductModal && (
         <ProductModal
           images={images}

@@ -12,7 +12,7 @@ export const CategoryService = async (category) => {
     for (const smartphoneKey in productData) {
       if (productData.hasOwnProperty(smartphoneKey)) {
         smartphoneItems.push({
-          id: smartphoneKey,
+          id: productData[smartphoneKey].id,
           title: productData[smartphoneKey].title,
           price: productData[smartphoneKey].price,
           thumbnail: productData[smartphoneKey].thumbnail,

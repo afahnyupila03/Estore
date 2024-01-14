@@ -6,18 +6,49 @@ import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
 import NewsSubscriptionPage from "./NewsSubscriptionPage";
 import { useState } from "react";
 
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import { auth } from "../../FirebaseConfigs/Firesbase";
+
 export default function () {
-  const [existingUser, setExistingUser] = useState(false);
-  const [checked, setChecked] = useState(false);
-  console.log(checked)
+  const [isSignUp, setIsSignUp] = useState(true);
+  const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
+
+  console.log("Ui-state:", isSignUp);
 
   const handleExistingUserAuth = () => {
-    setExistingUser(!existingUser);
+    setIsSignUp(!isSignUp);
   };
-  const onSubmit = (values, actions) => {
+
+  const handleCreateUser = (values, actions) => {
     setTimeout(() => {
       console.log(values);
-      console.log(actions);
+      createUserWithEmailAndPassword(auth, values.email, values.password)
+        .then((userCredential) => {
+          console.log("User credentials:", userCredential);
+          // Signed in
+          const user = userCredential.user;
+          // Update user profile with display name
+          updateProfile(user, {
+            displayName: `${values.firstName} ${values.lastName}`,
+          })
+            .then(() => {
+              // Profile updated
+              console.log("Firebase Console:", userCredential);
+            })
+            .catch((error) => {
+              // An error occurred
+              console.error(error);
+            });
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error(errorCode, errorMessage);
+        });
       actions.resetForm({
         values: {
           email: "",
@@ -25,7 +56,27 @@ export default function () {
           lastName: "",
           password: "",
           confirmPassword: "",
-          checkbox: checked,
+        },
+      });
+    }, 1000);
+  };
+
+  const handleUserLogin = (values, actions) => {
+    setTimeout(() => {
+      console.log("Formik values:", values);
+      signInWithEmailAndPassword(auth, values.email, values.password)
+        .then((userCredential) => {
+          console.log("User is Logged in: ", userCredential);
+        })
+        .catch((error) => {
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error(errorCode, errorMessage);
+        });
+      actions.resetForm({
+        values: {
+          email: "",
+          password: "",
         },
       });
     }, 1000);
@@ -40,12 +91,11 @@ export default function () {
           lastName: "",
           password: "",
           confirmPassword: "",
-          checkbox: checked,
         }}
-        validationSchema={AuthSchema}
-        onSubmit={onSubmit}
+        validationSchema={isSignUp && AuthSchema}
+        onSubmit={isSignUp ? handleCreateUser : handleUserLogin}
       >
-        {({ values, handleChange, handleBlur, isSubmitting, onSubmit }) => (
+        {({ values, handleChange, handleBlur, isSubmitting }) => (
           <Form className="column">
             <Field
               component={CustomTextInput}
@@ -59,7 +109,7 @@ export default function () {
               placeholder="Enter Email"
               autoComplete="false"
             />
-            {!existingUser && (
+            {isSignUp ? (
               <Field
                 component={CustomTextInput}
                 id="firstName"
@@ -72,8 +122,10 @@ export default function () {
                 placeholder="First Name"
                 autoComplete="false"
               />
+            ) : (
+              ""
             )}
-            {!existingUser && (
+            {isSignUp ? (
               <Field
                 component={CustomTextInput}
                 id="lastName"
@@ -86,6 +138,8 @@ export default function () {
                 placeholder="Last Name"
                 autoComplete="false"
               />
+            ) : (
+              ""
             )}
             <Field
               component={CustomTextInput}
@@ -99,7 +153,7 @@ export default function () {
               placeholder="Enter Password"
               autoComplete="false"
             />
-            {!existingUser && (
+            {isSignUp ? (
               <Field
                 component={CustomTextInput}
                 id="confirmPassword"
@@ -112,20 +166,8 @@ export default function () {
                 placeholder="Confirm Password"
                 autoComplete="false"
               />
-            )}
-            {!existingUser && (
-              <Field
-                type="checkbox"
-                name="checkbox"
-                id="checkbox"
-                component={CustomCheckbox}
-                value={values.checkbox}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label="I accept the terms and conditions"
-                autoComplete="false"
-                onSubmit={() => {setChecked(!checked)}}
-              />
+            ) : (
+              ""
             )}
 
             <div className="my-4 flex justify-center">
@@ -134,23 +176,25 @@ export default function () {
                 type="button"
                 onClick={handleExistingUserAuth}
               >
-                {!existingUser
+                {isSignUp
                   ? "Already a user ? Login."
                   : "New user ? Create an account."}
               </button>
             </div>
 
-            <div className="my-4 flex justify-center text-white">
+            <div className="my-4 w-full flex justify-center text-white">
               <button
                 disabled={isSubmitting}
-                className={
-                  isSubmitting
-                    ? "bg-gray-300 p-2 flex justify-center w-20 rounded-lg text-sm"
-                    : "bg-gray-500 p-2 flex justify-center w-20 rounded-lg text-sm"
-                }
+                className="bg-gray-500 text-black"
                 type="submit"
               >
-                {isSubmitting ? <UseAnimation animation={loading} /> : "Submit"}
+                {isSubmitting ? (
+                  <UseAnimation animation={loading} />
+                ) : isSignUp ? (
+                  "Create Account"
+                ) : (
+                  "Login"
+                )}
               </button>
             </div>
           </Form>

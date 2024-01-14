@@ -1,4 +1,4 @@
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
 
@@ -19,9 +19,39 @@ import {
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
 
+import { auth } from "../../../FirebaseConfigs/Firesbase";
+import { onAuthStateChanged, signOut } from "firebase/auth";
+
 export default function () {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
+  const [authUser, setAuthUser] = useState(null);
+
+  useEffect(() => {
+    const authState = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setAuthUser(user);
+        console.log("LoggedInUser:", user);
+      } else {
+        setAuthUser(null);
+      }
+    });
+    return () => {
+      authState();
+    };
+  }, []);
+
+  const handleUserSignOut = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("Logged Out successfully");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
 
   const accountNavigation = AccountRoutes(
     t,
@@ -43,8 +73,14 @@ export default function () {
         onMouseLeave={() => setMenuOpen(false)}
         className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
       >
-        Sign In
-        <IonIcon icon={chevronDownOutline} className="ml-2" />
+        {authUser ? (
+          `${authUser.displayName}`
+        ) : (
+          <p>
+            Sign In
+            <IonIcon icon={chevronDownOutline} className="ml-2" />
+          </p>
+        )}
       </Popover.Button>
 
       <Transition
@@ -64,14 +100,16 @@ export default function () {
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
-              {authRoutes.map((authKey) => (
-                <MenuItemsCard
-                  key={authKey.navLink}
-                  navigationLink={authKey.navLink}
-                  navigationRoute={authKey.navRoute}
-                  style={{ fontWeight: "bold" }}
-                />
-              ))}
+              {authUser
+                ? `Hello ${authUser.displayName}`
+                : `${authRoutes.map((authKey) => (
+                    <MenuItemsCard
+                      key={authKey.navLink}
+                      navigationLink={authKey.navLink}
+                      navigationRoute={authKey.navRoute}
+                      style={{ fontWeight: "bold" }}
+                    />
+                  ))}`}
 
               {/* Your Account Routes */}
               <h4 className="text-left px-4 font-semibold font-mono mt-2 mb-2">
@@ -106,6 +144,8 @@ export default function () {
                 navigationLink="Contact Us"
                 icon={chatbubblesOutline}
               />
+
+              <button onClick={handleUserSignOut}>Logout</button>
             </div>
           </div>
         </Popover.Panel>

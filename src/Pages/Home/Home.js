@@ -68,7 +68,6 @@ export default function Home() {
 
           {productItems}
         </div>
-
       </div>
       <FinePens />
     </React.Fragment>
