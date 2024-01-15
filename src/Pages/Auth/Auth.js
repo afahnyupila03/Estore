@@ -1,7 +1,7 @@
 import { Field, Form, Formik } from "formik";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import CustomTextInput, { CustomCheckbox } from "../../Components/TextInput";
+import CustomTextInput from "../../Components/TextInput";
 import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
 import NewsSubscriptionPage from "./NewsSubscriptionPage";
 import { useState } from "react";
@@ -189,7 +189,7 @@ export default function () {
                 type="submit"
               >
                 {isSubmitting ? (
-                  <UseAnimation animation={loading} />
+                  <UseAnimation animation={loading} /> 
                 ) : isSignUp ? (
                   "Create Account"
                 ) : (

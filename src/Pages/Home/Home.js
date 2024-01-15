@@ -56,7 +56,7 @@ export default function Home() {
           <div className="grid grid-cols-1 gap-x-2 gap-y-4 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-4">
             {CATEGORY_FEATURES.map((catFeat) => (
               <ProductCategoryCardItem
-                key={catFeat.id}
+                key={catFeat.categoryLink}
                 categoryData={catFeat}
               />
             ))}

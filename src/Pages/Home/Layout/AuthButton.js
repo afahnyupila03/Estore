@@ -68,20 +68,24 @@ export default function () {
 
   return (
     <Popover as="div" className="relative mt-2 text-center">
-      <Popover.Button
-        onMouseEnter={() => setMenuOpen(true)}
-        onMouseLeave={() => setMenuOpen(false)}
-        className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
-      >
-        {authUser ? (
-          `${authUser.displayName}`
-        ) : (
-          <p>
-            Sign In
-            <IonIcon icon={chevronDownOutline} className="ml-2" />
-          </p>
-        )}
-      </Popover.Button>
+      {authUser === null  ? (
+        <Popover.Button
+          onMouseEnter={() => setMenuOpen(true)}
+          onMouseLeave={() => setMenuOpen(false)}
+          className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
+        >
+          Sign In
+          <IonIcon icon={chevronDownOutline} className="ml-2" />
+        </Popover.Button>
+      ) : (
+        <Popover.Button
+          onMouseEnter={() => setMenuOpen(true)}
+          onMouseLeave={() => setMenuOpen(false)}
+          className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
+        >
+          {authUser.displayName}
+        </Popover.Button>
+      )}
 
       <Transition
         show={menuOpen}
@@ -100,16 +104,18 @@ export default function () {
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
-              {authUser
-                ? `Hello ${authUser.displayName}`
-                : `${authRoutes.map((authKey) => (
-                    <MenuItemsCard
-                      key={authKey.navLink}
-                      navigationLink={authKey.navLink}
-                      navigationRoute={authKey.navRoute}
-                      style={{ fontWeight: "bold" }}
-                    />
-                  ))}`}
+              {authUser ? (
+                <p>Hello ${authUser.displayName}</p>
+              ) : (
+                `${authRoutes.map((authKey) => (
+                  <MenuItemsCard
+                    key={authKey.navLink}
+                    navigationLink={authKey.navLink}
+                    navigationRoute={authKey.navRoute}
+                    style={{ fontWeight: "bold" }}
+                  />
+                ))}`
+              )}
 
               {/* Your Account Routes */}
               <h4 className="text-left px-4 font-semibold font-mono mt-2 mb-2">
