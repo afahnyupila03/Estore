@@ -66,26 +66,31 @@ export default function () {
   );
   const authRoutes = AuthRoute(t);
 
+  const authenticationRoute = authRoutes.map((authKey) => (
+    <MenuItemsCard
+      key={authKey.navLink}
+      navigationLink={authKey.navLink}
+      navigationRoute={authKey.navRoute}
+      style={{ fontWeight: "bold" }}
+    />
+  ));
+
   return (
     <Popover as="div" className="relative mt-2 text-center">
-      {authUser === null  ? (
-        <Popover.Button
-          onMouseEnter={() => setMenuOpen(true)}
-          onMouseLeave={() => setMenuOpen(false)}
-          className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
-        >
-          Sign In
-          <IonIcon icon={chevronDownOutline} className="ml-2" />
-        </Popover.Button>
-      ) : (
-        <Popover.Button
-          onMouseEnter={() => setMenuOpen(true)}
-          onMouseLeave={() => setMenuOpen(false)}
-          className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
-        >
-          {authUser.displayName}
-        </Popover.Button>
-      )}
+      <Popover.Button
+        onMouseEnter={() => setMenuOpen(true)}
+        onMouseLeave={() => setMenuOpen(false)}
+        className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
+      >
+        {authUser === null ? (
+          <>
+            Sign In
+            <IonIcon icon={chevronDownOutline} className="ml-2" />
+          </>
+        ) : (
+          <p style={{ fontSize: "1.2rem" }}>{authUser?.displayName}</p>
+        )}
+      </Popover.Button>
 
       <Transition
         show={menuOpen}
@@ -104,17 +109,15 @@ export default function () {
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
-              {authUser ? (
-                <p>Hello ${authUser.displayName}</p>
+              {authUser === null ? (
+                authenticationRoute
               ) : (
-                `${authRoutes.map((authKey) => (
-                  <MenuItemsCard
-                    key={authKey.navLink}
-                    navigationLink={authKey.navLink}
-                    navigationRoute={authKey.navRoute}
-                    style={{ fontWeight: "bold" }}
-                  />
-                ))}`
+                <p
+                  className="font-mono font-semibold"
+                  style={{ fontSize: "1.2rem" }}
+                >
+                  Hello, {authUser.displayName}
+                </p>
               )}
 
               {/* Your Account Routes */}
@@ -151,7 +154,14 @@ export default function () {
                 icon={chatbubblesOutline}
               />
 
-              <button onClick={handleUserSignOut}>Logout</button>
+              {authUser && (
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg mt-4"
+                  onClick={handleUserSignOut}
+                >
+                  Logout
+                </button>
+              )}
             </div>
           </div>
         </Popover.Panel>
