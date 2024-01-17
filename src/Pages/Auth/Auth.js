@@ -3,7 +3,6 @@ import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import CustomTextInput from "../../Components/TextInput";
 import { SignUpAuthSchema, LoginAuthSchema } from "../../ValidationSchemas/AuthSchemas";
-import NewsSubscriptionPage from "./NewsSubscriptionPage";
 import { useState } from "react";
 
 import {
@@ -203,8 +202,6 @@ export default function () {
           </Form>
         )}
       </Formik>
-
-      <NewsSubscriptionPage />
     </div>
   );
 }
