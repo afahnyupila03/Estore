@@ -1,7 +1,7 @@
 import * as Yup from "yup";
 import { auth } from "../FirebaseConfigs/Firesbase";
 import {
-  createUserWithEmailAndPassword,
+  fetchSignInMethodsForEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
 
@@ -9,29 +9,16 @@ const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
 export const isEmailTaken = async (email) => {
   try {
-    // Use the appropriate method to check if the email is already in use
-    const userCredential = await createUserWithEmailAndPassword(
-      auth,
-      email,
-      "tempPassword"
-    );
-    // If the above operation succeeds, it means the email is not taken
-    // You can handle this according to your specific use case
-    // For example, you can log the userCredential and return false
-    console.log("User credential:", userCredential);
-    return false;
+    // Use the appropriate method to check if the email is already in use with Firebase Authentication
+    const methods = await fetchSignInMethodsForEmail(auth, email);
+    // If methods array is not empty, it means the email is already in use
+    return methods.length > 0;
   } catch (error) {
-    // If an error occurs, check if it's "auth/email-already-in-use"
-    if (error.code === "auth/email-already-in-use") {
-      // If the error is "auth/email-already-in-use", it means the email is already taken
-      return true;
-    } else {
-      // Handle other errors if needed
-      console.error("Error:", error);
-      return false; // or handle other errors accordingly
-    }
+    console.error("Error:", error);
+    return false; // Return false to indicate that the email is not taken (or handle other errors accordingly)
   }
 };
+
 
 export const isWrongPassword = (error) => {
   return error.code === "auth/wrong-password";

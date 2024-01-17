@@ -77,20 +77,24 @@ export default function () {
 
   return (
     <Popover as="div" className="relative mt-2 text-center">
-      <Popover.Button
-        onMouseEnter={() => setMenuOpen(true)}
-        onMouseLeave={() => setMenuOpen(false)}
-        className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
-      >
-        {authUser === null ? (
-          <>
-            Sign In
-            <IonIcon icon={chevronDownOutline} className="ml-2" />
-          </>
-        ) : (
-          <p style={{ fontSize: "1.2rem" }}>{authUser?.displayName}</p>
-        )}
-      </Popover.Button>
+      {authUser === null ? (
+        <Popover.Button
+          onMouseEnter={() => setMenuOpen(true)}
+          onMouseLeave={() => setMenuOpen(false)}
+          className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
+        >
+          Sign In
+          <IonIcon icon={chevronDownOutline} className="ml-2" />
+        </Popover.Button>
+      ) : (
+        <Popover.Button
+          onMouseEnter={() => setMenuOpen(true)}
+          onMouseLeave={() => setMenuOpen(false)}
+          className="flex items-center gap-x-1 text-lg font-semibold font-mono leading-6 text-gray-900"
+        >
+          {authUser && authUser.displayName}
+        </Popover.Button>
+      )}
 
       <Transition
         show={menuOpen}
@@ -116,7 +120,7 @@ export default function () {
                   className="font-mono font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 >
-                  Hello, {authUser.displayName}
+                  Hello, {authUser && authUser.displayName}
                 </p>
               )}
 

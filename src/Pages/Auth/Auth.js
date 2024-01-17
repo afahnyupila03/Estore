@@ -2,7 +2,10 @@ import { Field, Form, Formik } from "formik";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import CustomTextInput from "../../Components/TextInput";
-import { SignUpAuthSchema, LoginAuthSchema } from "../../ValidationSchemas/AuthSchemas";
+import {
+  SignUpAuthSchema,
+  LoginAuthSchema,
+} from "../../ValidationSchemas/AuthSchemas";
 import { useState } from "react";
 
 import {
@@ -94,7 +97,7 @@ export default function () {
           password: "",
           confirmPassword: "",
         }}
-        validationSchema={isSignUp ? SignUpAuthSchema: LoginAuthSchema}
+        validationSchema={isSignUp ? SignUpAuthSchema : LoginAuthSchema}
         onSubmit={isSignUp ? handleCreateUser : handleUserLogin}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
@@ -187,11 +190,11 @@ export default function () {
             <div className="my-4 w-full flex justify-center text-white">
               <button
                 disabled={isSubmitting}
-                className="bg-gray-500 text-black"
+                className="bg-gray-500 text-black px-6 py-2 rounded"
                 type="submit"
               >
                 {isSubmitting ? (
-                  <UseAnimation animation={loading} /> 
+                  <UseAnimation animation={loading} />
                 ) : isSignUp ? (
                   "Create Account"
                 ) : (
