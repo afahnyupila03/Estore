@@ -177,7 +177,7 @@ export default function () {
 
             <div className="my-4 flex justify-center">
               <button
-                className="font-semibold font-sans"
+                className="font-semibold font-mono"
                 type="button"
                 onClick={handleExistingUserAuth}
               >
@@ -190,7 +190,7 @@ export default function () {
             <div className="my-4 w-full flex justify-center text-white">
               <button
                 disabled={isSubmitting}
-                className="bg-gray-500 text-black px-6 py-2 rounded"
+                className="bg-gray-500 font-semibold text-lg font-mono text-black px-6 py-2 rounded"
                 type="submit"
               >
                 {isSubmitting ? (
