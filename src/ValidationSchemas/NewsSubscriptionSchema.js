@@ -1,14 +1,5 @@
 import * as Yup from "yup";
-
-export const isEmailTaken = async (email) => {
-  // LOGIC TO CHECK EXISTING EMAILS.
-  const existingEmail = [
-    "john@example.com",
-    "mary@example.com",
-    "jane@example.com",
-  ];
-  return existingEmail.includes(email);
-};
+import { isEmailTaken } from "./AuthSchemas";
 
 export const NewsSubscriptionSchema = Yup.object().shape({
   emailSubscription: Yup.string()

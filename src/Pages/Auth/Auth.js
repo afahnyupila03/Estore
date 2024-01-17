@@ -2,7 +2,7 @@ import { Field, Form, Formik } from "formik";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import CustomTextInput from "../../Components/TextInput";
-import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
+import { SignUpAuthSchema, LoginAuthSchema } from "../../ValidationSchemas/AuthSchemas";
 import NewsSubscriptionPage from "./NewsSubscriptionPage";
 import { useState } from "react";
 
@@ -42,12 +42,14 @@ export default function () {
             .catch((error) => {
               // An error occurred
               console.error(error);
+              actions.setFieldError("password", error.message);
             });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.error(errorCode, errorMessage);
+          actions.setFieldError("email", errorMessage);
         });
       actions.resetForm({
         values: {
@@ -72,6 +74,7 @@ export default function () {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.error(errorCode, errorMessage);
+          actions.setFieldError("password", errorMessage);
         });
       actions.resetForm({
         values: {
@@ -92,7 +95,7 @@ export default function () {
           password: "",
           confirmPassword: "",
         }}
-        validationSchema={isSignUp && AuthSchema}
+        validationSchema={isSignUp ? SignUpAuthSchema: LoginAuthSchema}
         onSubmit={isSignUp ? handleCreateUser : handleUserLogin}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
