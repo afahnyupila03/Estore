@@ -1,11 +1,27 @@
-import React, { useState } from "react";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../FirebaseConfigs/Firesbase";
+
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function CartPage() {
   const cartItems = useSelector((state) => state.cart.products);
-  const [userLoggedIn, setUserLoggedIn] = useState(true);
+  const [userLoggedIn, setUserLoggedIn] = useState(null);
   const [cartCounter, setCartCounter] = React.useState(0);
+
+  useEffect(() => {
+    const authState = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUserLoggedIn(user);
+      } else {
+        setUserLoggedIn(null);
+      }
+    });
+    return () => {
+      authState();
+    };
+  }, []);
 
   let content;
 
@@ -20,7 +36,7 @@ export default function CartPage() {
 
   if (cartItems.length > 0) {
     content = <p>Has items</p>;
-  } else if (cartItems.length === 0 && userLoggedIn) {
+  } else if (cartItems.length === 0 && userLoggedIn === null) {
     content = (
       <div>
         <p>Bag is empty. Please sign in to start shopping</p>

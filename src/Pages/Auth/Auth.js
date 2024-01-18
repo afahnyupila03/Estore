@@ -1,9 +1,11 @@
 import { Field, Form, Formik } from "formik";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import CustomTextInput, { CustomCheckbox } from "../../Components/TextInput";
-import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
-import NewsSubscriptionPage from "./NewsSubscriptionPage";
+import CustomTextInput from "../../Components/TextInput";
+import {
+  SignUpAuthSchema,
+  LoginAuthSchema,
+} from "../../ValidationSchemas/AuthSchemas";
 import { useState } from "react";
 
 import {
@@ -42,12 +44,14 @@ export default function () {
             .catch((error) => {
               // An error occurred
               console.error(error);
+              actions.setFieldError("password", error.message);
             });
         })
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.error(errorCode, errorMessage);
+          actions.setFieldError("email", errorMessage);
         });
       actions.resetForm({
         values: {
@@ -72,6 +76,7 @@ export default function () {
           const errorCode = error.code;
           const errorMessage = error.message;
           console.error(errorCode, errorMessage);
+          actions.setFieldError("password", errorMessage);
         });
       actions.resetForm({
         values: {
@@ -92,7 +97,7 @@ export default function () {
           password: "",
           confirmPassword: "",
         }}
-        validationSchema={isSignUp && AuthSchema}
+        validationSchema={isSignUp ? SignUpAuthSchema : LoginAuthSchema}
         onSubmit={isSignUp ? handleCreateUser : handleUserLogin}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
@@ -172,7 +177,7 @@ export default function () {
 
             <div className="my-4 flex justify-center">
               <button
-                className="font-semibold font-sans"
+                className="font-semibold font-mono"
                 type="button"
                 onClick={handleExistingUserAuth}
               >
@@ -185,7 +190,7 @@ export default function () {
             <div className="my-4 w-full flex justify-center text-white">
               <button
                 disabled={isSubmitting}
-                className="bg-gray-500 text-black"
+                className="bg-gray-500 font-semibold text-lg font-mono text-black px-6 py-2 rounded"
                 type="submit"
               >
                 {isSubmitting ? (
@@ -200,8 +205,6 @@ export default function () {
           </Form>
         )}
       </Formik>
-
-      <NewsSubscriptionPage />
     </div>
   );
 }

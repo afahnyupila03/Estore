@@ -14,7 +14,7 @@ export default function () {
     <div className="mx-auto px-2 py-2 text-lg">
       <div className="flex items-center justify-around">
         <div className="navbar-header">
-          <NavLink className="navbar-header font-semibold font-mono" to="/">
+          <NavLink className="navbar-header text-red-500 font-semibold font-mono" to="/">
             TimeZone
           </NavLink>
         </div>

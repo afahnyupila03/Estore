@@ -7,6 +7,10 @@ export default function ProductCategoryCardItem({ categoryData }) {
   const { categoryRoute, categoryLink, categoryImage, categoryImageText } =
     categoryData;
 
+    function UpperCaseLink(link = "") {
+      return link.toUpperCase()
+    }
+
   return (
     <div>
       <div
@@ -17,7 +21,7 @@ export default function ProductCategoryCardItem({ categoryData }) {
           className="p-2 text-lg font-semibold font-mono flex items-center justify-center"
           to={`category/${categoryRoute}`}
         >
-          {categoryLink}
+          {UpperCaseLink(categoryLink)}
           <IonIcon
             icon={arrowForward}
             style={{ fontSize: "1.5rem", marginLeft: ".9rem" }}
