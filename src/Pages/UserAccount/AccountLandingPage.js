@@ -48,11 +48,41 @@ export default function AccountLandingPage() {
       </div>
       <h1>This is your account landing page</h1>
 
-      <Card 
+      <Card
         title="Hello"
         link="First Link"
+        cardText="Hello, this is your first entry"
+        icon={addOutline}
+        actionLink="Action 1"
+        link2="Link 2"
       />
 
+      <div className="mt-6">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 lg:grid-cols-2 xl:gap-x-8">
+          <Card
+            title="Hello"
+            link="First Link"
+            cardText="Hello, this is your first entry"
+            icon={addOutline}
+            actionLink="Action 1"
+            link2="Link 2"
+          />
+          <Card
+            title="Hello"
+            link="First Link"
+            cardText="Hello, this is your first entry"
+            icon={addOutline}
+            actionLink="Action 1"
+            link2="Link 2"
+            link2Style={{
+              padding: ".4rem",
+              backgroundColor: "black",
+              color: "white",
+            }}
+            className="center"
+          />
+        </div>
+      </div>
     </div>
   );
 }

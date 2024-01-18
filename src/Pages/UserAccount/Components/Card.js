@@ -8,6 +8,12 @@ export default function Card({
   linkStyle,
   icon,
   cardText,
+  actionLink,
+  actionRoute,
+  route2,
+  link2,
+  link2Style,
+  className,
 }) {
   return (
     <div className="border-2 border-black rounded-lg p-4">
@@ -18,12 +24,15 @@ export default function Card({
         </Link>
       </div>
       <hr className="border-2 border-black width-full" />
-      <div className="p-2 flex justify-center">
-        <p>{cardText}</p>
-        <div className="flex items-center">
+      <div className="p-2">
+        <p className="self-center">{cardText}</p>
+        <div className="flex flex-row items-center justify-center">
           <IonIcon icon={icon} />
+          <Link to={actionRoute}>{actionLink}</Link>
         </div>
-        <Link to={route}>{link}</Link>
+        <Link className={className} style={link2Style} to={route2}>
+          {link2}
+        </Link>
       </div>
     </div>
   );
