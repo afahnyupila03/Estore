@@ -32,6 +32,13 @@ export const AuthRoute = (t) => [
   },
 ];
 
+export const UserAccountRoute = (t, userName) => [
+  {
+    navLink: `${userName}'s Account`,
+    navRoute: "my-account/landing"
+  }
+]
+
 export const AccountRoutes = (t, heartOutline, cardOutline, bicycleOutline) => [
   {
     iconName: heartOutline,

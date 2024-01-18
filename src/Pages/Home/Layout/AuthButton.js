@@ -6,6 +6,7 @@ import {
   AccountRoutes,
   AccountSettingsRoutes,
   AuthRoute,
+  UserAccountRoute,
 } from "../components/LayoutNavigation";
 import { IonIcon } from "@ionic/react";
 import {
@@ -64,13 +65,25 @@ export default function () {
     mailOutline,
     lockClosedOutline
   );
+
+  const userName = authUser && authUser.displayName;
   const authRoutes = AuthRoute(t);
+  const accountPage = UserAccountRoute(t, userName);
 
   const authenticationRoute = authRoutes.map((authKey) => (
     <MenuItemsCard
       key={authKey.navLink}
       navigationLink={authKey.navLink}
       navigationRoute={authKey.navRoute}
+      style={{ fontWeight: "bold" }}
+    />
+  ));
+
+  const userAccount = accountPage.map((account) => (
+    <MenuItemsCard
+      key={account.navLink}
+      navigationLink={account.navLink}
+      navigationRoute={account.navRoute}
       style={{ fontWeight: "bold" }}
     />
   ));
@@ -113,16 +126,17 @@ export default function () {
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
-              {authUser === null ? (
-                authenticationRoute
-              ) : (
+              {
+                authUser === null ? authenticationRoute : userAccount
+                /* (
                 <p
                   className="font-mono font-semibold"
                   style={{ fontSize: "1.2rem" }}
                 >
                   Hello, {authUser && authUser.displayName}
                 </p>
-              )}
+              ) */
+              }
 
               {/* Your Account Routes */}
               <h4 className="text-left px-4 font-semibold font-mono mt-2 mb-2">
