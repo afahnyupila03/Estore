@@ -26,20 +26,31 @@ export const NavbarRoutes = (t) => [
 ];
 
 export const AuthRoute = (t) => [
-  { 
-    navLink: "Sign In | Create Account", 
-    navRoute: "/sign-in-&-create-account" 
+  {
+    navLink: "Sign In | Create Account",
+    navRoute: "/sign-in-&-create-account",
   },
 ];
 
 export const UserAccountRoute = (t, userName) => [
   {
     navLink: `${userName}'s Account`,
-    navRoute: "my-account/landing"
-  }
-]
+    navRoute: "my-account/landing",
+  },
+];
 
-export const AccountRoutes = (t, heartOutline, cardOutline, bicycleOutline) => [
+export const AccountRoutes = (
+  t,
+  cubeOutline,
+  heartOutline,
+  cardOutline,
+  bicycleOutline
+) => [
+  {
+    iconName: cubeOutline,
+    navRoute: "account/purchases",
+    navLink: "Purchases",
+  },
   {
     iconName: heartOutline,
     navRoute: "account/wish-list",

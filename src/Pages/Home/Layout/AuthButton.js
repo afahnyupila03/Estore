@@ -16,6 +16,7 @@ import {
   mailOutline,
   chatbubblesOutline,
   bicycleOutline,
+  cubeOutline,
   chevronDownOutline,
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
@@ -56,6 +57,7 @@ export default function () {
 
   const accountNavigation = AccountRoutes(
     t,
+    cubeOutline,
     heartOutline,
     cardOutline,
     bicycleOutline
