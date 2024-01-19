@@ -1,9 +1,14 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
-
-import { addOutline } from "ionicons/icons";
-import Card from "./Components/Card";
+import { Disclosure, Menu, Transition } from "@headlessui/react";
+import {
+  notifications,
+  pulseOutline,
+  pencilOutline,
+  starOutline,
+} from "ionicons/icons";
+import { IonIcon } from "@ionic/react";
 
 const getFirstTwoLetters = (displayName) => {
   if (displayName) {
@@ -20,8 +25,30 @@ const getFirstTwoLetters = (displayName) => {
   }
 };
 
+const user = {
+  name: "Tom Cook",
+  email: "tom@example.com",
+  imageUrl:
+    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
+};
+const navigation = [
+  { name: "Dashboard", href: "#", current: true },
+  { name: "Team", href: "#", current: false },
+  { name: "Projects", href: "#", current: false },
+  { name: "Calendar", href: "#", current: false },
+  { name: "Reports", href: "#", current: false },
+];
+const userNavigation = [
+  { name: "Your Profile", href: "#" },
+  { name: "Settings", href: "#" },
+  { name: "Sign out", href: "#" },
+];
+
 export default function AccountLandingPage() {
   const [authUser, setAuthUser] = useState(null);
+  function classNames(...classes) {
+    return classes.filter(Boolean).join(" ");
+  }
 
   useEffect(() => {
     const userName = onAuthStateChanged(auth, (user) => {
@@ -39,49 +66,32 @@ export default function AccountLandingPage() {
   const displayName = authUser && authUser.displayName;
 
   return (
-    <div className="m-20 p-20 text-3xl">
-      <div className="flex justify-center items-center">
-        <h1 className="mr-6 p-4 bg-red-500 rounded-full text-white">
-          {getFirstTwoLetters(displayName)}
-        </h1>
-        <h1>{displayName}'s Account</h1>
+    <div className="flex h-screen bg-gray-100">
+      <div className="w-40 bg-gray-800">
+        <ul className="py-6 space-y-8">
+          {navigation.map((item) => (
+            <li key={item.name}>
+              <a
+                href={item.href}
+                className={classNames(
+                  item.current
+                    ? "text-white font-bold"
+                    : "text-gray-300 hover:text-white",
+                  "block pl-4 pr-2 py-2"
+                )}
+              >
+                {item.name}
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
-      <h1>This is your account landing page</h1>
-
-      <Card
-        title="Hello"
-        link="First Link"
-        cardText="Hello, this is your first entry"
-        icon={addOutline}
-        actionLink="Action 1"
-        link2="Link 2"
-      />
-
-      <div className="mt-6">
-        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-1 lg:grid-cols-2 xl:gap-x-8">
-          <Card
-            title="Hello"
-            link="First Link"
-            cardText="Hello, this is your first entry"
-            icon={addOutline}
-            actionLink="Action 1"
-            link2="Link 2"
-          />
-          <Card
-            title="Hello"
-            link="First Link"
-            cardText="Hello, this is your first entry"
-            icon={addOutline}
-            actionLink="Action 1"
-            link2="Link 2"
-            link2Style={{
-              padding: ".4rem",
-              backgroundColor: "black",
-              color: "white",
-            }}
-            className="center"
-          />
-        </div>
+      <div className="flex-1 bg-white">
+        <main className="p-8">
+          {getFirstTwoLetters(displayName)}
+          <p>{displayName}'s Account</p>
+          <p>Hello Pila</p>
+        </main>
       </div>
     </div>
   );
