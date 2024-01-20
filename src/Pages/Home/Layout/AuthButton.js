@@ -130,14 +130,6 @@ export default function () {
             <div className="p-4">
               {
                 authUser === null ? authenticationRoute : userAccount
-                /* (
-                <p
-                  className="font-mono font-semibold"
-                  style={{ fontSize: "1.2rem" }}
-                >
-                  Hello, {authUser && authUser.displayName}
-                </p>
-              ) */
               }
 
               {/* Your Account Routes */}

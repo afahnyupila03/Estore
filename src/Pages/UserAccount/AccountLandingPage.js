@@ -1,14 +1,19 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState, Fragment } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import {
-  notifications,
-  pulseOutline,
-  pencilOutline,
-  starOutline,
-} from "ionicons/icons";
 import { IonIcon } from "@ionic/react";
+import { Link } from "react-router-dom";
+import {
+  bicycleOutline,
+  cardOutline,
+  chatbubbleOutline,
+  cubeOutline,
+  heartOutline,
+  lockClosedOutline,
+  mailOutline,
+} from "ionicons/icons";
+import { NAV_CONST } from "./Components/AccountNavConst";
+import { useTranslation } from "react-i18next";
 
 const getFirstTwoLetters = (displayName) => {
   if (displayName) {
@@ -25,27 +30,25 @@ const getFirstTwoLetters = (displayName) => {
   }
 };
 
-const user = {
-  name: "Tom Cook",
-  email: "tom@example.com",
-  imageUrl:
-    "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80",
-};
-const navigation = [
-  { name: "Dashboard", href: "#", current: true },
-  { name: "Team", href: "#", current: false },
-  { name: "Projects", href: "#", current: false },
-  { name: "Calendar", href: "#", current: false },
-  { name: "Reports", href: "#", current: false },
-];
-const userNavigation = [
-  { name: "Your Profile", href: "#" },
-  { name: "Settings", href: "#" },
-  { name: "Sign out", href: "#" },
-];
+function classNames(...classes) {
+  return classes.filter(Boolean).join(" ");
+}
 
 export default function AccountLandingPage() {
   const [authUser, setAuthUser] = useState(null);
+  const { t } = useTranslation;
+
+  const navigation = NAV_CONST(
+    bicycleOutline,
+    cardOutline,
+    chatbubbleOutline,
+    cubeOutline,
+    heartOutline,
+    lockClosedOutline,
+    mailOutline,
+    t
+  );
+
   function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
   }
@@ -65,32 +68,59 @@ export default function AccountLandingPage() {
 
   const displayName = authUser && authUser.displayName;
 
+  const NAME_BAR = (
+    <div className="flex items-center text-gray-300">
+      {getFirstTwoLetters(displayName)}
+      <p>{displayName}'s Account</p>
+    </div>
+  );
+
   return (
     <div className="flex h-screen bg-gray-100">
-      <div className="w-40 bg-gray-800">
+      <div className="w-80 bg-gray-800">
         <ul className="py-6 space-y-8">
+          <li>
+            <ul className="text-gray-300 flex justify-center text-xl font-semibold font-mono items-center">
+              <p className="rounded-full mr-2 p-2 bg-red-500">
+                {getFirstTwoLetters(displayName)}
+              </p>
+              <p>{displayName}'s Account</p>
+            </ul>
+          </li>
           {navigation.map((item) => (
             <li key={item.name}>
-              <a
-                href={item.href}
+              <Link
+                to={item.href}
                 className={classNames(
                   item.current
                     ? "text-white font-bold"
                     : "text-gray-300 hover:text-white",
-                  "block pl-4 pr-2 py-2"
+                  "flex justify-start pl-10 pr-2 py-2 font-mono items-center text-xl"
                 )}
               >
+                <IonIcon
+                  icon={item.icon}
+                  className="mr-4"
+                  style={{ fontSize: "1.5rem" }}
+                />
                 {item.name}
-              </a>
+              </Link>
             </li>
           ))}
         </ul>
       </div>
       <div className="flex-1 bg-white">
-        <main className="p-8">
-          {getFirstTwoLetters(displayName)}
-          <p>{displayName}'s Account</p>
-          <p>Hello Pila</p>
+        <header className="bg-white shadow">
+          <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
+            {getFirstTwoLetters(displayName)}
+            <p>{displayName}'s Account</p>
+            <p>Hello Pila</p>
+          </div>
+        </header>
+        <main>
+          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+            {/* Your content */}
+          </div>
         </main>
       </div>
     </div>
