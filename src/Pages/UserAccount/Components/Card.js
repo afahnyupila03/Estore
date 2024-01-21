@@ -12,14 +12,14 @@ export default function Card({
 }) {
   return (
     <div>
-      <div className="border-2 border-black rounded p-4">
-        <div className="flex justify-between text-lg font-mono font-semibold items-center">
+      <div className="border-2 border-black rounded">
+        <div className="flex justify-between text-lg font-mono font-semibold items-center p-2">
           <h4>{headerText}</h4>
           <Link to="#" className="underline">
             {headerLink}
           </Link>
         </div>
-        <hr className="m-2 border-black" style={{ borderWidth: ".1rem" }} />
+        <hr className=" border-black" style={{ borderWidth: ".1rem" }} />
         <div className="flex flex-col justify-start font-mono text-lg font-semibold">
           <Link to="#" className="items-center flex">
             <IonIcon

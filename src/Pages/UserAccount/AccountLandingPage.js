@@ -123,10 +123,10 @@ export default function AccountLandingPage() {
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
             <Card
               headerText="Purchases"
-              headerLink="Learn more"
+              headerLink="View all purchases"
               icon={addOutline}
-              bodyLink="Create list"
-              bodyDescription="Buy products to create purchase list."
+              bodyLink="Start shopping"
+              bodyDescription="You'll be able to view details, track packages, manage returns and more when you make a purchase"
               hr
               footerLink="Shop now"
             />
