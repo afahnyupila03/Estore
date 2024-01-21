@@ -2,39 +2,49 @@ import { Link } from "react-router-dom";
 import { IonIcon } from "@ionic/react";
 
 export default function Card({
-  title,
-  link,
-  route,
-  linkStyle,
+  headerText,
+  headerLink,
   icon,
-  cardText,
-  actionLink,
-  actionRoute,
-  route2,
-  link2,
-  link2Style,
-  className,
-  actionStyle,
-  cardStyle
+  bodyLink,
+  bodyDescription,
+  hr,
+  footerLink,
 }) {
   return (
-    <div style={cardStyle} className="border-2 border-black rounded-lg p-4">
-      <div className="flex justify-between items-center p-2">
-        <h3>{title}</h3>
-        <Link to={route} style={linkStyle}>
-          {link}
-        </Link>
-      </div>
-      <hr className="border-2 border-black width-full" />
-      <div className="p-2">
-        <p style={{textAlign: "center", marginRight: "2rem"}}>{cardText}</p>
-        <div className="flex flex-row items-center" style={actionStyle}>
-          <IonIcon icon={icon} />
-          <Link to={actionRoute} >{actionLink}</Link>
+    <div>
+      <div className="border-2 border-black rounded p-4">
+        <div className="flex justify-between text-lg font-mono font-semibold items-center">
+          <h4>{headerText}</h4>
+          <Link to="#" className="underline">
+            {headerLink}
+          </Link>
         </div>
-        <Link className={className} style={link2Style} to={route2}>
-          {link2}
-        </Link>
+        <hr className="m-2 border-black" style={{ borderWidth: ".1rem" }} />
+        <div className="flex flex-col justify-start font-mono text-lg font-semibold">
+          <Link to="#" className="items-center flex">
+            <IonIcon
+              icon={icon}
+              className="mr-2"
+              style={{ fontSize: "1.5rem" }}
+            />
+            {bodyLink}
+          </Link>
+          <p className="flex justify-start">{bodyDescription}</p>
+        </div>
+        {hr && (
+          <hr
+            className="m-2 mb-2 border-black"
+            style={{ borderWidth: ".1rem" }}
+          />
+        )}
+        <div>
+          <Link
+            to="#"
+            className="p-2 mt-4 bg-black font-mono text-lg  text-white rounded"
+          >
+            {footerLink}
+          </Link>
+        </div>
       </div>
     </div>
   );

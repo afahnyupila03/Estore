@@ -4,6 +4,7 @@ import { auth } from "../../FirebaseConfigs/Firesbase";
 import { IonIcon } from "@ionic/react";
 import { Link } from "react-router-dom";
 import {
+  addOutline,
   bicycleOutline,
   cardOutline,
   chatbubbleOutline,
@@ -14,6 +15,7 @@ import {
 } from "ionicons/icons";
 import { NAV_CONST } from "./Components/AccountNavConst";
 import { useTranslation } from "react-i18next";
+import Card from "./Components/Card";
 
 const getFirstTwoLetters = (displayName) => {
   if (displayName) {
@@ -119,7 +121,15 @@ export default function AccountLandingPage() {
         </header>
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            {/* Your content */}
+            <Card
+              headerText="Purchases"
+              headerLink="Learn more"
+              icon={addOutline}
+              bodyLink="Create list"
+              bodyDescription="Buy products to create purchase list."
+              hr
+              footerLink="Shop now"
+            />
           </div>
         </main>
       </div>

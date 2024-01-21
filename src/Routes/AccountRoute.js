@@ -1,14 +1,14 @@
-import AccountLandingPage, {PurchasePage} from "../Pages/UserAccount/AccountLandingPage";
+import AccountLandingPage from "../Pages/UserAccount/AccountLandingPage";
 
 export const AccountRoute = [
   {
     path: "my-account/landing",
     element: <AccountLandingPage />,
     children: [
-     /*  {
+      {
         path: "my-account/landing/purchases",
-        element: <PurchasePage />,
-      }, */
+        element: <AccountLandingPage />,
+      },
       {
         path: "my-account/landing/wish-lists",
         element: <AccountLandingPage />,
