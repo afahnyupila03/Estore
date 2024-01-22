@@ -14,7 +14,7 @@ export const BlogServices = async () => {
           title: blogPost[key].title,
           content: blogPost[key].content_text,
           photo: blogPost[key].photo_url,
-          createAt: blogPost[key].create_at,
+          createdAt: blogPost[key].created_at,
           id: blogPost[key].id,
           description: blogPost[key].description,
           category: blogPost[key].category,
