@@ -21,7 +21,7 @@ export default function () {
         gap-x-1.5 rounded-md bg-gray-400 px-5 
         py-2 text-sm font-semibold text-gray-900 
         shadow-sm ring-inset 
-        ring-gray-300 hover:bg-gray-50"
+        ring-gray-300 hover:bg-gray-500"
         >
           <div className="font-mono">
             {curLang === "en" ? (
