@@ -1,6 +1,8 @@
 import { useQuery } from "react-query";
 import { BlogServices } from "../../Services/BlogService";
 import BlogCard from "./Components/BlogCard";
+import UseAnimation from "../../Components/Loader";
+import loading from "react-useanimations/lib/loading";
 
 const Blog = (props) => {
   const {
@@ -8,31 +10,47 @@ const Blog = (props) => {
     isLoading,
     isError,
     error,
+    refetch,
   } = useQuery("blogPost", () => BlogServices());
-  console.log("Blog Page:", data);
 
   let BlogPost;
 
   if (isLoading) {
-    BlogPost = <p>Loading....!</p>;
+    BlogPost = (
+      <div className="bg-white py-5 sm:py-32">
+        <div className="mx-auto max-w-7xl px-3 lg:px-2">
+          <div className="flex justify-center">
+            <UseAnimation animation={loading} size={100} />
+          </div>
+        </div>
+      </div>
+    );
   } else if (isError) {
-    BlogPost = <p>{error} Something went wrong</p>;
+    BlogPost = (
+      <div className="bg-white py-5 sm:py-32">
+        <div className="mx-auto max-w-7xl px-3 lg:px-2">
+          <div className="flex justify-center">
+            <p>{error}</p>
+            <button onClick={() => refetch()}>Try again</button>
+          </div>
+        </div>
+      </div>
+    );
   } else {
     BlogPost = (
-      <div>
-        {data.map((blog) => (
-          <BlogCard blogData={blog} key={blog.id} />
-        ))}
+      <div className="bg-white py-5 sm:py-32">
+        <div className="mx-auto max-w-7xl px-3 lg:px-2">
+          <div className="mx-auto mt-5 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-5 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            {data.map((blog) => (
+              <BlogCard blogData={blog} key={blog.id} />
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
 
-  return (
-    <div>
-      <h1 className="mt-40">Blog Page</h1>
-      {BlogPost}
-    </div>
-  );
+  return <div>{BlogPost}</div>;
 };
 
 export default Blog;
