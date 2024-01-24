@@ -2,6 +2,7 @@ import AccountLandingPage, {
   ContactPage,
   PurchasePage,
 } from "../Pages/UserAccount/AccountLandingPage";
+import PersonalInformation from "../Pages/UserAccount/PersonalInformation";
 
 export const AccountRoute = [
   {
@@ -26,7 +27,7 @@ export const AccountRoute = [
       },
       {
         path: "password-&-personal-information",
-        element: <AccountLandingPage />,
+        element: <PersonalInformation />,
       },
       {
         path: "email-&-mail-preferences",

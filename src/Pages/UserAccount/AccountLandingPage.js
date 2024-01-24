@@ -1,5 +1,5 @@
 import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState, Fragment } from "react";
+import { useEffect, useState } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 import { IonIcon } from "@ionic/react";
 import {
@@ -115,22 +115,17 @@ export default function AccountLandingPage() {
       <div className="flex-1 bg-white">
         <header className="bg-white shadow">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            {getFirstTwoLetters(displayName)}
-            <p>{displayName}'s Account</p>
-            <p>Hello Pila</p>
+            <div className="flex font-semibold font-mono tracking-wider uppercase text-white p-4 bg-gray-800 items-center text-lg justify-center">
+              <span className="p-4 bg-red-500 rounded-full mr-2">
+                {getFirstTwoLetters(displayName)}
+              </span>
+
+              <p>{displayName}</p>
+            </div>
           </div>
         </header>
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            {/* <Card
-              headerText="Purchases"
-              headerLink="View all purchases"
-              icon={addOutline}
-              bodyLink="Start shopping"
-              bodyDescription="You'll be able to view details, track packages, manage returns and more when you make a purchase"
-              hr
-              footerLink="Shop now"
-            /> */}
             <Routes>
               {AccountRoute.map((route) => (
                 <Route
@@ -149,14 +144,18 @@ export default function AccountLandingPage() {
 }
 
 export function PurchasePage() {
- return (
-  <div>
-    <h1>This is your purchase page</h1>
-    <button>Make a purchase</button>
-  </div>
- )
+  return (
+    <div>
+      <h1>This is your purchase page</h1>
+      <button>Make a purchase</button>
+    </div>
+  );
 }
 
 export function ContactPage() {
-  return <div><h1>THis is our contact page</h1></div>
+  return (
+    <div>
+      <h1>THis is our contact page</h1>
+    </div>
+  );
 }
