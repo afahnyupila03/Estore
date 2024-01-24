@@ -2,7 +2,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { useEffect, useState, Fragment } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 import { IonIcon } from "@ionic/react";
-import { Link } from "react-router-dom";
 import {
   addOutline,
   bicycleOutline,
@@ -16,6 +15,8 @@ import {
 import { NAV_CONST } from "./Components/AccountNavConst";
 import { useTranslation } from "react-i18next";
 import Card from "./Components/Card";
+import { Routes, Route, Link, Outlet } from "react-router-dom";
+import { AccountRoute } from "../../Routes/AccountRoute";
 
 const getFirstTwoLetters = (displayName) => {
   if (displayName) {
@@ -56,7 +57,7 @@ export default function AccountLandingPage() {
   }
 
   useEffect(() => {
-    const userName = onAuthStateChanged(auth, (user) => {
+    const subscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         setAuthUser(user);
       } else {
@@ -64,7 +65,7 @@ export default function AccountLandingPage() {
       }
     });
     return () => {
-      userName();
+      subscribe();
     };
   }, []);
 
@@ -121,7 +122,7 @@ export default function AccountLandingPage() {
         </header>
         <main>
           <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
-            <Card
+            {/* <Card
               headerText="Purchases"
               headerLink="View all purchases"
               icon={addOutline}
@@ -129,10 +130,33 @@ export default function AccountLandingPage() {
               bodyDescription="You'll be able to view details, track packages, manage returns and more when you make a purchase"
               hr
               footerLink="Shop now"
-            />
+            /> */}
+            <Routes>
+              {AccountRoute.map((route) => (
+                <Route
+                  key={route.path}
+                  path={route.path}
+                  element={route.element}
+                />
+              ))}
+            </Routes>
+            <Outlet />
           </div>
         </main>
       </div>
     </div>
   );
+}
+
+export function PurchasePage() {
+ return (
+  <div>
+    <h1>This is your purchase page</h1>
+    <button>Make a purchase</button>
+  </div>
+ )
+}
+
+export function ContactPage() {
+  return <div><h1>THis is our contact page</h1></div>
 }

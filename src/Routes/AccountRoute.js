@@ -1,4 +1,7 @@
-import AccountLandingPage from "../Pages/UserAccount/AccountLandingPage";
+import AccountLandingPage, {
+  ContactPage,
+  PurchasePage,
+} from "../Pages/UserAccount/AccountLandingPage";
 
 export const AccountRoute = [
   {
@@ -6,32 +9,32 @@ export const AccountRoute = [
     element: <AccountLandingPage />,
     children: [
       {
-        path: "my-account/landing/purchases",
+        path: "purchases",
+        element: <PurchasePage />,
+      },
+      {
+        path: "wish-lists",
         element: <AccountLandingPage />,
       },
       {
-        path: "my-account/landing/wish-lists",
+        path: "delivery",
         element: <AccountLandingPage />,
       },
       {
-        path: "my-account/landing/delivery",
+        path: "payment-method",
         element: <AccountLandingPage />,
       },
       {
-        path: "my-account/landing/payment-method",
+        path: "password-&-personal-information",
         element: <AccountLandingPage />,
       },
       {
-        path: "my-account/landing/password-&-personal-information",
+        path: "email-&-mail-preferences",
         element: <AccountLandingPage />,
       },
       {
-        path: "my-account/landing/email-&-mail-preferences",
-        element: <AccountLandingPage />,
-      },
-      {
-        path: "my-account/landing/contact-us",
-        element: <AccountLandingPage />,
+        path: "contact-us",
+        element: <ContactPage />,
       },
     ],
   },
