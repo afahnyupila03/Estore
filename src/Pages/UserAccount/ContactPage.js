@@ -11,14 +11,14 @@ export default function ContactPage() {
   return (
     <div>
       <div>
-        <h1>Customer Service</h1>
+        <h1 className="text-2xl font-semibold font-mono">Customer Service</h1>
         <div>
-          <h1>We're Here for You</h1>
+          <h1 className="text-2xl font-semibold font-mono">We're Here for You</h1>
           <p>Call or chat with us here.</p>
         </div>
 
         <div>
-          <h1>Need Help?</h1>
+          <h1 className="text-2xl font-semibold font-mono">Need Help?</h1>
           <p>Check out our self-service tools to get help fast.</p>
           <div className="flex justify-between">
             <Card

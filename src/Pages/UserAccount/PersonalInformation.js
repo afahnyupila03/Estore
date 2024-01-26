@@ -36,13 +36,16 @@ export default function PersonalInformation() {
 
   return (
     <div>
+      {/* Password & Personal Information */}
       <div>
-        <h1>Password & Personal Information</h1>
+        <h1 className="text-2xl font-semibold font-mono">
+          Password & Personal Information
+        </h1>
         <div>
           <div>
             <p>
               This information is the same at: <br />
-              <span>TIMEZONE</span>
+              <span className="text-2xl font-semibold font-mono">TIMEZONE</span>
             </p>
           </div>
 
@@ -64,8 +67,11 @@ export default function PersonalInformation() {
         </div>
       </div>
 
+      {/* Personal Information */}
       <div>
-        <h1>Personal Information</h1>
+        <h1 className="text-2xl font-semibold font-mono">
+          Personal Information
+        </h1>
         <div>
           <label htmlFor="name">Name</label>
           <input value={userName} />
@@ -73,8 +79,9 @@ export default function PersonalInformation() {
         </div>
       </div>
 
+      {/* Security */}
       <div>
-        <h1>Security</h1>
+        <h1 className="text-2xl font-semibold font-mono">Security</h1>
         <p>Logout of your account</p>
         <button onClick={handleLogout}>Logout</button>
       </div>

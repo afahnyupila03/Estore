@@ -24,7 +24,7 @@ export default function PurchasePage() {
   return (
     <Fragment>
       <div>
-        <h1>Purchases</h1>
+        <h1 className="text-2xl font-semibold font-mono">Purchases</h1>
       </div>
       <div>{purchase}</div>
     </Fragment>

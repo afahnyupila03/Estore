@@ -22,7 +22,7 @@ export default function EmailAndMailPreferencePage() {
 
   return (
     <div>
-      <h1>Email & Mail Preferences</h1>
+      <h1 className="text-2xl font-semibold font-mono">Email & Mail Preferences</h1>
       <div>
         <h1>
           {getFirstTwoLetters(BRAND)} Here about sales and more at{" "}

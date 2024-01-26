@@ -22,7 +22,9 @@ export default function WishlistPage() {
           </p>
         </div>
         <div className="mt-4">
-          <Link to="/home" className="p-2 bg-black text-white">Shop now</Link>
+          <Link to="/home" className="p-2 bg-black text-white">
+            Shop now
+          </Link>
         </div>
       </div>
     );
@@ -37,7 +39,7 @@ export default function WishlistPage() {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h1>Wish List</h1>
+        <h1 className="text-2xl font-semibold font-mono">Wish List</h1>
         <div className="flex items-center">
           <IonIcon icon={shareOutline} className="mr-2" />
           <p>Share</p>
