@@ -1,9 +1,8 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import { useEffect, useState } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 import { IonIcon } from "@ionic/react";
 import {
-  addOutline,
   bicycleOutline,
   cardOutline,
   chatbubbleOutline,
@@ -14,11 +13,10 @@ import {
 } from "ionicons/icons";
 import { NAV_CONST } from "./Components/AccountNavConst";
 import { useTranslation } from "react-i18next";
-import Card from "./Components/Card";
 import { Routes, Route, Link, Outlet } from "react-router-dom";
 import { AccountRoute } from "../../Routes/AccountRoute";
 
-const getFirstTwoLetters = (displayName) => {
+export const getFirstTwoLetters = (displayName) => {
   if (displayName) {
     const names = displayName.split(" ");
     if (names.length >= 2) {
@@ -59,7 +57,7 @@ export default function AccountLandingPage() {
   useEffect(() => {
     const subscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
-        setAuthUser(user);
+        setAuthUser(user.displayName);
       } else {
         setAuthUser(null);
       }
@@ -69,14 +67,17 @@ export default function AccountLandingPage() {
     };
   }, []);
 
-  const displayName = authUser && authUser.displayName;
-
-  const NAME_BAR = (
-    <div className="flex items-center text-gray-300">
-      {getFirstTwoLetters(displayName)}
-      <p>{displayName}'s Account</p>
-    </div>
-  );
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("Logged out successfully");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorCode, errorMessage);
+      });
+  };
 
   return (
     <div className="flex h-screen bg-gray-100">
@@ -85,9 +86,9 @@ export default function AccountLandingPage() {
           <li>
             <ul className="text-gray-300 flex justify-center text-xl font-semibold font-mono items-center">
               <p className="rounded-full mr-2 p-2 bg-red-500">
-                {getFirstTwoLetters(displayName)}
+                {getFirstTwoLetters(authUser)}
               </p>
-              <p>{displayName}'s Account</p>
+              <p>{authUser}'s Account</p>
             </ul>
           </li>
           {navigation.map((item) => (
@@ -110,6 +111,15 @@ export default function AccountLandingPage() {
               </Link>
             </li>
           ))}
+
+          <li className="flex justify-center items-center">
+            <button
+              onClick={handleLogout}
+              className="p-4 text-white bg-gray-500 rounded-lg"
+            >
+              Logout
+            </button>
+          </li>
         </ul>
       </div>
       <div className="flex-1 bg-white">
@@ -117,10 +127,10 @@ export default function AccountLandingPage() {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <div className="flex font-semibold font-mono tracking-wider uppercase text-white p-4 bg-gray-800 items-center text-lg justify-center">
               <span className="p-4 bg-red-500 rounded-full mr-2">
-                {getFirstTwoLetters(displayName)}
+                {getFirstTwoLetters(authUser)}
               </span>
 
-              <p>{displayName}</p>
+              <p>{authUser}</p>
             </div>
           </div>
         </header>
@@ -139,23 +149,6 @@ export default function AccountLandingPage() {
           </div>
         </main>
       </div>
-    </div>
-  );
-}
-
-export function PurchasePage() {
-  return (
-    <div>
-      <h1>This is your purchase page</h1>
-      <button>Make a purchase</button>
-    </div>
-  );
-}
-
-export function ContactPage() {
-  return (
-    <div>
-      <h1>THis is our contact page</h1>
     </div>
   );
 }

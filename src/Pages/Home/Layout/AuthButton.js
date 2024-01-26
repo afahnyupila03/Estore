@@ -128,9 +128,7 @@ export default function () {
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
-              {
-                authUser === null ? authenticationRoute : userAccount
-              }
+              {authUser === null ? authenticationRoute : userAccount}
 
               {/* Your Account Routes */}
               <h4 className="text-left px-4 font-semibold font-mono mt-2 mb-2">

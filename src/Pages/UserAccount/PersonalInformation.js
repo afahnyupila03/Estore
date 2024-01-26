@@ -1,17 +1,20 @@
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 
 export default function PersonalInformation() {
   const [userEmail, setUserEmail] = useState(null);
+  const [userName, setUserName] = useState(null);
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserEmail(user.email);
+        setUserName(user.displayName);
         console.log("user-email:", user.email);
       } else {
         setUserEmail(null);
+        setUserName(null);
       }
     });
     return () => {
@@ -19,27 +22,61 @@ export default function PersonalInformation() {
     };
   }, []);
 
+  const handleLogout = () => {
+    signOut(auth)
+      .then(() => {
+        console.log("Signed out successfully.");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorCode, errorMessage);
+      });
+  };
+
   return (
     <div>
-      <h1>Password & Personal Information</h1>
       <div>
+        <h1>Password & Personal Information</h1>
         <div>
-          <p>
-            This information is the same at: <br />
-            <span>TIMEZONE</span>
-          </p>
-        </div>
-
-        <div>
-          <h1>Sign-in info</h1>
-          <p>
-            Email : <span className="text-red-700">{userEmail}</span>
-          </p>
           <div>
-            <label forHtml="email">Email: </label>
-            <input value={userEmail} />
+            <p>
+              This information is the same at: <br />
+              <span>TIMEZONE</span>
+            </p>
+          </div>
+
+          <div>
+            <h1>Sign-in info</h1>
+            <p>
+              Email : <span className="text-red-700">{userEmail}</span>
+            </p>
+            <div>
+              <label htmlFor="email">Email: </label>
+              <input value={userEmail} />
+              <button>Change email</button>
+            </div>
+            <div>
+              <label htmlFor="password">Password</label>
+              <button>Change password</button>
+            </div>
           </div>
         </div>
+      </div>
+
+      <div>
+        <h1>Personal Information</h1>
+        <div>
+          <label htmlFor="name">Name</label>
+          <input value={userName} />
+          <button>Edit</button>
+        </div>
+      </div>
+
+      <div>
+        <h1>Security</h1>
+        <p>Logout of your account</p>
+        <button onClick={handleLogout}>Logout</button>
       </div>
     </div>
   );

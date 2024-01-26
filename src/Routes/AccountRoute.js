@@ -1,8 +1,11 @@
-import AccountLandingPage, {
-  ContactPage,
-  PurchasePage,
-} from "../Pages/UserAccount/AccountLandingPage";
+import AccountLandingPage from "../Pages/UserAccount/AccountLandingPage";
+import ContactPage from "../Pages/UserAccount/ContactPage";
+import DeliveryPage from "../Pages/UserAccount/DeliveryPage";
+import EmailAndMailPreferencePage from "../Pages/UserAccount/EmailAndMailPreferencePage";
+import PaymentMethodPage from "../Pages/UserAccount/PaymentMethodPage";
 import PersonalInformation from "../Pages/UserAccount/PersonalInformation";
+import PurchasePage from "../Pages/UserAccount/PurchasePage";
+import WishlistPage from "../Pages/UserAccount/WishlistPage";
 
 export const AccountRoute = [
   {
@@ -15,15 +18,15 @@ export const AccountRoute = [
       },
       {
         path: "wish-lists",
-        element: <AccountLandingPage />,
+        element: <WishlistPage />,
       },
       {
         path: "delivery",
-        element: <AccountLandingPage />,
+        element: <DeliveryPage />,
       },
       {
         path: "payment-method",
-        element: <AccountLandingPage />,
+        element: <PaymentMethodPage />,
       },
       {
         path: "password-&-personal-information",
@@ -31,7 +34,7 @@ export const AccountRoute = [
       },
       {
         path: "email-&-mail-preferences",
-        element: <AccountLandingPage />,
+        element: <EmailAndMailPreferencePage />,
       },
       {
         path: "contact-us",
