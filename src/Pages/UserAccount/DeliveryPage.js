@@ -32,6 +32,7 @@ export default function DeliveryPage() {
           <h1>Fill Delivery Information</h1>
           <h1>Fill Delivery Information</h1>
           <h1>Fill Delivery Information</h1>
+          <button onClick={modalHandler}>Close</button>
         </DeliveryModal>
       )}
     </div>
