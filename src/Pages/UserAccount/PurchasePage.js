@@ -6,8 +6,8 @@ export default function PurchasePage() {
   let purchase;
   if (purchaseItems === 0) {
     purchase = (
-      <div>
-        <p>0 Purchases made.</p>
+      <div className="mt-4">
+        <p className="mb-4">0 Purchases made.</p>
         <Link to="/home" className="p-2 bg-black text-white">
           Shop now
         </Link>
