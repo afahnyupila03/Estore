@@ -24,7 +24,7 @@ export function ModalOverlay({ children }) {
 }
 
 const portalElement = document.getElementById("delivery");
-export default function DeliveryModal({ children }) {
+export default function Modal({ children }) {
   return (
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
