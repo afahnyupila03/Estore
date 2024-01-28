@@ -31,7 +31,7 @@ export default function PaymentMethodPage() {
       console.log(values);
       actions.resetForm({
         values: {
-          cardHolder : "",
+          cardHolder: "",
           cardNumber: "",
           expiryDate: "",
           securityCode: "",
@@ -81,7 +81,7 @@ export default function PaymentMethodPage() {
             >
               {({ values, handleChange, handleBlur, isSubmitting }) => (
                 <Form className="column">
-                  <Field 
+                  <Field
                     component={CustomTextInput}
                     values={values.payer}
                     name="cardHolder"
@@ -104,6 +104,7 @@ export default function PaymentMethodPage() {
                     label="Card Number*"
                     autoComplete="false"
                     placeholder="Card Number"
+                    renderCardImage={true}
                   />
 
                   <Field
