@@ -91,7 +91,7 @@ export default function PaymentMethodPage() {
                     autoComplete="false"
                   />
                   <div className="flex justify-center mt-4">
-                    <p>This will be your primary payment method.</p>
+                    <p className="font-mono text-lg ">This will be your primary payment method.</p>
                   </div>
                   <div className="flex justify-center mt-4">
                     <button
