@@ -84,7 +84,7 @@ export default function DeliveryPage() {
                   component={CustomTextInput}
                   id="address"
                   name="address"
-                  type="text"
+                  type="search"
                   value={values.address}
                   onChange={handleChange}
                   onBlur={handleBlur}
