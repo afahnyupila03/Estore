@@ -1,19 +1,44 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Modal from "./Components/PaymentModal";
 import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
+import { PaymentSchema } from "../../ValidationSchemas/PaymentSchema";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../FirebaseConfigs/Firesbase";
 
 export default function PaymentMethodPage() {
   const [paymentModal, setPaymentModal] = useState(false);
+  const [payer, setPayer] = useState(null);
+
+  useEffect(() => {
+    const subscribed = onAuthStateChanged(auth, (data) => {
+      if (data) {
+        setPayer(data.displayName);
+      } else {
+        setPayer(null);
+      }
+    });
+    return () => {
+      subscribed();
+    };
+  }, []);
+
   function modalHandler() {
     setPaymentModal(!paymentModal);
   }
-  const paymentMethodHandler = (values) => {
+  const paymentMethodHandler = (values, actions) => {
     setTimeout(() => {
       console.log(values);
+      actions.resetForm({
+        values: {
+          cardHolder : "",
+          cardNumber: "",
+          expiryDate: "",
+          securityCode: "",
+        },
+      });
     }, 1000);
   };
-  const required = <span className="text-red-500"></span>;
   return (
     <div>
       <div>
@@ -46,19 +71,33 @@ export default function PaymentMethodPage() {
             </p>
             <Formik
               initialValues={{
+                cardHolder: payer,
                 cardNumber: "",
                 expiryDate: "",
                 securityCode: "",
               }}
+              validationSchema={PaymentSchema}
               onSubmit={paymentMethodHandler}
             >
               {({ values, handleChange, handleBlur, isSubmitting }) => (
                 <Form className="column">
+                  <Field 
+                    component={CustomTextInput}
+                    values={values.payer}
+                    name="cardHolder"
+                    type="text"
+                    id="cardHolder"
+                    autoComplete="true"
+                    label="Name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Name"
+                  />
                   <Field
                     component={CustomTextInput}
                     value={values.cardNumber}
                     name="cardNumber"
-                    type="number"
+                    type="text"
                     id="cardNumber"
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -69,14 +108,16 @@ export default function PaymentMethodPage() {
 
                   <Field
                     component={CustomTextInput}
-                    value={values.expiryDate}
+                    value={values.expiryDate.toUpperCase()}
                     name="expiryDate"
                     id="expiryDate"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     autoComplete="false"
                     label="Expiration date*"
-                    type="date"
+                    type="text"
+                    pattern="\d{2}/\d{2}"
+                    required
                   />
 
                   <Field
@@ -91,7 +132,9 @@ export default function PaymentMethodPage() {
                     autoComplete="false"
                   />
                   <div className="flex justify-center mt-4">
-                    <p className="font-mono text-lg ">This will be your primary payment method.</p>
+                    <p className="font-mono text-lg ">
+                      This will be your primary payment method.
+                    </p>
                   </div>
                   <div className="flex justify-center mt-4">
                     <button
