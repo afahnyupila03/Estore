@@ -159,7 +159,7 @@ export default function () {
                 Need Help ?
               </h4>
               <MenuItemsCard
-                navigationRoute="/account/customer-service"
+                navigationRoute="my-account/landing/contact-us"
                 navigationLink="Contact Us"
                 icon={chatbubblesOutline}
               />
