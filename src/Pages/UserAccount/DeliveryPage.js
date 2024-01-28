@@ -6,6 +6,7 @@ import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../FirebaseConfigs/Firesbase";
+import { DeliveryAddressSchema } from "../../ValidationSchemas/DeliverySchema";
 
 export default function DeliveryPage() {
   const [modal, setModal] = useState(false);
@@ -65,6 +66,7 @@ export default function DeliveryPage() {
               address: "",
             }}
             onSubmit={submitAddressHandler}
+            validationSchema={DeliveryAddressSchema}
           >
             {({ values, handleChange, handleBlur, isSubmitting }) => (
               <Form className="column">

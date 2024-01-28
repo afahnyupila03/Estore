@@ -13,4 +13,5 @@ export const PaymentSchema = Yup.object().shape({
   securityCode: Yup.string()
     .matches(/^[0-9]{3}$/, "Invalid security code")
     .required("Security code is required"),
+  cardHolder: Yup.string().trim().required("Please enter your name."),
 });
