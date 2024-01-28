@@ -13,6 +13,7 @@ export default function PaymentMethodPage() {
       console.log(values);
     }, 1000);
   };
+  const required = <span className="text-red-500"></span>;
   return (
     <div>
       <div>
@@ -29,17 +30,19 @@ export default function PaymentMethodPage() {
       {paymentModal && (
         <Modal>
           <div className="flex justify-center">
-            <h1 className="p-6">Add New Card</h1>
+            <h1 className="p-6 font-mono text-xl font-semibold">
+              Add New Card
+            </h1>
           </div>
           <div>
-            <p className="flex justify-center p-6 text-center">
+            <p className="font-mono text-lg flex justify-center p-4 text-center">
               Save your card to enable use on future TimeZone purchases. Remove
               this card from your TimeZone account to this service
             </p>
           </div>
           <div>
-            <p className="flex justify-center">
-              <span>*</span>Required
+            <p className="flex justify-center font-mono font-semibold text-xl">
+              <span className="text-red-500">*</span>Required
             </p>
             <Formik
               initialValues={{
@@ -59,7 +62,7 @@ export default function PaymentMethodPage() {
                     id="cardNumber"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    label="Card Number"
+                    label="Card Number*"
                     autoComplete="false"
                     placeholder="Card Number"
                   />
@@ -72,7 +75,7 @@ export default function PaymentMethodPage() {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     autoComplete="false"
-                    label="Expiration date"
+                    label="Expiration date*"
                     type="date"
                   />
 
@@ -84,7 +87,7 @@ export default function PaymentMethodPage() {
                     onBlur={handleBlur}
                     onChange={handleChange}
                     value={values.securityCode}
-                    label="Security code"
+                    label="Security code*"
                     autoComplete="false"
                   />
                   <div className="flex justify-center mt-4">
