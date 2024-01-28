@@ -1,4 +1,4 @@
-export default function ({ field, form, ...props }) {
+export default function CustomTextInput ({ field, form, ...props }) {
   const { name, value, onChange, onBlur } = field;
   const { errors, touched } = form;
   const { label, type, placeholder } = props;

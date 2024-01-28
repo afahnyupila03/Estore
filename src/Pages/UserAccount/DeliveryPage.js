@@ -24,11 +24,11 @@ export default function DeliveryPage() {
     };
   }, []);
 
-  const submitAddressHandler = async(values) => {
+  const submitAddressHandler = async (values) => {
     setTimeout(() => {
-      console.log(values)
-    }, 1000)
-  }
+      console.log(values);
+    }, 1000);
+  };
 
   const modalHandler = () => {
     setModal(!modal);
