@@ -49,12 +49,11 @@ export default function DeliveryPage() {
       {modal && (
         <Modal>
           <div className="flex justify-end">
-            <button onClick={modalHandler}>
-              <IonIcon
-                icon={closeOutline}
-                style={{ fontSize: "2.5rem", fontWeight: "bold" }}
-              />
-            </button>
+            <IonIcon
+              onClick={modalHandler}
+              icon={closeOutline}
+              style={{ fontSize: "2.5rem", fontWeight: "bold" }}
+            />
           </div>
           <div className="flex justify-center">
             <h1>Add new address</h1>

@@ -1,11 +1,20 @@
 import { onAuthStateChanged, signOut } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
+import EmailModal from "./Components/EditEmailModal";
+import { Form, Formik, Field } from "formik";
+import CustomTextInput from "../../Components/TextInput";
+import { IonIcon } from "@ionic/react";
+import { closeOutline } from "ionicons/icons";
+import { Link } from "react-router-dom";
 
 export default function PersonalInformation() {
   const [userEmail, setUserEmail] = useState(null);
   const [userName, setUserName] = useState(null);
   const [deleteModal, setDeleteModal] = useState(false);
+  const [editNameModal, setEditNameModal] = useState(false);
+  const [editEmailModal, setEditEmailModal] = useState(false);
+  const [editPasswordModal, setEditPasswordModal] = useState(false);
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (user) => {
@@ -38,7 +47,93 @@ export default function PersonalInformation() {
   const openDeleteModal = () => {
     setDeleteModal(!deleteModal);
   };
+  const openEmailModal = () => {
+    setEditEmailModal(!editEmailModal);
+  };
+  const openNameModal = () => {};
+  const openPasswordModal = () => {};
   const deleteUserAccount = () => {};
+
+  const emailModal = (
+    <EmailModal>
+      <div className="flex justify-end">
+        <IonIcon
+          icon={closeOutline}
+          onClick={openEmailModal}
+          style={{ fontSize: "2rem" }}
+        />
+      </div>
+      <div className="font-mono text-lg text-start mb-4">
+        <h1 className="font-bold text-2xl mb-4">Change email</h1>
+        <p>Enter a new email for TimeZone</p>
+      </div>
+      <Formik
+        initialValues={{
+          newEmail: "",
+          confirmEmail: "",
+          password: "",
+        }}
+      >
+        {({ values, handleChange, handleBlur, isSubmitting }) => (
+          <Form>
+            <Field
+              component={CustomTextInput}
+              value={values.newEmail}
+              name="newEmail"
+              id="newEmail"
+              label="New email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="false"
+              type="email"
+            />
+            <Field
+              component={CustomTextInput}
+              value={values.confirmEmail}
+              name="confirmEmail"
+              id="confirmEmail"
+              label="Confirm email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="false"
+              type="email"
+            />
+            <Field
+              component={CustomTextInput}
+              value={values.password}
+              name="password"
+              id="password"
+              label="Enter password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="false"
+              type="password"
+            />
+            <div className="flex justify-center font-semibold text-lg font-mono mt-2">
+              <p>
+                By tapping Change Email, you agree to our
+                <span>
+                  <Link>Privacy Policy</Link>
+                </span>
+                and
+                <span>
+                  <Link>Terms &amp; Conditions.</Link>
+                </span>
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="p-2 mb-4 w-60 mt-6 rounded bg-black text-white"
+              >
+                Change Email
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </EmailModal>
+  );
 
   return (
     <div>
@@ -65,7 +160,9 @@ export default function PersonalInformation() {
               >
                 {userEmail}
               </p>
-              <button className="mt-2">Change email</button>
+              <button className="mt-2" onClick={openEmailModal}>
+                Change email
+              </button>
               <hr className="border-black" style={{ width: "7.5rem" }} />
             </div>
 
@@ -84,7 +181,8 @@ export default function PersonalInformation() {
         <div>
           <h1 className="font-medium mb-2">Name</h1>
           <p className="mb-2 p-4 bg-black text-white w-40 text-center rounded">
-            {userName.toUpperCase()}
+            {/* {userName.toUpperCase()} */}
+            {userName}
           </p>
           <button>Edit</button>
           <hr className="w-8 border-black" />
@@ -106,10 +204,95 @@ export default function PersonalInformation() {
       {/* Delete Account */}
       <div className="mt-4 font-mono text-lg">
         <p className="mb-2">Delete your TimeZone account</p>
-        <button className="p-2 bg-red-600 text-white font-mono rounded">
+        <button
+          tye="button"
+          onClick={openDeleteModal}
+          className="p-2 bg-red-600 text-white font-mono rounded"
+        >
           Delete account
         </button>
       </div>
+
+      {/* MODALS SECTION */}
+      {/* Edit Email Modal */}
+      {editEmailModal && <EmailModal>
+      <div className="flex justify-end">
+        <IonIcon
+          icon={closeOutline}
+          onClick={openEmailModal}
+          style={{ fontSize: "2rem" }}
+        />
+      </div>
+      <div className="font-mono text-lg text-start mb-4">
+        <h1 className="font-bold text-2xl mb-4">Change email</h1>
+        <p>Enter a new email for TimeZone</p>
+      </div>
+      <Formik
+        initialValues={{
+          newEmail: "",
+          confirmEmail: "",
+          password: "",
+        }}
+      >
+        {({ values, handleChange, handleBlur, isSubmitting }) => (
+          <Form>
+            <Field
+              component={CustomTextInput}
+              value={values.newEmail}
+              name="newEmail"
+              id="newEmail"
+              label="New email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="false"
+              type="email"
+            />
+            <Field
+              component={CustomTextInput}
+              value={values.confirmEmail}
+              name="confirmEmail"
+              id="confirmEmail"
+              label="Confirm email"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="false"
+              type="email"
+            />
+            <Field
+              component={CustomTextInput}
+              value={values.password}
+              name="password"
+              id="password"
+              label="Enter password"
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="false"
+              type="password"
+            />
+            <div className="flex justify-center font-semibold text-lg font-mono mt-2">
+              <p>
+                By tapping Change Email, you agree to our
+                <span>
+                  <Link>Privacy Policy</Link>
+                </span>
+                and
+                <span>
+                  <Link>Terms &amp; Conditions.</Link>
+                </span>
+              </p>
+            </div>
+            <div className="flex justify-center">
+              <button
+                type="submit"
+                className="p-2 mb-4 w-60 mt-6 rounded bg-black text-white"
+              >
+                Change Email
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
+    </EmailModal>}
     </div>
   );
 }
