@@ -72,6 +72,7 @@ export default function DeliveryPage() {
               <Form className="column">
                 <Field
                   component={CustomTextInput}
+                  className="grid justify-center"
                   id="userName"
                   name="userName"
                   type="text"
@@ -85,6 +86,7 @@ export default function DeliveryPage() {
                 <Field
                   component={CustomTextInput}
                   id="address"
+                  className="grid justify-center"
                   name="address"
                   type="search"
                   value={values.address}

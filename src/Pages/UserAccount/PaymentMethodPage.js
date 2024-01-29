@@ -84,6 +84,7 @@ export default function PaymentMethodPage() {
                   <Field
                     component={CustomTextInput}
                     values={values.payer}
+                    className="grid justify-center"
                     name="cardHolder"
                     type="text"
                     id="cardHolder"
@@ -97,6 +98,7 @@ export default function PaymentMethodPage() {
                     component={CustomTextInput}
                     value={values.cardNumber}
                     name="cardNumber"
+                    className="grid justify-center"
                     type="text"
                     id="cardNumber"
                     onChange={handleChange}
@@ -112,6 +114,7 @@ export default function PaymentMethodPage() {
                     value={values.expiryDate.toUpperCase()}
                     name="expiryDate"
                     id="expiryDate"
+                    className="grid justify-center"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     autoComplete="false"
@@ -124,6 +127,7 @@ export default function PaymentMethodPage() {
                   <Field
                     component={CustomTextInput}
                     name="securityCode"
+                    className="grid justify-center"
                     id="securityCode"
                     type="password"
                     onBlur={handleBlur}

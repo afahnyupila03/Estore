@@ -8,6 +8,7 @@ export default function CustomTextInput({
   field,
   form,
   renderCardImage,
+  className,
   ...props
 }) {
   const { name, value, onChange, onBlur } = field;
@@ -63,7 +64,7 @@ export default function CustomTextInput({
   const cardType = getCardType(value);
 
   return (
-    <div className="grid justify-center">
+    <div className={className}>
       <label htmlFor={name} className="font-semibold font-mono ">
         {label}
       </label>
