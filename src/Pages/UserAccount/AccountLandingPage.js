@@ -81,7 +81,10 @@ export default function AccountLandingPage() {
 
   return (
     <div className="flex h-screen bg-gray-100">
-      <div className="w-80 bg-gray-800">
+      <div
+        className="w-100 bg-gray-800 rounded-r"
+        style={{ marginBottom: "-10rem" }}
+      >
         <ul className="py-6 space-y-8">
           <li>
             <ul className="text-gray-300 flex justify-center text-xl font-semibold font-mono items-center">
@@ -125,7 +128,7 @@ export default function AccountLandingPage() {
       <div className="flex-1 bg-white">
         <header>
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <div className="flex font-semibold font-mono tracking-wider uppercase text-white p-4 bg-gray-800 items-center text-lg justify-center">
+            <div className="flex font-semibold font-mono tracking-wider rounded uppercase text-white p-4 bg-gray-800 items-center text-lg justify-center">
               <span className="p-4 bg-red-500 rounded-full mr-2">
                 {getFirstTwoLetters(authUser)}
               </span>
