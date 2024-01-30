@@ -10,7 +10,7 @@ export function Backdrop() {
   return (
     <div
       style={backdropColor}
-      className="backdrop-blur-sm fixed top-0 left-0 z-20 w-full h-full"
+      className="backdrop-blur-sm fixed top-0 left-0 z-10 w-full h-full"
     />
   );
 }

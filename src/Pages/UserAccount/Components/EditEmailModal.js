@@ -7,10 +7,12 @@ const backdropColor = {
 };
 
 export function EmailBackdrop() {
-  <div
-    style={backdropColor}
-    className="backdrop-blur-sm fixed top-0 left-0 z-20 w-full h-full"
-  />;
+  return (
+    <div
+      style={backdropColor}
+      className="backdrop-blur-sm fixed top-0 left-0 z-30 w-full h-full"
+    />
+  );
 }
 
 export function EmailOVerlay({ children }) {
