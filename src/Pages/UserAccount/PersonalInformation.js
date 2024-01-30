@@ -1,4 +1,9 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
+import {
+  onAuthStateChanged,
+  signOut,
+  updateEmail,
+  updateProfile,
+} from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 import EmailModal from "./Components/EditEmailModal";
@@ -24,6 +29,8 @@ const ActionButton = ({ actionHandler }) => {
 export default function PersonalInformation() {
   const [userEmail, setUserEmail] = useState(null);
   const [userName, setUserName] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
   const [deleteModal, setDeleteModal] = useState(false);
   const [editNameModal, setEditNameModal] = useState(false);
   const [editEmailModal, setEditEmailModal] = useState(false);
@@ -35,6 +42,11 @@ export default function PersonalInformation() {
         setUserEmail(user.email);
         setUserName(user.displayName);
         console.log("user-email:", user.email);
+
+        // Split the displayed name into first name and last name
+        const [first, last] = user.displayName.split(" ");
+        setFirstName(first);
+        setLastName(last);
       } else {
         setUserEmail(null);
         setUserName(null);
@@ -70,6 +82,35 @@ export default function PersonalInformation() {
     setEditPasswordModal(!editPasswordModal);
   };
 
+  const updateUserEmail = (values) => {
+    setTimeout(() => {
+      const user = auth.currentUser;
+      updateEmail(user, userEmail)
+        .then(() => {
+          openEmailModal();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }, 1000);
+  };
+
+  const updateUserName = (values) => {
+    setTimeout(() => {
+      updateProfile(auth.currentUser, {
+        displayName: `${values.firstName} ${values.lastName}`,
+      })
+        .then(() => {
+          // profile updated
+          console.log("user-name updated:");
+          openNameModal();
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }, 1000);
+  };
+
   const EMAIL_MODAL = (
     <EmailModal>
       <div className="flex justify-end">
@@ -85,6 +126,7 @@ export default function PersonalInformation() {
           confirmEmail: "",
           password: "",
         }}
+        onSubmit={updateUserEmail}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
           <Form>
@@ -212,9 +254,10 @@ export default function PersonalInformation() {
       </div>
       <Formik
         initialValues={{
-          firstName: "",
-          lastName: "",
+          firstName: firstName,
+          lastName: lastName,
         }}
+        onSubmit={updateUserName}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
           <Form>
