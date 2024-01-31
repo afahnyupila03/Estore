@@ -1,7 +1,9 @@
 import {
   onAuthStateChanged,
+  sendPasswordResetEmail,
   signOut,
   updateEmail,
+  updatePassword,
   updateProfile,
 } from "firebase/auth";
 import React, { useEffect, useState } from "react";
@@ -111,6 +113,19 @@ export default function PersonalInformation() {
     }, 1000);
   };
 
+  const handleResetPassword = () => {
+    sendPasswordResetEmail(auth, userEmail)
+      .then(() => {
+        openPasswordModal();
+        console.log("Password reset email sent");
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorCode, errorMessage);
+      });
+  };
+
   const EMAIL_MODAL = (
     <EmailModal>
       <div className="flex justify-end">
@@ -197,50 +212,14 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openPasswordModal} />
       </div>
       <div className="mb-4 font-mono">
-        <h1 className="text-2xl mb-4 font-semibold">Change password</h1>
-        <p className="text-lg">Enter a new password for TimeZone</p>
+        <h1 className="text-2xl mb-4 font-semibold">Reset password</h1>
+        <p className="text-lg">Please enter your email to get a reset mail</p>
       </div>
-      <Formik
-        initialValues={{
-          currentPassword: "",
-          newPassword: "",
-        }}
-      >
-        {({ values, handleChange, handleBlur, isSubmitting }) => (
-          <Form>
-            <Field
-              name="currentPassword"
-              id="currentPassword"
-              type="password"
-              label="Current password"
-              onChange={handleChange}
-              value={values.currentPassword}
-              onBlur={handleBlur}
-              component={CustomTextInput}
-              autoComplete="false"
-            />
-            <Field
-              name="newPassword"
-              id="newPassword"
-              type="password"
-              label="New password"
-              onChange={handleChange}
-              value={values.newPassword}
-              onBlur={handleBlur}
-              component={CustomTextInput}
-              autoComplete="false"
-            />
-            <div className="flex mt-6 justify-center">
-              <button
-                className="p-2 bg-black text-white w-40 rounded"
-                type="submit"
-              >
-                Change Password
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
+      <div className="flex mt-6 justify-center">
+        <button onClick={handleResetPassword} className="p-2 bg-black text-white w-40 rounded" type="submit">
+          Send Mail
+        </button>
+      </div>
     </PasswordModal>
   );
 
@@ -346,7 +325,7 @@ export default function PersonalInformation() {
             <div className="font-mono text-lg mt-4">
               <h1 className="font-medium">Email</h1>
               <p
-                style={{ width: "14rem" }}
+                style={{ width: "18rem" }}
                 className=" p-4 bg-black text-white text-center rounded"
               >
                 {userEmail}
@@ -371,7 +350,7 @@ export default function PersonalInformation() {
         <h1 className="text-2xl font-semibold">Personal Information</h1>
         <div>
           <h1 className="font-medium mb-2">Name</h1>
-          <p className="mb-2 p-4 bg-black text-white w-40 text-center rounded">
+          <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
             {/* {userName.toUpperCase()} */}
             {userName}
           </p>

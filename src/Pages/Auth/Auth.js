@@ -113,6 +113,7 @@ export default function () {
               label="Email Address"
               placeholder="Enter Email"
               autoComplete="false"
+              className="grid justify-center"
             />
             {isSignUp ? (
               <Field
@@ -126,6 +127,7 @@ export default function () {
                 label="First Name"
                 placeholder="First Name"
                 autoComplete="false"
+                className="grid justify-center"
               />
             ) : (
               ""
@@ -142,6 +144,7 @@ export default function () {
                 label="Last Name"
                 placeholder="Last Name"
                 autoComplete="false"
+                className="grid justify-center"
               />
             ) : (
               ""
@@ -157,6 +160,7 @@ export default function () {
               label="Password"
               placeholder="Enter Password"
               autoComplete="false"
+              className="grid justify-center"
             />
             {isSignUp ? (
               <Field
@@ -170,6 +174,7 @@ export default function () {
                 label="Confirm Password"
                 placeholder="Confirm Password"
                 autoComplete="false"
+                className="grid justify-center"
               />
             ) : (
               ""
