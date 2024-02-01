@@ -85,16 +85,17 @@ export default function PersonalInformation() {
   };
 
   const updateUserEmail = (values) => {
-    setTimeout(() => {
-      const user = auth.currentUser;
-      updateEmail(user, userEmail)
+    // const user = auth.currentUser;
+      updateEmail(auth.currentUser, userEmail)
         .then(() => {
           openEmailModal();
+          console.log("Email  changed")
         })
         .catch((error) => {
-          console.error(error);
+          const errorMessage = error.message
+          const errorCode = error.code;
+          console.error(errorMessage, errorCode);
         });
-    }, 1000);
   };
 
   const updateUserName = (values) => {
@@ -138,8 +139,6 @@ export default function PersonalInformation() {
       <Formik
         initialValues={{
           newEmail: "",
-          confirmEmail: "",
-          password: "",
         }}
         onSubmit={updateUserEmail}
       >
@@ -155,28 +154,6 @@ export default function PersonalInformation() {
               onBlur={handleBlur}
               autoComplete="false"
               type="email"
-            />
-            <Field
-              component={CustomTextInput}
-              value={values.confirmEmail}
-              name="confirmEmail"
-              id="confirmEmail"
-              label="Confirm email"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              autoComplete="false"
-              type="email"
-            />
-            <Field
-              component={CustomTextInput}
-              value={values.password}
-              name="password"
-              id="password"
-              label="Enter password"
-              onChange={handleChange}
-              onBlur={handleBlur}
-              autoComplete="false"
-              type="password"
             />
             <div className="flex justify-center font-semibold text-lg font-mono mt-2">
               <p>
