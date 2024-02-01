@@ -3,7 +3,7 @@ import {
   sendPasswordResetEmail,
   signOut,
   updateEmail,
-  updatePassword,
+  // updatePassword,
   updateProfile,
 } from "firebase/auth";
 import React, { useEffect, useState } from "react";
@@ -86,16 +86,16 @@ export default function PersonalInformation() {
 
   const updateUserEmail = (values) => {
     // const user = auth.currentUser;
-      updateEmail(auth.currentUser, userEmail)
-        .then(() => {
-          openEmailModal();
-          console.log("Email  changed")
-        })
-        .catch((error) => {
-          const errorMessage = error.message
-          const errorCode = error.code;
-          console.error(errorMessage, errorCode);
-        });
+    updateEmail(auth.currentUser, userEmail)
+      .then(() => {
+        openEmailModal();
+        console.log("Email  changed");
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        const errorCode = error.code;
+        console.error(errorMessage, errorCode);
+      });
   };
 
   const updateUserName = (values) => {
@@ -193,7 +193,11 @@ export default function PersonalInformation() {
         <p className="text-lg">Please enter your email to get a reset mail</p>
       </div>
       <div className="flex mt-6 justify-center">
-        <button onClick={handleResetPassword} className="p-2 bg-black text-white w-40 rounded" type="submit">
+        <button
+          onClick={handleResetPassword}
+          className="p-2 bg-black text-white w-40 rounded"
+          type="submit"
+        >
           Send Mail
         </button>
       </div>

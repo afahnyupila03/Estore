@@ -108,6 +108,7 @@ export default function () {
           className="flex items-center gap-x-1 text-lg font-semibold font-mono leading-6 text-gray-900"
         >
           {authUser && authUser.displayName}
+          <IonIcon icon={chevronDownOutline} className="ml-2" />
         </Popover.Button>
       )}
 
@@ -159,8 +160,8 @@ export default function () {
                 Need Help ?
               </h4>
               <MenuItemsCard
-                navigationRoute="my-account/landing/contact-us"
-                navigationLink="Contact Us"
+                navigationRoute="my-account/landing/customer-service"
+                navigationLink="Customer Service"
                 icon={chatbubblesOutline}
               />
 

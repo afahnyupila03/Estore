@@ -9,11 +9,11 @@ export default function Card({
 }) {
   return (
     <Link to="#">
-      <div className="flex items-center">
-        <div className="mr-8">
-          <h2 className="p-2">{actionHeader}</h2>
-          <p className="p-2">{actionText}</p>
-          <Link to="#" className="underline p-2">
+      <div className="flex items-center font-mono">
+        <div className="mr-4">
+          <h2 className="text-xl font-semibold">{actionHeader}</h2>
+          <p className="text-lg">{actionText}</p>
+          <Link to="#" className="underline text-lg">
             {actionButton}
           </Link>
         </div>

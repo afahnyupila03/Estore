@@ -11,16 +11,26 @@ export default function ContactPage() {
   return (
     <div>
       <div>
-        <h1 className="text-2xl font-semibold font-mono">Customer Service</h1>
-        <div>
-          <h1 className="text-2xl font-semibold font-mono">We're Here for You</h1>
-          <p>Call or chat with us here.</p>
+        <div className="text-2xl flex justify-start mb-8 font-semibold font-mono">
+          <h1>Customer Service</h1>
+        </div>
+        <div className="grid justify-center mb-20">
+          <h1 className="text-2xl text-center font-semibold font-mono">
+            We're Here for You
+          </h1>
+          <p className="text-center">Call or chat with us here.</p>
         </div>
 
-        <div>
-          <h1 className="text-2xl font-semibold font-mono">Need Help?</h1>
-          <p>Check out our self-service tools to get help fast.</p>
-          <div className="flex justify-between">
+        <div className=" mb-20 grid">
+          <div className=" grid justify-center mb-10">
+            <h1 className="text-2xl text-center font-semibold font-mono">
+              Need Help?
+            </h1>
+            <p className="text-center">
+              Check out our self-service tools to get help fast.
+            </p>
+          </div>
+          <div className="flex justify-evenly">
             <Card
               actionHeader="Track Your Order"
               image={Track}
@@ -42,7 +52,7 @@ export default function ContactPage() {
           </div>
         </div>
 
-        <div>
+        <div className="grid mb-10 justify-items-stretch">
           <Card
             actionHeader="Need to cancel a recent order?"
             actionText="If you act quickly, you can cancel an order while it's still processing. Just find the order in your purchases, choose Details, then select Cancel Order."
@@ -52,7 +62,7 @@ export default function ContactPage() {
           />
         </div>
 
-        <div className="flex justify-around">
+        <div className="flex mb-10 justify-evenly">
           <Card
             actionHeader="Need help? We're here 24/7."
             actionText="Service: +237 999 999 999"

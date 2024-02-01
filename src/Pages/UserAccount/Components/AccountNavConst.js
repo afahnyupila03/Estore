@@ -45,8 +45,8 @@ export const NAV_CONST = (
     icon: mailOutline,
   },
   {
-    name: "Contact Us",
-    href: "contact-us",
+    name: "Customer Service",
+    href: "customer-service",
     current: false,
     icon: chatbubbleOutline,
   },

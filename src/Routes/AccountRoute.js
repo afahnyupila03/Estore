@@ -37,7 +37,7 @@ export const AccountRoute = [
         element: <EmailAndMailPreferencePage />,
       },
       {
-        path: "contact-us",
+        path: "customer-service",
         element: <ContactPage />,
       },
     ],
