@@ -33,7 +33,7 @@ export default function EmailAndMailPreferencePage() {
 
       <div>
         <h1 className="text-xl mt-8">
-          <span className="font-bold">{getFirstTwoLetters(BRAND)}</span>
+          <span className="font-bold mr-2">{getFirstTwoLetters(BRAND)}</span>
           Hear about sales and more at <span>TIMEZONE</span>.
         </h1>
         <div className="mt-8 font-mono text-lg">
