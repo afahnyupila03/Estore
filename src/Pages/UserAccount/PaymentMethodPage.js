@@ -9,11 +9,16 @@ import { auth } from "../../FirebaseConfigs/Firesbase";
 export default function PaymentMethodPage() {
   const [paymentModal, setPaymentModal] = useState(false);
   const [payer, setPayer] = useState(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (data) => {
       if (data) {
         setPayer(data.displayName);
+        const [first, last] = data.displayName.split(" ");
+        setFirstName(first);
+        setLastName(last);
       } else {
         setPayer(null);
       }
@@ -71,7 +76,8 @@ export default function PaymentMethodPage() {
             </p>
             <Formik
               initialValues={{
-                cardHolder: payer,
+                firstName: firstName,
+                lastName: lastName,
                 cardNumber: "",
                 expiryDate: "",
                 securityCode: "",
@@ -83,16 +89,29 @@ export default function PaymentMethodPage() {
                 <Form className="column">
                   <Field
                     component={CustomTextInput}
-                    values={values.payer}
+                    values={values.firstName}
                     className="grid justify-center"
-                    name="cardHolder"
+                    name="firstName"
                     type="text"
-                    id="cardHolder"
+                    id="firstName"
                     autoComplete="true"
-                    label="Name"
+                    label="First name"
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    placeholder="Name"
+                    placeholder="First name"
+                  />
+                  <Field
+                    component={CustomTextInput}
+                    values={values.lastName}
+                    className="grid justify-center"
+                    name="lastName"
+                    type="text"
+                    id="lastName"
+                    autoComplete="true"
+                    label="Last name"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder="Last name"
                   />
                   <Field
                     component={CustomTextInput}

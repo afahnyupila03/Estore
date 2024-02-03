@@ -246,6 +246,7 @@ export default function PersonalInformation() {
             <div className="flex justify-center mt-6">
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="p-2 rounded w-40 bg-black font-mono text-white text-lg"
               >
                 Edit
