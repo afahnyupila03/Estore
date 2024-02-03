@@ -6,6 +6,8 @@ import { PaymentSchema } from "../../ValidationSchemas/PaymentSchema";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 
+// TODO: ADD CLOUD STORE DATABASE TO STORE AND READ PAYMENT METHODS ADDED.
+
 export default function PaymentMethodPage() {
   const [paymentModal, setPaymentModal] = useState(false);
   const [payer, setPayer] = useState(null);
