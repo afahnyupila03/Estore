@@ -19,6 +19,8 @@ export default function PaymentMethodPage() {
   const [payerId, setPayerId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [mobilePayment, setMobilePayment] = useState(false);
+  console.log("paymentUi: ", mobilePayment)
 
   const {
     data = [],
@@ -50,10 +52,11 @@ export default function PaymentMethodPage() {
   function modalHandler() {
     setPaymentModal(!paymentModal);
   }
+  const mobilePaymentHandler = () => {};
 
   const editPaymentHandler = () => {
-    setEditModal(true)
-    setPaymentModal(true)
+    setEditModal(true);
+    setPaymentModal(true);
   };
   const deletePaymentHandler = () => {};
 
@@ -80,7 +83,6 @@ export default function PaymentMethodPage() {
     ));
   }
 
-  
   const paymentMethodHandler = (values, actions) => {
     const db = database;
     const newPaymentRef = push(ref(db, payerId + "/payment-method/"));
@@ -130,84 +132,132 @@ export default function PaymentMethodPage() {
             cardNumber: "",
             expiryDate: "",
             securityCode: "",
+            accountName: "",
+            accountNumber: "",
           }}
           // validationSchema={PaymentSchema}
           onSubmit={paymentMethodHandler}
         >
           {({ values, handleChange, handleBlur, isSubmitting }) => (
             <Form className="column">
-              <Field
-                component={CustomTextInput}
-                values={values.firstName}
-                className="grid justify-center"
-                name="firstName"
-                type="text"
-                id="firstName"
-                autoComplete="true"
-                label="First name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="First name"
-              />
-              <Field
-                component={CustomTextInput}
-                values={values.lastName}
-                className="grid justify-center"
-                name="lastName"
-                type="text"
-                id="lastName"
-                autoComplete="true"
-                label="Last name"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                placeholder="Last name"
-              />
-              <Field
-                component={CustomTextInput}
-                value={values.cardNumber}
-                name="cardNumber"
-                className="grid justify-center"
-                type="text"
-                id="cardNumber"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label="Card Number*"
-                autoComplete="false"
-                placeholder="Card Number"
-                renderCardImage={true}
-              />
+              {mobilePayment && (
+                <Field
+                  component={CustomTextInput}
+                  values={values.firstName}
+                  className="grid justify-center"
+                  name="firstName"
+                  type="text"
+                  id="firstName"
+                  autoComplete="true"
+                  label="First name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="First name"
+                />
+              )}
+              {mobilePayment && (
+                <Field
+                  component={CustomTextInput}
+                  values={values.lastName}
+                  className="grid justify-center"
+                  name="lastName"
+                  type="text"
+                  id="lastName"
+                  autoComplete="true"
+                  label="Last name"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  placeholder="Last name"
+                />
+              )}
+              {mobilePayment && (
+                <Field
+                  component={CustomTextInput}
+                  value={values.cardNumber}
+                  name="cardNumber"
+                  className="grid justify-center"
+                  type="text"
+                  id="cardNumber"
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  label="Card Number*"
+                  autoComplete="false"
+                  placeholder="Card Number"
+                  renderCardImage={true}
+                />
+              )}
 
-              <Field
-                component={CustomTextInput}
-                value={values.expiryDate.toUpperCase()}
-                name="expiryDate"
-                id="expiryDate"
-                className="grid justify-center"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                autoComplete="false"
-                label="Expiration date*"
-                type="text"
-                pattern="\d{2}/\d{2}"
-                required
-              />
+              {mobilePayment && (
+                <Field
+                  component={CustomTextInput}
+                  value={values.expiryDate.toUpperCase()}
+                  name="expiryDate"
+                  id="expiryDate"
+                  className="grid justify-center"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  autoComplete="false"
+                  label="Expiration date*"
+                  type="text"
+                  pattern="\d{2}/\d{2}"
+                  required
+                />
+              )}
 
-              <Field
-                component={CustomTextInput}
-                name="securityCode"
-                className="grid justify-center"
-                id="securityCode"
-                type="password"
-                onBlur={handleBlur}
-                onChange={handleChange}
-                value={values.securityCode}
-                label="Security code*"
-                autoComplete="false"
-              />
+              {mobilePayment && (
+                <Field
+                  component={CustomTextInput}
+                  name="securityCode"
+                  className="grid justify-center"
+                  id="securityCode"
+                  type="password"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.securityCode}
+                  label="Security code*"
+                  autoComplete="false"
+                />
+              )}
+
+              {!mobilePayment && (
+                <Field
+                  component={CustomTextInput}
+                  name="accountName"
+                  className="grid justify-center"
+                  id="accountName"
+                  type="text"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.accountName}
+                  label="Account name*"
+                  autoComplete="false"
+                />
+              )}
+
+              {!mobilePayment && (
+                <Field
+                  component={CustomTextInput}
+                  name="accountNumber"
+                  className="grid justify-center"
+                  id="accountNumber"
+                  type="tel"
+                  onBlur={handleBlur}
+                  onChange={handleChange}
+                  value={values.accountNumber}
+                  label="Mobile number*"
+                  autoComplete="false"
+                />
+              )}
+
               <div className="flex justify-center mt-4">
                 <p className="font-mono text-lg ">
                   This will be your primary payment method.
                 </p>
+              </div>
+              <div className="flex justify-center mt-4">
+                <button type="button" onClick={() => setMobilePayment(!mobilePayment)}>
+                  {mobilePayment ? "Pay via MOMO/OM" : "Pay via bank card"}
+                </button>
               </div>
               <div className="flex justify-center mt-4">
                 <button
