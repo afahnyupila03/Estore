@@ -11,7 +11,7 @@ import { DeliveryAddressSchema } from "../../ValidationSchemas/DeliverySchema";
 import DeliveryCardItem from "./Components/DeliveryCardItem";
 
 import { database } from "../../FirebaseConfigs/Firesbase";
-import { ref, set, onValue } from "firebase/database";
+import { ref, set, onValue, push } from "firebase/database";
 import { DeliveryServices } from "../../Services/AccountServices";
 
 export default function DeliveryPage() {
@@ -21,8 +21,8 @@ export default function DeliveryPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const { data, isLoading, error, isError, refetch } = useQuery(
-    "delivery",
-    () => DeliveryServices()
+    ["delivery", userId],
+    () => DeliveryServices(userId)
   );
   console.log(data);
 
@@ -56,7 +56,9 @@ export default function DeliveryPage() {
         </button>
       </div>
     );
-  } else {
+  } else if (data === null) {
+    DELIVERY_ADDRESS = <p>No address added</p>
+  }else {
     DELIVERY_ADDRESS = data.map((delivery) => (
       <DeliveryCardItem key={delivery.id} deliveryDetails={delivery} />
     ));
@@ -64,7 +66,8 @@ export default function DeliveryPage() {
 
   const submitAddressHandler = (values, actions) => {
     const db = database;
-    set(ref(db, "delivery/" + userId), {
+    const newDeliveryRef = push(ref(db, userId + "/delivery/"));
+    set(newDeliveryRef, {
       firstName: values.firstName,
       lastName: values.lastName,
       address: values.address,

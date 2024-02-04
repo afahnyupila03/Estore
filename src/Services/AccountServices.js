@@ -1,9 +1,9 @@
 import { get, ref, onValue } from 'firebase/database';
 import { database } from '../FirebaseConfigs/Firesbase'; // Assuming you have initialized your Firebase app and exported the database instance as 'database'
 
-export const DeliveryServices = async () => {
+export const DeliveryServices = async (userId) => {
   try {
-    const dbRef = ref(database, 'delivery');
+    const dbRef = ref(database, userId + '/delivery/');
     const snapshot = await get(dbRef);
     const data = snapshot.val();
 
