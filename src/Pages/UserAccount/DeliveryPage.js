@@ -20,11 +20,15 @@ export default function DeliveryPage() {
   const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const { data, isLoading, error, isError, refetch } = useQuery(
-    ["delivery", userId],
-    () => DeliveryServices(userId)
-  );
+  const {
+    data = [],
+    isLoading,
+    error,
+    isError,
+    refetch,
+  } = useQuery(["delivery", userId], () => DeliveryServices(userId));
   console.log(data);
+  console.log("userId:", userId);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (data) => {
@@ -57,8 +61,8 @@ export default function DeliveryPage() {
       </div>
     );
   } else if (data === null) {
-    DELIVERY_ADDRESS = <p>No address added</p>
-  }else {
+    DELIVERY_ADDRESS = <p>No address added</p>;
+  } else {
     DELIVERY_ADDRESS = data.map((delivery) => (
       <DeliveryCardItem key={delivery.id} deliveryDetails={delivery} />
     ));
