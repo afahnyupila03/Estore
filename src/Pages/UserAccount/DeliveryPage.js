@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import Modal from "./Components/Modal";
-import { IonIcon } from "@ionic/react";
+import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
@@ -9,13 +9,20 @@ import { useQuery } from "react-query";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 import { DeliveryAddressSchema } from "../../ValidationSchemas/DeliverySchema";
 import DeliveryCardItem from "./Components/DeliveryCardItem";
-
+import UseAnimation from "../../Components/Loader";
+import loading from "react-useanimations/lib/loading";
 import { database } from "../../FirebaseConfigs/Firesbase";
-import { ref, set, onValue, push } from "firebase/database";
-import { DeliveryServices } from "../../Services/AccountServices";
+import { ref, set, onValue, push, remove } from "firebase/database";
+import {
+  DeliveryAddressService,
+  DeliveryServices,
+} from "../../Services/AccountServices";
 
-export default function DeliveryPage() {
+// TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
+
+export default function DeliveryPage({ deliveryId }) {
   const [modal, setModal] = useState(false);
+  const [editModal, setEditModal] = useState(false);
   const [user, setUser] = useState(null);
   const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState("");
@@ -29,6 +36,11 @@ export default function DeliveryPage() {
   } = useQuery(["delivery", userId], () => DeliveryServices(userId));
   console.log(data);
   console.log("userId:", userId);
+
+  const { data: address } = useQuery(["address", userId, deliveryId], () =>
+    DeliveryAddressService(userId, deliveryId)
+  );
+  console.log(`Alone data: ${address}`);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (data) => {
@@ -47,27 +59,6 @@ export default function DeliveryPage() {
     };
   }, []);
 
-  let DELIVERY_ADDRESS;
-
-  if (isLoading) {
-    DELIVERY_ADDRESS = <p>Loading....</p>;
-  } else if (isError) {
-    DELIVERY_ADDRESS = (
-      <div>
-        <p>{error}</p>
-        <button tye="button" onClick={() => refetch()}>
-          Try again
-        </button>
-      </div>
-    );
-  } else if (data === null) {
-    DELIVERY_ADDRESS = <p>No address added</p>;
-  } else {
-    DELIVERY_ADDRESS = data.map((delivery) => (
-      <DeliveryCardItem key={delivery.id} deliveryDetails={delivery} />
-    ));
-  }
-
   const submitAddressHandler = (values, actions) => {
     const db = database;
     const newDeliveryRef = push(ref(db, userId + "/delivery/"));
@@ -81,8 +72,9 @@ export default function DeliveryPage() {
       state: values.state,
     })
       .then(() => {
-        // console.log(values);
-        alert("Successful");
+        const deliveryId = newDeliveryRef.key;
+
+        alert(deliveryId);
         actions.resetForm({
           values: {
             firstName: "",
@@ -101,23 +93,52 @@ export default function DeliveryPage() {
       });
   };
 
-  /* Test to see performance. */
-  const fetchAddressData = () => {
-    // getDocs()
-    // .then((res) => {
-    //   const data = res.docs;
-    //   {
-    //     data.map((address) => (
-    //       <DeliveryCardItem key={address.id} deliveryDetails={address} />
-    //     ));
-    //   }
-    // })
-    // .catch((err) => {
-    //   const errMessage = err.message;
-    //   const errCode = err.code;
-    //   alert(errMessage, errCode);
-    // });
+  const deleteDeliveryHandler = async (userId, deliveryId) => {
+    const dbRef = ref(database, userId + "/delivery/" + deliveryId);
+    remove(dbRef)
+      .then(() => {
+        alert("Deleted successfully");
+        refetch();
+      })
+      .then((error) => {
+        alert(`delivery error ${error}`);
+      });
   };
+
+  const editHandler = () => {
+    setEditModal(true);
+    setModal(true);
+  };
+
+  let DELIVERY_ADDRESS;
+
+  if (isLoading) {
+    DELIVERY_ADDRESS = (
+      <div className="flex justify-center mt-6">
+        <UseAnimation animation={loading} size={80} />
+      </div>
+    );
+  } else if (isError) {
+    DELIVERY_ADDRESS = (
+      <div>
+        <p>{error}</p>
+        <button tye="button" onClick={() => refetch()}>
+          Try again
+        </button>
+      </div>
+    );
+  } else if (data === null) {
+    DELIVERY_ADDRESS = <p>No address added</p>;
+  } else {
+    DELIVERY_ADDRESS = data.map((delivery) => (
+      <DeliveryCardItem
+        deleteHandler={deleteDeliveryHandler}
+        editHandler={editHandler}
+        key={delivery.id}
+        deliveryDetails={delivery}
+      />
+    ));
+  }
 
   const modalHandler = () => {
     setModal(!modal);
@@ -126,8 +147,8 @@ export default function DeliveryPage() {
   const DELIVERY_MODAL = (
     <Modal>
       <div className="flex justify-end">
-        <IonIcon
-          onClick={modalHandler}
+        <ActionButton
+          actionButton={modalHandler}
           icon={closeOutline}
           style={{ fontSize: "2.5rem", fontWeight: "bold" }}
         />
@@ -138,15 +159,27 @@ export default function DeliveryPage() {
       </div>
 
       <Formik
-        initialValues={{
-          firstName: firstName,
-          lastName: lastName,
-          address: "",
-          aptSuite: "",
-          zip: "",
-          city: "",
-          state: "",
-        }}
+        initialValues={
+          editModal
+            ? {
+                firstName: address.firstName,
+                lastName: address.lastName,
+                address: address.address,
+                aptSuite: address.apt,
+                zip: address.zip,
+                city: address.city,
+                state: address.state,
+              }
+            : {
+                firstName: firstName,
+                lastName: lastName,
+                address: "",
+                aptSuite: "",
+                zip: "",
+                city: "",
+                state: "",
+              }
+        }
         onSubmit={submitAddressHandler}
         // validationSchema={DeliveryAddressSchema}
       >
@@ -283,6 +316,7 @@ export default function DeliveryPage() {
       </div>
 
       {modal && DELIVERY_MODAL}
+      {editModal && modal && DELIVERY_MODAL}
     </div>
   );
 }

@@ -1,4 +1,4 @@
-import { get, ref, onValue } from "firebase/database";
+import { get, ref, onValue, remove } from "firebase/database";
 import { database } from "../FirebaseConfigs/Firesbase"; // Assuming you have initialized your Firebase app and exported the database instance as 'database'
 
 export const DeliveryServices = async (userId) => {
@@ -23,6 +23,28 @@ export const DeliveryServices = async (userId) => {
       });
     }
     return deliveryInfo;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const DeliveryAddressService = async (userId, deliveryId) => {
+  try {
+    const dbRef = ref(database, `${userId}/delivery/${deliveryId}`);
+    const snapshot = await get(dbRef);
+    const data = snapshot.val();
+    console.log("Single address:", data);
+    const deliveryAddress = {
+      id: deliveryId,
+      firstName: data.firstName,
+      lastName: data.lastName,
+      address: data.address,
+      state: data.state,
+      apt: data.apt,
+      city: data.city,
+      zip: data.zip,
+    };
+    return deliveryAddress;
   } catch (error) {
     return Promise.reject(error);
   }

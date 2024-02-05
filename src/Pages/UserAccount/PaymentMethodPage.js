@@ -1,16 +1,20 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Modal from "./Components/PaymentModal";
 import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
 import { PaymentSchema } from "../../ValidationSchemas/PaymentSchema";
 import { useQuery } from "react-query";
+import UseAnimation from "../../Components/Loader";
+import loading from "react-useanimations/lib/loading";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, database } from "../../FirebaseConfigs/Firesbase";
 import { PaymentMethodServices } from "../../Services/AccountServices";
 import { push, set, ref } from "firebase/database";
 import PaymentCardItem from "./Components/PaymentCardItem";
+import ActionButton from "./Components/ActionButton";
+import { closeOutline } from "ionicons/icons";
 
-// TODO: ADD CLOUD STORE DATABASE TO STORE AND READ PAYMENT METHODS ADDED.
+// TODO: FIX EDIT AND DELETE PAYMENT HANDLERS.
 
 export default function PaymentMethodPage() {
   const [paymentModal, setPaymentModal] = useState(false);
@@ -20,7 +24,7 @@ export default function PaymentMethodPage() {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [mobilePayment, setMobilePayment] = useState(false);
-  console.log("paymentUi: ", mobilePayment)
+  console.log("paymentUi: ", mobilePayment);
 
   const {
     data = [],
@@ -52,7 +56,6 @@ export default function PaymentMethodPage() {
   function modalHandler() {
     setPaymentModal(!paymentModal);
   }
-  const mobilePaymentHandler = () => {};
 
   const editPaymentHandler = () => {
     setEditModal(true);
@@ -62,7 +65,11 @@ export default function PaymentMethodPage() {
 
   let PAYMENT_METHODS;
   if (isLoading) {
-    PAYMENT_METHODS = <p>Loading...</p>;
+    PAYMENT_METHODS = (
+      <div className="flex justify-center">
+        <UseAnimation animation={loading} size={80} />
+      </div>
+    );
   } else if (isError) {
     PAYMENT_METHODS = (
       <div>
@@ -112,6 +119,13 @@ export default function PaymentMethodPage() {
 
   const PAYMENT_MODAL = (
     <Modal>
+      <div className="flex justify-end">
+        <ActionButton
+          style={{ fontSize: "2.5rem", fontWeight: "bold" }}
+          icon={closeOutline}
+          actionButton={modalHandler}
+        />
+      </div>
       <div className="flex justify-center">
         <h1 className="p-6 font-mono text-xl font-semibold">Add New Card</h1>
       </div>
@@ -255,7 +269,10 @@ export default function PaymentMethodPage() {
                 </p>
               </div>
               <div className="flex justify-center mt-4">
-                <button type="button" onClick={() => setMobilePayment(!mobilePayment)}>
+                <button
+                  type="button"
+                  onClick={() => setMobilePayment(!mobilePayment)}
+                >
                   {mobilePayment ? "Pay via MOMO/OM" : "Pay via bank card"}
                 </button>
               </div>
@@ -297,12 +314,12 @@ export default function PaymentMethodPage() {
         </button>
         <p>Checkout faster by adding one or more cards to your account.</p>
 
-        <div className="grid grid-cols-3  gap-x-4 gap-y-4">
+        <div className="grid grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
           {PAYMENT_METHODS}
         </div>
       </div>
       {paymentModal && PAYMENT_MODAL}
-      {editModal && PAYMENT_MODAL}
+      {editModal && paymentModal && PAYMENT_MODAL}
     </div>
   );
 }
