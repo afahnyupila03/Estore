@@ -6,13 +6,12 @@ import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
 import { onAuthStateChanged } from "firebase/auth";
 import { useQuery } from "react-query";
-import { auth } from "../../FirebaseConfigs/Firesbase";
 import { DeliveryAddressSchema } from "../../ValidationSchemas/DeliverySchema";
 import DeliveryCardItem from "./Components/DeliveryCardItem";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import { database } from "../../FirebaseConfigs/Firesbase";
-import { ref, set, onValue, push, remove } from "firebase/database";
+import { database, auth } from "../../FirebaseConfigs/Firesbase";
+import { ref, set, push, remove } from "firebase/database";
 import { DeliveryServices } from "../../Services/AccountServices";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
