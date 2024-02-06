@@ -9,7 +9,7 @@ import loading from "react-useanimations/lib/loading";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, database } from "../../FirebaseConfigs/Firesbase";
 import { PaymentMethodServices } from "../../Services/AccountServices";
-import { push, set, ref } from "firebase/database";
+import { push, set, ref, remove } from "firebase/database";
 import PaymentCardItem from "./Components/PaymentCardItem";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
@@ -20,11 +20,10 @@ export default function PaymentMethodPage() {
   const [paymentModal, setPaymentModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [payer, setPayer] = useState(null);
-  const [payerId, setPayerId] = useState(null);
+  const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [mobilePayment, setMobilePayment] = useState(false);
-  console.log("paymentUi: ", mobilePayment);
+  const [mobilePayment, setMobilePayment] = useState(true);
 
   const {
     data = [],
@@ -32,15 +31,13 @@ export default function PaymentMethodPage() {
     refetch,
     isError,
     error,
-  } = useQuery(["bankCard", payerId], () => PaymentMethodServices(payerId));
-  console.log("Bank card: ", data);
-  console.log("payerId:", payerId);
+  } = useQuery(["bankCard", userId], () => PaymentMethodServices(userId));
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (data) => {
       if (data) {
         setPayer(data.displayName);
-        setPayerId(data.uid);
+        setUserId(data.uid);
         const [first, last] = data.displayName.split(" ");
         setFirstName(first);
         setLastName(last);
@@ -57,11 +54,54 @@ export default function PaymentMethodPage() {
     setPaymentModal(!paymentModal);
   }
 
+  const paymentMethodHandler = (values, actions) => {
+    const db = database;
+    const newPaymentRef = push(ref(db, userId + "/payment-method/"));
+
+    set(newPaymentRef, {
+      firstName: values.firstName,
+      lastName: values.lastName,
+      cardNumber: values.cardNumber,
+      expiryDate: values.expiryDate,
+      securityCode: values.securityCode,
+    })
+      .then(() => {
+        alert("Payment method added successfully.");
+        actions.resetForm({
+          values: {
+            cardHolder: "",
+            cardNumber: "",
+            expiryDate: "",
+            securityCode: "",
+          },
+        });
+        setPaymentModal(false);
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
   const editPaymentHandler = () => {
     setEditModal(true);
     setPaymentModal(true);
   };
-  const deletePaymentHandler = () => {};
+
+  const deletePaymentHandler = (userId, payMethodId) => {
+    if (!payMethodId) {
+      alert("Error: uniqueId is undefined");
+      return;
+    }
+    const dbRef = ref(database, `${userId}/payment-method/${payMethodId}`);
+    remove(dbRef)
+      .then(() => {
+        alert("Deleted successfully");
+        refetch();
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
 
   let PAYMENT_METHODS;
   if (isLoading) {
@@ -90,33 +130,6 @@ export default function PaymentMethodPage() {
     ));
   }
 
-  const paymentMethodHandler = (values, actions) => {
-    const db = database;
-    const newPaymentRef = push(ref(db, payerId + "/payment-method/"));
-    set(newPaymentRef, {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      cardNumber: values.cardNumber,
-      expiryDate: values.expiryDate,
-      securityCode: values.securityCode,
-    })
-      .then(() => {
-        alert("Payment method added successfully.");
-        actions.resetForm({
-          values: {
-            cardHolder: "",
-            cardNumber: "",
-            expiryDate: "",
-            securityCode: "",
-          },
-        });
-        setPaymentModal(false);
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
-
   const PAYMENT_MODAL = (
     <Modal>
       <div className="flex justify-end">
@@ -127,7 +140,7 @@ export default function PaymentMethodPage() {
         />
       </div>
       <div className="flex justify-center">
-        <h1 className="p-6 font-mono text-xl font-semibold">Add New Card</h1>
+        <h1 className="p-2 font-mono text-xl font-semibold">Add New Card</h1>
       </div>
       <div>
         <p className="font-mono text-lg flex justify-center p-4 text-center">
@@ -263,12 +276,12 @@ export default function PaymentMethodPage() {
                 />
               )}
 
-              <div className="flex justify-center mt-4">
+              <div className="flex justify-center mt-2">
                 <p className="font-mono text-lg ">
                   This will be your primary payment method.
                 </p>
               </div>
-              <div className="flex justify-center mt-4">
+              <div className="flex justify-center mt-2">
                 <button
                   type="button"
                   onClick={() => setMobilePayment(!mobilePayment)}

@@ -7,8 +7,6 @@ export const DeliveryServices = async (userId) => {
     const snapshot = await get(dbRef);
     const data = snapshot.val();
 
-    console.log("Delivery: ", data);
-
     const deliveryInfo = [];
     for (const key in data) {
       deliveryInfo.push({
@@ -33,7 +31,7 @@ export const DeliveryAddressService = async (userId, deliveryId) => {
     const dbRef = ref(database, `${userId}/delivery/${deliveryId}`);
     const snapshot = await get(dbRef);
     const data = snapshot.val();
-    console.log("Single address:", data);
+
     const deliveryAddress = {
       id: deliveryId,
       firstName: data.firstName,
@@ -56,8 +54,6 @@ export const PaymentMethodServices = async (userId) => {
     const snapshot = await get(dbRef);
     const data = snapshot.val();
 
-    console.log("Payment card:", data);
-
     const paymentInfor = [];
     for (const key in data) {
       paymentInfor.push({
@@ -70,6 +66,19 @@ export const PaymentMethodServices = async (userId) => {
       });
     }
     return paymentInfor;
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const getPaymentMethod = async (userId, paymentId) => {
+  try {
+    const response = await fetch(
+      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/${userId}/payment-method/${paymentId}`
+    );
+    const data = await response.json();
+
+    return data;
   } catch (error) {
     return Promise.reject(error);
   }

@@ -13,10 +13,7 @@ import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import { database } from "../../FirebaseConfigs/Firesbase";
 import { ref, set, onValue, push, remove } from "firebase/database";
-import {
-  DeliveryAddressService,
-  DeliveryServices,
-} from "../../Services/AccountServices";
+import { DeliveryServices } from "../../Services/AccountServices";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
@@ -34,13 +31,6 @@ export default function DeliveryPage({ deliveryId }) {
     isError,
     refetch,
   } = useQuery(["delivery", userId], () => DeliveryServices(userId));
-  console.log(data);
-  console.log("userId:", userId);
-
-  const { data: address } = useQuery(["address", userId, deliveryId], () =>
-    DeliveryAddressService(userId, deliveryId)
-  );
-  console.log(`Alone data: ${address}`);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (data) => {
@@ -77,7 +67,7 @@ export default function DeliveryPage({ deliveryId }) {
         alert(deliveryId);
         actions.resetForm({
           values: {
-            firstName: "",
+            firstName: data.firstName,
             lastName: "",
             address: "",
             aptSuite: "",
@@ -93,14 +83,14 @@ export default function DeliveryPage({ deliveryId }) {
       });
   };
 
-  const deleteDeliveryHandler = async (userId, deliveryId) => {
+  const deleteDeliveryHandler = async (userId) => {
     const dbRef = ref(database, userId + "/delivery/" + deliveryId);
     remove(dbRef)
       .then(() => {
         alert("Deleted successfully");
         refetch();
       })
-      .then((error) => {
+      .catch((error) => {
         alert(`delivery error ${error}`);
       });
   };
@@ -159,27 +149,15 @@ export default function DeliveryPage({ deliveryId }) {
       </div>
 
       <Formik
-        initialValues={
-          editModal
-            ? {
-                firstName: address.firstName,
-                lastName: address.lastName,
-                address: address.address,
-                aptSuite: address.apt,
-                zip: address.zip,
-                city: address.city,
-                state: address.state,
-              }
-            : {
-                firstName: firstName,
-                lastName: lastName,
-                address: "",
-                aptSuite: "",
-                zip: "",
-                city: "",
-                state: "",
-              }
-        }
+        initialValues={{
+          firstName: firstName,
+          lastName: lastName,
+          address: "",
+          aptSuite: "",
+          zip: "",
+          city: "",
+          state: "",
+        }}
         onSubmit={submitAddressHandler}
         // validationSchema={DeliveryAddressSchema}
       >
