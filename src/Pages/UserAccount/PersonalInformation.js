@@ -1,8 +1,12 @@
 import {
+  EmailAuthProvider,
+  deleteUser,
   onAuthStateChanged,
+  reauthenticateWithCredential,
   sendPasswordResetEmail,
   signOut,
   updateEmail,
+  updatePassword,
   // updatePassword,
   updateProfile,
 } from "firebase/auth";
@@ -33,17 +37,20 @@ export default function PersonalInformation() {
   const [userName, setUserName] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [editNameModal, setEditNameModal] = useState(false);
   const [editEmailModal, setEditEmailModal] = useState(false);
   const [editPasswordModal, setEditPasswordModal] = useState(false);
+  const [reAuth, setReAuth] = useState(true);
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUserEmail(user.email);
+
         setUserName(user.displayName);
-        console.log("user-email:", user.email);
+        console.log("user-email:", userEmail);
 
         // Split the displayed name into first name and last name
         const [first, last] = user.displayName.split(" ");
@@ -84,17 +91,38 @@ export default function PersonalInformation() {
     setEditPasswordModal(!editPasswordModal);
   };
 
-  const updateUserEmail = (values) => {
+  const reAuthenticateUser = (values) => {
     const user = auth.currentUser;
-    updateEmail(user, userEmail)
+    const credential = EmailAuthProvider.credential(
+      values.email,
+      values.password
+    );
+    reauthenticateWithCredential(user, credential)
       .then(() => {
-        openEmailModal();
-        console.log("Email  changed");
+        setIsLoading(true);
+        setReAuth(false);
+        alert("re-auth successful");
+        setIsLoading(false);
       })
       .catch((error) => {
         const errorMessage = error.message;
         const errorCode = error.code;
-        console.error(errorMessage, errorCode);
+        alert(errorMessage, errorCode);
+        console.log(errorMessage);
+      });
+  };
+
+  const updateUserEmail = (values) => {
+    const user = auth.currentUser;
+    updateEmail(user, values.newEmail)
+      .then(() => {
+        setEditEmailModal(!editEmailModal);
+        alert("Email  changed");
+      })
+      .catch((error) => {
+        const errorMessage = error.message;
+        const errorCode = error.code;
+        alert(errorMessage, errorCode);
       });
   };
 
@@ -127,54 +155,110 @@ export default function PersonalInformation() {
       });
   };
 
+  const handlePasswordChange = (values) => {
+    const user = auth.currentUser;
+    const newPassword = values.newPassword;
+    updatePassword(user, newPassword)
+      .then(() => {
+        alert("Password changes");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
+  const handleDeleteAccount = () => {
+    const user = auth.currentUser;
+    deleteUser(user)
+      .then(() => {
+        alert("account deleted");
+      })
+      .catch((error) => {
+        alert(error);
+      });
+  };
+
   const EMAIL_MODAL = (
     <EmailModal>
       <div className="flex justify-end">
         <ActionButton actionHandler={openEmailModal} />
       </div>
       <div className="font-mono text-lg text-start mb-4">
-        <h1 className="font-bold text-2xl mb-4">Change email</h1>
-        <p>Enter a new email for TimeZone</p>
+        <h1 className="font-bold text-2xl mb-4">
+          {reAuth ? "Sign in" : "Change email"}
+        </h1>
+        <p>
+          {reAuth
+            ? "Please re-authenticate to change email."
+            : "Enter a new email for TimeZone"}
+        </p>
       </div>
       <Formik
-        initialValues={{
-          newEmail: "",
-        }}
-        onSubmit={updateUserEmail}
+        initialValues={
+          reAuth
+            ? {
+                email: userEmail,
+                password: "",
+              }
+            : {
+                currentEmail: userEmail,
+                newEmail: "",
+              }
+        }
+        onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
           <Form>
             <Field
               component={CustomTextInput}
-              value={values.newEmail}
-              name="newEmail"
-              id="newEmail"
-              label="New email"
+              value={reAuth ? values.email : values.currentEmail}
+              name={reAuth ? "email" : "currentEmail"}
+              id={reAuth ? "email" : "currentEmail"}
+              label={reAuth ? "Email" : "Current email"}
               onChange={handleChange}
               onBlur={handleBlur}
-              autoComplete="false"
+              autoComplete="off"
               type="email"
             />
-            <div className="flex justify-center font-semibold text-lg font-mono mt-2">
-              <p>
-                By tapping Change Email, you agree to our
-                <span>
-                  <Link className="underline ml-2 mr-2">Privacy Policy</Link>
-                </span>
-                and
-                <span>
-                  <Link className="underline ml-2 mr-2">
-                    Terms &amp; Conditions.
-                  </Link>
-                </span>
-              </p>
-            </div>
+            <Field
+              component={CustomTextInput}
+              value={reAuth ? values.password : values.newEmail}
+              name={reAuth ? "password" : "newEmail"}
+              id={reAuth ? "password" : "newEmail"}
+              label={reAuth ? "Password" : "New email"}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              autoComplete="off"
+              type={reAuth ? "password" : "email"}
+            />
+            {reAuth ? (
+              <div className="flex justify-center font-mono">
+                <button type="button" onClick={handleResetPassword}>
+                  Forgot password? Reset password.
+                </button>
+              </div>
+            ) : (
+              <div className="flex justify-center font-semibold text-lg font-mono mt-2">
+                <p>
+                  By tapping Change Email, you agree to our
+                  <span>
+                    <Link className="underline ml-2 mr-2">Privacy Policy</Link>
+                  </span>
+                  and
+                  <span>
+                    <Link className="underline ml-2 mr-2">
+                      Terms &amp; Conditions.
+                    </Link>
+                  </span>
+                </p>
+              </div>
+            )}
             <div className="flex justify-center">
               <button
                 type="submit"
                 className="p-2 mb-4 w-60 mt-6 rounded bg-black text-white"
               >
-                Change Email
+                {reAuth ? "Sign in" : "Change Email"}
               </button>
             </div>
           </Form>
@@ -189,18 +273,111 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openPasswordModal} />
       </div>
       <div className="mb-4 font-mono">
-        <h1 className="text-2xl mb-4 font-semibold">Reset password</h1>
-        <p className="text-lg">Please enter your email to get a reset mail</p>
+        <h1 className="text-2xl mb-4 font-semibold">
+          {reAuth ? "Sign in" : "Change password"}
+        </h1>
+        <p className="text-lg">
+          {reAuth
+            ? "Please re-authenticate to change password."
+            : "Please enter Current and New password"}
+        </p>
       </div>
-      <div className="flex mt-6 justify-center">
-        <button
-          onClick={handleResetPassword}
-          className="p-2 bg-black text-white w-40 rounded"
-          type="submit"
-        >
-          Send Mail
-        </button>
-      </div>
+      <Formik
+        initialValues={
+          reAuth
+            ? {
+                email: userEmail,
+                password: "",
+              }
+            : {
+                currentPassword: "",
+                newPassword: "",
+              }
+        }
+        onSubmit={reAuth ? reAuthenticateUser : handlePasswordChange}
+      >
+        {({ values, handleChange, handleBlur, isSubmitting }) => (
+          <Form>
+            <Field
+              component={CustomTextInput}
+              id={reAuth ? "email" : "currentPassword"}
+              name={reAuth ? "email" : "currentPassword"}
+              type={reAuth ? "email" : "password"}
+              value={reAuth ? values.email : values.currentPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              label={reAuth ? "Email" : "Current password"}
+              placeholder={reAuth ? "Email" : "Current password"}
+              autoComplete="off"
+            />
+            <Field
+              component={CustomTextInput}
+              id={reAuth ? "password" : "newPassword"}
+              name={reAuth ? "password" : "newPassword"}
+              type="password"
+              value={reAuth ? values.password : values.newPassword}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              label={reAuth ? "Password" : "New password"}
+              placeholder={reAuth ? "Password" : "New password"}
+              autoComplete="off"
+            />
+            {reAuth ? (
+              <>
+                <div className="flex justify-center font-mono">
+                  <button type="button" onClick={handleResetPassword}>
+                    Forgot password? Reset password.
+                  </button>
+                </div>
+                <div className="flex justify-center font-semibold text-lg text-left px-2 font-mono mt-2">
+                  <p>
+                    By tapping Sign in, you agree to our
+                    <span>
+                      <Link className="underline ml-2 mr-2">
+                        Privacy Policy
+                      </Link>
+                    </span>
+                    and
+                    <span>
+                      <Link className="underline ml-2 mr-2">
+                        Terms &amp; Conditions.
+                      </Link>
+                    </span>
+                  </p>
+                </div>
+              </>
+            ) : (
+              <div className="flex justify-center font-semibold text-lg font-mono px-4 mt-2">
+                <p>
+                  By tapping Change password, you agree to our
+                  <span>
+                    <Link className="underline ml-2 mr-2">Privacy Policy</Link>
+                  </span>
+                  and
+                  <span>
+                    <Link className="underline ml-2 mr-2">
+                      Terms &amp; Conditions.
+                    </Link>
+                  </span>
+                </p>
+              </div>
+            )}
+            <div className="flex mt-6 justify-center">
+              <button
+                disabled={isSubmitting}
+                className={
+                  isSubmitting
+                    ? "p-2 bg-gray-400 text-white w-40 rounded"
+                    : "p-2 bg-black text-white w-40 rounded"
+                }
+                type="submit"
+              >
+                {reAuth ? "Sign in" : "Change password"}
+              </button>
+            </div>
+          </Form>
+        )}
+      </Formik>
     </PasswordModal>
   );
 
@@ -268,10 +445,12 @@ export default function PersonalInformation() {
         <p className="text-lg">
           Are you sure you want to delete your account ?
         </p>
+        <p>Enter login details to delete account</p>
       </div>
       <div className="flex justify-around">
         <button
           type="button"
+          onClick={handleDeleteAccount}
           className="bg-red-600 text-white text-lg p-2 w-40 rounded"
         >
           Yes
@@ -333,7 +512,7 @@ export default function PersonalInformation() {
         <div>
           <h1 className="font-medium mb-2">Name</h1>
           <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
-            {userName.toUpperCase()}
+            {userName}
           </p>
           <button onClick={openNameModal}>Edit</button>
           <hr className="w-8 border-black" />
