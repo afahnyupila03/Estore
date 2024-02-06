@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import classes from "./styles/delivery.module.css";
+import classes from "../styles/delivery.module.css";
 
 const backdropColor = {
   backgroundColor: "hsla(0, 0%, 0%, 0.749)",
@@ -24,7 +24,7 @@ export function ModalOverlay({ children }) {
 }
 
 const portalElement = document.getElementById("delivery");
-export default function Modal({ children }) {
+export default function DeliveryModal({ children }) {
   return (
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, portalElement)}

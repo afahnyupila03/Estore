@@ -1,5 +1,5 @@
 import React from "react";
-import Card from "./Components/Card";
+import Card from "./Components/CardComponents/Card";
 import Track from "../../Assets/track.png";
 import Return from "../../Assets/sale-return-icon.png";
 import Request from "../../Assets/request.png";

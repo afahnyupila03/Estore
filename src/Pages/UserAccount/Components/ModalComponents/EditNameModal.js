@@ -1,6 +1,6 @@
 import ReactDOM from "react-dom";
 import React, { Fragment } from "react";
-import classes from "./styles/nameModal.module.css";
+import classes from "../styles/nameModal.module.css";
 
 const backdropColor = {
   backgroundColor: "hsla(0, 0%, 0%, 0.749)",

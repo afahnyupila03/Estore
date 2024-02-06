@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Modal from "./Components/PaymentModal";
+import PaymentModal from "./Components/ModalComponents/PaymentModal";
 import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
 import { PaymentSchema } from "../../ValidationSchemas/PaymentSchema";
@@ -10,7 +10,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth, database } from "../../FirebaseConfigs/Firesbase";
 import { PaymentMethodServices } from "../../Services/AccountServices";
 import { push, set, ref, remove } from "firebase/database";
-import PaymentCardItem from "./Components/PaymentCardItem";
+import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 
@@ -19,7 +19,7 @@ import { closeOutline } from "ionicons/icons";
 export default function PaymentMethodPage() {
   const [paymentModal, setPaymentModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [payer, setPayer] = useState(null);
+  const [userName, setUserName] = useState(null);
   const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -36,13 +36,14 @@ export default function PaymentMethodPage() {
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (data) => {
       if (data) {
-        setPayer(data.displayName);
+        setUserName(data.displayName);
         setUserId(data.uid);
         const [first, last] = data.displayName.split(" ");
         setFirstName(first);
         setLastName(last);
       } else {
-        setPayer(null);
+        setUserName(null);
+        setUserId(null)
       }
     });
     return () => {
@@ -131,7 +132,7 @@ export default function PaymentMethodPage() {
   }
 
   const PAYMENT_MODAL = (
-    <Modal>
+    <PaymentModal>
       <div className="flex justify-end">
         <ActionButton
           style={{ fontSize: "2.5rem", fontWeight: "bold" }}
@@ -311,7 +312,7 @@ export default function PaymentMethodPage() {
           )}
         </Formik>
       </div>
-    </Modal>
+    </PaymentModal>
   );
 
   return (

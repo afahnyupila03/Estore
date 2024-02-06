@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Modal from "./Components/Modal";
+import DeliveryModal from "./Components/ModalComponents/DeliveryModal";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 import { Field, Form, Formik } from "formik";
@@ -7,7 +7,7 @@ import CustomTextInput from "../../Components/TextInput";
 import { onAuthStateChanged } from "firebase/auth";
 import { useQuery } from "react-query";
 import { DeliveryAddressSchema } from "../../ValidationSchemas/DeliverySchema";
-import DeliveryCardItem from "./Components/DeliveryCardItem";
+import DeliveryCardItem from "./Components/CardComponents/DeliveryCardItem";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import { database, auth } from "../../FirebaseConfigs/Firesbase";
@@ -111,7 +111,7 @@ export default function DeliveryPage({ deliveryId }) {
     DELIVERY_ADDRESS = (
       <div>
         <p>{error}</p>
-        <button tye="button" onClick={() => refetch()}>
+        <button type="button" onClick={() => refetch()}>
           Try again
         </button>
       </div>
@@ -134,7 +134,7 @@ export default function DeliveryPage({ deliveryId }) {
   };
 
   const DELIVERY_MODAL = (
-    <Modal>
+    <DeliveryModal>
       <div className="flex justify-end">
         <ActionButton
           actionButton={modalHandler}
@@ -274,7 +274,7 @@ export default function DeliveryPage({ deliveryId }) {
           </Form>
         )}
       </Formik>
-    </Modal>
+    </DeliveryModal>
   );
 
   return (

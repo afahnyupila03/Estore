@@ -8,15 +8,15 @@ import {
 } from "firebase/auth";
 import React, { useEffect, useState } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
-import EmailModal from "./Components/EditEmailModal";
+import EmailModal from "./Components/ModalComponents/EditNameModal";
 import { Form, Formik, Field } from "formik";
 import CustomTextInput from "../../Components/TextInput";
 import { IonIcon } from "@ionic/react";
 import { closeOutline } from "ionicons/icons";
 import { Link } from "react-router-dom";
-import PasswordModal from "./Components/EditPasswordModal";
-import NameModal from "./Components/EditNameModal";
-import DeleteModal from "./Components/DeleteModal";
+import PasswordModal from "./Components/ModalComponents/EditPasswordModal";
+import NameModal from "./Components/ModalComponents/EditNameModal";
+import DeleteModal from "./Components/ModalComponents/DeleteModal";
 
 const ActionButton = ({ actionHandler }) => {
   return (
@@ -85,8 +85,8 @@ export default function PersonalInformation() {
   };
 
   const updateUserEmail = (values) => {
-    // const user = auth.currentUser;
-    updateEmail(auth.currentUser, userEmail)
+    const user = auth.currentUser;
+    updateEmail(user, userEmail)
       .then(() => {
         openEmailModal();
         console.log("Email  changed");
@@ -333,8 +333,7 @@ export default function PersonalInformation() {
         <div>
           <h1 className="font-medium mb-2">Name</h1>
           <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
-            {/* {userName.toUpperCase()} */}
-            {userName}
+            {userName.toUpperCase()}
           </p>
           <button onClick={openNameModal}>Edit</button>
           <hr className="w-8 border-black" />
@@ -357,7 +356,7 @@ export default function PersonalInformation() {
       <div className="mt-4 font-mono text-lg">
         <p className="mb-2">Delete your TimeZone account</p>
         <button
-          tye="button"
+          type="button"
           onClick={openDeleteModal}
           className="p-2 bg-red-600 text-white font-mono rounded"
         >
