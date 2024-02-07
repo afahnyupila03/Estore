@@ -26,26 +26,44 @@ export const NavbarRoutes = (t) => [
 ];
 
 export const AuthRoute = (t) => [
-  { 
-    navLink: "Sign In | Create Account", 
-    navRoute: "/sign-in-&-create-account" 
+  {
+    navLink: "Sign In | Create Account",
+    navRoute: "/sign-in-&-create-account",
   },
 ];
 
-export const AccountRoutes = (t, heartOutline, cardOutline, bicycleOutline) => [
+export const UserAccountRoute = (t, userName) => [
+  {
+    navLink: `${userName}'s Account`,
+    navRoute: "my-account/landing",
+  },
+];
+
+export const AccountRoutes = (
+  t,
+  cubeOutline,
+  heartOutline,
+  cardOutline,
+  bicycleOutline
+) => [
+  {
+    iconName: cubeOutline,
+    navRoute: "my-account/landing/purchases",
+    navLink: "Purchases",
+  },
   {
     iconName: heartOutline,
-    navRoute: "account/wish-list",
+    navRoute: "my-account/landing/wish-lists",
     navLink: "Wish List",
   },
   {
     iconName: bicycleOutline,
-    navRoute: "account/delivery",
+    navRoute: "my-account/landing/delivery",
     navLink: "Delivery",
   },
   {
     iconName: cardOutline,
-    navRoute: "account/payment-method",
+    navRoute: "my-account/landing/payment-method",
     navLink: "Payment Method",
   },
 ];
@@ -54,12 +72,12 @@ export const AccountSettingsRoutes = (t, mailOutline, lockClosedOutline) => [
   {
     iconName: lockClosedOutline,
     navLink: "Password & Personal Info",
-    navRoute: "password-&-personal-info",
+    navRoute: "my-account/landing/password-&-personal-information",
   },
   {
     iconName: mailOutline,
     navLink: "Email & Mail Preferences",
-    navRoute: "email-&-mail-preferences",
+    navRoute: "my-account/landing/email-&-mail-preferences",
   },
 ];
 
@@ -97,6 +115,7 @@ export const CustomerServiceRoutes = (t) => [
     navRoute: "product-recalls",
   },
 ];
+
 export const AboutRoutes = (t) => [
   { navLink: "All Brands", navRoute: "brands" },
   { navLink: "Careers", navRoute: "careers" },

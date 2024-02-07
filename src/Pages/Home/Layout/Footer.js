@@ -15,8 +15,9 @@ export default function () {
   const aboutNavigation = AboutRoutes(t);
 
   return (
-    <div className="container mx-auto px-4 pt-20 pb-10 text-lg">
+    <div className="container mx-auto mt-20 px-4 pt-20 pb-10 text-lg">
       <div className="mx-6 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
+
         <div>
           <h3 className="py-4 font-semibold font-mono">Customer Service</h3>
           <ul>
@@ -31,7 +32,7 @@ export default function () {
               </li>
             ))}
           </ul>
-          <div className="flex py-2">
+          <div className="flex items-center py-2">
             <ReactCountryFlag countryCode="CM" svg className="mr-2 my-2" />
             <p className="font-semibold font-mono">Cameroon</p>
           </div>
@@ -52,6 +53,7 @@ export default function () {
             ))}
           </ul>
         </div>
+
       </div>
 
       <div className="flex items-center justify-center">

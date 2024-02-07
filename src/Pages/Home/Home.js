@@ -45,8 +45,6 @@ export default function Home() {
     );
   }
 
-  let fakeContent;
-
   return (
     <React.Fragment>
       <div className="bg-white">

@@ -3,12 +3,22 @@ export const defaultState = {
   totalAmount: 0,
 };
 
+export const wishlistState = {
+  wishlist: [],
+  totalAmount: 0,
+};
+
+export const purchaseState = {
+  purchase: [],
+  totalAmount: 0,
+};
+
 export const defaultAuthState = {
   email: null,
   password: null,
 };
 
-export default function cartReducer (state, action) {
+export default function cartReducer(state, action) {
   if (action.type === "ADD") {
     const updatedTotalAmount =
       state.totalAmount + action.item.price * action.item.amount;
@@ -65,6 +75,10 @@ export default function cartReducer (state, action) {
 
   return state;
 }
+
+export function wishlistReducer(state, action) {}
+
+export function purchaseReducer(state, action) {}
 
 export const AuthReducer = (state, action) => {
   if (action.type === "SIGNUP") {

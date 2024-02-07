@@ -1,9 +1,23 @@
 import CartContext from "./cart-context";
-import cartReducer, { defaultState } from "./Reducers";
+import cartReducer, {
+  defaultState,
+  purchaseReducer,
+  purchaseState,
+  wishlistReducer,
+  wishlistState,
+} from "./Reducers";
 import { useReducer } from "react";
 
 export default function ({ children }) {
   const [cartState, dispatchCart] = useReducer(cartReducer, defaultState);
+  const [wishlist, dispatchWishlist] = useReducer(
+    wishlistReducer,
+    wishlistState
+  );
+  const [purchase, dispatchPurchase] = useReducer(
+    purchaseReducer,
+    purchaseState
+  );
 
   const addItemHandler = (item) => {
     dispatchCart({
