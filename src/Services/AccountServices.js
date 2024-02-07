@@ -1,84 +1,144 @@
-import { get, ref } from "firebase/database";
 import { database } from "../FirebaseConfigs/Firesbase"; // Assuming you have initialized your Firebase app and exported the database instance as 'database'
+import { doc, getDoc, collection, getDocs, query } from "firebase/firestore";
 
 export const DeliveryServices = async (userId) => {
   try {
-    const dbRef = ref(database, userId + "/delivery/");
-    const snapshot = await get(dbRef);
-    const data = snapshot.val();
+    const deliveriesRef = collection(
+      database,
+      userId + "/delivery/" + "addressMe"
+    );
+    const q = query(deliveriesRef);
+    const querySnapshot = await getDocs(q);
 
     const deliveryInfo = [];
-    for (const key in data) {
+    querySnapshot.forEach((doc) => {
       deliveryInfo.push({
-        id: key,
-        firstName: data[key].firstName,
-        lastName: data[key].lastName,
-        address: data[key].address,
-        state: data[key].state,
-        apt: data[key].apt,
-        city: data[key].city,
-        zip: data[key].zip,
+        id: doc.id,
+        firstName: doc.data().firstName,
+        lastName: doc.data().lastName,
+        address: doc.data().address,
+        state: doc.data().state,
+        apt: doc.data().apt,
+        city: doc.data().city,
+        zip: doc.data().zip,
       });
-    }
+    });
     return deliveryInfo;
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
-export const DeliveryAddressService = async (userId, deliveryId) => {
+export const DeliveryAddressService = async (userId, addressId) => {
   try {
-    const dbRef = ref(database, `${userId}/delivery/${deliveryId}`);
-    const snapshot = await get(dbRef);
-    const data = snapshot.val();
+    const addressRef = doc(
+      database,
+      userId + "/delivery" + "/addressMe/" + addressId
+    );
+    const docSnapshot = await getDoc(addressRef);
 
-    const deliveryAddress = {
-      id: deliveryId,
-      firstName: data.firstName,
-      lastName: data.lastName,
-      address: data.address,
-      state: data.state,
-      apt: data.apt,
-      city: data.city,
-      zip: data.zip,
-    };
-    return deliveryAddress;
+    if (docSnapshot.exists()) {
+      const addressData = {
+        id: docSnapshot.id,
+        firstName: docSnapshot.data().firstName,
+        lastName: docSnapshot.data().lastName,
+        address: docSnapshot.data().address,
+        state: docSnapshot.data().state,
+        apt: docSnapshot.data().apt,
+        city: docSnapshot.data().city,
+        zip: docSnapshot.data().zip,
+      };
+      console.log(addressData.id);
+      return addressData;
+    } else {
+      return null; // Document not found
+    }
   } catch (error) {
     return Promise.reject(error);
+  }
+};
+
+export const fetchDeliveryId = async (userId) => {
+  try {
+    const deliveryIdRef = doc(database, userId + "/delivery/" + "addressMe");
+    const deliveryIdSnapshot = await getDoc(deliveryIdRef);
+
+    if (deliveryIdSnapshot.exists()) {
+      const deliveryId = deliveryIdSnapshot.data()?.id;
+      return deliveryId || "defaultDeliveryId";
+    } else {
+      return "defaultDeliveryId";
+    }
+  } catch (error) {
+    console.log("Error fetching deliveryId:", error.message);
+    throw error;
   }
 };
 
 export const PaymentMethodServices = async (userId) => {
   try {
-    const dbRef = ref(database, userId + "/payment-method/");
-    const snapshot = await get(dbRef);
-    const data = snapshot.val();
+    const paymentRef = collection(
+      database,
+      userId + "/payment-method/" + "bankCard"
+    );
+    const q = query(paymentRef);
+    const querySnapshot = await getDocs(q);
 
-    const paymentInfor = [];
-    for (const key in data) {
-      paymentInfor.push({
-        id: key,
-        firstName: data[key].firstName,
-        lastName: data[key].lastName,
-        cardNumber: data[key].cardNumber,
-        expiryDate: data[key].expiryDate,
-        securityCode: data[key].securityCode,
+    const paymentInfo = [];
+    querySnapshot.forEach((doc) => {
+      paymentInfo.push({
+        id: doc.data().id,
+        firstName: doc.data().firstName,
+        lastName: doc.data().lastName,
+        cardNumber: doc.data().cardNumber,
+        expiryDate: doc.data().expiryDate,
+        securityCode: doc.data().securityCode,
       });
-    }
-    return paymentInfor;
+    });
+    // console.log(paymentInfo.)
+    return paymentInfo;
   } catch (error) {
     return Promise.reject(error);
   }
 };
 
-export const getPaymentMethod = async (userId, paymentId) => {
+export const PaymentMethodService = async (userId, paymentId) => {
   try {
-    const response = await fetch(
-      `https://timezone-2cf9b-default-rtdb.europe-west1.firebasedatabase.app/${userId}/payment-method/${paymentId}`
+    const paymentRef = doc(
+      database,
+      `${userId}/payment-method/bankCard/${paymentId}`
     );
-    const data = await response.json();
+    const paymentSnapshot = await getDoc(paymentRef);
 
-    return data;
+    if (paymentSnapshot.exists()) {
+      const paymentMethod = {
+        id: paymentSnapshot.data().id,
+        firstName: paymentSnapshot.data().firstName,
+        lastName: paymentSnapshot.data().lastName,
+        cardNumber: paymentSnapshot.data().cardNumber,
+        expiryDate: paymentSnapshot.data().expiryDate,
+        securityCode: paymentSnapshot.data().securityCode,
+      };
+      console.log(paymentMethod.id);
+      return paymentMethod;
+    } else {
+      return null;
+    }
+  } catch (error) {
+    return Promise.reject(error);
+  }
+};
+
+export const fetchPaymentId = async (userId) => {
+  try {
+    const paymentIdRef = doc(database, `${userId}/payment-method/bankCard/`);
+    const paymentIdSnapshot = await getDoc(paymentIdRef);
+
+    if (paymentIdSnapshot.exists()) {
+      return paymentIdSnapshot.data().id;
+    } else {
+      return "defaultPaymentId";
+    }
   } catch (error) {
     return Promise.reject(error);
   }

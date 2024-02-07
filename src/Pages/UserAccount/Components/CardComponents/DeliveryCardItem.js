@@ -5,12 +5,13 @@ export default function DeliveryCardItem({
   deleteHandler,
   editHandler,
 }) {
-  const { firstName, lastName, address, city, zip, state, apt } =
+  const { id, firstName, lastName, address, city, zip, state, apt } =
     deliveryDetails || {};
 
   return (
     <div loading="lazy" className="font-mono p-4 border-2 border-black rounded">
       <div className="mb-4">
+        <p>Unique id: {id}</p>
         <p>
           {firstName} {lastName}
         </p>

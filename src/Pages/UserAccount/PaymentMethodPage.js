@@ -8,11 +8,16 @@ import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth, database } from "../../FirebaseConfigs/Firesbase";
-import { PaymentMethodServices } from "../../Services/AccountServices";
+import {
+  PaymentMethodService,
+  PaymentMethodServices,
+  fetchPaymentId,
+} from "../../Services/AccountServices";
 import { push, set, ref, remove } from "firebase/database";
 import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
+import { addDoc, collection } from "firebase/firestore";
 
 // TODO: FIX EDIT AND DELETE PAYMENT HANDLERS.
 
@@ -32,6 +37,13 @@ export default function PaymentMethodPage() {
     isError,
     error,
   } = useQuery(["bankCard", userId], () => PaymentMethodServices(userId));
+  const { data: paymentId } = useQuery(["paymentId", userId], () =>
+    fetchPaymentId(userId)
+  );
+  const { data: singleMethod = [] } = useQuery(
+    ["singleMethod", userId, paymentId],
+    () => PaymentMethodService(userId, paymentId)
+  );
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (data) => {
@@ -43,7 +55,7 @@ export default function PaymentMethodPage() {
         setLastName(last);
       } else {
         setUserName(null);
-        setUserId(null)
+        setUserId(null);
       }
     });
     return () => {
@@ -55,32 +67,40 @@ export default function PaymentMethodPage() {
     setPaymentModal(!paymentModal);
   }
 
-  const paymentMethodHandler = (values, actions) => {
+  const paymentMethodHandler = async (values, actions) => {
     const db = database;
-    const newPaymentRef = push(ref(db, userId + "/payment-method/"));
+    const newPaymentRef = collection(
+      db,
+      userId,
+      "/payment-method/",
+      "bankCard"
+    );
 
-    set(newPaymentRef, {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      cardNumber: values.cardNumber,
-      expiryDate: values.expiryDate,
-      securityCode: values.securityCode,
-    })
-      .then(() => {
-        alert("Payment method added successfully.");
-        actions.resetForm({
-          values: {
-            cardHolder: "",
-            cardNumber: "",
-            expiryDate: "",
-            securityCode: "",
-          },
-        });
-        setPaymentModal(false);
-      })
-      .catch((error) => {
-        alert(error);
+    try {
+      const paymentRef = await addDoc(newPaymentRef, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        cardNumber: values.cardNumber,
+        expiryDate: values.expiryDate,
+        securityCode: values.securityCode,
       });
+
+      const paymentId = paymentRef.id;
+
+      alert("Payment method added with paymentId: " + paymentId);
+
+      actions.resetForm({
+        values: {
+          cardHolder: "",
+          cardNumber: "",
+          expiryDate: "",
+          securityCode: "",
+        },
+      });
+    } catch (error) {
+      alert("Error write payment-method to Firestore: " + error.message);
+      console.log(error);
+    }
   };
 
   const editPaymentHandler = () => {
@@ -153,16 +173,29 @@ export default function PaymentMethodPage() {
         <p className="flex justify-center font-mono font-semibold text-xl">
           <span className="text-red-500">*</span>Required
         </p>
+        {/* singleMethod */}
         <Formik
-          initialValues={{
-            firstName: firstName,
-            lastName: lastName,
-            cardNumber: "",
-            expiryDate: "",
-            securityCode: "",
-            accountName: "",
-            accountNumber: "",
-          }}
+          initialValues={
+            editModal
+              ? {
+                  firstName: singleMethod.firstName,
+                  lastName: singleMethod.lastName,
+                  cardNumber: singleMethod.cardNumber,
+                  expiryDate: singleMethod.expiryDate,
+                  securityCode: singleMethod.securityCode,
+                  // accountName: singleMethod.accountName,
+                  // accountNumber: singleMethod.accountNumber,
+                }
+              : {
+                  firstName: firstName,
+                  lastName: lastName,
+                  cardNumber: "",
+                  expiryDate: "",
+                  securityCode: "",
+                  // accountName: "",
+                  // accountNumber: "",
+                }
+          }
           // validationSchema={PaymentSchema}
           onSubmit={paymentMethodHandler}
         >
@@ -238,7 +271,7 @@ export default function PaymentMethodPage() {
                   name="securityCode"
                   className="grid justify-center"
                   id="securityCode"
-                  type="password"
+                  type="integer"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.securityCode}

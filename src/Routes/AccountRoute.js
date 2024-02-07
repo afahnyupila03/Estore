@@ -9,7 +9,7 @@ import WishlistPage from "../Pages/UserAccount/WishlistPage";
 
 export const AccountRoute = [
   {
-    path: "my-account/landing",
+    path: "my-account/landing/*",
     element: <AccountLandingPage />,
     children: [
       {
