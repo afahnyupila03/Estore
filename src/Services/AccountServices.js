@@ -33,7 +33,10 @@ export const DeliveryAddressService = async (userId, addressId) => {
   try {
     const addressRef = doc(
       database,
-      userId + "/delivery" + "/addressMe/" + addressId
+      userId,
+      "delivery",
+      "addressMe",
+      addressId
     );
     const docSnapshot = await getDoc(addressRef);
 
@@ -60,18 +63,17 @@ export const DeliveryAddressService = async (userId, addressId) => {
 
 export const fetchDeliveryId = async (userId) => {
   try {
-    const deliveryIdRef = doc(database, userId + "/delivery/" + "addressMe");
-    const deliveryIdSnapshot = await getDoc(deliveryIdRef);
-
-    if (deliveryIdSnapshot.exists()) {
-      const deliveryId = deliveryIdSnapshot.data()?.id;
-      return deliveryId || "defaultDeliveryId";
-    } else {
-      return "defaultDeliveryId";
-    }
+    const deliveryIdRef = collection(database, userId, "delivery", "addressMe");
+    // const deliveryIdSnapshot = await getDoc(deliveryIdRef);
+    const q = query(deliveryIdRef);
+    const querySnapshot = await getDocs(q);
+    const deliverIds = [];
+    querySnapshot.forEach((doc) => {
+      deliverIds.push(doc.id);
+    });
+    return deliverIds;
   } catch (error) {
-    console.log("Error fetching deliveryId:", error.message);
-    throw error;
+    return Promise.reject(error);
   }
 };
 

@@ -36,17 +36,19 @@ export default function DeliveryPage() {
     refetch,
   } = useQuery(["delivery", userId], () => DeliveryServices(userId));
   // const deliveryId = "GXcRx433FEAhtsBU0a2a";
-  const deliveryId = data.map(doc => doc.id)
-  console.log("address added: " + data)
-  // const { data: deliveryId } = useQuery(["dynamicDeliveryId", userId], () =>
-  //   fetchDeliveryId(userId,)
 
-  // );
-  const { data: singleAddress = [] } = useQuery(
-    ["single", userId, deliveryId],
-    () => DeliveryAddressService(userId, deliveryId)
+  const { data: deliveryId } = useQuery(["dynamicDeliveryId", userId], () =>
+    fetchDeliveryId(userId)
   );
-  console.log("single address: " + singleAddress)
+
+  const firstDeliveryId =
+    deliveryId && deliveryId.length > 0 ? deliveryId[0] : null;
+
+  const { data: singleAddress } = useQuery(
+    ["single", userId, firstDeliveryId],
+    () => DeliveryAddressService(userId, firstDeliveryId)
+  );
+  console.log(singleAddress);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (data) => {
