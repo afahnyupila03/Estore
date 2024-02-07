@@ -17,7 +17,7 @@ import {
   DeliveryServices,
   fetchDeliveryId,
 } from "../../Services/AccountServices";
-import { addDoc, collection, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
@@ -105,16 +105,19 @@ export default function DeliveryPage() {
     }
   };
 
-  const deleteDeliveryHandler = async (userId) => {
-    const dbRef = ref(database, userId + "/delivery/" + deliveryId);
-    remove(dbRef)
-      .then(() => {
-        alert("Deleted successfully");
-        // refetch();
-      })
-      .catch((error) => {
-        alert(`delivery error ${error}`);
-      });
+  const deleteDeliveryHandler = async (userId, uniqueId) => {
+    const db = database;
+
+    const deleteRef = doc(db, `${userId}/delivery/addressMe/${uniqueId}`);
+
+    try {
+      await deleteDoc(deleteRef);
+      alert("Address deleted");
+      refetch(userId);
+    } catch (error) {
+      alert("Error deleting address: " + error.message);
+      console.error(error);
+    }
   };
 
   const editHandler = () => {
