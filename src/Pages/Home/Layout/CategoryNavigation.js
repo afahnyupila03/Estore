@@ -48,7 +48,7 @@ export const CATEGORY_FEATURES = [
     categoryLink: "Men Footwear",
   },
   {
-    categoryRoute: "men-watches",
+    categoryRoute: "mens-watches",
     categoryLink: "Men Watches",
   },
   {

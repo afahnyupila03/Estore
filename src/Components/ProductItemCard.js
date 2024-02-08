@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ProductModal from "./ProductModal";
 import { IonIcon } from "@ionic/react";
-import { starOutline } from "ionicons/icons";
+import { star, starHalfOutline } from "ionicons/icons";
 
 export default function (props) {
   const [openProductModal, setOpenProductModal] = useState(false);
@@ -19,6 +19,29 @@ export default function (props) {
     images,
     thumbnail,
   } = props.productData || [];
+
+  function PRODUCT_RATING(stars) {
+    const fullStars = Math.floor(stars); // Get the integer part of the rating
+    const halfStar = stars - fullStars >= 0.5; // Check if there is a half star
+
+    let starsArray = [];
+
+    for (let i = 0; i < fullStars; i++) {
+      starsArray.push(<IonIcon icon={star} key={i} />);
+    }
+
+    if (halfStar) {
+      starsArray.push(<IonIcon icon={starHalfOutline} key="half" />); // Assuming there's a half-star icon available
+    }
+
+    const remainingStars = 5 - starsArray.length; // Calculate the remaining empty stars
+
+    for (let i = 0; i < remainingStars; i++) {
+      starsArray.push(<IonIcon icon={star} key={`empty-${i}`} />);
+    }
+
+    return <div>{starsArray}</div>;
+  }
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
@@ -63,7 +86,8 @@ export default function (props) {
           </p>
           <p>{discountPercentage}%</p>
           <div className="flex items-center">
-            <IonIcon icon={starOutline} className="mr-2" /> {rating}
+            {/* <IonIcon icon={starOutline} className="mr-2" /> */}
+            {PRODUCT_RATING(rating)}
             <span>({stock})</span>
           </div>
         </div>

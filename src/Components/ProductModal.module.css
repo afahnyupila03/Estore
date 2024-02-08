@@ -1,7 +1,7 @@
 .modal {
   position: fixed;
   top: 20vh;
-  left: 5%;
+  left: 10%;
   width: 90%;
   background-color: white;
   padding: 1rem;
@@ -14,8 +14,8 @@
 
 @media (min-width: 768px) {
   .modal {
-    width: 50rem;
-    left: 20rem;
+    width: 60rem;
+    left: 28rem;
   }
 }
 
