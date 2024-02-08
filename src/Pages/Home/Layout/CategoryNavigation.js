@@ -80,3 +80,18 @@ export const CATEGORY_FEATURES = [
     categoryLink: "lighting",
   },
 ];
+
+
+
+
+
+function convertCurrency(priceInUSD) {
+  const exchangeRate = 608.58; // Assuming 1 USD = 608.58 XCAF
+  const priceInXCAF = Math.round(priceInUSD * exchangeRate); // Convert the price to XCAF
+  const formattedPrice = priceInXCAF.toLocaleString('en-US', { style: 'currency', currency: 'XAF' }); // Format the price as XAF currency
+  return formattedPrice; // Return the formatted price in XAF
+}
+
+const price = 100; // Example price in USD
+const xafPrice = convertCurrency(price);
+console.log("Price in XAF: ", xafPrice); // Output: XAF 60,858
