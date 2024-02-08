@@ -12,11 +12,16 @@ import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import { database, auth } from "../../FirebaseConfigs/Firesbase";
 import { ref, set, push, remove } from "firebase/database";
-import { DeliveryServices } from "../../Services/AccountServices";
+import {
+  DeliveryAddressService,
+  DeliveryServices,
+  fetchDeliveryId,
+} from "../../Services/AccountServices";
+import { addDoc, collection, deleteDoc, doc, setDoc } from "firebase/firestore";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
-export default function DeliveryPage({ deliveryId }) {
+export default function DeliveryPage() {
   const [modal, setModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [user, setUser] = useState(null);
@@ -30,6 +35,20 @@ export default function DeliveryPage({ deliveryId }) {
     isError,
     refetch,
   } = useQuery(["delivery", userId], () => DeliveryServices(userId));
+  // const deliveryId = "GXcRx433FEAhtsBU0a2a";
+
+  const { data: deliveryId } = useQuery(["dynamicDeliveryId", userId], () =>
+    fetchDeliveryId(userId)
+  );
+
+  const firstDeliveryId =
+    deliveryId && deliveryId.length > 0 ? deliveryId[0] : null;
+
+  const { data: singleAddress } = useQuery(
+    ["single", userId, firstDeliveryId],
+    () => DeliveryAddressService(userId, firstDeliveryId)
+  );
+  console.log(singleAddress);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (data) => {
@@ -48,50 +67,57 @@ export default function DeliveryPage({ deliveryId }) {
     };
   }, []);
 
-  const submitAddressHandler = (values, actions) => {
+  const submitAddressHandler = async (values, actions) => {
     const db = database;
-    const newDeliveryRef = push(ref(db, userId + "/delivery/"));
-    set(newDeliveryRef, {
-      firstName: values.firstName,
-      lastName: values.lastName,
-      address: values.address,
-      apt: values.aptSuite,
-      zip: values.zip,
-      city: values.city,
-      state: values.state,
-    })
-      .then(() => {
-        const deliveryId = newDeliveryRef.key;
+    const newDeliveryRef = collection(db, userId, "/delivery/", "addressMe"); // Assuming userId is defined
 
-        alert(deliveryId);
-        actions.resetForm({
-          values: {
-            firstName: data.firstName,
-            lastName: "",
-            address: "",
-            aptSuite: "",
-            zip: "",
-            city: "",
-            state: "",
-          },
-        });
-        setModal(false);
-      })
-      .catch((error) => {
-        alert(error);
+    try {
+      const docRef = await addDoc(newDeliveryRef, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        address: values.address,
+        apt: values.aptSuite,
+        zip: values.zip,
+        city: values.city,
+        state: values.state,
       });
+
+      const deliveryId = docRef.id;
+
+      alert("Data written successfully. Delivery ID: " + deliveryId);
+
+      actions.resetForm({
+        values: {
+          firstName: "",
+          lastName: "",
+          address: "",
+          aptSuite: "",
+          zip: "",
+          city: "",
+          state: "",
+        },
+      });
+
+      setModal(false);
+    } catch (error) {
+      alert("Error writing data to Firestore: " + error.message);
+      console.error(error);
+    }
   };
 
-  const deleteDeliveryHandler = async (userId) => {
-    const dbRef = ref(database, userId + "/delivery/" + deliveryId);
-    remove(dbRef)
-      .then(() => {
-        alert("Deleted successfully");
-        refetch();
-      })
-      .catch((error) => {
-        alert(`delivery error ${error}`);
-      });
+  const deleteDeliveryHandler = async (userId, uniqueId) => {
+    const db = database;
+
+    const deleteRef = doc(db, `${userId}/delivery/addressMe/${uniqueId}`);
+
+    try {
+      await deleteDoc(deleteRef);
+      alert("Address deleted");
+      refetch(userId);
+    } catch (error) {
+      alert("Error deleting address: " + error.message);
+      console.error(error);
+    }
   };
 
   const editHandler = () => {
@@ -148,15 +174,27 @@ export default function DeliveryPage({ deliveryId }) {
       </div>
 
       <Formik
-        initialValues={{
-          firstName: firstName,
-          lastName: lastName,
-          address: "",
-          aptSuite: "",
-          zip: "",
-          city: "",
-          state: "",
-        }}
+        initialValues={
+          editModal
+            ? {
+                firstName: singleAddress.firstName,
+                lastName: singleAddress.lastName,
+                address: singleAddress.address,
+                aptSuite: singleAddress.apt,
+                zip: singleAddress.zip,
+                city: singleAddress.city,
+                state: singleAddress.state,
+              }
+            : {
+                firstName: firstName,
+                lastName: lastName,
+                address: "",
+                aptSuite: "",
+                zip: "",
+                city: "",
+                state: "",
+              }
+        }
         onSubmit={submitAddressHandler}
         // validationSchema={DeliveryAddressSchema}
       >
@@ -256,8 +294,12 @@ export default function DeliveryPage({ deliveryId }) {
             <div className="flex justify-center">
               <button
                 type="submit"
-                disabled={isSubmitting}
-                className="mb-4 mt-4 p-2 w-40 bg-black text-white font-mono text-xl"
+                // disabled={isSubmitting}
+                className={
+                  isSubmitting
+                    ? "mb-4 mt-4 p-2 w-40 bg-gray-400 text-white font-mono text-xl"
+                    : "mb-4 mt-4 p-2 w-40 bg-black text-white font-mono text-xl"
+                }
               >
                 Save
               </button>
@@ -297,3 +339,70 @@ export default function DeliveryPage({ deliveryId }) {
     </div>
   );
 }
+
+/* import { doc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
+import { useQuery } from 'react-query';
+
+// Function to fetch a single address based on a dynamic deliveryId
+export const DeliveryAddressService = async (userId, deliveryId) => {
+  try {
+    const addressRef = doc(database, userId, 'delivery', deliveryId);
+    const docSnapshot = await getDoc(addressRef);
+
+    if (docSnapshot.exists()) {
+      const addressData = {
+        id: docSnapshot.id,
+        firstName: docSnapshot.data().firstName,
+        lastName: docSnapshot.data().lastName,
+        address: docSnapshot.data().address,
+        state: docSnapshot.data().state,
+        apt: docSnapshot.data().apt,
+        city: docSnapshot.data().city,
+        zip: docSnapshot.data().zip,
+      };
+
+      return addressData;
+    } else {
+      return null; // Document not found
+    }
+  } catch (error) {
+    console.error('Error fetching address:', error.message);
+    throw error;
+  }
+};
+
+// Function to fetch deliveryId dynamically
+export const fetchDeliveryId = async (userId) => {
+  try {
+    // Example: Query the database to get the latest deliveryId
+    const deliveryIdSnapshot = await getDoc(doc(database, userId, 'latestDeliveryId'));
+
+    if (deliveryIdSnapshot.exists()) {
+      return deliveryIdSnapshot.data().id;
+    } else {
+      // Handle the case when the document doesn't exist or return a default value
+      return 'defaultDeliveryId';
+    }
+  } catch (error) {
+    console.error('Error fetching deliveryId:', error.message);
+    throw error;
+  }
+};
+
+// React component using the above functions
+const YourComponent = () => {
+  const userId = 'yourUserId'; // Replace with your actual userId
+
+  // Dynamically fetch the deliveryId
+  const { data: deliveryId } = useQuery(['dynamicDeliveryId', userId], () => fetchDeliveryId(userId));
+
+  // Use deliveryId in your next query
+  const { data: singleAddress = [] } = useQuery(
+    ['single', userId, deliveryId],
+    () => DeliveryAddressService(userId, deliveryId)
+  );
+
+  // Rest of your component...
+};
+
+export default YourComponent; */

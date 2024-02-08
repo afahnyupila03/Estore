@@ -28,6 +28,7 @@ export default function () {
   const handleCreateUser = (values, actions) => {
     setTimeout(() => {
       console.log(values);
+      // const authCredentials = (values.email, values.password);
       createUserWithEmailAndPassword(auth, values.email, values.password)
         .then((userCredential) => {
           console.log("User credentials:", userCredential);
@@ -50,7 +51,7 @@ export default function () {
         .catch((error) => {
           const errorCode = error.code;
           const errorMessage = error.message;
-          console.error(errorCode, errorMessage);
+          alert(errorMessage, errorCode);
           actions.setFieldError("email", errorMessage);
         });
       actions.resetForm({
