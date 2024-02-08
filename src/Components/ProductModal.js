@@ -1,5 +1,7 @@
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
+import { IonIcon } from "@ionic/react";
+
 import classes from "./ProductModal.module.css";
 
 const backdropColor = {
@@ -15,9 +17,12 @@ export function Backdrop() {
   );
 }
 
-export const ModalOverlay = ({ children }) => {
+export const ModalOverlay = ({ children, icon, style, actionHandler }) => {
   return (
     <div className={classes.modal}>
+      <div className="flex justify-end">
+        <IonIcon icon={icon} style={style} onClick={actionHandler} />
+      </div>
       <div className={classes.content}>{children}</div>
     </div>
   );
@@ -25,12 +30,14 @@ export const ModalOverlay = ({ children }) => {
 
 const portalElement = document.getElementById("productModal");
 
-export default function ProductModal({ children }) {
+export default function ProductModal({ children, icon, style, actionHandler }) {
   return (
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, portalElement)}
       {ReactDOM.createPortal(
-        <ModalOverlay>{children}</ModalOverlay>,
+        <ModalOverlay icon={icon} style={style} actionHandler={actionHandler}>
+          {children}
+        </ModalOverlay>,
         portalElement
       )}
     </Fragment>

@@ -11,13 +11,12 @@ import DeliveryCardItem from "./Components/CardComponents/DeliveryCardItem";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import { database, auth } from "../../FirebaseConfigs/Firesbase";
-import { ref, set, push, remove } from "firebase/database";
 import {
   DeliveryAddressService,
   DeliveryServices,
   fetchDeliveryId,
 } from "../../Services/AccountServices";
-import { addDoc, collection, deleteDoc, doc, setDoc } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
@@ -339,70 +338,3 @@ export default function DeliveryPage() {
     </div>
   );
 }
-
-/* import { doc, getDoc, collection, getDocs, query, where } from 'firebase/firestore';
-import { useQuery } from 'react-query';
-
-// Function to fetch a single address based on a dynamic deliveryId
-export const DeliveryAddressService = async (userId, deliveryId) => {
-  try {
-    const addressRef = doc(database, userId, 'delivery', deliveryId);
-    const docSnapshot = await getDoc(addressRef);
-
-    if (docSnapshot.exists()) {
-      const addressData = {
-        id: docSnapshot.id,
-        firstName: docSnapshot.data().firstName,
-        lastName: docSnapshot.data().lastName,
-        address: docSnapshot.data().address,
-        state: docSnapshot.data().state,
-        apt: docSnapshot.data().apt,
-        city: docSnapshot.data().city,
-        zip: docSnapshot.data().zip,
-      };
-
-      return addressData;
-    } else {
-      return null; // Document not found
-    }
-  } catch (error) {
-    console.error('Error fetching address:', error.message);
-    throw error;
-  }
-};
-
-// Function to fetch deliveryId dynamically
-export const fetchDeliveryId = async (userId) => {
-  try {
-    // Example: Query the database to get the latest deliveryId
-    const deliveryIdSnapshot = await getDoc(doc(database, userId, 'latestDeliveryId'));
-
-    if (deliveryIdSnapshot.exists()) {
-      return deliveryIdSnapshot.data().id;
-    } else {
-      // Handle the case when the document doesn't exist or return a default value
-      return 'defaultDeliveryId';
-    }
-  } catch (error) {
-    console.error('Error fetching deliveryId:', error.message);
-    throw error;
-  }
-};
-
-// React component using the above functions
-const YourComponent = () => {
-  const userId = 'yourUserId'; // Replace with your actual userId
-
-  // Dynamically fetch the deliveryId
-  const { data: deliveryId } = useQuery(['dynamicDeliveryId', userId], () => fetchDeliveryId(userId));
-
-  // Use deliveryId in your next query
-  const { data: singleAddress = [] } = useQuery(
-    ['single', userId, deliveryId],
-    () => DeliveryAddressService(userId, deliveryId)
-  );
-
-  // Rest of your component...
-};
-
-export default YourComponent; */

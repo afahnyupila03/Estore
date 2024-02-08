@@ -3,19 +3,28 @@
   top: 20vh;
   left: 10%;
   width: 90%;
+  height: 50%;
   background-color: white;
   padding: 1rem;
-  border-radius: 14px;
+  border-radius: 7px;
   box-shadow: 0 2px 8px rgba(29, 29, 29, 0.25);
   z-index: 30;
   animation: slide-down 300ms ease-out forwards;
+  overflow: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+}
+
+.content {
   overflow: hidden;
+  overscroll-behavior-y: contain;
 }
 
 @media (min-width: 768px) {
   .modal {
     width: 60rem;
     left: 28rem;
+    height: 50%;
   }
 }
 

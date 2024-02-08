@@ -6,8 +6,8 @@ import {
   star,
   starHalfOutline,
   bagHandleOutline,
-  heartOutline,
-  eyeOutline,
+  add,
+  closeOutline,
 } from "ionicons/icons";
 import classes from "./ProductItemCard.module.css";
 
@@ -37,12 +37,18 @@ function PRODUCT_RATING(stars) {
 export default function ProductItemCard(props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [mouseIsOver, setMouseIsOver] = useState(false);
+  // const [imageChange, setImageChange] = useState(false);
+  const [currImageIndex, setCurrImageIndex] = useState(0);
 
   const handleMouseOver = () => {
     setMouseIsOver(true);
   };
   const handleMouseOut = () => {
     setMouseIsOver(false);
+  };
+  const handleImageClick = (index) => {
+    // setImageChange(true);
+    setCurrImageIndex(index);
   };
 
   const {
@@ -71,10 +77,10 @@ export default function ProductItemCard(props) {
   };
 
   function CONVERT_CURRENCY(priceInUSD) {
-    const EXCHANGE_RATE = 608.58;
-    const XAF_PRICE = Math.round(priceInUSD * EXCHANGE_RATE);
-    const FORMATE_PRICE = XAF_PRICE;
-    return FORMATE_PRICE;
+    const exchangeRate = 608.58;
+    const convertedPrice = Math.round(priceInUSD * exchangeRate);
+    const discount = convertedPrice;
+    return discount;
   }
 
   const XAF_PRICE = CONVERT_CURRENCY(price);
@@ -84,90 +90,93 @@ export default function ProductItemCard(props) {
     const discountedPrice = Math.round(price - discount);
     return discountedPrice;
   }
+  function formatMoney(amount, currency) {
+    const formatter = new Intl.NumberFormat("fr", {
+      style: "currency",
+      currency: currency,
+    });
+
+    return formatter.format(amount);
+  }
+  const CURRENCY = "XAF";
+
   const originalPrice = XAF_PRICE;
   const percentage = discountPercentage;
   const FINAL_PRICE = DISCOUNT_PRICE(percentage, originalPrice);
 
-  const PRODUCT_PRICE = CONVERT_CURRENCY(price) + " XAF";
-  const DISCOUNT = FINAL_PRICE + " XAF";
+  const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY);
+  const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY);
 
   const PRODUCT_MODAL = (
-    <ProductModal>
-      <div className="flex items-center gap-8 p-6">
+    <ProductModal
+      icon={closeOutline}
+      style={{ fontSize: "2rem", fontWeight: "bold" }}
+      actionHandler={handleShowProductModal}
+    >
+      <div className="grid grid-cols-2 gap-x-10 font-mono text-2xl font-medium px-6">
         <div>
           <img
-            src={thumbnail}
+            src={images[currImageIndex]}
             alt={title}
             loading="lazy"
-            className="object-fill"
+            className="object-fill w-full"
           />
+          <div className="grid grid-cols-5 mt-10 gap-x-2">
+            {images.map((image, index) => (
+              <div key={index}>
+                <img
+                  onClick={() => handleImageClick(index)}
+                  src={image}
+                  className="h-30"
+                />
+              </div>
+            ))}
+          </div>
         </div>
         {/* Product Information */}
-        <div>
-          <div>
+        <div className="text-lg">
+          <div className="flex flex-col justify-start">
+            <p className="flex">
+              {PRODUCT_RATING(rating)} <span className="ml-2">({stock})</span>
+            </p>
+            <Link
+              to={`/product-details/${id}/${title}`}
+              className="hover:underline"
+            >
+              {title}
+            </Link>
             <p>{brand}</p>
-            <p>{category}</p>
-            <p className="font-mono">{title}</p>
+
             <p>{DISCOUNT}</p>
-            <p className="font-mono">{PRODUCT_PRICE}</p>
-            <p>{discountPercentage}%</p>
           </div>
-          <div className="mt-4">
-            <p className="font-mono">{description}</p>
-            <div className="flex items-center">
-              {PRODUCT_RATING(rating)}
-              <span>({stock})</span>
-            </div>
-            <div className="flex gap-3 mt-4">
-              <button
-                className="border-red-500 p-1 mr-4 font-semibold
-                    rounded hover:bg-red-500 hover:text-white 
-                  transition:ease-out duration-1000
-                  border-2 flex items-center text-red-500"
-              >
+          <div className="mt-6">
+            <p className="font-mono text-1xl font-medium">{description}</p>
+
+            <div className="grid justify-start mt-8 ">
+              <button className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium font-mono items-center text-center">
                 <IonIcon
                   icon={bagHandleOutline}
                   className="mr-2"
                   style={{ fontSize: "1.5rem" }}
                 />
-                Buy
+                Add to Bag
               </button>
-              <button
-                className="border-red-500 p-1 mr-4 font-semibold
-                    rounded hover:bg-red-500 hover:text-white 
-                  transition:ease-out duration-1000
-                  border-2 flex items-center text-red-500"
-              >
+              <button className="underline flex items-center">
                 <IonIcon
-                  icon={heartOutline}
-                  className="mr-2"
+                  icon={add}
+                  className="mr-1"
                   style={{ fontSize: "1.5rem" }}
                 />
                 Wish List
               </button>
             </div>
           </div>
-          <div className="flex flex-row-reverse mx-4 mt-4 items-center ">
-            <button
-              onClick={handleShowProductModal}
-              className="text-white bg-red-500 p-2 rounded"
-            >
-              Close
-            </button>
-
+          <div className="flex justify-center mx-4 mt-4 items-center ">
             <Link
               to={`/product-details/${id}/${title}`}
-              className="border-red-500 p-1 mr-4 font-semibold
-                  rounded hover:bg-red-500 hover:text-white 
-                  transition:ease-out duration-1000
-                  border-2 flex items-center text-red-500"
+              className="underline text-lg"
             >
-              <IonIcon
-                icon={eyeOutline}
-                style={{ fontSize: "1.5rem" }}
-                className="mr-2"
-              />
-              View
+              See full details
             </Link>
           </div>
         </div>
@@ -177,21 +186,22 @@ export default function ProductItemCard(props) {
 
   return (
     <button
+      loading="lazy"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
-      loading="lazy"
     >
       <div
         id={id}
-        className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-gray-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
+        className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
       >
         <img
           src={thumbnail}
           alt={title}
           loading="lazy"
-          className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+          className="h-full w-full fixed object-cover object-center lg:h-full lg:w-full"
         />
       </div>
+
       <div className="mt-4 grid justify-start font-semibold">
         <div>
           <p className="flex justify-start text-gray-700">{brand}</p>
@@ -217,16 +227,19 @@ export default function ProductItemCard(props) {
         </div>
       </div>
 
-      <button
-        className={`mt-10 ${
-          mouseIsOver
-            ? `${classes.animateSlideIn}`
-            : `${classes.animateSlideOut}`
-        } text-white py-2 px-6 rounded-sm font-medium text-lg bg-gray-700 w-full`}
-        onClick={handleShowProductModal}
-      >
-        Quick View
-      </button>
+      <div className="mt-2">
+        <button
+          className={`${
+            mouseIsOver
+              ? `${classes.animateSlideIn}`
+              : `${classes.animateSlideOut}`
+          } text-white py-2 px-6 rounded-sm font-medium text-lg bg-gray-700 w-full`}
+          onClick={handleShowProductModal}
+        >
+          Quick view
+        </button>
+      </div>
+
       {openProductModal && PRODUCT_MODAL}
     </button>
   );
