@@ -21,17 +21,17 @@ function PRODUCT_RATING(stars) {
   let starsArray = [];
 
   for (let i = 0; i < fullStars; i++) {
-    starsArray.push(<IonIcon icon={star} key={i} />);
+    starsArray.push(<Icon icon={star} key={i} />);
   }
 
   if (halfStar) {
-    starsArray.push(<IonIcon icon={starHalfOutline} key="half" />); // Assuming there's a half-star icon available
+    starsArray.push(<Icon icon={starHalfOutline} key="half" />); // Assuming there's a half-star icon available
   }
 
   const remainingStars = 5 - starsArray.length; // Calculate the remaining empty stars
 
   for (let i = 0; i < remainingStars; i++) {
-    starsArray.push(<IonIcon icon={star} key={`empty-${i}`} />);
+    starsArray.push(<Icon icon={star} key={`empty-${i}`} />);
   }
 
   return <div>{starsArray}</div>;
@@ -222,7 +222,7 @@ export default function ProductItemCard(props) {
         <div className="text-left text-lg">
           <p className="text-red-600">{DISCOUNT}</p>
           <p className="text-red-600">
-            Up to ${discountPercentage}% off for this item
+            -{discountPercentage}% off for this item
           </p>
 
           <p className="line-through tracking-wide font-medium">
@@ -253,3 +253,6 @@ export default function ProductItemCard(props) {
     </button>
   );
 }
+
+/* new fetch for recommendations */
+/* https://dummyapi.online/api/products/1 */
