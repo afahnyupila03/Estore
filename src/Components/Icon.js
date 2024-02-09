@@ -1,15 +1,14 @@
-import React from 'react';
-import Icon from 'react-icons-kit';
+import React from "react";
+import { IonIcon } from "@ionic/react";
 
-const IconName = ({size, color, icon, style}) => {
-    return (
-        <Icon 
-            icon={icon}
-            style={style}
-            color={color}
-            size={size}
-        />
-    );
+export default function Icon({ size, color, icon, style, actionButton }) {
+  return (
+    <IonIcon
+      icon={icon}
+      style={style}
+      color={color}
+      size={size}
+      onClick={actionButton}
+    />
+  );
 }
-
-export default IconName;

@@ -8,8 +8,11 @@ import {
   bagHandleOutline,
   add,
   closeOutline,
+  chevronBackOutline,
+  chevronForwardOutline,
 } from "ionicons/icons";
 import classes from "./ProductItemCard.module.css";
+import Icon from "./Icon";
 
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars); // Get the integer part of the rating
@@ -38,6 +41,7 @@ export default function ProductItemCard(props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [currImageIndex, setCurrImageIndex] = useState(0);
+  const [imageChange, setImageChange] = useState(false);
 
   const handleMouseOver = () => {
     setMouseIsOver(true);
@@ -46,6 +50,7 @@ export default function ProductItemCard(props) {
     setMouseIsOver(false);
   };
   const handleImageClick = (index) => {
+    setImageChange(true);
     setCurrImageIndex(index);
   };
 
@@ -114,22 +119,29 @@ export default function ProductItemCard(props) {
       <div className="grid grid-cols-2 gap-x-10 font-mono text-2xl font-medium px-6">
         <div>
           <img
-            src={images[currImageIndex]}
+            src={currImageIndex !== null ? images[currImageIndex] : thumbnail}
             alt={title}
             loading="lazy"
             className="object-fill h-80 rounded border-2 border-black w-full"
           />
-          <div className="grid grid-cols-5 mt-2 gap-x-2">
-            {images.map((image, index) => (
-              <div key={index} onClick={() => handleImageClick(index)}>
-                <img
-                  src={image}
-                  className={`h-30 ${
-                    currImageIndex === index && "border-2 border-blue-500"
-                  }`}
-                />
-              </div>
-            ))}
+          <div className="flex items-center justify-center mt-2">
+            <Icon
+              icon={chevronBackOutline}
+              actionButton={() =>
+                handleImageClick(
+                  (currImageIndex - 1 + images.length) % images.length
+                )
+              }
+            />
+            <span className="mr-2">{`${currImageIndex + 1}/${
+              images.length
+            }`}</span>
+            <Icon
+              icon={chevronForwardOutline}
+              actionButton={() =>
+                handleImageClick((currImageIndex + 1) % images.length)
+              }
+            />
           </div>
         </div>
         {/* Product Information */}
