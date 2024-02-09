@@ -37,7 +37,6 @@ function PRODUCT_RATING(stars) {
 export default function ProductItemCard(props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [mouseIsOver, setMouseIsOver] = useState(false);
-  // const [imageChange, setImageChange] = useState(false);
   const [currImageIndex, setCurrImageIndex] = useState(0);
 
   const handleMouseOver = () => {
@@ -47,7 +46,6 @@ export default function ProductItemCard(props) {
     setMouseIsOver(false);
   };
   const handleImageClick = (index) => {
-    // setImageChange(true);
     setCurrImageIndex(index);
   };
 
@@ -119,15 +117,16 @@ export default function ProductItemCard(props) {
             src={images[currImageIndex]}
             alt={title}
             loading="lazy"
-            className="object-fill w-full"
+            className="object-fill h-80 rounded border-2 border-black w-full"
           />
-          <div className="grid grid-cols-5 mt-10 gap-x-2">
+          <div className="grid grid-cols-5 mt-2 gap-x-2">
             {images.map((image, index) => (
-              <div key={index}>
+              <div key={index} onClick={() => handleImageClick(index)}>
                 <img
-                  onClick={() => handleImageClick(index)}
                   src={image}
-                  className="h-30"
+                  className={`h-30 ${
+                    currImageIndex === index && "border-2 border-blue-500"
+                  }`}
                 />
               </div>
             ))}
