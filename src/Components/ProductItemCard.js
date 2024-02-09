@@ -41,7 +41,6 @@ export default function ProductItemCard(props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [currImageIndex, setCurrImageIndex] = useState(0);
-  const [imageChange, setImageChange] = useState(false);
 
   const handleMouseOver = () => {
     setMouseIsOver(true);
@@ -50,7 +49,6 @@ export default function ProductItemCard(props) {
     setMouseIsOver(false);
   };
   const handleImageClick = (index) => {
-    setImageChange(true);
     setCurrImageIndex(index);
   };
 
@@ -122,9 +120,9 @@ export default function ProductItemCard(props) {
             src={currImageIndex !== null ? images[currImageIndex] : thumbnail}
             alt={title}
             loading="lazy"
-            className="object-fill h-80 rounded border-2 border-black w-full"
+            className="object-fill h-80 rounded w-full"
           />
-          <div className="flex items-center justify-center mt-2">
+          <div className="flex items-center justify-center mt-4">
             <Icon
               icon={chevronBackOutline}
               actionButton={() =>
@@ -133,7 +131,7 @@ export default function ProductItemCard(props) {
                 )
               }
             />
-            <span className="mr-2">{`${currImageIndex + 1}/${
+            <span className="mx-2">{`${currImageIndex + 1}/${
               images.length
             }`}</span>
             <Icon

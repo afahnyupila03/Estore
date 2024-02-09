@@ -20,6 +20,7 @@ export default function Home() {
   if (isLoading) {
     productItems = (
       <div className="flex justify-center">
+        <p>{error}</p>
         <UseAnimation
           animation={loading}
           className="text-red-5000"
@@ -50,10 +51,10 @@ export default function Home() {
       <div className="bg-white">
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           {/* Category Card */}
-          <p className="mb-10 font-semibold text-xl font-mono">
+          <p className="mb-10 font-semibold text-2xl tracking-widest font-mono">
             Shop By Category
           </p>
-          <div className="grid grid-cols-1 gap-x-2 gap-y-4 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-4">
+          <div className="grid mb-60 grid-cols-1 gap-x-2 gap-y-4 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-4">
             {CATEGORY_FEATURES.map((catFeat) => (
               <ProductCategoryCardItem
                 key={catFeat.categoryLink}
@@ -62,7 +63,7 @@ export default function Home() {
             ))}
           </div>
 
-          <h2 className="mt-40 text-lg font-semibold tracking-tight">
+          <h2 className="mb-10 font-semibold tracking-widest text-2xl font-mono">
             Featured Products
           </h2>
 

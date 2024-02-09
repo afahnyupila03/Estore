@@ -2,25 +2,44 @@ import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import React from "react";
 import { getFeaturedProductService } from "../../Services/HomeService";
-import { shopProductService } from "../../Services/ShopService";
 import { CategoryServiceItem } from "../../Services/CategoryService";
+import UseAnimation from "../../Components/Loader";
+import Icon from "../../Components/Icon";
+import { reloadOutline } from "ionicons/icons";
+import loading from "react-useanimations/lib/loading";
 
 export default function ProductDetails() {
-  const { id, title } = useParams();
-  const { id: shopId, title: shopTitle } = useParams();
+  const { id, title, shopId, shopTitle } = useParams();
+  // const { id: , title: shopTitle } = useParams();
   const {
     data = [],
     isLoading,
     error,
-  } = useQuery("product", () => getFeaturedProductService(id, title));
-  const { data: shopItem = [] } = useQuery("shopProduct", () =>
-    CategoryServiceItem(shopId, shopTitle)
-  );
+    refetch,
+  } = useQuery("product", () => {
+    if ((shopId, shopTitle)) {
+      return CategoryServiceItem(shopId, shopTitle);
+    } else if ((id, title)) {
+      return getFeaturedProductService(id, title);
+    }
+  });
   let productDetail;
   if (isLoading) {
-    productDetail = <div>Loading.....</div>;
+    productDetail = (
+      <div className="flex justify-center">
+        <UseAnimation animation={loading} size={100} />
+      </div>
+    );
   } else if (error) {
-    productDetail = <div>Error....</div>;
+    productDetail = (
+      <div className="flex justify-center">
+        <Icon
+          icon={reloadOutline}
+          style={{ fontSize: "7rem" }}
+          actionButton={() => refetch()}
+        />
+      </div>
+    );
   } else if (data) {
     productDetail = (
       <div>
@@ -30,17 +49,6 @@ export default function ProductDetails() {
         <p>{data.price}</p>
         <p>{data.category}</p>
         <p>{data.description}</p>
-      </div>
-    );
-  } else {
-    productDetail = (
-      <div>
-        <p>{shopItem.id}</p>
-        <img src={shopItem.image} alt={shopItem.title} />
-        <p>{shopItem.title}</p>
-        <p>{shopItem.price}</p>
-        <p>{shopItem.category}</p>
-        <p>{shopItem.description}</p>
       </div>
     );
   }

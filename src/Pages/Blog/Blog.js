@@ -3,6 +3,8 @@ import { BlogServices } from "../../Services/BlogService";
 import BlogCard from "./Components/BlogCard";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
+import Icon from "../../Components/Icon";
+import { reloadOutline } from "ionicons/icons";
 
 const Blog = (props) => {
   const {
@@ -30,8 +32,11 @@ const Blog = (props) => {
       <div className="bg-white py-5 sm:py-32">
         <div className="mx-auto max-w-7xl px-3 lg:px-2">
           <div className="flex justify-center">
-            <p>{error}</p>
-            <button onClick={() => refetch()}>Try again</button>
+            <Icon
+              style={{ fontSize: "7rem" }}
+              icon={reloadOutline}
+              actionButton={() => refetch()}
+            />
           </div>
         </div>
       </div>
