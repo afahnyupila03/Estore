@@ -10,7 +10,7 @@ import loading from "react-useanimations/lib/loading";
 
 export default function ProductDetails() {
   const { id, title, shopId, shopTitle } = useParams();
-  // const { id: , title: shopTitle } = useParams();
+
   const {
     data = [],
     isLoading,
@@ -23,7 +23,10 @@ export default function ProductDetails() {
       return getFeaturedProductService(id, title);
     }
   });
+  
+
   let productDetail;
+
   if (isLoading) {
     productDetail = (
       <div className="flex justify-center">
@@ -40,11 +43,14 @@ export default function ProductDetails() {
         />
       </div>
     );
-  } else if (data) {
+  } else {
     productDetail = (
       <div>
         <p>{data.id}</p>
         <img src={data.thumbnail} alt={data.title} />
+        {data.images.map(image => (
+          <img src={image} />
+        ))}
         <p>{data.title}</p>
         <p>{data.price}</p>
         <p>{data.category}</p>
