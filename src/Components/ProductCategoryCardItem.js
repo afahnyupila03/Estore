@@ -4,12 +4,11 @@ import { IonIcon } from "@ionic/react";
 import { arrowForward } from "ionicons/icons";
 
 export default function ProductCategoryCardItem({ categoryData }) {
-  const { categoryRoute, categoryLink, categoryImage, categoryImageText } =
-    categoryData;
+  const { categoryRoute, categoryLink } = categoryData;
 
-    function UpperCaseLink(link = "") {
-      return link.toUpperCase()
-    }
+  function UpperCaseLink(link = "") {
+    return link.toUpperCase();
+  }
 
   return (
     <div>

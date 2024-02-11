@@ -1,5 +1,8 @@
 import { useParams } from "react-router-dom";
-import { CategoryService } from "../../Services/CategoryService";
+import {
+  CategoryService,
+  ElectronicRecommendationsService,
+} from "../../Services/CategoryService";
 import { useQuery } from "react-query";
 import ProductItemCard from "../../Components/ProductItemCard";
 import UseAnimation from "../../Components/Loader";
@@ -27,7 +30,7 @@ export default function CategoryPage() {
     );
   } else if (isError) {
     categoryProducts = (
-      <div className='flex justify-center'>
+      <div className="flex justify-center">
         <Icon
           icon={reloadOutline}
           style={{ fontSize: "7rem" }}

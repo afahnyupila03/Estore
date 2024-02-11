@@ -253,6 +253,3 @@ export default function ProductItemCard(props) {
     </button>
   );
 }
-
-/* new fetch for recommendations */
-/* https://dummyapi.online/api/products/1 */
