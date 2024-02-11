@@ -66,6 +66,14 @@ export default function PersonalInformation() {
     };
   }, []);
 
+  function UPPERCASE_NAME(name = "") {
+    if (name === null) {
+      return "";
+    } else {
+      return name.toUpperCase();
+    }
+  }
+
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
@@ -512,7 +520,7 @@ export default function PersonalInformation() {
         <div>
           <h1 className="font-medium mb-2">Name</h1>
           <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
-            {userName}
+            {UPPERCASE_NAME(userName)}
           </p>
           <button onClick={openNameModal}>Edit</button>
           <hr className="w-8 border-black" />
