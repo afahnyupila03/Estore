@@ -97,7 +97,7 @@ export default function ProductDetails() {
 
   if (isLoading) {
     productDetail = (
-      <div className="flex justify-center">
+      <div className="flex m-40 justify-center">
         <UseAnimation animation={loading} size={100} />
       </div>
     );
@@ -113,30 +113,28 @@ export default function ProductDetails() {
     );
   } else {
     productDetail = (
-      <div>
-        <p>{id}</p>
+      <div className="mt-10 px-40">
         <div>
           <div className="grid grid-cols-2 gap-x-20">
             <div className="grid grid-cols-2 w-full h-full gap-x-1 gap-y-4">
-              <img src={thumbnail} className="w-full h-full" alt={title} />
               {images.map((image) => (
                 <img src={image} className="w-full h-full" />
               ))}
             </div>
-            <div>
+            <div className="text-2xl font-mono">
               <div className="mt-4">
                 <p className="flex items-center">
                   {PRODUCT_RATINGS(rating)}{" "}
                   <span className="ml-2">({stock})</span>
                 </p>
-                <p>{title}</p>
+                <p className="font-semibold">{title}</p>
                 <p className="underline">{brand}</p>
               </div>
 
               <div className="mt-4">
                 <p className="text-red-600">{DISCOUNT}</p>
                 <p className="text-red-600">
-                  -{discountPercentage}% off for this item
+                  {discountPercentage}% off for this item
                 </p>
 
                 <p className="line-through">{PRODUCT_PRICE}</p>
@@ -146,7 +144,7 @@ export default function ProductDetails() {
                 <p>{description}</p>
               </div>
 
-              <div className="grid justify-center">
+              <div className="grid mt-8 justify-center">
                 <button className="font-semibold text-lg flex items-center sm:w-full px-20 py-5 text-white rounded bg-black">
                   <Icon
                     style={{
@@ -180,10 +178,6 @@ export default function ProductDetails() {
   return (
     <div className="container mx-auto px-4 text-lg">
       <div>{productDetail}</div>
-
-      <hr className=" mt-20 w-full border-1 border-gray-400" />
-
-      <h1 className="mt-20">Recommended for You</h1>
     </div>
   );
 }
