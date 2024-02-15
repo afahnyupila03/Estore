@@ -67,7 +67,7 @@ export default function Home() {
             Featured Products
           </h2>
 
-          {/* {productItems} */}
+          {productItems}
         </div>
       </div>
       <FinePens />

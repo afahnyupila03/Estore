@@ -4,7 +4,6 @@ import { NavLink } from "react-router-dom";
 import { NavbarRoutes } from "../components/LayoutNavigation";
 import AuthButton from "./AuthButton";
 import CartButton from "./CartButton";
-import "../components/styles/navbar.css";
 import TranslationButton from "./TranslationButton";
 import { useTranslation } from "react-i18next";
 import Icon from "../../../Components/Icon";

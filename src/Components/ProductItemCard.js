@@ -201,13 +201,13 @@ export default function ProductItemCard(props) {
     >
       <div
         id={id}
-        className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
+        className="aspect-h-1 aspect-w-1 lg:w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 h-80"
       >
         <img
           src={thumbnail}
           alt={title}
           loading="lazy"
-          className="h-full w-full fixed object-cover object-center lg:h-full lg:w-full"
+          className="h-full w-full object-cover object-center lg:h-full lg:w-full"
         />
       </div>
 
