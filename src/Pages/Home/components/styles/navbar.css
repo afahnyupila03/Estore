@@ -1,0 +1,27 @@
+@media (min-width: 320px) {
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-left: 1rem;
+    margin-right: 1rem;
+  }
+  /* .navbar-header {
+    display: flex;
+    justify-content: center;
+    margin-right: 5rem;
+  } */
+  .navbar-links {
+    display: none;
+  }
+  .auth-cart {
+    display: none;
+  }
+  /* .translation {
+    display: none;
+  } */
+  .menu {
+    display: grid;
+    grid-template-columns: 2;
+  }
+}

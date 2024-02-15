@@ -18,24 +18,22 @@ export default function () {
         <Menu.Button
           className="
         inline-flex w-full justify-center 
-        gap-x-1.5 rounded-md bg-gray-400 px-5 
+        gap-x-1.5 rounded-md bg-gray-400 px-2
         py-2 text-sm font-semibold text-gray-900 
-        shadow-sm ring-inset 
+        shadow-sm ring-inset font-mono items-center
         ring-gray-300 hover:bg-gray-500"
         >
-          <div className="font-mono">
-            {curLang === "en" ? (
-              <>
-                <ReactCountryFlag svg countryCode="US" className="mr-2" />
-                {t("english")}
-              </>
-            ) : (
-              <>
-                <ReactCountryFlag svg countryCode="FR" className="mr-2" />
-                {t("french")}
-              </>
-            )}
-          </div>
+          {curLang === "en" ? (
+            <>
+              <ReactCountryFlag svg countryCode="US" className="mr-2" />
+              {t("english")}
+            </>
+          ) : (
+            <>
+              <ReactCountryFlag svg countryCode="FR" className="mr-2" />
+              {t("french")}
+            </>
+          )}
         </Menu.Button>
       </div>
 
