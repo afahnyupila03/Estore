@@ -17,7 +17,6 @@ import {
   chatbubblesOutline,
   bicycleOutline,
   cubeOutline,
-  chevronDownOutline,
   personOutline,
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
@@ -108,7 +107,6 @@ export default function () {
           onMouseLeave={() => setMenuOpen(false)}
           className="flex items-center gap-x-1 text-lg font-semibold font-mono leading-6 text-gray-900"
         >
-          {/* {authUser && authUser.displayName} */}
           <Icon style={{fontSize: "1.5rem"}} icon={personOutline} className="ml-2" />
         </Popover.Button>
       )}
