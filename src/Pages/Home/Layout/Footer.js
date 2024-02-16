@@ -15,8 +15,8 @@ export default function () {
   const aboutNavigation = AboutRoutes(t);
 
   return (
-    <div className="container mx-auto mt-20 px-4 pt-20 pb-10 text-lg">
-      <div className="mx-6 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
+    <div className="container mx-auto mt-4 px-4 pt-4 pb-10 text-lg">
+      <div className="mx- text-sm lg:text-lg grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
 
         <div>
           <h3 className="py-4 font-semibold font-mono">Customer Service</h3>
@@ -56,12 +56,12 @@ export default function () {
 
       </div>
 
-      <div className="flex items-center justify-center">
-        <hr className="border-1 border-red-500 w-80 mr-2" />
-        <p className="font-semibold font-mono">
+      <div className="flex mt-4 items-center justify-center">
+        <hr className="border-1 border-red-500 w-10 lg:w-80 mr-2" />
+        <p className="font-semibold lg:text-lg text-xs font-mono">
           All Copyrights reserved &copy;{currentYear}
         </p>
-        <hr className="border-1 border-red-500 w-80 ml-2" />
+        <hr className="border-1 border-red-500 w-10 lg:w-80 ml-2" />
       </div>
     </div>
   );

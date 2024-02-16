@@ -211,15 +211,15 @@ export default function ProductItemCard(props) {
         />
       </div>
 
-      <div className="mt-4 grid justify-start font-semibold">
+      <div className="mt-4 text-xs lg:text-lg grid justify-start font-semibold">
         <div>
-          <p className="flex justify-start text-gray-700">{brand}</p>
+          <p className="flex text-xs lg:text-lg justify-start text-gray-700">{brand}</p>
 
-          <h4 className="font-mono text-lg flex text-left">
+          <h4 className="font-mono text-sm font-semibold lg:font-semibold lg:text-lg flex text-left">
             <span aria-hidden="true">{getName(title)}</span>
           </h4>
         </div>
-        <div className="text-left text-lg">
+        <div className="text-left text-sm lg:text-lg">
           <p className="text-red-600">{DISCOUNT}</p>
           <p className="text-red-600">
             -{discountPercentage}% off for this item
