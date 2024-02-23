@@ -15,7 +15,7 @@ export default function () {
   const aboutNavigation = AboutRoutes(t);
 
   return (
-    <div className="container mx-auto mt-4 px-4 pt-4 pb-10 text-lg">
+    <div className="container pt-40 mt-60 mx-auto lg:pt-40 lg:mt-40 px-4 pb-10 text-lg">
       <div className="mx- text-sm lg:text-lg grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
 
         <div>

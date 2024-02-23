@@ -31,9 +31,6 @@ export const getFirstTwoLetters = (displayName) => {
   }
 };
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function AccountLandingPage() {
   const [authUser, setAuthUser] = useState(null);
@@ -81,8 +78,9 @@ export default function AccountLandingPage() {
 
   return (
     <div className="flex h-screen bg-gray-100">
+      
       <div
-        className="w-100 bg-gray-800 rounded-r"
+        className="w-100 hidden lg:block bg-gray-800 rounded-r"
         style={{ marginBottom: "-10rem" }}
       >
         <ul className="py-6 space-y-8">
@@ -125,8 +123,8 @@ export default function AccountLandingPage() {
           </li>
         </ul>
       </div>
-      <div className="flex-1 bg-white">
-        <header>
+      <div className="flex-1 mx-4 bg-white">
+        <header className="hidden lg:block">
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <div className="flex font-semibold font-mono tracking-wider rounded uppercase text-white p-4 bg-gray-800 items-center text-lg justify-center">
               <span className="p-4 bg-red-500 rounded-full mr-2">
@@ -138,7 +136,7 @@ export default function AccountLandingPage() {
           </div>
         </header>
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <Routes>
               {AccountRoute.map((route) => (
                 <Route

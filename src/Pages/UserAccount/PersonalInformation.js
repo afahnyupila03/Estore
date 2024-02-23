@@ -515,7 +515,7 @@ export default function PersonalInformation() {
       </div>
 
       {/* Personal Information */}
-      <div className="mt-14 font-mono">
+      <div className="font-mono">
         <h1 className="text-2xl font-semibold">Personal Information</h1>
         <div>
           <h1 className="font-medium mb-2">Name</h1>
@@ -528,7 +528,7 @@ export default function PersonalInformation() {
       </div>
 
       {/* Security */}
-      <div className="mt-10 font-mono text-lg">
+      <div className="font-mono text-lg">
         <h1 className="text-2xl font-semibold font-mono">Security</h1>
         <p>Logout of your account</p>
         <button
@@ -540,7 +540,7 @@ export default function PersonalInformation() {
       </div>
 
       {/* Delete Account */}
-      <div className="mt-4 font-mono text-lg">
+      <div className="font-mono text-lg">
         <p className="mb-2">Delete your TimeZone account</p>
         <button
           type="button"

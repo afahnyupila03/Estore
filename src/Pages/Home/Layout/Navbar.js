@@ -1,7 +1,12 @@
 import React from "react";
 import { Disclosure } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
-import { NavbarRoutes } from "../components/LayoutNavigation";
+import {
+  AccountRoutes,
+  AccountSettingsRoutes,
+  NavbarRoutes,
+  UserAccountRoute,
+} from "../components/LayoutNavigation";
 import AuthButton from "./AuthButton";
 import CartButton from "./CartButton";
 import TranslationButton from "./TranslationButton";
@@ -17,6 +22,11 @@ export default function () {
   const { t } = useTranslation();
 
   const navbarRoutes = NavbarRoutes(t);
+  const authRoute = UserAccountRoute(t);
+  const accRoute = AccountRoutes(t);
+  const accSettings = AccountSettingsRoutes(t);
+
+  const ResAuthRoutes = [...accRoute, ...accSettings];
 
   return (
     <Disclosure as="nav">
@@ -55,12 +65,13 @@ export default function () {
                   </div>
                 </div>
               </div>
-              <div className="hidden sm:ml-6 sm:block">
+              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
                 <CartButton />
               </div>
-              <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+              <div className="hidden sm:ml-6 sm:block">
                 <AuthButton />
               </div>
+
               <div className="hidden sm:ml-6 sm:block">
                 <TranslationButton />
               </div>
@@ -86,9 +97,28 @@ export default function () {
                 </Disclosure.Button>
               ))}
             </div>
-            <div className="flex flex-1 px-2 pb-3 pt-2">
-              <CartButton />
-            </div>
+
+            <Disclosure.Panel className="sm:hidden">
+              <div className="space-y-1 px-2 pb-3 pt-2">
+                {ResAuthRoutes.map((authNav) => (
+                  <Disclosure.Button
+                    key={authNav.navLink}
+                    as="a"
+                    href={authNav.navRoute}
+                    className={classNames(
+                      authNav.current
+                        ? "bg-gray-900 text-white"
+                        : "text-black hover:bg-gray-700 hover:text-white",
+                      "block rounded-md px-3 py-2 text-base font-medium"
+                    )}
+                    aria-current={authNav.current ? "page" : undefined}
+                  >
+                    {authNav.navLink}
+                  </Disclosure.Button>
+                ))}
+              </div>
+            </Disclosure.Panel>
+
             <div className="flex flex-1 px-2 pb-3 pt-2">
               <TranslationButton />
             </div>
