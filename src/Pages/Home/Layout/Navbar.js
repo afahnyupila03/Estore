@@ -26,11 +26,14 @@ export default function () {
   const accRoute = AccountRoutes(t);
   const accSettings = AccountSettingsRoutes(t);
 
-  const ResAuthRoutes = [...accRoute, ...accSettings];
+  const ResAuthRoutes = [...accRoute, ...accSettings, {
+    navLink: "Customer Service",
+    navRoute: "my-account/landing/customer-service"
+  }];
 
   return (
     <Disclosure as="nav">
-      {({ open }) => (
+      {({ open, close }) => (
         <>
           <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
             <div className="relative flex h-16 items-center justify-between">
@@ -101,10 +104,7 @@ export default function () {
             <Disclosure.Panel className="sm:hidden">
               <div className="space-y-1 px-2 pb-3 pt-2">
                 {ResAuthRoutes.map((authNav) => (
-                  <Disclosure.Button
-                    key={authNav.navLink}
-                    as="a"
-                    href={authNav.navRoute}
+                  <NavLink
                     className={classNames(
                       authNav.current
                         ? "bg-gray-900 text-white"
@@ -112,9 +112,12 @@ export default function () {
                       "block rounded-md px-3 py-2 text-base font-medium"
                     )}
                     aria-current={authNav.current ? "page" : undefined}
+                    to={authNav.navRoute}
+                    key={authNav.navLink}
+                    onClick={() => close()}
                   >
                     {authNav.navLink}
-                  </Disclosure.Button>
+                  </NavLink>
                 ))}
               </div>
             </Disclosure.Panel>
