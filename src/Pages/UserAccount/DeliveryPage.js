@@ -329,7 +329,7 @@ export default function DeliveryPage() {
         account.
       </p>
 
-      <div className="grid grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
         {DELIVERY_ADDRESS}
       </div>
 
