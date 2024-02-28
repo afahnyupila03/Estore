@@ -361,7 +361,7 @@ export default function PaymentMethodPage() {
         </button>
         <p>Checkout faster by adding one or more cards to your account.</p>
 
-        <div className="grid grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
           {PAYMENT_METHODS}
         </div>
       </div>

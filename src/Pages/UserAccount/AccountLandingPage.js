@@ -77,7 +77,7 @@ export default function AccountLandingPage() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex">
       
       <div
         className="w-100 hidden lg:block bg-gray-800 rounded-r"
