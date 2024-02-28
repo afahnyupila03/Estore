@@ -61,7 +61,7 @@ export default function CartPage() {
         <p className="mb-10 text-xl font-mono">Your bag is empty</p>
         <Link
           to="/home"
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
+          className="bg-black text-center text-white px-4 py-4 lg:py-4 lg:px-8 rounded text-sm lg:text-xl font-mono"
         >
           Continue Shopping
         </Link>
@@ -119,14 +119,14 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto container px-4">
-      <div className="flex justify-center px-40 py-8 font-semibold font-mono text-lg">
-        <div className="border-2 border-r-0 border-black px-8 py-4">
-          <p>
+      <div className="flex justify-center lg:px-40 py-8 font-semibold font-mono text-sm lg:text-lg">
+        <div className="border-2 border-r-0 border-black px-6 py-2 lg:px-8 lg:py-4">
+          <p className="text-center">
             Shopping Bag <span>({cartCounter})</span>
           </p>
         </div>
-        <div className="border-2 border-black px-8 py-4">
-          <p>
+        <div className="border-2 border-black px-6 py-2 lg:px-8 lg:py-4">
+          <p className="text-center">
             Saved for later <span>(0)</span>
           </p>
         </div>
