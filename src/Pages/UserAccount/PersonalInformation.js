@@ -490,12 +490,12 @@ export default function PersonalInformation() {
           </div>
 
           <div className="mt-6">
-            <h1 className="text-3xl font-mono">Sign-in info</h1>
+            <h1 className="text-2xl font-medium font-mono">Sign-in info</h1>
             <div className="font-mono text-lg mt-4">
               <h1 className="font-medium">Email</h1>
               <p
                 style={{ width: "18rem" }}
-                className=" p-4 bg-black text-white text-center rounded"
+                className="px-2 py-2 bg-black text-white text-center rounded"
               >
                 {userEmail}
               </p>
@@ -515,11 +515,11 @@ export default function PersonalInformation() {
       </div>
 
       {/* Personal Information */}
-      <div className="font-mono">
-        <h1 className="text-2xl font-semibold">Personal Information</h1>
+      <div className="font-mono mt-8">
+        <h1 className="text-lg font-semibold">Personal Information</h1>
         <div>
           <h1 className="font-medium mb-2">Name</h1>
-          <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
+          <p className="mb-2 px-2 py-2 bg-black text-white w-60 text-center rounded">
             {UPPERCASE_NAME(userName)}
           </p>
           <button onClick={openNameModal}>Edit</button>
@@ -533,19 +533,19 @@ export default function PersonalInformation() {
         <p>Logout of your account</p>
         <button
           onClick={handleLogout}
-          className="p-2 bg-black text-white w-40 rounded mt-2 text-center"
+          className="px-2 py-2 bg-black text-white w-40 rounded mt-2 text-center"
         >
           Logout
         </button>
       </div>
 
       {/* Delete Account */}
-      <div className="font-mono text-lg">
+      <div className="font-mono mt-4 text-lg">
         <p className="mb-2">Delete your TimeZone account</p>
         <button
           type="button"
           onClick={openDeleteModal}
-          className="p-2 bg-red-600 text-white font-mono rounded"
+          className="px-4 py-2 bg-red-600 text-white font-mono rounded"
         >
           Delete account
         </button>
