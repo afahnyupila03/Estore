@@ -68,7 +68,7 @@ export default function CustomTextInput({
       <label htmlFor={name} className="font-semibold font-mono ">
         {label}
       </label>
-      <div style={{ position: "relative" }}>
+      <div>
         <input
           id={name}
           name={name}
