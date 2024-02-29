@@ -168,8 +168,12 @@ export default function DeliveryPage() {
         />
       </div>
       <div className="grid justify-center">
-        <h1 className="font-semibold font-mono text-sm lg:text-2xl">Add new address</h1>
-        <span className="text-center text-sm lg:text-lg text-red-500">*Required</span>
+        <h1 className="font-semibold font-mono text-sm lg:text-2xl">
+          Add new address
+        </h1>
+        <span className="text-center text-sm lg:text-lg text-red-500">
+          *Required
+        </span>
       </div>
 
       <Formik
@@ -200,7 +204,6 @@ export default function DeliveryPage() {
         {({ values, handleChange, handleBlur, isSubmitting }) => (
           <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
             <Field
-            
               component={CustomTextInput}
               id="firstName"
               name="firstName"
