@@ -191,7 +191,7 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openEmailModal} />
       </div>
       <div className="font-mono text-lg lg:text-xl text-start mb-4">
-        <h1 className="font-bold mb-4">
+        <h1 className="font-bold mb-4 text-center">
           {reAuth ? "Sign in" : "Change Email"}
         </h1>
         <p>
@@ -280,7 +280,7 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openPasswordModal} />
       </div>
       <div className="mb-4 font-mono">
-        <h1 className="text-2xl mb-4 font-semibold">
+        <h1 className="text-2xl text-center mb-4 font-semibold">
           {reAuth ? "Sign in" : "Change password"}
         </h1>
         <p className="text-lg">
@@ -394,7 +394,7 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openNameModal} />
       </div>
       <div className="font-mono mb-6 font-semibold text-2xl">
-        <h1 className="flex justify-center">Edit your name</h1>
+        <h1 className="text-center">Edit your name</h1>
       </div>
       <Formik
         initialValues={{
@@ -448,8 +448,8 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openDeleteModal} />
       </div>
       <div className="font-mono mb-6">
-        <h1 className="text-2xl font-semibold mb-4">Delete your account</h1>
-        <p className="text-lg">
+        <h1 className="lg:text-2xl font-semibold text-center mb-4">Delete your account</h1>
+        <p className="lg:text-lg">
           Are you sure you want to delete your account ?
         </p>
         <p>Enter login details to delete account</p>
@@ -458,14 +458,14 @@ export default function PersonalInformation() {
         <button
           type="button"
           onClick={handleDeleteAccount}
-          className="bg-red-600 text-white text-lg p-2 w-40 rounded"
+          className="bg-red-600 text-white lg:text-lg lg:p-2 w-20 lg:w-30 rounded"
         >
           Yes
         </button>
         <button
           onClick={openDeleteModal}
           type="button"
-          className="bg-black text-white text-lg p-2 w-40 rounded"
+          className="bg-black text-white lg:text-lg lg:p-2 w-20 lg:w-30 rounded"
         >
           No
         </button>
