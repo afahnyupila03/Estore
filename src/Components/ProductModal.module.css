@@ -86,9 +86,9 @@
 
 @media (min-width: 1300px) {
   .modal {
-    top: 4vh;
+    top: 15vh;
     width: 55rem;
-    left: 14rem;
+    left: 15rem;
     height: auto;
     overflow-x: hidden;
   }
