@@ -394,7 +394,7 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openNameModal} />
       </div>
       <div className="font-mono mb-6 font-semibold text-2xl">
-        <h1>Edit your name</h1>
+        <h1 className="flex justify-center">Edit your name</h1>
       </div>
       <Formik
         initialValues={{
