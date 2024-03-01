@@ -41,7 +41,7 @@ export default function PersonalInformation() {
   const [editNameModal, setEditNameModal] = useState(false);
   const [editEmailModal, setEditEmailModal] = useState(false);
   const [editPasswordModal, setEditPasswordModal] = useState(false);
-  const [reAuth, setReAuth] = useState(true);
+  const [reAuth, setReAuth] = useState(false);
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (user) => {
