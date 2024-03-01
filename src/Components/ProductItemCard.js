@@ -108,6 +108,16 @@ export default function ProductItemCard(props) {
   const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY);
   const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY);
 
+  const handleItemClick = (event) => {
+    if (window.innerWidth <= 767) {
+      event.preventDefault()
+      window.location.href =  `/product-details/${id}/${title}`;
+    }
+    else {
+      handleShowProductModal()
+    }
+  }
+
   const PRODUCT_MODAL = (
     <ProductModal
       icon={closeOutline}
@@ -198,6 +208,7 @@ export default function ProductItemCard(props) {
       loading="lazy"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
+      onClick={handleItemClick}
     >
       <div
         id={id}
