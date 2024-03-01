@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import classes from "../styles/passwordModal.module.css";
+import classes from "../styles/PasswordModal.module.css";
 
 const backdropColor = {
   backgroundColor: "hsla(0, 0%, 0%, 0.749)",

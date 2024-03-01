@@ -29,7 +29,7 @@
     height: 95%;
     padding-right: 1rem;
     align-items: center;
-    /* overflow: hidden; */
+    overflow-x: hidden;
   }
   .content {
     overflow: hidden;
@@ -41,6 +41,10 @@
     top: 2vh;
     width: 20rem;
     left: 2rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
   }
 }
 
@@ -49,14 +53,121 @@
     top: 2vh;
     width: 22rem;
     left: 2.5rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 450px) {
+  .modal {
+    top: 2vh;
+    width: 22rem;
+    left: 3.5rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 460px) {
+  .modal {
+    top: 2vh;
+    width: 22rem;
+    left: 3.8rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 480px) {
+  .modal {
+    top: 2vh;
+    width: 22rem;
+    left: 4.5rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 570px) {
+  .modal {
+    top: 2.5vh;
+    width: 22rem;
+    left: 7.4rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 640px) {
+  .modal {
+    top: 4vh;
+    width: 22rem;
+    left: 12rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 767px) {
+  .modal {
+    top: 3vh;
+    width: 22rem;
+    left: 14rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
   }
 }
 
 @media (min-width: 768px) {
   .modal {
-    top: 3vh;
+    position: fixed;
+    top: 14vh;
     width: 23rem;
     left: 14rem;
+    height: 75%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 850px) {
+  .modal {
+    top: 3vh;
+    width: 22rem;
+    left: 17rem;
+    height: 95%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 991px) {
+  .modal {
+    top: 3vh;
+    width: 22rem;
+    left: 20rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
   }
 }
 
@@ -65,23 +176,60 @@
     top: 3vh;
     width: 23rem;
     left: 23rem;
+    height: 95%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1280px) {
+  .modal {
+    top: 2vh;
+    width: 22.9rem;
+    left: 33rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1300px) {
+  .modal {
+    top: 3vh;
+    width: 24rem;
+    left: 34rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
   }
 }
 
 @media (min-width: 1440px) {
   .modal {
     top: 2.5vh;
-    width: 23rem;
+    width: 24rem;
     left: 37rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
   }
 }
 
 @media (min-width: 2560px) {
   .modal {
-    top: 7vh;
+    top: 6vh;
     width: 40rem;
     left: 68rem;
-    height: 85%;
+    height: 89%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
   }
 }
 

@@ -7,7 +7,6 @@ import {
   signOut,
   updateEmail,
   updatePassword,
-  // updatePassword,
   updateProfile,
 } from "firebase/auth";
 import React, { useEffect, useState } from "react";
@@ -191,9 +190,9 @@ export default function PersonalInformation() {
       <div className="flex justify-end">
         <ActionButton actionHandler={openEmailModal} />
       </div>
-      <div className="font-mono text-lg text-start mb-4">
-        <h1 className="font-bold text-2xl mb-4">
-          {reAuth ? "Sign in" : "Change email"}
+      <div className="font-mono text-lg lg:text-xl text-start mb-4">
+        <h1 className="font-bold mb-4">
+          {reAuth ? "Sign in" : "Change Email"}
         </h1>
         <p>
           {reAuth
@@ -216,7 +215,7 @@ export default function PersonalInformation() {
         onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
-          <Form>
+          <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
             <Field
               component={CustomTextInput}
               value={reAuth ? values.email : values.currentEmail}
