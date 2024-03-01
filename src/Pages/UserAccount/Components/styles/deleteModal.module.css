@@ -76,7 +76,7 @@
     top: 16vh;
     width: 22rem;
     left: 3.8rem;
-    height: 55%;
+    height: auto;
     overflow-x: hidden;
   }
   .content {
