@@ -76,7 +76,7 @@
     top: 16vh;
     width: 22rem;
     left: 3.8rem;
-    height: 36%;
+    height: 55%;
     overflow-x: hidden;
   }
   .content {
@@ -113,7 +113,7 @@
     top: 16vh;
     width: 22rem;
     left: 12rem;
-    height: 60%;
+    height: 50%;
     overflow-x: hidden;
   }
   .content {
@@ -126,7 +126,7 @@
     top: 14vh;
     width: 22rem;
     left: 14rem;
-    height: 70%;
+    height: 55%;
     overflow-x: hidden;
   }
   .content {
@@ -138,8 +138,8 @@
   .modal {
     top: 14vh;
     width: 23rem;
-    left: 14rem;
-    height: 45%;
+    left: 13rem;
+    height: 50%;
     overflow-x: hidden;
   }
   .content {
@@ -152,7 +152,7 @@
     top:14vh;
     width: 22rem;
     left: 17rem;
-    height: 70%;
+    height: 55%;
     overflow-x: hidden;
   }
   .content {
@@ -190,6 +190,7 @@
     top: 14vh;
     width: 22.9rem;
     left: 36rem;
+    height: 57%;
     overflow-x: hidden;
   }
   .content {
@@ -199,10 +200,10 @@
 
 @media (min-width: 1300px) {
   .modal {
-    top: 14vh;
+    top: 20vh;
     width: 24rem;
-    left: 35.9rem;
-    height: 42%;
+    left: 35rem;
+    height: auto;
     overflow-x: hidden;
   }
   .content {

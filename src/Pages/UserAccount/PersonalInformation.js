@@ -458,7 +458,7 @@ export default function PersonalInformation() {
         <button
           type="button"
           onClick={handleDeleteAccount}
-          className="bg-red-600 text-white lg:text-lg lg:p-2 w-20 lg:w-30 rounded"
+          className="bg-red-600 border-2 border-red-600 text-white lg:text-lg lg:p-2 w-20 lg:w-30 rounded"
         >
           Yes
         </button>
