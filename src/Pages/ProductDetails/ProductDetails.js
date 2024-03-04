@@ -20,10 +20,10 @@ function PRODUCT_RATINGS(stars) {
   }
 
   if (halfStar) {
-    starsArray.push(<Icon icon={starHalfOutline} key="half" />); // Assuming there's a half-star icon available
+    starsArray.push(<Icon icon={starHalfOutline} key="half" />);
   }
 
-  const remainingStars = 5 - starsArray.length; // Calculate the remaining empty stars
+  const remainingStars = 5 - starsArray.length;
 
   for (let i = 0; i < remainingStars; i++) {
     starsArray.push(<Icon icon={star} key={`empty-${i}`} />);
@@ -36,19 +36,7 @@ export default function ProductDetails() {
   const { id: featId, title: featTitle, shopId, shopTitle } = useParams();
 
   const {
-    data: {
-      id,
-      images = [],
-      title,
-      price,
-      description,
-      category,
-      thumbnail,
-      brand,
-      discountPercentage,
-      rating,
-      stock,
-    } = [],
+    data: productDetailsItems = [],
     isLoading,
     error,
     refetch,
@@ -59,6 +47,19 @@ export default function ProductDetails() {
       return getFeaturedProductService(featId, featTitle);
     }
   });
+
+  const {
+    images = [],
+    title,
+    price,
+    description,
+    category,
+    thumbnail,
+    brand,
+    discountPercentage,
+    rating,
+    stock,
+  } = productDetailsItems || {};
 
   function CONVERT_CURRENCY(priceInUSD) {
     const exchangeRate = 608.58;
@@ -89,7 +90,7 @@ export default function ProductDetails() {
   const originalPrice = XAF_PRICE;
   const percentage = discountPercentage;
   const FINAL_PRICE = DISCOUNT_PRICE(percentage, originalPrice);
-  const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY);
+  // const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY);
 
   const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY);
 
@@ -113,9 +114,81 @@ export default function ProductDetails() {
     );
   } else {
     productDetail = (
-      <div className="mt-10 px-40">
+      <>
+        {/* Product Gallery */}
+        <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
+          {images.map((imageItems) => (
+            <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+              <img
+                src={imageItems}
+                alt={imageItems.title}
+                className="h-full w-full object-cover object-center"
+              />
+            </div>
+          ))}
+        </div>
+
+        <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+          <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
+            <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
+              {title}
+            </h1>
+          </div>
+
+          <div className="mt-4 lg:row-span-3 lg:mt-0">
+            <h2 className="sr-only">Product information</h2>
+            <p className="text-3xl tracking-tight text-gray-900">{DISCOUNT}</p>
+
+            <div className="mt-6">
+              <div className="flex items-center">
+                <div className="flex items-center">
+                  {PRODUCT_RATINGS(rating)}
+                </div>
+              </div>
+            </div>
+
+            <button
+              type="button"
+              onClick={() => alert("Product added." + " " + title)}
+              className="mt-10 flex w-full items-center justify-center rounded-md bg-gray-600 px-8 py-3 text-base font-medium text-white"
+            >
+              Add to bag
+            </button>
+          </div>
+
+          <div className="py-10 lg:col-span-2 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
+            {/* Description and details */}
+            <div>
+              <h3 className="sr-only">Description</h3>
+
+              <div className="space-y-2">
+                <div>
+                  <p className="text-sm text-gray-600">{brand}</p>
+                  <p>{category}</p>
+                </div>
+                <p className="text-base text-gray-900">{description}</p>
+              </div>
+            </div>
+
+            <div className="mt-4">
+              <p>{stock} available in stock</p>
+            </div>
+          </div>
+        </div>
+
+        {/* RETHINK THIS SECTION AND CODE LOGIC */}
+        <div className="mx-auto px-8">
+          <h1 className="font-medium tracking-wide uppercase">
+            customers also purchased
+          </h1>
+        </div>
+      </>
+    );
+
+    /* productDetail = (
+      <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8">
         <div>
-          <div className="grid grid-cols-2 gap-x-20">
+          <div className="flex row-reverse justify-between grid-cols-1 lg:grid-cols-2 lg:col">
             <div className="grid grid-cols-2 w-full h-full gap-x-1 gap-y-4">
               {images.map((image) => (
                 <img src={image} className="w-full h-full" />
@@ -172,7 +245,7 @@ export default function ProductDetails() {
           </div>
         </div>
       </div>
-    );
+    ); */
   }
 
   return (

@@ -15,8 +15,8 @@ import classes from "./ProductItemCard.module.css";
 import Icon from "./Icon";
 
 function PRODUCT_RATING(stars) {
-  const fullStars = Math.floor(stars); // Get the integer part of the rating
-  const halfStar = stars - fullStars >= 0.5; // Check if there is a half star
+  const fullStars = Math.floor(stars);
+  const halfStar = stars - fullStars >= 0.5;
 
   let starsArray = [];
 
@@ -25,10 +25,10 @@ function PRODUCT_RATING(stars) {
   }
 
   if (halfStar) {
-    starsArray.push(<Icon icon={starHalfOutline} key="half" />); // Assuming there's a half-star icon available
+    starsArray.push(<Icon icon={starHalfOutline} key="half" />);
   }
 
-  const remainingStars = 5 - starsArray.length; // Calculate the remaining empty stars
+  const remainingStars = 5 - starsArray.length;
 
   for (let i = 0; i < remainingStars; i++) {
     starsArray.push(<Icon icon={star} key={`empty-${i}`} />);
@@ -110,13 +110,12 @@ export default function ProductItemCard(props) {
 
   const handleItemClick = (event) => {
     if (window.innerWidth <= 767) {
-      event.preventDefault()
-      window.location.href =  `/product-details/${id}/${title}`;
+      event.preventDefault();
+      window.location.href = `/product-details/${id}/${title}`;
+    } else {
+      // handleShowProductModal();31
     }
-    else {
-      handleShowProductModal()
-    }
-  }
+  };
 
   const PRODUCT_MODAL = (
     <ProductModal
@@ -141,9 +140,9 @@ export default function ProductItemCard(props) {
                 )
               }
             />
-            <span className="mx-2">{`${currImageIndex + 1}/${
-              images.length
-            }`}</span>
+            <span className="mx-2">
+              {`${currImageIndex + 1}/${images.length}`}
+            </span>
             <Icon
               icon={chevronForwardOutline}
               actionButton={() =>
@@ -224,7 +223,9 @@ export default function ProductItemCard(props) {
 
       <div className="mt-4 text-xs lg:text-lg grid justify-start font-semibold">
         <div>
-          <p className="flex text-xs lg:text-lg justify-start text-gray-700">{brand}</p>
+          <p className="flex text-xs lg:text-lg justify-start text-gray-700">
+            {brand}
+          </p>
 
           <h4 className="font-mono text-sm font-semibold lg:font-semibold lg:text-lg flex text-left">
             <span aria-hidden="true">{getName(title)}</span>
