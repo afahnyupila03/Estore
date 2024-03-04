@@ -90,7 +90,6 @@ export default function ProductDetails() {
   const originalPrice = XAF_PRICE;
   const percentage = discountPercentage;
   const FINAL_PRICE = DISCOUNT_PRICE(percentage, originalPrice);
-  // const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY);
 
   const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY);
 
@@ -118,7 +117,10 @@ export default function ProductDetails() {
         {/* Product Gallery */}
         <div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
           {images.map((imageItems) => (
-            <div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
+            <div
+              key={imageItems.index}
+              className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block"
+            >
               <img
                 src={imageItems}
                 alt={imageItems.title}
@@ -149,9 +151,24 @@ export default function ProductDetails() {
 
             <button
               type="button"
-              onClick={() => alert("Product added." + " " + title)}
+              onClick={() => alert("Product added to wish list" + " " + title)}
               className="mt-10 flex w-full items-center justify-center rounded-md bg-gray-600 px-8 py-3 text-base font-medium text-white"
             >
+              <Icon
+                style={{ marginRight: ".2rem", fontWeight: "bold" }}
+                icon={heartOutline}
+              />
+              Add to Wish List
+            </button>
+            <button
+              type="button"
+              onClick={() => alert("Product added to cart" + " " + title)}
+              className="mt-10 flex w-full items-center justify-center rounded-md bg-gray-600 px-8 py-3 text-base font-medium text-white"
+            >
+              <Icon
+                style={{ marginRight: ".3rem", fontWeight: "bold" }}
+                icon={bagOutline}
+              />
               Add to bag
             </button>
           </div>
@@ -184,68 +201,6 @@ export default function ProductDetails() {
         </div>
       </>
     );
-
-    /* productDetail = (
-      <div className="mx-auto max-w-2xl px-4 py-10 sm:px-6 sm:py-10 lg:max-w-7xl lg:px-8">
-        <div>
-          <div className="flex row-reverse justify-between grid-cols-1 lg:grid-cols-2 lg:col">
-            <div className="grid grid-cols-2 w-full h-full gap-x-1 gap-y-4">
-              {images.map((image) => (
-                <img src={image} className="w-full h-full" />
-              ))}
-            </div>
-            <div className="text-2xl font-mono">
-              <div className="mt-4">
-                <p className="flex items-center">
-                  {PRODUCT_RATINGS(rating)}{" "}
-                  <span className="ml-2">({stock})</span>
-                </p>
-                <p className="font-semibold">{title}</p>
-                <p className="underline">{brand}</p>
-              </div>
-
-              <div className="mt-4">
-                <p className="text-red-600">{DISCOUNT}</p>
-                <p className="text-red-600">
-                  {discountPercentage}% off for this item
-                </p>
-
-                <p className="line-through">{PRODUCT_PRICE}</p>
-              </div>
-
-              <div className="mt-4">
-                <p>{description}</p>
-              </div>
-
-              <div className="grid mt-8 justify-center">
-                <button className="font-semibold text-lg flex items-center sm:w-full px-20 py-5 text-white rounded bg-black">
-                  <Icon
-                    style={{
-                      fontSize: "1.5rem",
-                      color: "white",
-                      marginRight: "1rem",
-                    }}
-                    icon={bagOutline}
-                  />
-                  Add to Bag
-                </button>
-                <button className="font-semibold text-lg flex items-center mt-6 sm:w-full px-20 py-5 text-white rounded bg-black">
-                  <Icon
-                    style={{
-                      fontSize: "1.5rem",
-                      color: "white",
-                      marginRight: ".7rem",
-                    }}
-                    icon={heartOutline}
-                  />
-                  Add to Wish List
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    ); */
   }
 
   return (
