@@ -34,7 +34,6 @@ export default function DeliveryPage() {
     isError,
     refetch,
   } = useQuery(["delivery", userId], () => DeliveryServices(userId));
-  // const deliveryId = "GXcRx433FEAhtsBU0a2a";
 
   const { data: deliveryId } = useQuery(["dynamicDeliveryId", userId], () =>
     fetchDeliveryId(userId)

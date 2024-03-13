@@ -16,7 +16,6 @@
 
 .content {
   overflow: hidden;
-  /* overscroll-behavior-y: contain; */
 }
 
 /* 320px, 375, 425, 768, 1024, 1440, 2560 */

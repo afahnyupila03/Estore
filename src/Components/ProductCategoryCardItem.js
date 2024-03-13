@@ -1,10 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-export default function ProductCategoryCardItem({ categoryData }) {
+export default function ProductCategoryCardItem ({ categoryData }) {
   const { categoryRoute, categoryLink } = categoryData;
 
-  function UpperCaseLink(link = "") {
+  function UpperCaseLink (link = "") {
     return link.toUpperCase();
   }
 
@@ -12,7 +12,7 @@ export default function ProductCategoryCardItem({ categoryData }) {
     <div>
       <div
         loading="lazy"
-        className="border-black border-2  rounded-full shadow-xl shadow-blue-500 hover:text-white hover:bg-red-500 hover:border-red-500"
+        className="border-black border-2  rounded-full hover:text-white hover:bg-red-500 hover:border-red-500"
       >
         <Link
           className="p-2 lg:text-lg font-semibold text-xs font-mono flex items-center justify-center"
