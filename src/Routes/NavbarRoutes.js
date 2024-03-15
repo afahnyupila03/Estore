@@ -4,7 +4,7 @@ import Shop from "../Pages/Shop/Shop";
 import Latest from "../Pages/Latest/Latest";
 import Home from "../Pages/Home/Home";
 import About from "../Pages/About/About";
-import CartPage from "../Pages/CartPage/cart-page";
+import CartPage from "../Pages/CartPage/CartPage";
 import AuthPage from "../Pages/Auth/Auth";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import CategoryPage from "../Pages/Category/Category";

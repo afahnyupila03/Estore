@@ -1,0 +1,21 @@
+{
+    "env": {
+      "browser": true,
+      "es2021": true
+    },
+    "extends": ["standard", "plugin:react/recommended"],
+    "parserOptions": {
+      "ecmaVersion": "latest",
+      "sourceType": "module"
+    },
+    "plugins": ["react"],
+    "rules": {
+      "quotes": ["off", "single"],
+      "semi": "off",
+      "no-undef": "off",
+      "react/prop-types": "off", // Disable prop-types validation warning
+      "react/jsx-uses-vars": "off", // Disable jsx-uses-vars warning
+      "react/jsx-uses-react": "off" // Disable jsx-uses-react warning
+    }
+  }
+  

@@ -21,7 +21,8 @@ export default function ContactPage() {
           <p className="text-center">Call or chat with us here.</p>
         </div>
 
-        <div className=" mb-20 grid">
+        <div className="mb-20">
+
           <div className=" grid justify-center mb-10">
             <h1 className="text-2xl text-center font-semibold font-mono">
               Need Help?
@@ -30,7 +31,8 @@ export default function ContactPage() {
               Check out our self-service tools to get help fast.
             </p>
           </div>
-          <div className="flex justify-evenly">
+
+          <div className="flex gap-x-8 gap-y-6 items-center flex-col md:flex-row lg:flex-row justify-evenly">
             <Card
               actionHeader="Track Your Order"
               image={Track}
@@ -58,11 +60,12 @@ export default function ContactPage() {
             actionText="If you act quickly, you can cancel an order while it's still processing. Just find the order in your purchases, choose Details, then select Cancel Order."
             image={Cancel}
             name="cancel"
+            imageClass="hidden lg:block"
             actionButton="Get Started"
           />
         </div>
 
-        <div className="flex mb-10 justify-evenly">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-8 mb-10 justify-evenly">
           <Card
             actionHeader="Need help? We're here 24/7."
             actionText="Service: +237 999 999 999"

@@ -7,7 +7,6 @@ import {
   signOut,
   updateEmail,
   updatePassword,
-  // updatePassword,
   updateProfile,
 } from "firebase/auth";
 import React, { useEffect, useState } from "react";
@@ -42,7 +41,7 @@ export default function PersonalInformation() {
   const [editNameModal, setEditNameModal] = useState(false);
   const [editEmailModal, setEditEmailModal] = useState(false);
   const [editPasswordModal, setEditPasswordModal] = useState(false);
-  const [reAuth, setReAuth] = useState(true);
+  const [reAuth, setReAuth] = useState(false);
 
   useEffect(() => {
     const subscribed = onAuthStateChanged(auth, (user) => {
@@ -191,9 +190,9 @@ export default function PersonalInformation() {
       <div className="flex justify-end">
         <ActionButton actionHandler={openEmailModal} />
       </div>
-      <div className="font-mono text-lg text-start mb-4">
-        <h1 className="font-bold text-2xl mb-4">
-          {reAuth ? "Sign in" : "Change email"}
+      <div className="font-mono text-lg lg:text-xl text-start mb-4">
+        <h1 className="font-bold mb-4 text-center">
+          {reAuth ? "Sign in" : "Change Email"}
         </h1>
         <p>
           {reAuth
@@ -216,7 +215,7 @@ export default function PersonalInformation() {
         onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
-          <Form>
+          <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
             <Field
               component={CustomTextInput}
               value={reAuth ? values.email : values.currentEmail}
@@ -281,7 +280,7 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openPasswordModal} />
       </div>
       <div className="mb-4 font-mono">
-        <h1 className="text-2xl mb-4 font-semibold">
+        <h1 className="text-2xl text-center mb-4 font-semibold">
           {reAuth ? "Sign in" : "Change password"}
         </h1>
         <p className="text-lg">
@@ -395,7 +394,7 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openNameModal} />
       </div>
       <div className="font-mono mb-6 font-semibold text-2xl">
-        <h1>Edit your name</h1>
+        <h1 className="text-center">Edit your name</h1>
       </div>
       <Formik
         initialValues={{
@@ -449,8 +448,8 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openDeleteModal} />
       </div>
       <div className="font-mono mb-6">
-        <h1 className="text-2xl font-semibold mb-4">Delete your account</h1>
-        <p className="text-lg">
+        <h1 className="lg:text-2xl font-semibold text-center mb-4">Delete your account</h1>
+        <p className="lg:text-lg">
           Are you sure you want to delete your account ?
         </p>
         <p>Enter login details to delete account</p>
@@ -459,14 +458,14 @@ export default function PersonalInformation() {
         <button
           type="button"
           onClick={handleDeleteAccount}
-          className="bg-red-600 text-white text-lg p-2 w-40 rounded"
+          className="bg-red-600 border-2 border-red-600 text-white lg:text-lg lg:p-2 w-20 lg:w-30 rounded"
         >
           Yes
         </button>
         <button
           onClick={openDeleteModal}
           type="button"
-          className="bg-black text-white text-lg p-2 w-40 rounded"
+          className="bg-black text-white lg:text-lg lg:p-2 w-20 lg:w-30 rounded"
         >
           No
         </button>
@@ -490,12 +489,12 @@ export default function PersonalInformation() {
           </div>
 
           <div className="mt-6">
-            <h1 className="text-3xl font-mono">Sign-in info</h1>
+            <h1 className="text-2xl font-medium font-mono">Sign-in info</h1>
             <div className="font-mono text-lg mt-4">
               <h1 className="font-medium">Email</h1>
               <p
                 style={{ width: "18rem" }}
-                className=" p-4 bg-black text-white text-center rounded"
+                className="px-2 py-2 bg-black text-white text-center rounded"
               >
                 {userEmail}
               </p>
@@ -515,11 +514,11 @@ export default function PersonalInformation() {
       </div>
 
       {/* Personal Information */}
-      <div className="mt-14 font-mono">
-        <h1 className="text-2xl font-semibold">Personal Information</h1>
+      <div className="font-mono mt-8">
+        <h1 className="text-lg font-semibold">Personal Information</h1>
         <div>
           <h1 className="font-medium mb-2">Name</h1>
-          <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
+          <p className="mb-2 px-2 py-2 bg-black text-white w-60 text-center rounded">
             {UPPERCASE_NAME(userName)}
           </p>
           <button onClick={openNameModal}>Edit</button>
@@ -528,24 +527,24 @@ export default function PersonalInformation() {
       </div>
 
       {/* Security */}
-      <div className="mt-10 font-mono text-lg">
+      <div className="font-mono text-lg">
         <h1 className="text-2xl font-semibold font-mono">Security</h1>
         <p>Logout of your account</p>
         <button
           onClick={handleLogout}
-          className="p-2 bg-black text-white w-40 rounded mt-2 text-center"
+          className="px-2 py-2 bg-black text-white w-40 rounded mt-2 text-center"
         >
           Logout
         </button>
       </div>
 
       {/* Delete Account */}
-      <div className="mt-4 font-mono text-lg">
+      <div className="font-mono mt-4 text-lg">
         <p className="mb-2">Delete your TimeZone account</p>
         <button
           type="button"
           onClick={openDeleteModal}
-          className="p-2 bg-red-600 text-white font-mono rounded"
+          className="px-4 py-2 bg-red-600 text-white font-mono rounded"
         >
           Delete account
         </button>

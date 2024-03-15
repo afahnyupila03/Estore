@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import classes from "../styles/payment.module.css"
+import classes from "../styles/Payment.module.css"
 
 const backdropColor = {
   backgroundColor: "hsla(0, 0%, 0%, 0.749)",

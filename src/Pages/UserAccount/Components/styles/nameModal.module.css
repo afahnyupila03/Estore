@@ -1,33 +1,248 @@
 .modal {
-    position: fixed;
-    top: 15vh;
-    left: 5%;
-    width: 90%;
-    background-color: white;
-    padding: 2rem;
-    border-radius: 14px;
-    box-shadow: 0 2px 8px rgba(29, 29, 29, 0.25);
-    z-index: 30;
-    animation: slide-down 300ms ease-out forwards;
+  position: fixed;
+  top: 3vh;
+  left: 5%;
+  width: 90%;
+  background-color: white;
+  padding: 1rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(29, 29, 29, 0.25);
+  z-index: 30;
+  animation: slide-down 300ms ease-out forwards;
+  overflow: auto;
+  overflow-x: hidden;
+  overscroll-behavior-y: contain;
+}
+
+.content {
+  overflow: hidden;
+}
+
+/* 320px, 375, 425, 768, 1024, 1440, 2560 */
+
+@media (min-width: 320px) {
+  .modal {
+    top: 14vh;
+    width: 17rem;
+    left: 1.5rem;
+    height: 70%;
+    padding-right: 1rem;
+    align-items: center;
+    overflow-x: hidden;
+  }
+  .content {
     overflow: hidden;
   }
-  
-  @media (min-width: 768px) {
-    .modal {
-      width: 25rem;
-      left: 45rem;
-    }
+}
+
+@media (min-width: 375px) {
+  .modal {
+    top: 14vh;
+    width: 20rem;
+    left: 2rem;
+    overflow-x: hidden;
   }
-  
-  @keyframes slide-down {
-    from {
-      opacity: 0;
-      transform: translateY(-3rem);
-    }
-  
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  .content {
+    overflow: hidden;
   }
-  
+}
+
+@media (min-width: 425px) {
+  .modal {
+    top: 14vh;
+    width: 22rem;
+    left: 2.5rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 450px) {
+  .modal {
+    top: 15vh;
+    width: 22rem;
+    left: 3.5rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 460px) {
+  .modal {
+    top: 16vh;
+    width: 22rem;
+    left: 3.8rem;
+    height: 36%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 480px) {
+  .modal {
+    top: 16vh;
+    width: 22rem;
+    left: 4.5rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 570px) {
+  .modal {
+    top: 16vh;
+    width: 22rem;
+    left: 7.4rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 640px) {
+  .modal {
+    top: 16vh;
+    width: 22rem;
+    left: 12rem;
+    height: 60%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 767px) {
+  .modal {
+    top: 14vh;
+    width: 22rem;
+    left: 14rem;
+    height: 70%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 768px) {
+  .modal {
+    top: 14vh;
+    width: 23rem;
+    left: 14rem;
+    height: 72%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 850px) {
+  .modal {
+    top:14vh;
+    width: 22rem;
+    left: 17rem;
+    height: 70%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 991px) {
+  .modal {
+    top: 14vh;
+    width: 22rem;
+    left: 22rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1024px) {
+  .modal {
+    top: 14vh;
+    width: 23rem;
+    left: 26rem;
+    height: 70%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1280px) {
+  .modal {
+    top: 14vh;
+    width: 22.9rem;
+    left: 36rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1300px) {
+  .modal {
+    top: 14vh;
+    width: 24rem;
+    left: 35.9rem;
+    height: 53%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 1440px) {
+  .modal {
+    top: 14vh;
+    width: 24rem;
+    left: 37rem;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@media (min-width: 2560px) {
+  .modal {
+    top: 24vh;
+    width: 23rem;
+    left: 68rem;
+    height: 38%;
+    overflow-x: hidden;
+  }
+  .content {
+    overflow: hidden;
+  }
+}
+
+@keyframes slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

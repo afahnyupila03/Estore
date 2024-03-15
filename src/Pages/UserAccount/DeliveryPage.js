@@ -34,7 +34,6 @@ export default function DeliveryPage() {
     isError,
     refetch,
   } = useQuery(["delivery", userId], () => DeliveryServices(userId));
-  // const deliveryId = "GXcRx433FEAhtsBU0a2a";
 
   const { data: deliveryId } = useQuery(["dynamicDeliveryId", userId], () =>
     fetchDeliveryId(userId)
@@ -168,8 +167,12 @@ export default function DeliveryPage() {
         />
       </div>
       <div className="grid justify-center">
-        <h1 className="font-semibold font-mono text-2xl">Add new address</h1>
-        <span className="ml-8 text-red-500">*Required</span>
+        <h1 className="font-semibold font-mono text-sm lg:text-2xl">
+          Add new address
+        </h1>
+        <span className="text-center text-sm lg:text-lg text-red-500">
+          *Required
+        </span>
       </div>
 
       <Formik
@@ -198,10 +201,9 @@ export default function DeliveryPage() {
         // validationSchema={DeliveryAddressSchema}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
-          <Form className="column">
+          <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
             <Field
               component={CustomTextInput}
-              className="grid justify-center"
               id="firstName"
               name="firstName"
               type="text"
@@ -214,7 +216,6 @@ export default function DeliveryPage() {
             />
             <Field
               component={CustomTextInput}
-              className="grid justify-center"
               id="lastName"
               name="lastName"
               type="text"
@@ -228,7 +229,6 @@ export default function DeliveryPage() {
             <Field
               component={CustomTextInput}
               id="address"
-              className="grid justify-center"
               name="address"
               type="search"
               value={values.address}
@@ -241,7 +241,6 @@ export default function DeliveryPage() {
             <Field
               component={CustomTextInput}
               id="aptSuite"
-              className="grid justify-center"
               name="aptSuite"
               type="text"
               value={values.aptSuite}
@@ -254,7 +253,6 @@ export default function DeliveryPage() {
             <Field
               component={CustomTextInput}
               id="zip"
-              className="grid justify-center"
               name="zip"
               type="text"
               value={values.zip}
@@ -267,7 +265,6 @@ export default function DeliveryPage() {
             <Field
               component={CustomTextInput}
               id="city"
-              className="grid justify-center"
               name="city"
               type="text"
               value={values.city}
@@ -280,7 +277,6 @@ export default function DeliveryPage() {
             <Field
               component={CustomTextInput}
               id="state"
-              className="grid justify-center"
               name="state"
               type="text"
               value={values.state}
@@ -329,7 +325,7 @@ export default function DeliveryPage() {
         account.
       </p>
 
-      <div className="grid grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
+      <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
         {DELIVERY_ADDRESS}
       </div>
 

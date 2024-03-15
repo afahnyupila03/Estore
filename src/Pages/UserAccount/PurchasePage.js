@@ -1,10 +1,12 @@
 import React, { Fragment } from "react";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 
 export default function PurchasePage() {
-  const purchaseItems = 0;
+  const PURCHASED_ITEMS = useSelector((state) => state.cart.purchasedItems);
+
   let purchase;
-  if (purchaseItems === 0) {
+  if (PURCHASED_ITEMS.length === 0) {
     purchase = (
       <div className="mt-4">
         <p className="mb-4">0 Purchases made.</p>
