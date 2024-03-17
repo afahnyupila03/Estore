@@ -23,7 +23,7 @@ export default function CartItemsCard({
     <div className="flex font-mono text-xl justify-around">
       <div className="flex justify-evenly gap-x-10 items-center">
         <div>
-          <img src={image} alt="top" className="h-40 w-40" />
+          <img src={image} alt={title} className="h-40 w-40" />
         </div>
         <div>
           <p>{title}</p>
@@ -38,7 +38,7 @@ export default function CartItemsCard({
 
       <div className="grid justify-around">
         <div>
-          <p>{amount}</p>
+          <p>{Number(amount)}</p>
         </div>
         <div>
           <button

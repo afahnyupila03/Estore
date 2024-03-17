@@ -1,18 +1,16 @@
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
 import { arrowForwardOutline } from "ionicons/icons";
+import { CartContext } from "../../Store/Context/CartContext";
 
 export default function CartPage() {
-  const cartItems = useSelector((state) => state.cart.products);
-  const cartTotal = useSelector((state) => state.cart.totalAmount);
   const [userLoggedIn, setUserLoggedIn] = useState(null);
-  const [cartCounter, setCartCounter] = useState(0);
+  const cartCtx = useContext(CartContext);
 
   const CURRENCY = "XAF";
   const formatMoney = (amount, currency) => {
@@ -24,7 +22,7 @@ export default function CartPage() {
     return formatter.format(amount);
   };
 
-  const totalAmount = formatMoney(cartTotal, CURRENCY);
+  const totalAmount = formatMoney(cartCtx.totalAmount, CURRENCY);
 
   useEffect(() => {
     const authState = onAuthStateChanged(auth, (user) => {
@@ -41,7 +39,7 @@ export default function CartPage() {
 
   let content;
 
-  if (cartItems.length === 0 && userLoggedIn === null) {
+  if (cartCtx.products.length === 0 && userLoggedIn === null) {
     content = (
       <div className="mt-8">
         <p className="mb-10 font-mono text-xl">
@@ -55,7 +53,7 @@ export default function CartPage() {
         </Link>
       </div>
     );
-  } else if (cartItems.length === 0 && userLoggedIn !== null) {
+  } else if (cartCtx.products.length === 0 && userLoggedIn !== null) {
     content = (
       <div className="mt-8">
         <p className="mb-10 text-xl font-mono">Your bag is empty</p>
@@ -74,12 +72,12 @@ export default function CartPage() {
           className="mx-60 border-gray-500 mb-4"
           style={{ width: "70%", borderWidth: "1" }}
         />
-        {cartItems.map((cart) => (
+        {cartCtx.products.map((cart) => (
           <CartItemsCard
             productItems={cart}
             key={cart.id}
             itemQuantity={1}
-            removeItemHandler={() => console.log("got removed")}
+            removeItemHandler={cartCtx.removeProductHandler}
           />
         ))}
         <hr
@@ -94,7 +92,7 @@ export default function CartPage() {
               <p>Delivery and taxes will be calculated at checkout</p>
             </div>
             <div>
-              <p className="font-semibold">{totalAmount}</p>
+              <p className="font-semibold">{Number(totalAmount)}</p>
             </div>
           </div>
           <div className="grid justify-center">
@@ -122,7 +120,7 @@ export default function CartPage() {
       <div className="flex justify-center px-40 py-8 font-semibold font-mono text-lg">
         <div className="border-2 border-r-0 border-black px-8 py-4">
           <p>
-            Shopping Bag <span>({cartCounter})</span>
+            Shopping Bag <span>({cartCtx.products.length})</span>
           </p>
         </div>
         <div className="border-2 border-black px-8 py-4">
