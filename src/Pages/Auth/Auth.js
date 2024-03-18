@@ -7,85 +7,50 @@ import {
   LoginAuthSchema,
 } from "../../ValidationSchemas/AuthSchemas";
 import { useState } from "react";
+import { useAuth } from "../../Store";
 
-import {
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  updateProfile,
-} from "firebase/auth";
-import { auth } from "../../FirebaseConfigs/Firesbase";
-
-export default function () {
+export default function Auth () {
   const [isSignUp, setIsSignUp] = useState(true);
-  const [userIsAuthenticated, setUserIsAuthenticated] = useState(false);
-
-  console.log("Ui-state:", isSignUp);
+  const { signUpHandler, signInHandler } = useAuth();
 
   const handleExistingUserAuth = () => {
     setIsSignUp(!isSignUp);
   };
 
-  const handleCreateUser = (values, actions) => {
-    setTimeout(() => {
-      console.log(values);
-      // const authCredentials = (values.email, values.password);
-      createUserWithEmailAndPassword(auth, values.email, values.password)
-        .then((userCredential) => {
-          console.log("User credentials:", userCredential);
-          // Signed in
-          const user = userCredential.user;
-          // Update user profile with display name
-          updateProfile(user, {
-            displayName: `${values.firstName} ${values.lastName}`,
-          })
-            .then(() => {
-              // Profile updated
-              console.log("Firebase Console:", userCredential);
-            })
-            .catch((error) => {
-              // An error occurred
-              console.error(error);
-              actions.setFieldError("password", error.message);
-            });
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          alert(errorMessage, errorCode);
-          actions.setFieldError("email", errorMessage);
-        });
+  const handleCreateUser = async (values, actions) => {
+    try {
+      await signUpHandler(
+        values.email,
+        values.password,
+        values.firstName,
+        values.lastName,
+        values.confirmPassword
+      );
       actions.resetForm({
         values: {
-          email: "",
-          firstName: "",
-          lastName: "",
-          password: "",
+          email: " ",
+          firstName: " ",
+          lastName: " ",
+          password: " ",
           confirmPassword: "",
         },
       });
-    }, 1000);
+    } catch (error) {
+      console.error(`Sign up error: ${error}`);
+    }
   };
-
-  const handleUserLogin = (values, actions) => {
-    setTimeout(() => {
-      console.log("Formik values:", values);
-      signInWithEmailAndPassword(auth, values.email, values.password)
-        .then((userCredential) => {
-          console.log("User is Logged in: ", userCredential);
-        })
-        .catch((error) => {
-          const errorCode = error.code;
-          const errorMessage = error.message;
-          console.error(errorCode, errorMessage);
-          actions.setFieldError("password", errorMessage);
-        });
+  const handleUserLogin = async (values, actions) => {
+    try {
+      await signInHandler(values.email, values.password);
       actions.resetForm({
         values: {
-          email: "",
-          password: "",
+          email: " ",
+          password: " ",
         },
       });
-    }, 1000);
+    } catch (error) {
+      console.error(`sign in error: ${error}`);
+    }
   };
 
   return (

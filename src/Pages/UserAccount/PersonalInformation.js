@@ -1,16 +1,5 @@
-import {
-  EmailAuthProvider,
-  deleteUser,
-  onAuthStateChanged,
-  reauthenticateWithCredential,
-  sendPasswordResetEmail,
-  signOut,
-  updateEmail,
-  updatePassword,
-  // updatePassword,
-  updateProfile,
-} from "firebase/auth";
-import React, { useEffect, useState } from "react";
+import { deleteUser, sendPasswordResetEmail } from "firebase/auth";
+import React, { useState } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 import EmailModal from "./Components/ModalComponents/EditNameModal";
 import { Form, Formik, Field } from "formik";
@@ -21,6 +10,7 @@ import { Link } from "react-router-dom";
 import PasswordModal from "./Components/ModalComponents/EditPasswordModal";
 import NameModal from "./Components/ModalComponents/EditNameModal";
 import DeleteModal from "./Components/ModalComponents/DeleteModal";
+import { useAuth } from "../../Store";
 
 const ActionButton = ({ actionHandler }) => {
   return (
@@ -33,10 +23,19 @@ const ActionButton = ({ actionHandler }) => {
 };
 
 export default function PersonalInformation() {
-  const [userEmail, setUserEmail] = useState(null);
-  const [userName, setUserName] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const {
+    user,
+    signOutHandler,
+    reAuthUser,
+    updateCurrentUserName,
+    updateCurrentUserEmail,
+    updateCurrentUserPassword,
+    deleteCurrentUserAccount,
+  } = useAuth();
+
   const [isLoading, setIsLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [editNameModal, setEditNameModal] = useState(false);
@@ -44,27 +43,8 @@ export default function PersonalInformation() {
   const [editPasswordModal, setEditPasswordModal] = useState(false);
   const [reAuth, setReAuth] = useState(true);
 
-  useEffect(() => {
-    const subscribed = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserEmail(user.email);
-
-        setUserName(user.displayName);
-        console.log("user-email:", userEmail);
-
-        // Split the displayed name into first name and last name
-        const [first, last] = user.displayName.split(" ");
-        setFirstName(first);
-        setLastName(last);
-      } else {
-        setUserEmail(null);
-        setUserName(null);
-      }
-    });
-    return () => {
-      subscribed();
-    };
-  }, []);
+  const userEmail = user?.email;
+  const userName = user?.displayName;
 
   function UPPERCASE_NAME(name = "") {
     if (name === null) {
@@ -74,80 +54,61 @@ export default function PersonalInformation() {
     }
   }
 
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("Signed out successfully.");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
+  const handleLogout = async () => {
+    try {
+      await signOutHandler();
+      console("signed out success.");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
+
+  const reAuthenticateUser = async (values, actions) => {
+    try {
+      const email = values.email;
+      const password = values.password;
+      await reAuthUser(email, password);
+      setReAuth(!reAuth);
+      actions.resetForm({
+        values: {
+          email: " ",
+          password: " ",
+        },
       });
+    } catch (error) {
+      console.error("Error re-authenticating user: ", error);
+    }
   };
 
-  const openDeleteModal = () => {
-    setDeleteModal(!deleteModal);
-  };
-  const openEmailModal = () => {
-    setEditEmailModal(!editEmailModal);
-  };
-  const openNameModal = () => {
-    setEditNameModal(!editNameModal);
-  };
-  const openPasswordModal = () => {
-    setEditPasswordModal(!editPasswordModal);
-  };
-
-  const reAuthenticateUser = (values) => {
-    const user = auth.currentUser;
-    const credential = EmailAuthProvider.credential(
-      values.email,
-      values.password
-    );
-    reauthenticateWithCredential(user, credential)
-      .then(() => {
-        setIsLoading(true);
-        setReAuth(false);
-        alert("re-auth successful");
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        const errorCode = error.code;
-        alert(errorMessage, errorCode);
-        console.log(errorMessage);
+  const updateUserEmail = async (values, actions) => {
+    try {
+      actions.resetForm({
+        values: {
+          currentEmail: "",
+          newEmail: "",
+        },
       });
+      await updateCurrentUserEmail(values.newEmail);
+      setEditEmailModal(!editEmailModal);
+      alert("Email  changed");
+    } catch (error) {
+      console.error("Error updating user-email: ", error);
+    }
   };
 
-  const updateUserEmail = (values) => {
-    const user = auth.currentUser;
-    updateEmail(user, values.newEmail)
-      .then(() => {
-        setEditEmailModal(!editEmailModal);
-        alert("Email  changed");
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        const errorCode = error.code;
-        alert(errorMessage, errorCode);
+  const updateUserName = async (values, actions) => {
+    try {
+      await updateCurrentUserName(values.firstName, values.lastName);
+      setEditNameModal(!editNameModal);
+      actions.resetForm({
+        values: {
+          firstName: " ",
+          lastName: " ",
+        },
       });
-  };
-
-  const updateUserName = (values) => {
-    setTimeout(() => {
-      updateProfile(auth.currentUser, {
-        displayName: `${values.firstName} ${values.lastName}`,
-      })
-        .then(() => {
-          // profile updated
-          console.log("user-name updated:");
-          openNameModal();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }, 1000);
+    } catch (error) {
+      console.error("error updating current-user-name: ", error);
+    }
   };
 
   const handleResetPassword = () => {
@@ -163,27 +124,43 @@ export default function PersonalInformation() {
       });
   };
 
-  const handlePasswordChange = (values) => {
-    const user = auth.currentUser;
-    const newPassword = values.newPassword;
-    updatePassword(user, newPassword)
-      .then(() => {
-        alert("Password changes");
-      })
-      .catch((error) => {
-        alert(error);
+  const handlePasswordChange = async (values, actions) => {
+    try {
+      actions.resetForm({
+        values: {
+          currentPassword: "",
+          newPassword: "",
+        },
       });
+      await updateCurrentUserPassword(values.newPassword);
+      setEditPasswordModal(!editPasswordModal);
+      alert("Password updated successfully!");
+    } catch (error) {
+      console.error("Error updating password: ", error);
+    }
   };
 
-  const handleDeleteAccount = () => {
-    const user = auth.currentUser;
-    deleteUser(user)
-      .then(() => {
-        alert("account deleted");
-      })
-      .catch((error) => {
-        alert(error);
-      });
+  const handleDeleteAccount = async () => {
+    try {
+      await deleteCurrentUserAccount();
+      alert("Account successfully deleted!");
+      setDeleteModal(!deleteModal);
+    } catch (error) {
+      console.error("Error deleting user account: ", error);
+    }
+  };
+
+  const openDeleteModal = () => {
+    setDeleteModal(!deleteModal);
+  };
+  const openEmailModal = () => {
+    setEditEmailModal(!editEmailModal);
+  };
+  const openNameModal = () => {
+    setEditNameModal(!editNameModal);
+  };
+  const openPasswordModal = () => {
+    setEditPasswordModal(!editPasswordModal);
   };
 
   const EMAIL_MODAL = (
@@ -449,13 +426,51 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openDeleteModal} />
       </div>
       <div className="font-mono mb-6">
-        <h1 className="text-2xl font-semibold mb-4">Delete your account</h1>
+        <h1 className="text-2xl font-semibold mb-4">
+          {reAuth ? "Sign In" : "Delete your account"}
+        </h1>
         <p className="text-lg">
-          Are you sure you want to delete your account ?
+          {reAuth
+            ? "Enter login details to delete account"
+            : "Are you sure you want to delete your account ?"}
         </p>
-        <p>Enter login details to delete account</p>
       </div>
-      <div className="flex justify-around">
+      {reAuth ? (
+        <Formik initialValues={{email: "", password: ""}} onSubmit={reAuthenticateUser}>
+          {({values, handleChange, handleBlur, isSubmitting}) => (
+            <Form>
+              <Field 
+              component={CustomTextInput}
+              id="email"
+              name="email"
+              type="email"
+              value={values.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              label="Email"
+              placeholder="Email"
+              autoComplete="off"
+            />
+            <Field 
+              component={CustomTextInput}
+              id="password"
+              name="password"
+              type="password"
+              value={values.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              label="Password"
+              placeholder="Password"
+              autoComplete="off"
+            />
+            <div>
+              <button disabled={isSubmitting} type="submit">Sign In</button>
+            </div>
+            </Form>
+          )}
+        </Formik>
+      ) : (
+        <div className="flex justify-around">
         <button
           type="button"
           onClick={handleDeleteAccount}
@@ -471,6 +486,7 @@ export default function PersonalInformation() {
           No
         </button>
       </div>
+      )}
     </DeleteModal>
   );
 
