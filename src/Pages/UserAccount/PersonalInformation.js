@@ -1,6 +1,4 @@
-import { deleteUser, sendPasswordResetEmail } from "firebase/auth";
 import React, { useState } from "react";
-import { auth } from "../../FirebaseConfigs/Firesbase";
 import EmailModal from "./Components/ModalComponents/EditNameModal";
 import { Form, Formik, Field } from "formik";
 import CustomTextInput from "../../Components/TextInput";
@@ -34,6 +32,7 @@ export default function PersonalInformation() {
     updateCurrentUserEmail,
     updateCurrentUserPassword,
     deleteCurrentUserAccount,
+    resetPasswordHandler,
   } = useAuth();
 
   const [isLoading, setIsLoading] = useState(false);
@@ -111,17 +110,15 @@ export default function PersonalInformation() {
     }
   };
 
-  const handleResetPassword = () => {
-    sendPasswordResetEmail(auth, userEmail)
-      .then(() => {
-        openPasswordModal();
-        console.log("Password reset email sent");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
-      });
+  const handleResetPassword = async () => {
+    try {
+      await resetPasswordHandler(userEmail);
+      setReAuth(!reAuth)
+      setEditPasswordModal(!editPasswordModal);
+      alert("Reset password mail sent");
+    } catch (error) {
+      console.error("Error sending reset-password mail: ", error);
+    }
   };
 
   const handlePasswordChange = async (values, actions) => {

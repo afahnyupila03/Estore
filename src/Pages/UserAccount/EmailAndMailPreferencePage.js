@@ -1,6 +1,3 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { auth } from "../../FirebaseConfigs/Firesbase";
 import { getFirstTwoLetters } from "./AccountLandingPage";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Store";

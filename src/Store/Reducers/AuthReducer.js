@@ -1,4 +1,3 @@
-import { EmailAuthProvider } from "firebase/auth";
 import { Constants } from "../Constants";
 
 export const DefaultAuthState = {
@@ -30,6 +29,11 @@ export const AuthReducer = (state, action) => {
       return {
         ...state,
         error: action.payload.error,
+      };
+    case Constants.RESET_PASSWORD:
+      return {
+        ...state,
+        error: null,
       };
 
     default:

@@ -6,14 +6,13 @@ import { PaymentSchema } from "../../ValidationSchemas/PaymentSchema";
 import { useQuery } from "react-query";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, database } from "../../FirebaseConfigs/Firesbase";
+import { database } from "../../FirebaseConfigs/Firesbase";
 import {
   PaymentMethodService,
   PaymentMethodServices,
   fetchPaymentId,
 } from "../../Services/AccountServices";
-import { push, set, ref, remove } from "firebase/database";
+import { ref, remove } from "firebase/database";
 import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";

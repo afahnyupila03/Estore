@@ -8,11 +8,10 @@ import {
   onAuthStateChanged,
   reauthenticateWithCredential,
   signInWithEmailAndPassword,
-  signOut,
   updateEmail,
   updateProfile,
   updatePassword,
-  deleteUser,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 
@@ -158,7 +157,6 @@ export default function AuthProvider({ children }) {
     try {
       const user = auth.currentUser;
       await user.delete();
-      // await deleteUser();
       dispatch({
         type: Constants.DELETE,
       });
@@ -186,6 +184,21 @@ export default function AuthProvider({ children }) {
     }
   };
 
+  const resetPasswordHandler = async (userEmail) => {
+    try {
+      const resetHandler = await sendPasswordResetEmail(auth, userEmail);
+      dispatch({
+        type: Constants.RESET_PASSWORD,
+      });
+    } catch (error) {
+      dispatch({
+        type: Constants.ERROR,
+        payload: { error },
+      });
+      throw error;
+    }
+  };
+
   const value = {
     user: state.user,
     error: state.error,
@@ -197,6 +210,7 @@ export default function AuthProvider({ children }) {
     updateCurrentUserEmail,
     updateCurrentUserPassword,
     deleteCurrentUserAccount,
+    resetPasswordHandler,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

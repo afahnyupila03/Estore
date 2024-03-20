@@ -4,13 +4,12 @@ import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
-import { onAuthStateChanged } from "firebase/auth";
 import { useQuery } from "react-query";
 import { DeliveryAddressSchema } from "../../ValidationSchemas/DeliverySchema";
 import DeliveryCardItem from "./Components/CardComponents/DeliveryCardItem";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import { database, auth } from "../../FirebaseConfigs/Firesbase";
+import { database } from "../../FirebaseConfigs/Firesbase";
 import {
   DeliveryAddressService,
   DeliveryServices,
@@ -54,7 +53,6 @@ export default function DeliveryPage() {
     isError,
     refetch,
   } = useQuery(["delivery", userId], () => DeliveryServices(userId));
-  // const deliveryId = "GXcRx433FEAhtsBU0a2a";
 
   const { data: deliveryId } = useQuery(["dynamicDeliveryId", userId], () =>
     fetchDeliveryId(userId)
