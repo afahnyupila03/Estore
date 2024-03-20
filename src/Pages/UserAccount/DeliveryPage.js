@@ -17,16 +17,36 @@ import {
   fetchDeliveryId,
 } from "../../Services/AccountServices";
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import { useAuth } from "../../Store";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
 export default function DeliveryPage() {
   const [modal, setModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [user, setUser] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const { user } = useAuth();
+  const userId = user?.uid;
+  const userName = user?.displayName;
+
+  const splitUserName = (userName) => {
+    if (!userName) {
+      return { first: "", last: "" };
+    }
+    const names = userName.split(" ");
+    const first = names[0] || "";
+    const last = names.slice(1).join(" ") || "";
+    return { first, last };
+  };
+
+  useEffect(() => {
+    const { first, last } = splitUserName(userName);
+    setFirstName(first);
+    setLastName(last);
+  }, [userName]);
+
   const {
     data = [],
     isLoading,
@@ -48,23 +68,6 @@ export default function DeliveryPage() {
     () => DeliveryAddressService(userId, firstDeliveryId)
   );
   console.log(singleAddress);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (data) => {
-      if (data) {
-        setUser(data.displayName);
-        setUserId(data.uid);
-        const [first, last] = data.displayName.split(" ");
-        setFirstName(first);
-        setLastName(last);
-      } else {
-        setUser(null);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   const submitAddressHandler = async (values, actions) => {
     const db = database;

@@ -15,6 +15,7 @@ import { NAV_CONST } from "./Components/AccountNavConst";
 import { useTranslation } from "react-i18next";
 import { Routes, Route, Link, Outlet } from "react-router-dom";
 import { AccountRoute } from "../../Routes/AccountRoute";
+import { useAuth } from "../../Store";
 
 export const getFirstTwoLetters = (displayName) => {
   if (displayName) {
@@ -24,10 +25,10 @@ export const getFirstTwoLetters = (displayName) => {
     } else if (names.length === 1 && names[0].length >= 2) {
       return names[0].substring(0, 2);
     } else {
-      return null; // or an appropriate default value
+      return null;
     }
   } else {
-    return null; // or an appropriate default value
+    return null;
   }
 };
 
@@ -36,8 +37,10 @@ function classNames(...classes) {
 }
 
 export default function AccountLandingPage() {
-  const [authUser, setAuthUser] = useState(null);
+  const { user, signOutHandler } = useAuth();
   const { t } = useTranslation;
+
+  const userName = user?.displayName;
 
   const navigation = NAV_CONST(
     bicycleOutline,
@@ -54,29 +57,12 @@ export default function AccountLandingPage() {
     return classes.filter(Boolean).join(" ");
   }
 
-  useEffect(() => {
-    const subscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user.displayName);
-      } else {
-        setAuthUser(null);
-      }
-    });
-    return () => {
-      subscribe();
-    };
-  }, []);
-
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("Logged out successfully");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
-      });
+  const handleLogout = async () => {
+    try {
+      await signOutHandler();
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
   };
 
   return (
@@ -89,9 +75,9 @@ export default function AccountLandingPage() {
           <li>
             <ul className="text-gray-300 flex justify-center text-xl font-semibold font-mono items-center">
               <p className="rounded-full mr-2 p-2 bg-red-500">
-                {getFirstTwoLetters(authUser)}
+                {getFirstTwoLetters(userName)}
               </p>
-              <p>{authUser}'s Account</p>
+              <p>{userName}'s Account</p>
             </ul>
           </li>
           {navigation.map((item) => (
@@ -130,10 +116,10 @@ export default function AccountLandingPage() {
           <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
             <div className="flex font-semibold font-mono tracking-wider rounded uppercase text-white p-4 bg-gray-800 items-center text-lg justify-center">
               <span className="p-4 bg-red-500 rounded-full mr-2">
-                {getFirstTwoLetters(authUser)}
+                {getFirstTwoLetters(userName)}
               </span>
 
-              <p>{authUser}</p>
+              <p>{userName}</p>
             </div>
           </div>
         </header>

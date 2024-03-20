@@ -18,17 +18,37 @@ import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 import { addDoc, collection } from "firebase/firestore";
+import { useAuth } from "../../Store";
 
 // TODO: FIX EDIT AND DELETE PAYMENT HANDLERS.
 
 export default function PaymentMethodPage() {
+  const { user } = useAuth();
+
   const [paymentModal, setPaymentModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [userName, setUserName] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [mobilePayment, setMobilePayment] = useState(true);
+
+  const userName = user?.displayName;
+  const userId = user?.uid;
+
+  const splitUserName = (userName) => {
+    if (!userName) {
+      return { first: "", last: "" };
+    }
+    const names = userName.split(" ");
+    const first = names[0] || "";
+    const last = names.slice(1).join(" ") || "";
+    return { first, last };
+  };
+
+  useEffect(() => {
+    const { first, last } = splitUserName(userName);
+    setFirstName(first);
+    setLastName(last);
+  }, [userName]);
 
   const {
     data = [],
@@ -37,31 +57,15 @@ export default function PaymentMethodPage() {
     isError,
     error,
   } = useQuery(["bankCard", userId], () => PaymentMethodServices(userId));
+
   const { data: paymentId } = useQuery(["paymentId", userId], () =>
     fetchPaymentId(userId)
   );
+
   const { data: singleMethod = [] } = useQuery(
     ["singleMethod", userId, paymentId],
     () => PaymentMethodService(userId, paymentId)
   );
-
-  useEffect(() => {
-    const subscribed = onAuthStateChanged(auth, (data) => {
-      if (data) {
-        setUserName(data.displayName);
-        setUserId(data.uid);
-        const [first, last] = data.displayName.split(" ");
-        setFirstName(first);
-        setLastName(last);
-      } else {
-        setUserName(null);
-        setUserId(null);
-      }
-    });
-    return () => {
-      subscribed();
-    };
-  }, []);
 
   function modalHandler() {
     setPaymentModal(!paymentModal);

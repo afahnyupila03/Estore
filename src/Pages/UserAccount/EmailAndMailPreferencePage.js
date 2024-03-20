@@ -3,26 +3,16 @@ import { useEffect, useState } from "react";
 import { auth } from "../../FirebaseConfigs/Firesbase";
 import { getFirstTwoLetters } from "./AccountLandingPage";
 import { Link } from "react-router-dom";
+import { useAuth } from "../../Store";
 
 // className="grid justify-center"
 
 export const BRAND = "TIME ZONE";
 
 export default function EmailAndMailPreferencePage() {
-  const [userEmail, setUserEmail] = useState(null);
-  console.log("Formik data:", userEmail);
-  useEffect(() => {
-    const subscribed = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserEmail(user.email);
-      } else {
-        setUserEmail(null);
-      }
-    });
-    return () => {
-      subscribed();
-    };
-  }, []);
+  const { user } = useAuth();
+
+  const userEmail = user?.email;
 
   return (
     <div>

@@ -57,7 +57,7 @@ export default function PersonalInformation() {
   const handleLogout = async () => {
     try {
       await signOutHandler();
-      console("signed out success.");
+      console.log("signed out success.");
     } catch (error) {
       console.error("Error signing out: ", error);
     }
@@ -140,8 +140,15 @@ export default function PersonalInformation() {
     }
   };
 
-  const handleDeleteAccount = async () => {
+  const handleDeleteAccount = async (values, actions) => {
     try {
+      await reAuthUser(values.email, values.password);
+      actions.resetForm({
+        values: {
+          email: "",
+          password: "",
+        },
+      });
       await deleteCurrentUserAccount();
       alert("Account successfully deleted!");
       setDeleteModal(!deleteModal);
@@ -436,56 +443,62 @@ export default function PersonalInformation() {
         </p>
       </div>
       {reAuth ? (
-        <Formik initialValues={{email: "", password: ""}} onSubmit={reAuthenticateUser}>
-          {({values, handleChange, handleBlur, isSubmitting}) => (
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          // onSubmit={reAuthenticateUser}
+          onSubmit={handleDeleteAccount}
+        >
+          {({ values, handleChange, handleBlur, isSubmitting }) => (
             <Form>
-              <Field 
-              component={CustomTextInput}
-              id="email"
-              name="email"
-              type="email"
-              value={values.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="Email"
-              placeholder="Email"
-              autoComplete="off"
-            />
-            <Field 
-              component={CustomTextInput}
-              id="password"
-              name="password"
-              type="password"
-              value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="Password"
-              placeholder="Password"
-              autoComplete="off"
-            />
-            <div>
-              <button disabled={isSubmitting} type="submit">Sign In</button>
-            </div>
+              <Field
+                component={CustomTextInput}
+                id="email"
+                name="email"
+                type="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Email"
+                placeholder="Email"
+                autoComplete="off"
+              />
+              <Field
+                component={CustomTextInput}
+                id="password"
+                name="password"
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Password"
+                placeholder="Password"
+                autoComplete="off"
+              />
+              <div>
+                <button disabled={isSubmitting} type="submit">
+                  Sign In
+                </button>
+              </div>
             </Form>
           )}
         </Formik>
       ) : (
         <div className="flex justify-around">
-        <button
-          type="button"
-          onClick={handleDeleteAccount}
-          className="bg-red-600 text-white text-lg p-2 w-40 rounded"
-        >
-          Yes
-        </button>
-        <button
-          onClick={openDeleteModal}
-          type="button"
-          className="bg-black text-white text-lg p-2 w-40 rounded"
-        >
-          No
-        </button>
-      </div>
+          <button
+            type="button"
+            onClick={handleDeleteAccount}
+            className="bg-red-600 text-white text-lg p-2 w-40 rounded"
+          >
+            Yes
+          </button>
+          <button
+            onClick={openDeleteModal}
+            type="button"
+            className="bg-black text-white text-lg p-2 w-40 rounded"
+          >
+            No
+          </button>
+        </div>
       )}
     </DeleteModal>
   );

@@ -56,6 +56,7 @@ export default function AuthProvider({ children }) {
         type: Constants.ERROR,
         payload: { error },
       });
+      throw error;
     }
   };
 
@@ -75,14 +76,18 @@ export default function AuthProvider({ children }) {
         type: Constants.ERROR,
         payload: { error },
       });
+      throw error;
     }
   };
 
   const reAuthUser = async (email, password) => {
     try {
       const user = auth.currentUser;
-      const credentials = EmailAuthProvider.credential(email, password);
-      const reAuthUser = await reauthenticateWithCredential(user, credentials);
+      const authCredentials = EmailAuthProvider.credential(email, password);
+      const reAuthUser = await reauthenticateWithCredential(
+        user,
+        authCredentials
+      );
       dispatch({
         type: Constants.SIGN_IN,
         payload: { user: reAuthUser.user },
@@ -92,6 +97,7 @@ export default function AuthProvider({ children }) {
         type: Constants.ERROR,
         payload: { error },
       });
+      throw error;
     }
   };
 
@@ -110,6 +116,7 @@ export default function AuthProvider({ children }) {
         type: Constants.ERROR,
         payload: { error },
       });
+      throw error;
     }
   };
 
@@ -126,6 +133,7 @@ export default function AuthProvider({ children }) {
         type: Constants.ERROR,
         payload: { error },
       });
+      throw error;
     }
   };
 
@@ -142,12 +150,15 @@ export default function AuthProvider({ children }) {
         type: Constants.ERROR,
         payload: { error },
       });
+      throw error;
     }
   };
 
   const deleteCurrentUserAccount = async () => {
     try {
-      await deleteUser(auth.currentUser);
+      const user = auth.currentUser;
+      await user.delete();
+      // await deleteUser();
       dispatch({
         type: Constants.DELETE,
       });
@@ -156,13 +167,13 @@ export default function AuthProvider({ children }) {
         type: Constants.ERROR,
         payload: { error },
       });
-      throw error
+      throw error;
     }
   };
 
   const signOutHandler = async () => {
     try {
-      await signOut();
+      await auth.signOut();
       dispatch({
         type: Constants.SIGN_OUT,
       });
@@ -171,6 +182,7 @@ export default function AuthProvider({ children }) {
         type: Constants.ERROR,
         payload: { error },
       });
+      throw error;
     }
   };
 
