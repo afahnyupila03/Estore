@@ -18,6 +18,7 @@ export const getFeaturedProducts = async () => {
           images: productData[key].images,
           rating: productData[key].rating,
           stock: productData[key].stock,
+          quantity: productData[key].quantity,
         });
       }
     }
@@ -49,6 +50,7 @@ export const getFeaturedProductService = async (id, title) => {
       images: data.images,
       rating: data.rating,
       stock: data.stock,
+      quantity: data.quantity,
     };
     return product;
   } catch (err) {

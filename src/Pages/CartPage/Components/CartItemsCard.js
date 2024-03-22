@@ -1,11 +1,12 @@
 import React from "react";
 
 export default function CartItemsCard({
-  itemQuantity,
+  itemsQuantity,
   removeItemHandler,
   productItems,
 }) {
-  const { image, title, discountPrice, price } = productItems;
+  const { thumbnail, title, discountPercentage, price, quantity } =
+    productItems;
 
   const CURRENCY = "XAF";
   const formatMoney = (amount, currency) => {
@@ -17,28 +18,53 @@ export default function CartItemsCard({
     return formatter.format(amount);
   };
 
-  const amount = formatMoney(price, CURRENCY);
+  const CURRENCY_CONVERTER = (priceInUSD) => {
+    const exchangeRate = 608.58;
+    const convertedPrice = Math.round(priceInUSD * exchangeRate);
+    return convertedPrice;
+  };
+
+  const XAF_PRICE = CURRENCY_CONVERTER(price);
+
+  const DISCOUNT_PRICE = (discountPercentage, price) => {
+    const discount = (discountPercentage / 100) * price;
+    const discountedPrice = Math.round(price - discount);
+    return discountedPrice;
+  };
+
+  const originalPrice = XAF_PRICE;
+  const percentage = discountPercentage;
+  const FINAL_PRICE = DISCOUNT_PRICE(percentage, originalPrice);
+
+  const SELLING_PRICE = formatMoney(FINAL_PRICE, CURRENCY);
+
+  const totalPriceByQuantity = FINAL_PRICE * parseInt(quantity);
 
   return (
     <div className="flex font-mono text-xl justify-around">
       <div className="flex justify-evenly gap-x-10 items-center">
         <div>
-          <img src={image} alt={title} className="h-40 w-40" />
+          <img src={thumbnail} alt={title} className="h-40 w-40 rounded" />
         </div>
         <div>
           <p>{title}</p>
 
-          <input
+          {/* <input
             className="w-10 font-mono text-center"
-            value={1}
+            value={itemsQuantity}
             type="number"
-          />
+          /> */}
+          <p>Quantity: {quantity}</p>
+          {/* <p>Product quantity : {itemsQuantity}</p> */}
         </div>
       </div>
 
       <div className="grid justify-around">
         <div>
-          <p>{Number(amount)}</p>
+          <p>Product price: {price}</p>
+          <p>{SELLING_PRICE}</p>
+
+          <p>Sum of product and quantity = {totalPriceByQuantity}</p>
         </div>
         <div>
           <button

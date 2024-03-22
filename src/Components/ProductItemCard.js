@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import ProductModal from "./ProductModal";
 import { IonIcon } from "@ionic/react";
@@ -13,7 +13,7 @@ import {
 } from "ionicons/icons";
 import classes from "./ProductItemCard.module.css";
 import Icon from "./Icon";
-import { CartContext } from "../Store/Context/CartContext";
+import { useCart } from "../Store";
 
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars); // Get the integer part of the rating
@@ -42,7 +42,7 @@ export default function ProductItemCard(props) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [currImageIndex, setCurrImageIndex] = useState(0);
-  const cartCtx = useContext(CartContext);
+  const { addProductHandler } = useCart();
 
   const handleMouseOver = () => {
     setMouseIsOver(true);
@@ -164,7 +164,10 @@ export default function ProductItemCard(props) {
             <p className="font-mono text-1xl font-medium">{description}</p>
 
             <div className="grid justify-start mt-8 ">
-              <button onClick={cartCtx.addProductHandler} className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium font-mono items-center text-center">
+              <button
+                onClick={() => addProductHandler(props.productData)}
+                className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium font-mono items-center text-center"
+              >
                 <IonIcon
                   icon={bagHandleOutline}
                   className="mr-2"

@@ -6,20 +6,21 @@ import { Constants } from "../Constants";
 export default function CartProvider({ children }) {
   const [cartState, cartDispatch] = useReducer(CartReducer, DefaultCartState);
 
-  const addProductHandler = (item) =>
-    cartDispatch({ type: Constants.ADD, item: item });
+  const addProductHandler = (product) =>
+    cartDispatch({ type: Constants.ADD, payload: { product: product } });
 
   const removeProductHandler = (id) =>
-    cartDispatch({ type: Constants.REMOVE, id: id });
+    cartDispatch({ type: Constants.REMOVE, payload: { productId: id } });
 
   const clearProductHandler = () => cartDispatch({ type: Constants.CLEAR });
 
   const cartValue = {
     products: cartState.products,
     totalAmount: cartState.totalAmount,
-    addProductHandler: addProductHandler,
-    removeProductHandler: removeProductHandler,
-    clearProductHandler: clearProductHandler,
+    productQuantity: cartState.productQuantity,
+    addProductHandler,
+    removeProductHandler,
+    clearProductHandler,
   };
 
   return (

@@ -3,63 +3,58 @@ import { Constants } from "../Constants";
 export const DefaultCartState = {
   products: [],
   totalAmount: 0,
+  productQuantity: 0,
 };
 
 export const CartReducer = (state, action) => {
-  if (action.type === Constants.ADD) {
-    const updatedTotalAmount =
-      state.totalAmount + action.item.price * action.item.amount;
-    const existingProductIndex = state.products.findIndex(
-      (item) => item.id === action.item.id
-    );
-    const existingProduct = state.products[existingProductIndex];
+  const CALC_DISCOUNT = (discountPercent, price) => {
+    const discount = (discountPercent / 100) * price;
+    const discountPrice = Math.round(price - discount);
+    return discountPrice;
+  };
 
-    let updatedProducts;
+  const CURRENCY_CONVERTER = (priceInUSD) => {
+    const exchangeRate = 608.58;
+    const convertedPrice = Math.round(priceInUSD * exchangeRate);
+    return convertedPrice;
+  };
 
-    if (existingProduct) {
-      const updatedProduct = {
-        ...existingProduct,
-        amount: existingProduct.amount + action.item.amount,
-      };
-      updatedProducts = [...state.products];
-      updatedProducts[existingProductIndex] = updatedProduct;
-    } else {
-      updatedProducts = state.products.concat(action.item);
-    }
+  switch (action.type) {
+    case Constants.ADD:
+      const existingProductIndex = state.products.findIndex(
+        (product) => product.id === action.payload.product.id
+      );
+      const productPrice = action.payload.product.price;
+      const discountPercentage = action.payload.product.discountPercentage;
 
-    return {
-      products: updatedProducts,
-      totalAmount: updatedTotalAmount,
-    };
-  }
+      const XAF_PRICE = CURRENCY_CONVERTER(productPrice);
+      const SELLING_PRICE = CALC_DISCOUNT(discountPercentage, XAF_PRICE);
 
-  if (action.type === Constants.REMOVE) {
-    const existingProductIndex = state.products.findIndex(
-      (item) => item.id === action.id
-    );
-    const existingProduct = state.products[existingProductIndex];
-    const updatedTotalAmount = state.totalAmount - existingProduct.price;
+      if (existingProductIndex !== -1) {
+        const updatedProducts = [...state.products];
+        updatedProducts[existingProductIndex].quantity +=
+          action.payload.product.quantity;
 
-    let updatedProducts;
+        return {
+          ...state,
+          products: updatedProducts,
+          totalAmount: state.totalAmount + SELLING_PRICE,
+          // productQuantity: quantity,
+        };
+      } else {
+        const newProduct = {
+          ...action.payload.product,
+          quantity: 1,
+        };
+        return {
+          ...state,
+          products: [...state.products, newProduct],
+          totalAmount: state.totalAmount + SELLING_PRICE,
+          // productQuantity: quantity,
+        };
+      }
 
-    if (existingProduct === 1) {
-      updatedProducts = existingProduct.filter((item) => item.id !== action.id);
-    } else {
-      const updatedProduct = {
-        ...existingProduct,
-        amount: existingProduct.amount - 1,
-      };
-      updatedProducts = [...state.products];
-      updatedProducts[existingProductIndex] = updatedProduct;
-    }
-
-    return {
-      products: updatedProducts,
-      totalAmount: updatedTotalAmount,
-    };
-  }
-
-  if (action.type === Constants.CLEAR) {
-    return DefaultCartState;
+    default:
+      return state;
   }
 };

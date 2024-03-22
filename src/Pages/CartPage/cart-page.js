@@ -1,45 +1,30 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../FirebaseConfigs/Firesbase";
-
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
 import { arrowForwardOutline } from "ionicons/icons";
-import { CartContext } from "../../Store/Context/CartContext";
+import { useAuth, useCart } from "../../Store";
 
 export default function CartPage() {
-  const [userLoggedIn, setUserLoggedIn] = useState(null);
-  const cartCtx = useContext(CartContext);
+  const { user } = useAuth();
+  const { products, totalAmount, productQuantity } = useCart();
+  console.log("reducer total-amount: ", totalAmount);
+  console.log("reducer product quantity :", productQuantity);
 
   const CURRENCY = "XAF";
-  const formatMoney = (amount, currency) => {
+  const FORMAT_MONEY = (amount, currency) => {
     const formatter = new Intl.NumberFormat("fr", {
-      style: "currency",
       currency: currency,
+      style: "currency",
     });
-
     return formatter.format(amount);
   };
 
-  const totalAmount = formatMoney(cartCtx.totalAmount, CURRENCY);
-
-  useEffect(() => {
-    const authState = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserLoggedIn(user);
-      } else {
-        setUserLoggedIn(null);
-      }
-    });
-    return () => {
-      authState();
-    };
-  }, []);
+  const cartTotal = FORMAT_MONEY(parseInt(totalAmount), CURRENCY);
 
   let content;
 
-  if (cartCtx.products.length === 0 && userLoggedIn === null) {
+  if (products.length === 0 && user === null) {
     content = (
       <div className="mt-8">
         <p className="mb-10 font-mono text-xl">
@@ -53,7 +38,7 @@ export default function CartPage() {
         </Link>
       </div>
     );
-  } else if (cartCtx.products.length === 0 && userLoggedIn !== null) {
+  } else if (products.length === 0 && user !== null) {
     content = (
       <div className="mt-8">
         <p className="mb-10 text-xl font-mono">Your bag is empty</p>
@@ -72,12 +57,12 @@ export default function CartPage() {
           className="mx-60 border-gray-500 mb-4"
           style={{ width: "70%", borderWidth: "1" }}
         />
-        {cartCtx.products.map((cart) => (
+        {products.map((cart) => (
           <CartItemsCard
             productItems={cart}
             key={cart.id}
-            itemQuantity={1}
-            removeItemHandler={cartCtx.removeProductHandler}
+            itemsQuantity={productQuantity}
+            // removeItemHandler={cartCtx.removeProductHandler}
           />
         ))}
         <hr
@@ -92,7 +77,11 @@ export default function CartPage() {
               <p>Delivery and taxes will be calculated at checkout</p>
             </div>
             <div>
-              <p className="font-semibold">{Number(totalAmount)}</p>
+              <p className="font-semibold">
+                Original price in usd : {cartTotal}
+              </p>
+              {/* <p>new Formatted price in usd : {cartAmount}</p> */}
+              {/* <p>{Number(cartAmount)}</p> */}
             </div>
           </div>
           <div className="grid justify-center">
@@ -120,7 +109,7 @@ export default function CartPage() {
       <div className="flex justify-center px-40 py-8 font-semibold font-mono text-lg">
         <div className="border-2 border-r-0 border-black px-8 py-4">
           <p>
-            Shopping Bag <span>({cartCtx.products.length})</span>
+            Shopping Bag <span>({products.length})</span>
           </p>
         </div>
         <div className="border-2 border-black px-8 py-4">
