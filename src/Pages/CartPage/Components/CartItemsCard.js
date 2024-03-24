@@ -38,7 +38,8 @@ export default function CartItemsCard({
 
   const SELLING_PRICE = formatMoney(FINAL_PRICE, CURRENCY);
 
-  const totalPriceByQuantity = FINAL_PRICE * parseInt(quantity);
+  const productQuantity = quantity === 1 ? quantity : quantity - 1;
+  const totalPriceByQuantity = FINAL_PRICE * parseInt(productQuantity);
 
   return (
     <div className="flex font-mono text-xl justify-around">
@@ -48,14 +49,7 @@ export default function CartItemsCard({
         </div>
         <div>
           <p>{title}</p>
-
-          {/* <input
-            className="w-10 font-mono text-center"
-            value={itemsQuantity}
-            type="number"
-          /> */}
-          <p>Quantity: {quantity}</p>
-          {/* <p>Product quantity : {itemsQuantity}</p> */}
+          <p>Quantity: {quantity === 1 ? quantity : quantity - 1}</p>
         </div>
       </div>
 

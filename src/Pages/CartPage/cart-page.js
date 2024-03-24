@@ -7,7 +7,8 @@ import { useAuth, useCart } from "../../Store";
 
 export default function CartPage() {
   const { user } = useAuth();
-  const { products, totalAmount, productQuantity } = useCart();
+  const { products, totalAmount, productQuantity, removeProductHandler } =
+    useCart();
   console.log("reducer total-amount: ", totalAmount);
   console.log("reducer product quantity :", productQuantity);
 
@@ -62,7 +63,7 @@ export default function CartPage() {
             productItems={cart}
             key={cart.id}
             itemsQuantity={productQuantity}
-            // removeItemHandler={cartCtx.removeProductHandler}
+            removeItemHandler={() => removeProductHandler(cart.id)}
           />
         ))}
         <hr
@@ -109,7 +110,7 @@ export default function CartPage() {
       <div className="flex justify-center px-40 py-8 font-semibold font-mono text-lg">
         <div className="border-2 border-r-0 border-black px-8 py-4">
           <p>
-            Shopping Bag <span>({products.length})</span>
+            Shopping Bag <span>({productQuantity})</span>
           </p>
         </div>
         <div className="border-2 border-black px-8 py-4">

@@ -10,7 +10,7 @@ export default function CartProvider({ children }) {
     cartDispatch({ type: Constants.ADD, payload: { product: product } });
 
   const removeProductHandler = (id) =>
-    cartDispatch({ type: Constants.REMOVE, payload: { productId: id } });
+    cartDispatch({ type: Constants.REMOVE, payload: { id: id } });
 
   const clearProductHandler = () => cartDispatch({ type: Constants.CLEAR });
 
