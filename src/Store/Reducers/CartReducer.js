@@ -87,6 +87,9 @@ export const CartReducer = (state, action) => {
         return state;
       }
 
+    case Constants.CLEAR:
+      return DefaultCartState;
+
     default:
       return state;
   }

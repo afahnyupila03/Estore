@@ -7,8 +7,13 @@ import { useAuth, useCart } from "../../Store";
 
 export default function CartPage() {
   const { user } = useAuth();
-  const { products, totalAmount, productQuantity, removeProductHandler } =
-    useCart();
+  const {
+    products,
+    totalAmount,
+    productQuantity,
+    removeProductHandler,
+    clearProductHandler,
+  } = useCart();
   console.log("reducer total-amount: ", totalAmount);
   console.log("reducer product quantity :", productQuantity);
 
@@ -81,8 +86,12 @@ export default function CartPage() {
               <p className="font-semibold">
                 Original price in usd : {cartTotal}
               </p>
-              {/* <p>new Formatted price in usd : {cartAmount}</p> */}
-              {/* <p>{Number(cartAmount)}</p> */}
+              <button
+                onClick={() => clearProductHandler()}
+                className="bg-red-500 text-white px-10 py-2 rounded text-xl font-mono"
+              >
+                Empty Cart
+              </button>
             </div>
           </div>
           <div className="grid justify-center">
