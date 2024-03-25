@@ -21,11 +21,11 @@ export default function WishlistPage() {
   if (user === null) {
     wishlist = (
       <div className="mt-8">
-        <p className="mb-10 font-mono text-xl">
+        <p className="mb-10 font-mono">
           No user found. Please sign in / create account to view wish list.
         </p>
         <Link
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
           to="/sign-in-&-create-account"
         >
           Sign in / Create Account
@@ -37,7 +37,7 @@ export default function WishlistPage() {
       <div className="mt-8">
         <p className="mb-10 text-xl font-mono">Your wish list is empty.</p>
         <Link
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-lg font-mono"
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
           to="/home"
         >
           Visit shop to add products.
