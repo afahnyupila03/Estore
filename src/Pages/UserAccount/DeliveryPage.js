@@ -17,6 +17,7 @@ import {
 } from "../../Services/AccountServices";
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { useAuth } from "../../Store";
+import { Link } from "react-router-dom";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
@@ -127,7 +128,22 @@ export default function DeliveryPage() {
 
   let DELIVERY_ADDRESS;
 
-  if (isLoading) {
+  if (user === null) {
+    DELIVERY_ADDRESS = (
+      <div className="mt-8">
+        <p className="mb-10 font-mono text-xl">
+          No user found. Please sign in / create user account to view delivery
+          address(s).
+        </p>
+        <Link
+          to="/sign-in-&-create-account"
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+        >
+          Sign in / Create account
+        </Link>
+      </div>
+    );
+  } else if (isLoading) {
     DELIVERY_ADDRESS = (
       <div className="flex justify-center mt-6">
         <UseAnimation animation={loading} size={80} />
@@ -142,7 +158,7 @@ export default function DeliveryPage() {
         </button>
       </div>
     );
-  } else if (data === null) {
+  } else if (user !== null && data === null) {
     DELIVERY_ADDRESS = <p>No address added</p>;
   } else {
     DELIVERY_ADDRESS = data.map((delivery) => (
@@ -322,13 +338,17 @@ export default function DeliveryPage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold font-mono">Delivery Addresses</h1>
-      <button onClick={modalHandler} className="p-2 border-2 border-black">
-        Add New Address
-      </button>
-      <p>
-        Checkout faster by adding one or more shipping addresses to your
-        account.
-      </p>
+      {user !== null && (
+        <div>
+          <button onClick={modalHandler} className="p-2 border-2 border-black">
+            Add New Address
+          </button>
+          <p>
+            Checkout faster by adding one or more shipping addresses to your
+            account.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
         {DELIVERY_ADDRESS}

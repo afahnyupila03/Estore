@@ -12,7 +12,7 @@ export default function PurchasePage() {
   if (user === null) {
     purchase = (
       <div className="mt-8">
-        <p className="mb-10 font-mono">
+        <p className="mb-10 font-mono text-xl">
           No user found. Please sign in to user account / create user account to
           make purchases.{" "}
         </p>

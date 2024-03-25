@@ -113,7 +113,7 @@ export default function PersonalInformation() {
   const handleResetPassword = async () => {
     try {
       await resetPasswordHandler(userEmail);
-      setReAuth(!reAuth)
+      setReAuth(!reAuth);
       setEditPasswordModal(!editPasswordModal);
       alert("Reset password mail sent");
     } catch (error) {
@@ -502,80 +502,99 @@ export default function PersonalInformation() {
 
   return (
     <div>
-      {/* Password & Personal Information */}
-      <div>
-        <h1 className="text-2xl font-semibold font-mono">
-          Password & Personal Information
-        </h1>
-        <div>
-          <div className="text-lg mt-4 font-mono">
-            <p>
-              This information is the same at: <br />
-              <span className="text-2xl font-semibold font-mono">TIMEZONE</span>
-            </p>
-          </div>
-
-          <div className="mt-6">
-            <h1 className="text-3xl font-mono">Sign-in info</h1>
-            <div className="font-mono text-lg mt-4">
-              <h1 className="font-medium">Email</h1>
-              <p
-                style={{ width: "18rem" }}
-                className=" p-4 bg-black text-white text-center rounded"
-              >
-                {userEmail}
-              </p>
-              <button className="mt-2" onClick={openEmailModal}>
-                Change email
-              </button>
-              <hr className="border-black" style={{ width: "7.5rem" }} />
-            </div>
-
-            <div className="font-mono text-lg mt-4">
-              <h1 className="font-medium">Password</h1>
-              <button onClick={openPasswordModal}>Change password</button>
-              <hr className="border-black" style={{ width: "9.5rem" }} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Personal Information */}
-      <div className="mt-14 font-mono">
-        <h1 className="text-2xl font-semibold">Personal Information</h1>
-        <div>
-          <h1 className="font-medium mb-2">Name</h1>
-          <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
-            {UPPERCASE_NAME(userName)}
+      {user === null ? (
+        <div className="text-xl font-mono font-medium">
+          <p>No user found.</p>
+          <p className="mb-10">
+            Please sign in / create account to view user information.
           </p>
-          <button onClick={openNameModal}>Edit</button>
-          <hr className="w-8 border-black" />
+          <Link
+            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            to="/sign-in-&-create-account"
+          >
+            Sign in / Create Account
+          </Link>
         </div>
-      </div>
+      ) : (
+        <div>
+          {/* Password & Personal Information */}
+          <div>
+            <h1 className="text-2xl font-semibold font-mono">
+              Password & Personal Information
+            </h1>
+            <div>
+              <div className="text-lg mt-4 font-mono">
+                <p>
+                  This information is the same at: <br />
+                  <span className="text-2xl font-semibold font-mono">
+                    TIMEZONE
+                  </span>
+                </p>
+              </div>
 
-      {/* Security */}
-      <div className="mt-10 font-mono text-lg">
-        <h1 className="text-2xl font-semibold font-mono">Security</h1>
-        <p>Logout of your account</p>
-        <button
-          onClick={handleLogout}
-          className="p-2 bg-black text-white w-40 rounded mt-2 text-center"
-        >
-          Logout
-        </button>
-      </div>
+              <div className="mt-6">
+                <h1 className="text-3xl font-mono">Sign-in info</h1>
+                <div className="font-mono text-lg mt-4">
+                  <h1 className="font-medium">Email</h1>
+                  <p
+                    style={{ width: "18rem" }}
+                    className=" p-4 bg-black text-white text-center rounded"
+                  >
+                    {userEmail}
+                  </p>
+                  <button className="mt-2" onClick={openEmailModal}>
+                    Change email
+                  </button>
+                  <hr className="border-black" style={{ width: "7.5rem" }} />
+                </div>
 
-      {/* Delete Account */}
-      <div className="mt-4 font-mono text-lg">
-        <p className="mb-2">Delete your TimeZone account</p>
-        <button
-          type="button"
-          onClick={openDeleteModal}
-          className="p-2 bg-red-600 text-white font-mono rounded"
-        >
-          Delete account
-        </button>
-      </div>
+                <div className="font-mono text-lg mt-4">
+                  <h1 className="font-medium">Password</h1>
+                  <button onClick={openPasswordModal}>Change password</button>
+                  <hr className="border-black" style={{ width: "9.5rem" }} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Personal Information */}
+          <div className="mt-14 font-mono">
+            <h1 className="text-2xl font-semibold">Personal Information</h1>
+            <div>
+              <h1 className="font-medium mb-2">Name</h1>
+              <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
+                {UPPERCASE_NAME(userName)}
+              </p>
+              <button onClick={openNameModal}>Edit</button>
+              <hr className="w-8 border-black" />
+            </div>
+          </div>
+
+          {/* Security */}
+          <div className="mt-10 font-mono text-lg">
+            <h1 className="text-2xl font-semibold font-mono">Security</h1>
+            <p>Logout of your account</p>
+            <button
+              onClick={handleLogout}
+              className="p-2 bg-black text-white w-40 rounded mt-2 text-center"
+            >
+              Logout
+            </button>
+          </div>
+
+          {/* Delete Account */}
+          <div className="mt-4 font-mono text-lg">
+            <p className="mb-2">Delete your TimeZone account</p>
+            <button
+              type="button"
+              onClick={openDeleteModal}
+              className="p-2 bg-red-600 text-white font-mono rounded"
+            >
+              Delete account
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* MODALS SECTION */}
       {editEmailModal && EMAIL_MODAL}

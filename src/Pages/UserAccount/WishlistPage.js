@@ -21,7 +21,7 @@ export default function WishlistPage() {
   if (user === null) {
     wishlist = (
       <div className="mt-8">
-        <p className="mb-10 font-mono">
+        <p className="mb-10 font-mono text-xl">
           No user found. Please sign in / create account to view wish list.
         </p>
         <Link
@@ -66,10 +66,12 @@ export default function WishlistPage() {
           Wish List
           <span>({wishListQuantity})</span>
         </h1>
-        <div className="flex items-center">
-          <IonIcon icon={shareOutline} className="mr-2" />
-          <p>Share</p>
-        </div>
+        {user !== null && (
+          <div className="flex items-center">
+            <IonIcon icon={shareOutline} className="mr-2" />
+            <p>Share</p>
+          </div>
+        )}
       </div>
       {wishlist}
     </div>

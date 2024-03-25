@@ -18,6 +18,7 @@ import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 import { addDoc, collection } from "firebase/firestore";
 import { useAuth } from "../../Store";
+import { Link } from "react-router-dom";
 
 // TODO: FIX EDIT AND DELETE PAYMENT HANDLERS.
 
@@ -128,7 +129,22 @@ export default function PaymentMethodPage() {
   };
 
   let PAYMENT_METHODS;
-  if (isLoading) {
+
+  if (user === null) {
+    PAYMENT_METHODS = (
+      <div className="mt-8">
+        <p className="mb-10 font-mono text-xl">
+          No user found. Please sign in / create account to view wish list.
+        </p>
+        <Link
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+          to="/sign-in-&-create-account"
+        >
+          Sign in / Create Account
+        </Link>
+      </div>
+    );
+  } else if (isLoading) {
     PAYMENT_METHODS = (
       <div className="flex justify-center">
         <UseAnimation animation={loading} size={80} />
@@ -355,7 +371,10 @@ export default function PaymentMethodPage() {
     <div>
       <div>
         <h1 className="text-2xl font-semibold font-mono">Payment Methods</h1>
-        <button
+        {
+          user !== null && (
+            <div>
+              <button
           onClick={modalHandler}
           type="button"
           className="p-2 border-2 border-black"
@@ -363,6 +382,9 @@ export default function PaymentMethodPage() {
           Add New Card
         </button>
         <p>Checkout faster by adding one or more cards to your account.</p>
+            </div>
+          )
+        }
 
         <div className="grid grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
           {PAYMENT_METHODS}
