@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
 import { arrowForwardOutline } from "ionicons/icons";
-import { useAuth, useCart } from "../../Store";
+import { useAuth, useCart, useWishList } from "../../Store";
 
 export default function CartPage() {
   const { user } = useAuth();
@@ -14,6 +14,9 @@ export default function CartPage() {
     removeProductHandler,
     clearProductHandler,
   } = useCart();
+
+  const { wishListQuantity } = useWishList();
+
   console.log("reducer total-amount: ", totalAmount);
   console.log("reducer product quantity :", productQuantity);
 
@@ -124,7 +127,7 @@ export default function CartPage() {
         </div>
         <div className="border-2 border-black px-8 py-4">
           <p>
-            Saved for later <span>(0)</span>
+            Saved for later <span>({wishListQuantity})</span>
           </p>
         </div>
       </div>

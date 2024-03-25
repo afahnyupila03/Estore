@@ -2,13 +2,21 @@ import React from "react";
 import { IonIcon } from "@ionic/react";
 import { shareOutline } from "ionicons/icons";
 import { Link } from "react-router-dom";
+import { useWishList } from "../../Store";
+import WishListCardItems from "./Components/CardComponents/WishListCardItems";
 
 export default function WishlistPage() {
-  const wishlistItems = 0;
+  const {
+    wishListProducts,
+    wishListQuantity,
+    wishListed,
+    removeProductsFromWishList,
+    clearWishListHandler,
+  } = useWishList();
 
   let wishlist;
 
-  if (wishlistItems === 0) {
+  if (wishListProducts.length === 0) {
     wishlist = (
       <div>
         <div className="mt-4">
@@ -31,7 +39,14 @@ export default function WishlistPage() {
   } else {
     wishlist = (
       <div>
-        <h1>Good to go</h1>
+        {wishListProducts.map((wishListProducts) => (
+          <WishListCardItems
+            removeHandler={() =>
+              removeProductsFromWishList(wishListProducts.id)
+            }
+            wishListProducts={wishListProducts}
+          />
+        ))}
       </div>
     );
   }
@@ -39,7 +54,10 @@ export default function WishlistPage() {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold font-mono">Wish List</h1>
+        <h1 className="text-2xl font-semibold font-mono">
+          Wish List
+          <span>({wishListQuantity})</span>
+        </h1>
         <div className="flex items-center">
           <IonIcon icon={shareOutline} className="mr-2" />
           <p>Share</p>
