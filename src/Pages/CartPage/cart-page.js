@@ -33,17 +33,17 @@ export default function CartPage() {
 
   let content;
 
-  if (products.length === 0 && user === null) {
+  if (user === null) {
     content = (
       <div className="mt-8">
         <p className="mb-10 font-mono text-xl">
-          Bag is empty. Please sign in to start shopping
+          No user found. Please sign in / create account to see products in bag.
         </p>
         <Link
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
           to="/sign-in-&-create-account"
         >
-          Sign in
+          Sign in / Create Account
         </Link>
       </div>
     );
