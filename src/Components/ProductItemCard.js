@@ -10,10 +10,13 @@ import {
   closeOutline,
   chevronBackOutline,
   chevronForwardOutline,
+  checkmark,
+  heart,
+  heartDislike,
 } from "ionicons/icons";
 import classes from "./ProductItemCard.module.css";
 import Icon from "./Icon";
-import { useCart } from "../Store";
+import { useCart, useWishList } from "../Store";
 
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars); // Get the integer part of the rating
@@ -38,11 +41,16 @@ function PRODUCT_RATING(stars) {
   return <div>{starsArray}</div>;
 }
 
-export default function ProductItemCard(props) {
+export default function ProductItemCard({ productData }) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [currImageIndex, setCurrImageIndex] = useState(0);
+  const [productAdded, setProductAdded] = useState(false);
+
   const { addProductHandler } = useCart();
+  const { addProductToWishList, wishListed, removeProductFromWishList } =
+    useWishList();
+  const [wishList, setWishList] = useState(wishListed);
 
   const handleMouseOver = () => {
     setMouseIsOver(true);
@@ -52,6 +60,23 @@ export default function ProductItemCard(props) {
   };
   const handleImageClick = (index) => {
     setCurrImageIndex(index);
+  };
+
+  const handleAddProduct = (product) => {
+    setProductAdded(true);
+    addProductHandler(product);
+
+    setTimeout(() => {
+      setProductAdded(false);
+    }, 1000);
+  };
+  const handleWishListedProducts = (data) => {
+    setWishList(!wishList);
+    addProductToWishList(data);
+  };
+  const handleDisLikedProducts = (id) => {
+    setWishList(!wishList);
+    removeProductFromWishList(id);
   };
 
   const {
@@ -66,13 +91,13 @@ export default function ProductItemCard(props) {
     stock,
     images,
     thumbnail,
-  } = props.productData || [];
+  } = productData || [];
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
   }
   const getName = (title) => {
-    const MAX_NAME_CHARS = 30;
+    const MAX_NAME_CHARS = 15;
     if (title.length > MAX_NAME_CHARS) {
       return `${title.slice(0, MAX_NAME_CHARS)}...`;
     }
@@ -165,23 +190,30 @@ export default function ProductItemCard(props) {
 
             <div className="grid justify-start mt-8 ">
               <button
-                onClick={() => addProductHandler(props.productData)}
+                onClick={() => handleAddProduct(productData)}
                 className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium font-mono items-center text-center"
               >
                 <IonIcon
-                  icon={bagHandleOutline}
+                  icon={productAdded ? checkmark : bagHandleOutline}
                   className="mr-2"
                   style={{ fontSize: "1.5rem" }}
                 />
-                Add to Bag
+                {productAdded ? "Added" : "Add to Bag"}
               </button>
-              <button className="underline flex items-center">
+              <button
+                onClick={
+                  wishList
+                    ? () => handleDisLikedProducts(id)
+                    : () => handleWishListedProducts(productData)
+                }
+                className="underline flex items-center"
+              >
                 <IonIcon
-                  icon={add}
+                  icon={wishList ? heartDislike : add}
                   className="mr-1"
                   style={{ fontSize: "1.5rem" }}
                 />
-                Wish List
+                {wishList ? "Dislike" : "Wish List"}
               </button>
             </div>
           </div>
@@ -216,13 +248,20 @@ export default function ProductItemCard(props) {
         />
       </div>
 
-      <div className="mt-4 grid justify-start font-semibold">
-        <div>
-          <p className="flex justify-start text-gray-700">{brand}</p>
+      <div className="mt-4 grid font-semibold">
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="flex justify-start text-gray-700">{brand}</p>
 
-          <h4 className="font-mono text-lg flex text-left">
-            <span aria-hidden="true">{getName(title)}</span>
-          </h4>
+            <h4 className="font-mono text-lg flex text-left">
+              <span aria-hidden="true">{getName(title)}</span>
+            </h4>
+          </div>
+          {wishList && (
+            <div>
+              <IonIcon icon={heart} size="small" />
+            </div>
+          )}
         </div>
         <div className="text-left text-lg">
           <p className="text-red-600">{DISCOUNT}</p>

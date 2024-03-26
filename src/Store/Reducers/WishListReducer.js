@@ -67,6 +67,7 @@ export const WishListReducer = (state, action) => {
         wishListProducts: updatedProducts,
         whishListTotalAmount: state.whishListTotalAmount - removedPrice,
         wishListQuantity: state.wishListQuantity - 1,
+        wishListed: false,
       };
 
     case Constants.CLEAR:

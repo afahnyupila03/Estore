@@ -12,10 +12,10 @@ export default function WishListProvider({ children }) {
     defaultWishListState
   );
 
-  const addProductToWishList = (id) =>
+  const addProductToWishList = (product, id) =>
     dispatchWishList({
       type: Constants.ADD,
-      payload: { id: id },
+      payload: { product: product, id: id },
     });
 
   const removeProductFromWishList = (id) =>

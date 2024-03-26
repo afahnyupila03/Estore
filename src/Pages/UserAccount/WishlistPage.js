@@ -10,7 +10,7 @@ export default function WishlistPage() {
     wishListProducts,
     wishListQuantity,
     wishListed,
-    removeProductsFromWishList,
+    removeProductFromWishList,
     clearWishListHandler,
   } = useWishList();
   const { user } = useAuth();
@@ -46,13 +46,16 @@ export default function WishlistPage() {
     );
   } else {
     wishlist = (
-      <div>
+      <div className="mt-8">
         {wishListProducts.map((wishListProducts) => (
           <WishListCardItems
-            removeHandler={() =>
-              removeProductsFromWishList(wishListProducts.id)
+            key={wishListProducts.id}
+            removeItemHandler={() =>
+              removeProductFromWishList(wishListProducts.id)
             }
+            addItemHandler={() => addProductHandler(wishListProducts)}
             wishListProducts={wishListProducts}
+            wishListed={wishListed}
           />
         ))}
       </div>

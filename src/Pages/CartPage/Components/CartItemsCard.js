@@ -32,14 +32,24 @@ export default function CartItemsCard({
     return discountedPrice;
   };
 
+  const CALC_QUANTITY = (quantity) => {
+    if (quantity === 1) {
+      return quantity;
+    } else if (quantity === 2) {
+      return quantity + 1;
+    } else if (quantity >= 3) {
+      return quantity - 2;
+    }
+  };
+
   const originalPrice = XAF_PRICE;
   const percentage = discountPercentage;
   const FINAL_PRICE = DISCOUNT_PRICE(percentage, originalPrice);
 
   const SELLING_PRICE = formatMoney(FINAL_PRICE, CURRENCY);
 
-  const productQuantity = quantity === 1 ? quantity : quantity - 1;
-  const totalPriceByQuantity = FINAL_PRICE * parseInt(productQuantity);
+  // const productQuantity = quantity;
+  const totalPriceByQuantity = FINAL_PRICE * parseInt(CALC_QUANTITY(quantity));
 
   return (
     <div className="flex font-mono text-xl justify-around">
@@ -49,7 +59,7 @@ export default function CartItemsCard({
         </div>
         <div>
           <p>{title}</p>
-          <p>Quantity: {quantity === 1 ? quantity : quantity - 1}</p>
+          <p>Quantity: {CALC_QUANTITY(quantity)}</p>
         </div>
       </div>
 
