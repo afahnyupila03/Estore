@@ -259,7 +259,7 @@ export default function ProductItemCard({ productData }) {
           </div>
           {wishList && (
             <div>
-              <IonIcon icon={heart} size="small" />
+              <IonIcon icon={heart} style={{ fontSize: "1.5rem" }} />
             </div>
           )}
         </div>

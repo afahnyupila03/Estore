@@ -48,7 +48,6 @@ export default function CartItemsCard({
 
   const SELLING_PRICE = formatMoney(FINAL_PRICE, CURRENCY);
 
-  // const productQuantity = quantity;
   const totalPriceByQuantity = FINAL_PRICE * parseInt(CALC_QUANTITY(quantity));
 
   return (

@@ -1,15 +1,18 @@
 import React from "react";
-import {IonIcon} from "@ionic/react"
-import { heartCircleSharp, heartDislike } from "ionicons/icons";
+import { IonIcon } from "@ionic/react";
+import {
+  heartCircleSharp,
+  heartDislike,
+  heartDislikeOutline,
+} from "ionicons/icons";
 
 export default function WishListCardItems({
   addItemHandler,
   removeItemHandler,
   wishListProducts,
-  wishListed
+  wishListed,
 }) {
   const { title, price, discountPercentage, thumbnail } = wishListProducts;
-
 
   const CURRENCY = "XAF";
   const FORMAT_MONEY = (amount, currency) => {
@@ -48,13 +51,6 @@ export default function WishListCardItems({
       <div className="grid justify-around">
         <div>
           <p>{FORMAT_MONEY(DISCOUNT, CURRENCY)}</p>
-          {
-            wishListed === true ? (
-              <IonIcon icon={heartDislike} />
-            ) : (
-              <IonIcon icon={heartCircleSharp} />
-            )
-          }
         </div>
         <div>
           <button
@@ -66,10 +62,15 @@ export default function WishListCardItems({
           </button>
           <button
             onClick={removeItemHandler}
-            className=" bg-black text-white px-10 py-2 rounded font-mono text-xl"
+            className=" bg-black text-white flex items-center px-10 py-2 rounded font-mono text-xl"
             type="button"
           >
-            Remove
+            <IonIcon
+              className="mr-2"
+              icon={heartDislikeOutline}
+              style={{ fontSize: "1.5rem" }}
+            />
+            Dislike
           </button>
         </div>
       </div>
