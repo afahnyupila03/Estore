@@ -46,7 +46,7 @@ export default function WishlistPage() {
     );
   } else {
     wishlist = (
-      <div className="mt-8">
+      <div className="mt-8 gap-y-2 mb-4">
         {wishListProducts.map((wishListProducts) => (
           <WishListCardItems
             key={wishListProducts.id}

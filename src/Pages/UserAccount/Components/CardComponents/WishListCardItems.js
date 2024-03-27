@@ -1,18 +1,43 @@
 import React from "react";
 import { IonIcon } from "@ionic/react";
+import Icon from "../../../../Components/Icon";
 import {
-  heartCircleSharp,
-  heartDislike,
   heartDislikeOutline,
+  bagHandleOutline,
+  star,
+  starHalfOutline,
 } from "ionicons/icons";
+
+function PRODUCT_RATING(stars) {
+  const fullStars = Math.floor(stars); // Get the integer part of the rating
+  const halfStar = stars - fullStars >= 0.5; // Check if there is a half star
+
+  let starsArray = [];
+
+  for (let i = 0; i < fullStars; i++) {
+    starsArray.push(<Icon icon={star} key={i} />);
+  }
+
+  if (halfStar) {
+    starsArray.push(<Icon icon={starHalfOutline} key="half" />); // Assuming there's a half-star icon available
+  }
+
+  const remainingStars = 5 - starsArray.length; // Calculate the remaining empty stars
+
+  for (let i = 0; i < remainingStars; i++) {
+    starsArray.push(<Icon icon={star} key={`empty-${i}`} />);
+  }
+
+  return <div>{starsArray}</div>;
+}
 
 export default function WishListCardItems({
   addItemHandler,
   removeItemHandler,
   wishListProducts,
-  wishListed,
 }) {
-  const { title, price, discountPercentage, thumbnail } = wishListProducts;
+  const { title, price, discountPercentage, thumbnail, description, rating } =
+    wishListProducts;
 
   const CURRENCY = "XAF";
   const FORMAT_MONEY = (amount, currency) => {
@@ -41,38 +66,48 @@ export default function WishListCardItems({
   const DISCOUNT = DISCOUNT_PRICE(discountPercentage, XAF_PRICE);
 
   return (
-    <div className="flex font-mono text-xl justify-around">
-      <div className="flex justify-evenly gap-x-10 items-center">
-        <img src={thumbnail} alt={title} className="h-40 w-40 rounded" />
+    <div className="flex gap-x-10 gap-y-2 items-center font-mono text-xl justify-between">
+      <div className="aspect-h-1 aspect-w-1 w-40 overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-40">
+        <img
+          src={thumbnail}
+          alt={title}
+          className="h-40 w-40 fixed object-cover object-center lg:h-40 lg:w-40"
+        />
       </div>
-      <div>
+
+      <div className="p-4">
+        <>{PRODUCT_RATING(rating)}</>
         <p>{title}</p>
+        <p>{description}</p>
+        <p>{FORMAT_MONEY(DISCOUNT, CURRENCY)}</p>
       </div>
-      <div className="grid justify-around">
-        <div>
-          <p>{FORMAT_MONEY(DISCOUNT, CURRENCY)}</p>
-        </div>
-        <div>
-          <button
-            onClick={addItemHandler}
-            className=" bg-black text-white px-10 py-2 rounded font-mono text-xl"
-            type="button"
-          >
-            Add to bag
-          </button>
-          <button
-            onClick={removeItemHandler}
-            className=" bg-black text-white flex items-center px-10 py-2 rounded font-mono text-xl"
-            type="button"
-          >
-            <IonIcon
-              className="mr-2"
-              icon={heartDislikeOutline}
-              style={{ fontSize: "1.5rem" }}
-            />
-            Dislike
-          </button>
-        </div>
+
+      <div>
+        <button
+          onClick={addItemHandler}
+          style={{ paddingLeft: "1rem", paddingRight: "1rem", width: "11.8rem" }}
+          className=" bg-black text-white text-center flex items-center w-58 py-2 rounded font-mono text-xl mb-2"
+          type="button"
+        >
+          <IonIcon
+            style={{ fontSize: "1.5rem" }}
+            icon={bagHandleOutline}
+            className="mr-2"
+          />
+          Add to bag
+        </button>
+        <button
+          onClick={removeItemHandler}
+          className=" bg-black text-white flex items-center px-10 py-2 rounded font-mono text-xl"
+          type="button"
+        >
+          <IonIcon
+            className="mr-2"
+            icon={heartDislikeOutline}
+            style={{ fontSize: "1.5rem" }}
+          />
+          Dislike
+        </button>
       </div>
     </div>
   );
