@@ -5,8 +5,6 @@ import {
 } from "../Reducers/WishListReducer";
 import { WishListContext } from "../Context/WishListContext";
 import { Constants } from "../Constants";
-import { realTimeDatabase } from "../../FirebaseConfigs/Firesbase";
-import { ref, set } from "firebase/database";
 
 export default function WishListProvider({ children }) {
   const [wishListState, dispatchWishList] = useReducer(

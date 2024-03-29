@@ -45,8 +45,8 @@ export default function ProductDetails() {
   const { addProductToWishList, wishListed, removeProductFromWishList } =
     useWishList();
 
-  const [wishlist, setWishList] = useState(wishListed);
   const [productAdded, setProductAdded] = useState(false);
+  const [wishList, setWishList] = useState(wishListed);
 
   const { id: featId, title: featTitle, shopId, shopTitle } = useParams();
 
@@ -132,12 +132,12 @@ export default function ProductDetails() {
       handleUserAuthState();
     } else {
       addProductToWishList(data);
-      setWishList(!wishlist);
+      setWishList(!wishList);
     }
   };
 
   const handleDisLikedProducts = (id) => {
-    setWishList(!wishlist);
+    setWishList(!wishList);
     removeProductFromWishList(id);
   };
 
@@ -224,7 +224,7 @@ export default function ProductDetails() {
                 </button>
                 <button
                   onClick={
-                    wishlist
+                    wishList
                       ? () => handleDisLikedProducts(id)
                       : () =>
                           handleWishListedProduct({
@@ -247,7 +247,7 @@ export default function ProductDetails() {
                     }}
                     icon={wishlist ? heartDislike : heartOutline}
                   />
-                  {wishlist ? "Dislike" : "Add to Wish List"}
+                  {wishList ? "Dislike" : "Add to Wish List"}
                 </button>
               </div>
             </div>
