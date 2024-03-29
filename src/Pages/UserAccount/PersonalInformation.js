@@ -173,9 +173,9 @@ export default function PersonalInformation() {
       <div className="flex justify-end">
         <ActionButton actionHandler={openEmailModal} />
       </div>
-      <div className="font-mono text-lg text-start mb-4">
-        <h1 className="font-bold text-2xl mb-4">
-          {reAuth ? "Sign in" : "Change email"}
+      <div className="font-mono text-lg lg:text-xl text-start mb-4">
+        <h1 className="font-bold mb-4 text-center">
+          {reAuth ? "Sign in" : "Change Email"}
         </h1>
         <p>
           {reAuth
@@ -198,7 +198,7 @@ export default function PersonalInformation() {
         onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
-          <Form>
+          <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
             <Field
               component={CustomTextInput}
               value={reAuth ? values.email : values.currentEmail}
@@ -263,7 +263,7 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openPasswordModal} />
       </div>
       <div className="mb-4 font-mono">
-        <h1 className="text-2xl mb-4 font-semibold">
+        <h1 className="text-2xl text-center mb-4 font-semibold">
           {reAuth ? "Sign in" : "Change password"}
         </h1>
         <p className="text-lg">
@@ -377,7 +377,7 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openNameModal} />
       </div>
       <div className="font-mono mb-6 font-semibold text-2xl">
-        <h1>Edit your name</h1>
+        <h1 className="text-center">Edit your name</h1>
       </div>
       <Formik
         initialValues={{

@@ -32,9 +32,6 @@ export const getFirstTwoLetters = (displayName) => {
   }
 };
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
 
 export default function AccountLandingPage() {
   const { user, signOutHandler } = useAuth();
@@ -130,7 +127,7 @@ export default function AccountLandingPage() {
           </header>
         )}
         <main>
-          <div className="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <Routes>
               {AccountRoute.map((route) => (
                 <Route

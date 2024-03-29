@@ -1,6 +1,6 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import classes from "./styles/EditEmail.module.css";
+import classes from "../styles/EditEmail.module.css"
 
 const backdropColor = {
   backgroundColor: "hsla(0, 0%, 0%, 0.749)",
@@ -25,7 +25,7 @@ export function EmailOVerlay({ children }) {
 
 const portalElement = document.getElementById("editEmail");
 
-export default function EmailModal({ children }) {
+export default function Emailodal({ children }) {
   return (
     <Fragment>
       {ReactDOM.createPortal(<EmailBackdrop />, portalElement)}

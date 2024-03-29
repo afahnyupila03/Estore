@@ -18,6 +18,7 @@ import {
   chatbubblesOutline,
   bicycleOutline,
   cubeOutline,
+  personOutline,
   chevronDownOutline,
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
@@ -80,8 +81,7 @@ export default function () {
           onMouseLeave={() => setMenuOpen(false)}
           className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
         >
-          Sign In
-          <IonIcon icon={chevronDownOutline} className="ml-2" />
+          <IonIcon icon={personOutline} className="ml-2" />
         </Popover.Button>
       ) : (
         <Popover.Button
@@ -107,7 +107,7 @@ export default function () {
         <Popover.Panel
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
-          className="absolute left-1/2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 px-4"
+          className="absolute left-2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 px-4"
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">

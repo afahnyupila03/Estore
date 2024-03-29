@@ -54,7 +54,7 @@ export default function Home() {
           <p className="mb-10 font-semibold text-2xl tracking-widest font-mono">
             Shop By Category
           </p>
-          <div className="grid mb-60 grid-cols-1 gap-x-2 gap-y-4 sm:grid-cols-2 lg:grid-cols-5 xl:gap-x-4">
+          <div className="grid mb-40 gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 xl:gap-x-4">
             {CATEGORY_FEATURES.map((catFeat) => (
               <ProductCategoryCardItem
                 key={catFeat.categoryLink}

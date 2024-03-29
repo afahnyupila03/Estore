@@ -24,8 +24,8 @@ import { useQuery } from "react-query";
 import { WishListPostItemsServices } from "../Services/CartService";
 
 function PRODUCT_RATING(stars) {
-  const fullStars = Math.floor(stars); // Get the integer part of the rating
-  const halfStar = stars - fullStars >= 0.5; // Check if there is a half star
+  const fullStars = Math.floor(stars);
+  const halfStar = stars - fullStars >= 0.5;
 
   let starsArray = [];
 
@@ -34,10 +34,10 @@ function PRODUCT_RATING(stars) {
   }
 
   if (halfStar) {
-    starsArray.push(<Icon icon={starHalfOutline} key="half" />); // Assuming there's a half-star icon available
+    starsArray.push(<Icon icon={starHalfOutline} key="half" />);
   }
 
-  const remainingStars = 5 - starsArray.length; // Calculate the remaining empty stars
+  const remainingStars = 5 - starsArray.length;
 
   for (let i = 0; i < remainingStars; i++) {
     starsArray.push(<Icon icon={star} key={`empty-${i}`} />);
@@ -178,6 +178,15 @@ export default function ProductItemCard({ productData }) {
     removeProductFromWishList(id);
   };
 
+  const handleItemClick = (event) => {
+    if (window.innerWidth <= 767) {
+      event.preventDefault();
+      window.location.href = `/product-details/${id}/${title}`;
+    } else {
+      // handleShowProductModal();31
+    }
+  };
+
   const PRODUCT_MODAL = (
     <ProductModal
       icon={closeOutline}
@@ -201,9 +210,9 @@ export default function ProductItemCard({ productData }) {
                 )
               }
             />
-            <span className="mx-2">{`${currImageIndex + 1}/${
-              images.length
-            }`}</span>
+            <span className="mx-2">
+              {`${currImageIndex + 1}/${images.length}`}
+            </span>
             <Icon
               icon={chevronForwardOutline}
               actionButton={() =>
@@ -278,25 +287,28 @@ export default function ProductItemCard({ productData }) {
       loading="lazy"
       onMouseOver={handleMouseOver}
       onMouseOut={handleMouseOut}
+      onClick={handleItemClick}
     >
       <div
         id={id}
-        className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-80"
+        className="aspect-h-1 aspect-w-1 lg:w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 h-80"
       >
         <img
           src={thumbnail}
           alt={title}
           loading="lazy"
-          className="h-full w-full fixed object-cover object-center lg:h-full lg:w-full"
+          className="h-full w-full object-cover object-center lg:h-full lg:w-full"
         />
       </div>
 
-      <div className="mt-4 grid font-semibold">
+      <div className="mt-4 text-xs lg:text-lg grid font-semibold">
         <div className="flex justify-between items-center">
           <div>
-            <p className="flex justify-start text-gray-700">{brand}</p>
+            <p className="flex text-xs lg:text-lg justify-start text-gray-700">
+            {brand}
+          </p>
 
-            <h4 className="font-mono text-lg flex text-left">
+            <h4 className="font-mono text-sm font-semibold lg:font-semibold lg:text-lg flex text-left">
               <span aria-hidden="true">{getName(title)}</span>
             </h4>
           </div>
@@ -306,7 +318,7 @@ export default function ProductItemCard({ productData }) {
             </div>
           )}
         </div>
-        <div className="text-left text-lg">
+        <div className="text-left text-sm lg:text-lg">
           <p className="text-red-600">{DISCOUNT}</p>
           <p className="text-red-600">
             -{discountPercentage}% off for this item

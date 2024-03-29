@@ -35,7 +35,7 @@ export const AuthRoute = (t) => [
 export const UserAccountRoute = (t, userName) => [
   {
     navLink: `${userName}'s Account`,
-    navRoute: "my-account/landing",
+    navRoute: "my-account/landing/password-&-personal-information",
   },
 ];
 

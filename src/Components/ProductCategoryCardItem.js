@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { IonIcon } from "@ionic/react";
-import { arrowForward } from "ionicons/icons";
 
 export default function ProductCategoryCardItem({ categoryData }) {
   const { categoryRoute, categoryLink } = categoryData;
@@ -14,17 +12,13 @@ export default function ProductCategoryCardItem({ categoryData }) {
     <div>
       <div
         loading="lazy"
-        className="border-black border-2  rounded-full shadow-xl shadow-blue-500 hover:text-white hover:bg-red-500 hover:border-red-500"
+        className="border-gray-700 border-2 rounded-full hover:text-white hover:bg-gray-700 hover:border-gray-500"
       >
         <Link
-          className="p-2 text-lg font-semibold font-mono flex items-center justify-center"
+          className="p-2 lg:text-lg font-semibold text-xs font-mono flex items-center justify-center"
           to={`category/${categoryRoute}`}
         >
           {UpperCaseLink(categoryLink)}
-          <IonIcon
-            icon={arrowForward}
-            style={{ fontSize: "1.5rem", marginLeft: ".9rem" }}
-          />
         </Link>
       </div>
     </div>

@@ -183,7 +183,7 @@ export default function PaymentMethodPage() {
         <h1 className="p-2 font-mono text-xl font-semibold">Add New Card</h1>
       </div>
       <div>
-        <p className="font-mono text-lg flex justify-center p-4 text-center">
+        <p className="font-mono text-sm lg:text-lg flex justify-center p-4 text-center">
           Save your card to enable use on future TimeZone purchases. Remove this
           card from your TimeZone account to this service
         </p>
@@ -219,12 +219,11 @@ export default function PaymentMethodPage() {
           onSubmit={paymentMethodHandler}
         >
           {({ values, handleChange, handleBlur, isSubmitting }) => (
-            <Form className="column">
+            <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
               {mobilePayment && (
                 <Field
                   component={CustomTextInput}
                   values={values.firstName}
-                  className="grid justify-center"
                   name="firstName"
                   type="text"
                   id="firstName"
@@ -239,7 +238,6 @@ export default function PaymentMethodPage() {
                 <Field
                   component={CustomTextInput}
                   values={values.lastName}
-                  className="grid justify-center"
                   name="lastName"
                   type="text"
                   id="lastName"
@@ -255,7 +253,6 @@ export default function PaymentMethodPage() {
                   component={CustomTextInput}
                   value={values.cardNumber}
                   name="cardNumber"
-                  className="grid justify-center"
                   type="text"
                   id="cardNumber"
                   onChange={handleChange}
@@ -273,7 +270,6 @@ export default function PaymentMethodPage() {
                   value={values.expiryDate.toUpperCase()}
                   name="expiryDate"
                   id="expiryDate"
-                  className="grid justify-center"
                   onBlur={handleBlur}
                   onChange={handleChange}
                   autoComplete="false"
@@ -288,7 +284,6 @@ export default function PaymentMethodPage() {
                 <Field
                   component={CustomTextInput}
                   name="securityCode"
-                  className="grid justify-center"
                   id="securityCode"
                   type="integer"
                   onBlur={handleBlur}
@@ -303,7 +298,6 @@ export default function PaymentMethodPage() {
                 <Field
                   component={CustomTextInput}
                   name="accountName"
-                  className="grid justify-center"
                   id="accountName"
                   type="text"
                   onBlur={handleBlur}
@@ -318,7 +312,6 @@ export default function PaymentMethodPage() {
                 <Field
                   component={CustomTextInput}
                   name="accountNumber"
-                  className="grid justify-center"
                   id="accountNumber"
                   type="tel"
                   onBlur={handleBlur}
@@ -330,11 +323,11 @@ export default function PaymentMethodPage() {
               )}
 
               <div className="flex justify-center mt-2">
-                <p className="font-mono text-lg ">
+                <p className="font-mono lg:text-center text-lg ">
                   This will be your primary payment method.
                 </p>
               </div>
-              <div className="flex justify-center mt-2">
+              <div className="flex justify-center">
                 <button
                   type="button"
                   onClick={() => setMobilePayment(!mobilePayment)}
@@ -346,12 +339,12 @@ export default function PaymentMethodPage() {
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="p-2 w-40 bg-black text-white font-mono text-xl"
+                  className="p-2 w-20 lg:w-40 bg-black text-white font-mono text-sm lg:text-xl"
                 >
                   Save
                 </button>
               </div>
-              <div className="flex justify-center text-xl pb-8 mt-4">
+              <div className="flex justify-center text-sm lg:text-xl pb-8 mt-4">
                 <button
                   type="button"
                   className="border-b-2 border-black"
@@ -386,7 +379,7 @@ export default function PaymentMethodPage() {
           )
         }
 
-        <div className="grid grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
+        <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
           {PAYMENT_METHODS}
         </div>
       </div>
