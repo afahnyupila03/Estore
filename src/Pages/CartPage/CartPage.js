@@ -1,67 +1,59 @@
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../FirebaseConfigs/Firesbase";
-
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
 import { Link } from "react-router-dom";
 import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
 import { arrowForwardOutline } from "ionicons/icons";
+import { useAuth, useCart, useWishList } from "../../Store";
 
 export default function CartPage() {
-  const cartItems = useSelector((state) => state.cart.products);
-  const cartTotal = useSelector((state) => state.cart.totalAmount);
-  const [userLoggedIn, setUserLoggedIn] = useState(null);
-  const [cartCounter, setCartCounter] = useState(0);
+  const { user } = useAuth();
+  const {
+    products,
+    totalAmount,
+    productQuantity,
+    removeProductHandler,
+    clearProductHandler,
+  } = useCart();
+
+  const { wishListQuantity } = useWishList();
+
+  console.log("reducer total-amount: ", totalAmount);
+  console.log("reducer product quantity :", productQuantity);
 
   const CURRENCY = "XAF";
-  const formatMoney = (amount, currency) => {
+  const FORMAT_MONEY = (amount, currency) => {
     const formatter = new Intl.NumberFormat("fr", {
-      style: "currency",
       currency: currency,
+      style: "currency",
     });
-
     return formatter.format(amount);
   };
 
-  const totalAmount = formatMoney(cartTotal, CURRENCY);
-
-  useEffect(() => {
-    const authState = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserLoggedIn(user);
-      } else {
-        setUserLoggedIn(null);
-      }
-    });
-    return () => {
-      authState();
-    };
-  }, []);
+  const cartTotal = FORMAT_MONEY(parseInt(totalAmount), CURRENCY);
 
   let content;
 
-  if (cartItems.length === 0 && userLoggedIn === null) {
+  if (user === null) {
     content = (
       <div className="mt-8">
         <p className="mb-10 font-mono text-xl">
-          Bag is empty. Please sign in to start shopping
+          No user found. Please sign in / create account to see products in bag.
         </p>
         <Link
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
           to="/sign-in-&-create-account"
         >
-          Sign in
+          Sign in / Create Account
         </Link>
       </div>
     );
-  } else if (cartItems.length === 0 && userLoggedIn !== null) {
+  } else if (products.length === 0 && user !== null) {
     content = (
       <div className="mt-8">
         <p className="mb-10 text-xl font-mono">Your bag is empty</p>
         <Link
           to="/home"
-          className="bg-black text-center text-white px-4 py-4 lg:py-4 lg:px-8 rounded text-sm lg:text-xl font-mono"
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
         >
           Continue Shopping
         </Link>
@@ -74,12 +66,12 @@ export default function CartPage() {
           className="mx-60 border-gray-500 mb-4"
           style={{ width: "70%", borderWidth: "1" }}
         />
-        {cartItems.map((cart) => (
+        {products.map((cart) => (
           <CartItemsCard
             productItems={cart}
             key={cart.id}
-            itemQuantity={1}
-            removeItemHandler={() => console.log("got removed")}
+            itemsQuantity={productQuantity}
+            removeItemHandler={() => removeProductHandler(cart.id)}
           />
         ))}
         <hr
@@ -94,7 +86,15 @@ export default function CartPage() {
               <p>Delivery and taxes will be calculated at checkout</p>
             </div>
             <div>
-              <p className="font-semibold">{totalAmount}</p>
+              <p className="font-semibold">
+                {cartTotal}
+              </p>
+              <button
+                onClick={() => clearProductHandler()}
+                className="bg-red-500 text-white px-10 py-2 rounded text-xl font-mono"
+              >
+                Empty Cart
+              </button>
             </div>
           </div>
           <div className="grid justify-center">
@@ -119,15 +119,15 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto container px-4">
-      <div className="flex justify-center lg:px-40 py-8 font-semibold font-mono text-sm lg:text-lg">
-        <div className="border-2 border-r-0 border-black px-6 py-2 lg:px-8 lg:py-4">
-          <p className="text-center">
-            Shopping Bag <span>({cartCounter})</span>
+      <div className="flex justify-center px-40 py-8 font-semibold font-mono text-lg">
+        <div className="border-2 border-r-0 border-black px-8 py-4">
+          <p>
+            Shopping Bag <span>({productQuantity})</span>
           </p>
         </div>
-        <div className="border-2 border-black px-6 py-2 lg:px-8 lg:py-4">
-          <p className="text-center">
-            Saved for later <span>(0)</span>
+        <div className="border-2 border-black px-8 py-4">
+          <p>
+            Saved for later <span>({wishListQuantity})</span>
           </p>
         </div>
       </div>

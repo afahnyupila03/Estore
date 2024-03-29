@@ -4,29 +4,49 @@ import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 import { Field, Form, Formik } from "formik";
 import CustomTextInput from "../../Components/TextInput";
-import { onAuthStateChanged } from "firebase/auth";
 import { useQuery } from "react-query";
 import { DeliveryAddressSchema } from "../../ValidationSchemas/DeliverySchema";
 import DeliveryCardItem from "./Components/CardComponents/DeliveryCardItem";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import { database, auth } from "../../FirebaseConfigs/Firesbase";
+import { database } from "../../FirebaseConfigs/Firesbase";
 import {
   DeliveryAddressService,
   DeliveryServices,
   fetchDeliveryId,
 } from "../../Services/AccountServices";
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import { useAuth } from "../../Store";
+import { Link } from "react-router-dom";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
 export default function DeliveryPage() {
   const [modal, setModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [user, setUser] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const { user } = useAuth();
+  const userId = user?.uid;
+  const userName = user?.displayName;
+
+  const splitUserName = (userName) => {
+    if (!userName) {
+      return { first: "", last: "" };
+    }
+    const names = userName.split(" ");
+    const first = names[0] || "";
+    const last = names.slice(1).join(" ") || "";
+    return { first, last };
+  };
+
+  useEffect(() => {
+    const { first, last } = splitUserName(userName);
+    setFirstName(first);
+    setLastName(last);
+  }, [userName]);
+
   const {
     data = [],
     isLoading,
@@ -47,23 +67,6 @@ export default function DeliveryPage() {
     () => DeliveryAddressService(userId, firstDeliveryId)
   );
   console.log(singleAddress);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (data) => {
-      if (data) {
-        setUser(data.displayName);
-        setUserId(data.uid);
-        const [first, last] = data.displayName.split(" ");
-        setFirstName(first);
-        setLastName(last);
-      } else {
-        setUser(null);
-      }
-    });
-    return () => {
-      unsubscribe();
-    };
-  }, []);
 
   const submitAddressHandler = async (values, actions) => {
     const db = database;
@@ -125,7 +128,22 @@ export default function DeliveryPage() {
 
   let DELIVERY_ADDRESS;
 
-  if (isLoading) {
+  if (user === null) {
+    DELIVERY_ADDRESS = (
+      <div className="mt-8">
+        <p className="mb-10 font-mono text-xl">
+          No user found. Please sign in / create user account to view delivery
+          address(s).
+        </p>
+        <Link
+          to="/sign-in-&-create-account"
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+        >
+          Sign in / Create account
+        </Link>
+      </div>
+    );
+  } else if (isLoading) {
     DELIVERY_ADDRESS = (
       <div className="flex justify-center mt-6">
         <UseAnimation animation={loading} size={80} />
@@ -140,7 +158,7 @@ export default function DeliveryPage() {
         </button>
       </div>
     );
-  } else if (data === null) {
+  } else if (user !== null && data === null) {
     DELIVERY_ADDRESS = <p>No address added</p>;
   } else {
     DELIVERY_ADDRESS = data.map((delivery) => (
@@ -317,13 +335,17 @@ export default function DeliveryPage() {
   return (
     <div>
       <h1 className="text-2xl font-semibold font-mono">Delivery Addresses</h1>
-      <button onClick={modalHandler} className="p-2 border-2 border-black">
-        Add New Address
-      </button>
-      <p>
-        Checkout faster by adding one or more shipping addresses to your
-        account.
-      </p>
+      {user !== null && (
+        <div>
+          <button onClick={modalHandler} className="p-2 border-2 border-black">
+            Add New Address
+          </button>
+          <p>
+            Checkout faster by adding one or more shipping addresses to your
+            account.
+          </p>
+        </div>
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
         {DELIVERY_ADDRESS}

@@ -1,6 +1,7 @@
-import { useState, Fragment, useEffect } from "react";
+import { useState, Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../../Store";
 
 import {
   AccountRoutes,
@@ -18,42 +19,24 @@ import {
   bicycleOutline,
   cubeOutline,
   personOutline,
+  chevronDownOutline,
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
-
-import { auth } from "../../../FirebaseConfigs/Firesbase";
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import Icon from "../../../Components/Icon";
 
 export default function () {
   const { t } = useTranslation();
   const [menuOpen, setMenuOpen] = useState(false);
-  const [authUser, setAuthUser] = useState(null);
+  const { signOutHandler, user } = useAuth();
 
-  useEffect(() => {
-    const authState = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setAuthUser(user);
-        console.log("LoggedInUser:", user);
-      } else {
-        setAuthUser(null);
-      }
-    });
-    return () => {
-      authState();
-    };
-  }, []);
+  const userName = user?.displayName;
 
-  const handleUserSignOut = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("Logged Out successfully");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+  const handleUserSignOut = async () => {
+    try {
+      await signOutHandler();
+      console.log("logged out successfully");
+    } catch (error) {
+      console.error("Error logging out: ", error);
+    }
   };
 
   const accountNavigation = AccountRoutes(
@@ -69,7 +52,6 @@ export default function () {
     lockClosedOutline
   );
 
-  const userName = authUser && authUser.displayName;
   const authRoutes = AuthRoute(t);
   const accountPage = UserAccountRoute(t, userName);
 
@@ -93,7 +75,7 @@ export default function () {
 
   return (
     <Popover as="div" className="relative mt-2 text-center">
-      {authUser === null ? (
+      {user === null ? (
         <Popover.Button
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
@@ -107,7 +89,8 @@ export default function () {
           onMouseLeave={() => setMenuOpen(false)}
           className="flex items-center gap-x-1 text-lg font-semibold font-mono leading-6 text-gray-900"
         >
-          <Icon style={{fontSize: "1.5rem"}} icon={personOutline} className="ml-2" />
+          {userName}
+          <IonIcon icon={chevronDownOutline} className="ml-2" />
         </Popover.Button>
       )}
 
@@ -128,7 +111,7 @@ export default function () {
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
-              {authUser === null ? authenticationRoute : userAccount}
+              {user === null ? authenticationRoute : userAccount}
 
               {/* Your Account Routes */}
               <h4 className="text-left px-4 font-semibold font-mono mt-2 mb-2">
@@ -164,7 +147,7 @@ export default function () {
                 icon={chatbubblesOutline}
               />
 
-              {authUser && (
+              {user && (
                 <button
                   className="bg-red-500 text-white px-4 py-2 rounded-lg mt-4"
                   onClick={handleUserSignOut}

@@ -2,36 +2,62 @@ import React from "react";
 import { IonIcon } from "@ionic/react";
 import { shareOutline } from "ionicons/icons";
 import { Link } from "react-router-dom";
+import { useAuth, useCart, useWishList } from "../../Store";
+import WishListCardItems from "./Components/CardComponents/WishListCardItems";
 
 export default function WishlistPage() {
-  const wishlistItems = 0;
+  const {
+    wishListProducts,
+    wishListQuantity,
+    wishListed,
+    removeProductFromWishList,
+    clearWishListHandler,
+  } = useWishList();
+  const { user } = useAuth();
+  const { addProductHandler } = useCart();
 
   let wishlist;
 
-  if (wishlistItems === 0) {
+  if (user === null) {
     wishlist = (
-      <div>
-        <div className="mt-4">
-          <h1>Your list is empty</h1>
-        </div>
-        <div className="mt-4">
-          <p>
-            Add items to your list by shopping the site.
-            <br />
-            Then, share your list so friends and family know what you love.
-          </p>
-        </div>
-        <div className="mt-4">
-          <Link to="/home" className="p-2 bg-black text-white">
-            Shop now
-          </Link>
-        </div>
+      <div className="mt-8">
+        <p className="mb-10 font-mono text-xl">
+          No user found. Please sign in / create account to view wish list.
+        </p>
+        <Link
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+          to="/sign-in-&-create-account"
+        >
+          Sign in / Create Account
+        </Link>
+      </div>
+    );
+  } else if (user !== null && wishListProducts.length === 0) {
+    wishlist = (
+      <div className="mt-8">
+        <p className="mb-10 text-xl font-mono">Your wish list is empty.</p>
+        <Link
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+          to="/home"
+        >
+          Visit shop to add products.
+        </Link>
       </div>
     );
   } else {
     wishlist = (
-      <div>
-        <h1>Good to go</h1>
+      <div className="mt-8 gap-y-2 mb-4">
+        {wishListProducts.map((wishListProducts) => (
+          <WishListCardItems
+            key={wishListProducts.id}
+            removeItemHandler={() =>
+              removeProductFromWishList(wishListProducts.id)
+            }
+            addItemHandler={() => addProductHandler(wishListProducts)}
+            wishListProducts={wishListProducts}
+            wishListed={wishListed}
+          />
+        ))}
       </div>
     );
   }
@@ -39,11 +65,16 @@ export default function WishlistPage() {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold font-mono">Wish List</h1>
-        <div className="flex items-center">
-          <IonIcon icon={shareOutline} className="mr-2" />
-          <p>Share</p>
-        </div>
+        <h1 className="text-2xl font-semibold font-mono">
+          Wish List
+          <span>({wishListQuantity})</span>
+        </h1>
+        {user !== null && (
+          <div className="flex items-center">
+            <IonIcon icon={shareOutline} className="mr-2" />
+            <p>Share</p>
+          </div>
+        )}
       </div>
       {wishlist}
     </div>

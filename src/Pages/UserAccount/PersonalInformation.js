@@ -1,16 +1,4 @@
-import {
-  EmailAuthProvider,
-  deleteUser,
-  onAuthStateChanged,
-  reauthenticateWithCredential,
-  sendPasswordResetEmail,
-  signOut,
-  updateEmail,
-  updatePassword,
-  updateProfile,
-} from "firebase/auth";
-import React, { useEffect, useState } from "react";
-import { auth } from "../../FirebaseConfigs/Firesbase";
+import React, { useState } from "react";
 import EmailModal from "./Components/ModalComponents/EditNameModal";
 import { Form, Formik, Field } from "formik";
 import CustomTextInput from "../../Components/TextInput";
@@ -20,6 +8,7 @@ import { Link } from "react-router-dom";
 import PasswordModal from "./Components/ModalComponents/EditPasswordModal";
 import NameModal from "./Components/ModalComponents/EditNameModal";
 import DeleteModal from "./Components/ModalComponents/DeleteModal";
+import { useAuth } from "../../Store";
 
 const ActionButton = ({ actionHandler }) => {
   return (
@@ -32,38 +21,30 @@ const ActionButton = ({ actionHandler }) => {
 };
 
 export default function PersonalInformation() {
-  const [userEmail, setUserEmail] = useState(null);
-  const [userName, setUserName] = useState(null);
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const {
+    user,
+    signOutHandler,
+    reAuthUser,
+    updateCurrentUserName,
+    updateCurrentUserEmail,
+    updateCurrentUserPassword,
+    deleteCurrentUserAccount,
+    resetPasswordHandler,
+  } = useAuth();
+
   const [isLoading, setIsLoading] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [editNameModal, setEditNameModal] = useState(false);
   const [editEmailModal, setEditEmailModal] = useState(false);
   const [editPasswordModal, setEditPasswordModal] = useState(false);
-  const [reAuth, setReAuth] = useState(false);
+  const [reAuth, setReAuth] = useState(true);
 
-  useEffect(() => {
-    const subscribed = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setUserEmail(user.email);
-
-        setUserName(user.displayName);
-        console.log("user-email:", userEmail);
-
-        // Split the displayed name into first name and last name
-        const [first, last] = user.displayName.split(" ");
-        setFirstName(first);
-        setLastName(last);
-      } else {
-        setUserEmail(null);
-        setUserName(null);
-      }
-    });
-    return () => {
-      subscribed();
-    };
-  }, []);
+  const userEmail = user?.email;
+  const userName = user?.displayName;
 
   function UPPERCASE_NAME(name = "") {
     if (name === null) {
@@ -73,16 +54,105 @@ export default function PersonalInformation() {
     }
   }
 
-  const handleLogout = () => {
-    signOut(auth)
-      .then(() => {
-        console.log("Signed out successfully.");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
+  const handleLogout = async () => {
+    try {
+      await signOutHandler();
+      console.log("signed out success.");
+    } catch (error) {
+      console.error("Error signing out: ", error);
+    }
+  };
+
+  const reAuthenticateUser = async (values, actions) => {
+    try {
+      const email = values.email;
+      const password = values.password;
+      await reAuthUser(email, password);
+      setReAuth(!reAuth);
+      actions.resetForm({
+        values: {
+          email: " ",
+          password: " ",
+        },
       });
+    } catch (error) {
+      console.error("Error re-authenticating user: ", error);
+    }
+  };
+
+  const updateUserEmail = async (values, actions) => {
+    try {
+      actions.resetForm({
+        values: {
+          currentEmail: "",
+          newEmail: "",
+        },
+      });
+      await updateCurrentUserEmail(values.newEmail);
+      setEditEmailModal(!editEmailModal);
+      alert("Email  changed");
+    } catch (error) {
+      console.error("Error updating user-email: ", error);
+    }
+  };
+
+  const updateUserName = async (values, actions) => {
+    try {
+      await updateCurrentUserName(values.firstName, values.lastName);
+      setEditNameModal(!editNameModal);
+      actions.resetForm({
+        values: {
+          firstName: " ",
+          lastName: " ",
+        },
+      });
+    } catch (error) {
+      console.error("error updating current-user-name: ", error);
+    }
+  };
+
+  const handleResetPassword = async () => {
+    try {
+      await resetPasswordHandler(userEmail);
+      setReAuth(!reAuth);
+      setEditPasswordModal(!editPasswordModal);
+      alert("Reset password mail sent");
+    } catch (error) {
+      console.error("Error sending reset-password mail: ", error);
+    }
+  };
+
+  const handlePasswordChange = async (values, actions) => {
+    try {
+      actions.resetForm({
+        values: {
+          currentPassword: "",
+          newPassword: "",
+        },
+      });
+      await updateCurrentUserPassword(values.newPassword);
+      setEditPasswordModal(!editPasswordModal);
+      alert("Password updated successfully!");
+    } catch (error) {
+      console.error("Error updating password: ", error);
+    }
+  };
+
+  const handleDeleteAccount = async (values, actions) => {
+    try {
+      await reAuthUser(values.email, values.password);
+      actions.resetForm({
+        values: {
+          email: "",
+          password: "",
+        },
+      });
+      await deleteCurrentUserAccount();
+      alert("Account successfully deleted!");
+      setDeleteModal(!deleteModal);
+    } catch (error) {
+      console.error("Error deleting user account: ", error);
+    }
   };
 
   const openDeleteModal = () => {
@@ -96,93 +166,6 @@ export default function PersonalInformation() {
   };
   const openPasswordModal = () => {
     setEditPasswordModal(!editPasswordModal);
-  };
-
-  const reAuthenticateUser = (values) => {
-    const user = auth.currentUser;
-    const credential = EmailAuthProvider.credential(
-      values.email,
-      values.password
-    );
-    reauthenticateWithCredential(user, credential)
-      .then(() => {
-        setIsLoading(true);
-        setReAuth(false);
-        alert("re-auth successful");
-        setIsLoading(false);
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        const errorCode = error.code;
-        alert(errorMessage, errorCode);
-        console.log(errorMessage);
-      });
-  };
-
-  const updateUserEmail = (values) => {
-    const user = auth.currentUser;
-    updateEmail(user, values.newEmail)
-      .then(() => {
-        setEditEmailModal(!editEmailModal);
-        alert("Email  changed");
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        const errorCode = error.code;
-        alert(errorMessage, errorCode);
-      });
-  };
-
-  const updateUserName = (values) => {
-    setTimeout(() => {
-      updateProfile(auth.currentUser, {
-        displayName: `${values.firstName} ${values.lastName}`,
-      })
-        .then(() => {
-          // profile updated
-          console.log("user-name updated:");
-          openNameModal();
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }, 1000);
-  };
-
-  const handleResetPassword = () => {
-    sendPasswordResetEmail(auth, userEmail)
-      .then(() => {
-        openPasswordModal();
-        console.log("Password reset email sent");
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
-      });
-  };
-
-  const handlePasswordChange = (values) => {
-    const user = auth.currentUser;
-    const newPassword = values.newPassword;
-    updatePassword(user, newPassword)
-      .then(() => {
-        alert("Password changes");
-      })
-      .catch((error) => {
-        alert(error);
-      });
-  };
-
-  const handleDeleteAccount = () => {
-    const user = auth.currentUser;
-    deleteUser(user)
-      .then(() => {
-        alert("account deleted");
-      })
-      .catch((error) => {
-        alert(error);
-      });
   };
 
   const EMAIL_MODAL = (
@@ -448,107 +431,171 @@ export default function PersonalInformation() {
         <ActionButton actionHandler={openDeleteModal} />
       </div>
       <div className="font-mono mb-6">
-        <h1 className="lg:text-2xl font-semibold text-center mb-4">Delete your account</h1>
-        <p className="lg:text-lg">
-          Are you sure you want to delete your account ?
+        <h1 className="text-2xl font-semibold mb-4">
+          {reAuth ? "Sign In" : "Delete your account"}
+        </h1>
+        <p className="text-lg">
+          {reAuth
+            ? "Enter login details to delete account"
+            : "Are you sure you want to delete your account ?"}
         </p>
-        <p>Enter login details to delete account</p>
       </div>
-      <div className="flex justify-around">
-        <button
-          type="button"
-          onClick={handleDeleteAccount}
-          className="bg-red-600 border-2 border-red-600 text-white lg:text-lg lg:p-2 w-20 lg:w-30 rounded"
+      {reAuth ? (
+        <Formik
+          initialValues={{ email: "", password: "" }}
+          // onSubmit={reAuthenticateUser}
+          onSubmit={handleDeleteAccount}
         >
-          Yes
-        </button>
-        <button
-          onClick={openDeleteModal}
-          type="button"
-          className="bg-black text-white lg:text-lg lg:p-2 w-20 lg:w-30 rounded"
-        >
-          No
-        </button>
-      </div>
+          {({ values, handleChange, handleBlur, isSubmitting }) => (
+            <Form>
+              <Field
+                component={CustomTextInput}
+                id="email"
+                name="email"
+                type="email"
+                value={values.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Email"
+                placeholder="Email"
+                autoComplete="off"
+              />
+              <Field
+                component={CustomTextInput}
+                id="password"
+                name="password"
+                type="password"
+                value={values.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label="Password"
+                placeholder="Password"
+                autoComplete="off"
+              />
+              <div>
+                <button disabled={isSubmitting} type="submit">
+                  Sign In
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      ) : (
+        <div className="flex justify-around">
+          <button
+            type="button"
+            onClick={handleDeleteAccount}
+            className="bg-red-600 text-white text-lg p-2 w-40 rounded"
+          >
+            Yes
+          </button>
+          <button
+            onClick={openDeleteModal}
+            type="button"
+            className="bg-black text-white text-lg p-2 w-40 rounded"
+          >
+            No
+          </button>
+        </div>
+      )}
     </DeleteModal>
   );
 
   return (
     <div>
-      {/* Password & Personal Information */}
-      <div>
-        <h1 className="text-2xl font-semibold font-mono">
-          Password & Personal Information
-        </h1>
-        <div>
-          <div className="text-lg mt-4 font-mono">
-            <p>
-              This information is the same at: <br />
-              <span className="text-2xl font-semibold font-mono">TIMEZONE</span>
-            </p>
-          </div>
-
-          <div className="mt-6">
-            <h1 className="text-2xl font-medium font-mono">Sign-in info</h1>
-            <div className="font-mono text-lg mt-4">
-              <h1 className="font-medium">Email</h1>
-              <p
-                style={{ width: "18rem" }}
-                className="px-2 py-2 bg-black text-white text-center rounded"
-              >
-                {userEmail}
-              </p>
-              <button className="mt-2" onClick={openEmailModal}>
-                Change email
-              </button>
-              <hr className="border-black" style={{ width: "7.5rem" }} />
-            </div>
-
-            <div className="font-mono text-lg mt-4">
-              <h1 className="font-medium">Password</h1>
-              <button onClick={openPasswordModal}>Change password</button>
-              <hr className="border-black" style={{ width: "9.5rem" }} />
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Personal Information */}
-      <div className="font-mono mt-8">
-        <h1 className="text-lg font-semibold">Personal Information</h1>
-        <div>
-          <h1 className="font-medium mb-2">Name</h1>
-          <p className="mb-2 px-2 py-2 bg-black text-white w-60 text-center rounded">
-            {UPPERCASE_NAME(userName)}
+      {user === null ? (
+        <div className="text-xl font-mono font-medium">
+          <p>No user found.</p>
+          <p className="mb-10">
+            Please sign in / create account to view user information.
           </p>
-          <button onClick={openNameModal}>Edit</button>
-          <hr className="w-8 border-black" />
+          <Link
+            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            to="/sign-in-&-create-account"
+          >
+            Sign in / Create Account
+          </Link>
         </div>
-      </div>
+      ) : (
+        <div>
+          {/* Password & Personal Information */}
+          <div>
+            <h1 className="text-2xl font-semibold font-mono">
+              Password & Personal Information
+            </h1>
+            <div>
+              <div className="text-lg mt-4 font-mono">
+                <p>
+                  This information is the same at: <br />
+                  <span className="text-2xl font-semibold font-mono">
+                    TIMEZONE
+                  </span>
+                </p>
+              </div>
 
-      {/* Security */}
-      <div className="font-mono text-lg">
-        <h1 className="text-2xl font-semibold font-mono">Security</h1>
-        <p>Logout of your account</p>
-        <button
-          onClick={handleLogout}
-          className="px-2 py-2 bg-black text-white w-40 rounded mt-2 text-center"
-        >
-          Logout
-        </button>
-      </div>
+              <div className="mt-6">
+                <h1 className="text-3xl font-mono">Sign-in info</h1>
+                <div className="font-mono text-lg mt-4">
+                  <h1 className="font-medium">Email</h1>
+                  <p
+                    style={{ width: "18rem" }}
+                    className=" p-4 bg-black text-white text-center rounded"
+                  >
+                    {userEmail}
+                  </p>
+                  <button className="mt-2" onClick={openEmailModal}>
+                    Change email
+                  </button>
+                  <hr className="border-black" style={{ width: "7.5rem" }} />
+                </div>
 
-      {/* Delete Account */}
-      <div className="font-mono mt-4 text-lg">
-        <p className="mb-2">Delete your TimeZone account</p>
-        <button
-          type="button"
-          onClick={openDeleteModal}
-          className="px-4 py-2 bg-red-600 text-white font-mono rounded"
-        >
-          Delete account
-        </button>
-      </div>
+                <div className="font-mono text-lg mt-4">
+                  <h1 className="font-medium">Password</h1>
+                  <button onClick={openPasswordModal}>Change password</button>
+                  <hr className="border-black" style={{ width: "9.5rem" }} />
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Personal Information */}
+          <div className="mt-14 font-mono">
+            <h1 className="text-2xl font-semibold">Personal Information</h1>
+            <div>
+              <h1 className="font-medium mb-2">Name</h1>
+              <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
+                {UPPERCASE_NAME(userName)}
+              </p>
+              <button onClick={openNameModal}>Edit</button>
+              <hr className="w-8 border-black" />
+            </div>
+          </div>
+
+          {/* Security */}
+          <div className="mt-10 font-mono text-lg">
+            <h1 className="text-2xl font-semibold font-mono">Security</h1>
+            <p>Logout of your account</p>
+            <button
+              onClick={handleLogout}
+              className="p-2 bg-black text-white w-40 rounded mt-2 text-center"
+            >
+              Logout
+            </button>
+          </div>
+
+          {/* Delete Account */}
+          <div className="mt-4 font-mono text-lg">
+            <p className="mb-2">Delete your TimeZone account</p>
+            <button
+              type="button"
+              onClick={openDeleteModal}
+              className="p-2 bg-red-600 text-white font-mono rounded"
+            >
+              Delete account
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* MODALS SECTION */}
       {editEmailModal && EMAIL_MODAL}

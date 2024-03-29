@@ -10,9 +10,18 @@ import {
   closeOutline,
   chevronBackOutline,
   chevronForwardOutline,
+  checkmark,
+  heart,
+  heartDislike,
 } from "ionicons/icons";
 import classes from "./ProductItemCard.module.css";
 import Icon from "./Icon";
+import { useAuth, useCart, useWishList } from "../Store";
+import { database, realTimeDatabase } from "../FirebaseConfigs/Firesbase";
+import { ref, set } from "firebase/database";
+import { addDoc, collection } from "firebase/firestore";
+import { useQuery } from "react-query";
+import { WishListPostItemsServices } from "../Services/CartService";
 
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars);
@@ -37,20 +46,18 @@ function PRODUCT_RATING(stars) {
   return <div>{starsArray}</div>;
 }
 
-export default function ProductItemCard(props) {
+export default function ProductItemCard({ productData }) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [currImageIndex, setCurrImageIndex] = useState(0);
+  const [productAdded, setProductAdded] = useState(false);
 
-  const handleMouseOver = () => {
-    setMouseIsOver(true);
-  };
-  const handleMouseOut = () => {
-    setMouseIsOver(false);
-  };
-  const handleImageClick = (index) => {
-    setCurrImageIndex(index);
-  };
+  const { addProductHandler } = useCart();
+  const { user } = useAuth();
+  const { addProductToWishList, wishListed, removeProductFromWishList } =
+    useWishList();
+
+  const [wishList, setWishList] = useState(wishListed);
 
   const {
     title,
@@ -64,17 +71,37 @@ export default function ProductItemCard(props) {
     stock,
     images,
     thumbnail,
-  } = props.productData || [];
+    quantity,
+  } = productData || [];
+
+  const userId = user?.uid;
+
+  const handleMouseOver = () => {
+    setMouseIsOver(true);
+  };
+  const handleMouseOut = () => {
+    setMouseIsOver(false);
+  };
+  const handleImageClick = (index) => {
+    setCurrImageIndex(index);
+  };
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
   }
   const getName = (title) => {
-    const MAX_NAME_CHARS = 30;
+    const MAX_NAME_CHARS = 15;
     if (title.length > MAX_NAME_CHARS) {
       return `${title.slice(0, MAX_NAME_CHARS)}...`;
     }
     return title;
+  };
+
+  const handleUserAuthState = () => {
+    handleShowProductModal();
+    setTimeout(() => {
+      window.location.replace("/sign-in-&-create-account");
+    }, 1000);
   };
 
   function CONVERT_CURRENCY(priceInUSD) {
@@ -107,6 +134,49 @@ export default function ProductItemCard(props) {
 
   const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY);
   const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY);
+
+  const handleAddProduct = (product) => {
+    if (user === null) {
+      handleUserAuthState();
+    } else {
+      addProductHandler(product);
+      setProductAdded(true);
+
+      setTimeout(() => {
+        setProductAdded(false);
+      }, 1000);
+    }
+  };
+
+  const handleWishListedProducts = async (data) => {
+    if (user === null) {
+      handleUserAuthState();
+    } else {
+      // const db = realTimeDatabase;
+      const db = database;
+      const listRef = collection(db, userId, "/wishlist/", "products");
+      const listId = listRef.key;
+      try {
+        await addProductToWishList(data);
+
+        const wishData = await addDoc(listRef, data);
+
+        setWishList(!wishList);
+
+        console.log("wishList item: ", wishData);
+        console.log("WishList id: ", listId);
+        alert("Product to wishlist store");
+      } catch (error) {
+        alert("error adding to wishlist store: ", error);
+        console.error(error);
+      }
+    }
+  };
+
+  const handleDisLikedProducts = (id) => {
+    setWishList(!wishList);
+    removeProductFromWishList(id);
+  };
 
   const handleItemClick = (event) => {
     if (window.innerWidth <= 767) {
@@ -171,21 +241,31 @@ export default function ProductItemCard(props) {
             <p className="font-mono text-1xl font-medium">{description}</p>
 
             <div className="grid justify-start mt-8 ">
-              <button className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium font-mono items-center text-center">
+              <button
+                onClick={() => handleAddProduct(productData)}
+                className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium font-mono items-center text-center"
+              >
                 <IonIcon
-                  icon={bagHandleOutline}
+                  icon={productAdded ? checkmark : bagHandleOutline}
                   className="mr-2"
                   style={{ fontSize: "1.5rem" }}
                 />
-                Add to Bag
+                {productAdded ? "Added" : "Add to Bag"}
               </button>
-              <button className="underline flex items-center">
+              <button
+                onClick={
+                  wishList
+                    ? () => handleDisLikedProducts(id)
+                    : () => handleWishListedProducts(productData)
+                }
+                className="underline flex items-center"
+              >
                 <IonIcon
-                  icon={add}
+                  icon={wishList ? heartDislike : add}
                   className="mr-1"
                   style={{ fontSize: "1.5rem" }}
                 />
-                Wish List
+                {wishList ? "Dislike" : "Wish List"}
               </button>
             </div>
           </div>
@@ -221,15 +301,22 @@ export default function ProductItemCard(props) {
         />
       </div>
 
-      <div className="mt-4 text-xs lg:text-lg grid justify-start font-semibold">
-        <div>
-          <p className="flex text-xs lg:text-lg justify-start text-gray-700">
+      <div className="mt-4 text-xs lg:text-lg grid font-semibold">
+        <div className="flex justify-between items-center">
+          <div>
+            <p className="flex text-xs lg:text-lg justify-start text-gray-700">
             {brand}
           </p>
 
-          <h4 className="font-mono text-sm font-semibold lg:font-semibold lg:text-lg flex text-left">
-            <span aria-hidden="true">{getName(title)}</span>
-          </h4>
+            <h4 className="font-mono text-sm font-semibold lg:font-semibold lg:text-lg flex text-left">
+              <span aria-hidden="true">{getName(title)}</span>
+            </h4>
+          </div>
+          {wishList && (
+            <div>
+              <IonIcon icon={heart} style={{ fontSize: "1.5rem" }} />
+            </div>
+          )}
         </div>
         <div className="text-left text-sm lg:text-lg">
           <p className="text-red-600">{DISCOUNT}</p>

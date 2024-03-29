@@ -6,29 +6,49 @@ import { PaymentSchema } from "../../ValidationSchemas/PaymentSchema";
 import { useQuery } from "react-query";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth, database } from "../../FirebaseConfigs/Firesbase";
+import { database } from "../../FirebaseConfigs/Firesbase";
 import {
   PaymentMethodService,
   PaymentMethodServices,
   fetchPaymentId,
 } from "../../Services/AccountServices";
-import { push, set, ref, remove } from "firebase/database";
+import { ref, remove } from "firebase/database";
 import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 import { addDoc, collection } from "firebase/firestore";
+import { useAuth } from "../../Store";
+import { Link } from "react-router-dom";
 
 // TODO: FIX EDIT AND DELETE PAYMENT HANDLERS.
 
 export default function PaymentMethodPage() {
+  const { user } = useAuth();
+
   const [paymentModal, setPaymentModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [userName, setUserName] = useState(null);
-  const [userId, setUserId] = useState(null);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [mobilePayment, setMobilePayment] = useState(true);
+
+  const userName = user?.displayName;
+  const userId = user?.uid;
+
+  const splitUserName = (userName) => {
+    if (!userName) {
+      return { first: "", last: "" };
+    }
+    const names = userName.split(" ");
+    const first = names[0] || "";
+    const last = names.slice(1).join(" ") || "";
+    return { first, last };
+  };
+
+  useEffect(() => {
+    const { first, last } = splitUserName(userName);
+    setFirstName(first);
+    setLastName(last);
+  }, [userName]);
 
   const {
     data = [],
@@ -37,31 +57,15 @@ export default function PaymentMethodPage() {
     isError,
     error,
   } = useQuery(["bankCard", userId], () => PaymentMethodServices(userId));
+
   const { data: paymentId } = useQuery(["paymentId", userId], () =>
     fetchPaymentId(userId)
   );
+
   const { data: singleMethod = [] } = useQuery(
     ["singleMethod", userId, paymentId],
     () => PaymentMethodService(userId, paymentId)
   );
-
-  useEffect(() => {
-    const subscribed = onAuthStateChanged(auth, (data) => {
-      if (data) {
-        setUserName(data.displayName);
-        setUserId(data.uid);
-        const [first, last] = data.displayName.split(" ");
-        setFirstName(first);
-        setLastName(last);
-      } else {
-        setUserName(null);
-        setUserId(null);
-      }
-    });
-    return () => {
-      subscribed();
-    };
-  }, []);
 
   function modalHandler() {
     setPaymentModal(!paymentModal);
@@ -125,7 +129,22 @@ export default function PaymentMethodPage() {
   };
 
   let PAYMENT_METHODS;
-  if (isLoading) {
+
+  if (user === null) {
+    PAYMENT_METHODS = (
+      <div className="mt-8">
+        <p className="mb-10 font-mono text-xl">
+          No user found. Please sign in / create account to view wish list.
+        </p>
+        <Link
+          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+          to="/sign-in-&-create-account"
+        >
+          Sign in / Create Account
+        </Link>
+      </div>
+    );
+  } else if (isLoading) {
     PAYMENT_METHODS = (
       <div className="flex justify-center">
         <UseAnimation animation={loading} size={80} />
@@ -345,7 +364,10 @@ export default function PaymentMethodPage() {
     <div>
       <div>
         <h1 className="text-2xl font-semibold font-mono">Payment Methods</h1>
-        <button
+        {
+          user !== null && (
+            <div>
+              <button
           onClick={modalHandler}
           type="button"
           className="p-2 border-2 border-black"
@@ -353,6 +375,9 @@ export default function PaymentMethodPage() {
           Add New Card
         </button>
         <p>Checkout faster by adding one or more cards to your account.</p>
+            </div>
+          )
+        }
 
         <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
           {PAYMENT_METHODS}
