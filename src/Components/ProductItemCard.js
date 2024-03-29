@@ -144,7 +144,7 @@ export default function ProductItemCard({ productData }) {
 
       setTimeout(() => {
         setProductAdded(false);
-      }, 1000);
+      }, 200);
     }
   };
 
