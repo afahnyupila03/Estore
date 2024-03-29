@@ -2,7 +2,7 @@ import { Constants } from "../Constants";
 
 export const defaultWishListState = {
   wishListProducts: [],
-  whishListTotalAmount: 0,
+  wishListTotalAmount: 0,
   wishListQuantity: 0,
   wishListed: false,
 };
@@ -40,7 +40,7 @@ export const WishListReducer = (state, action) => {
         return {
           ...state,
           wishListProducts: [...state.wishListProducts, newProduct],
-          whishListTotalAmount: state.whishListTotalAmount + discountedPrice,
+          wishListTotalAmount: state.wishListTotalAmount + discountedPrice,
           wishListQuantity: state.wishListQuantity + 1,
           wishListed: true,
         };
@@ -65,7 +65,7 @@ export const WishListReducer = (state, action) => {
       return {
         ...state,
         wishListProducts: updatedProducts,
-        whishListTotalAmount: state.whishListTotalAmount - removedPrice,
+        wishListTotalAmount: state.wishListTotalAmount - removedPrice,
         wishListQuantity: state.wishListQuantity - 1,
         wishListed: false,
       };

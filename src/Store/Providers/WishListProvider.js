@@ -5,6 +5,8 @@ import {
 } from "../Reducers/WishListReducer";
 import { WishListContext } from "../Context/WishListContext";
 import { Constants } from "../Constants";
+import { realTimeDatabase } from "../../FirebaseConfigs/Firesbase";
+import { ref, set } from "firebase/database";
 
 export default function WishListProvider({ children }) {
   const [wishListState, dispatchWishList] = useReducer(
@@ -12,11 +14,19 @@ export default function WishListProvider({ children }) {
     defaultWishListState
   );
 
-  const addProductToWishList = (product, id) =>
-    dispatchWishList({
-      type: Constants.ADD,
-      payload: { product: product, id: id },
-    });
+  const addProductToWishList = async (product) => {
+    try {
+      dispatchWishList({
+        type: Constants.ADD,
+        payload: { product: product },
+      });
+    } catch (error) {
+      dispatchWishList({
+        type: Constants.ERROR,
+        payload: { error },
+      });
+    }
+  };
 
   const removeProductFromWishList = (id) =>
     dispatchWishList({

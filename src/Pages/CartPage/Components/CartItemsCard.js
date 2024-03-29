@@ -62,12 +62,11 @@ export default function CartItemsCard({
         </div>
       </div>
 
-      <div className="grid justify-around">
+      <div className="grid items-center justify-around">
         <div>
-          <p>Product price: {price}</p>
           <p>{SELLING_PRICE}</p>
 
-          <p>Sum of product and quantity = {totalPriceByQuantity}</p>
+          <p>{formatMoney(totalPriceByQuantity, CURRENCY)}</p>
         </div>
         <div>
           <button

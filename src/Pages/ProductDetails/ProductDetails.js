@@ -1,13 +1,20 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "react-query";
-import React from "react";
+import React, { useState } from "react";
 import { getFeaturedProductService } from "../../Services/HomeService";
 import { CategoryServiceItem } from "../../Services/CategoryService";
 import UseAnimation from "../../Components/Loader";
 import Icon from "../../Components/Icon";
-import { bagOutline, heartOutline, reloadOutline } from "ionicons/icons";
+import {
+  bagOutline,
+  checkmark,
+  heartDislike,
+  heartOutline,
+  reloadOutline,
+} from "ionicons/icons";
 import loading from "react-useanimations/lib/loading";
 import { star, starHalfOutline } from "ionicons/icons";
+import { useAuth, useCart, useWishList } from "../../Store";
 
 function PRODUCT_RATINGS(stars) {
   const fullStars = Math.floor(stars);
@@ -33,11 +40,20 @@ function PRODUCT_RATINGS(stars) {
 }
 
 export default function ProductDetails() {
+  const { user } = useAuth();
+  const { addProductHandler } = useCart();
+  const { addProductToWishList, wishListed, removeProductFromWishList } =
+    useWishList();
+
+  const [wishlist, setWishList] = useState(wishListed);
+  const [productAdded, setProductAdded] = useState(false);
+
   const { id: featId, title: featTitle, shopId, shopTitle } = useParams();
 
   const {
     data: {
       id,
+      quantity,
       images = [],
       title,
       price,
@@ -93,6 +109,38 @@ export default function ProductDetails() {
 
   const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY);
 
+  const handleUserAuthState = () => {
+    setTimeout(() => {
+      window.location.replace("/sign-in-&-create-account");
+    }, 1000);
+  };
+
+  const handleAddProduct = (data) => {
+    if (user === null) {
+      handleUserAuthState();
+    } else {
+      addProductHandler(data);
+      setProductAdded(true);
+      setTimeout(() => {
+        setProductAdded(false);
+      }, 1000);
+    }
+  };
+
+  const handleWishListedProduct = (data) => {
+    if (user === null) {
+      handleUserAuthState();
+    } else {
+      addProductToWishList(data);
+      setWishList(!wishlist);
+    }
+  };
+
+  const handleDisLikedProducts = (id) => {
+    setWishList(!wishlist);
+    removeProductFromWishList(id);
+  };
+
   let productDetail;
 
   if (isLoading) {
@@ -118,7 +166,13 @@ export default function ProductDetails() {
           <div className="grid grid-cols-2 gap-x-20">
             <div className="grid grid-cols-2 w-full h-full gap-x-1 gap-y-4">
               {images.map((image) => (
-                <img src={image} className="w-full h-full" />
+                <img
+                  key={image}
+                  loading="lazy"
+                  src={image}
+                  alt={image}
+                  className="w-full h-full"
+                />
               ))}
             </div>
             <div className="text-2xl font-mono">
@@ -144,28 +198,56 @@ export default function ProductDetails() {
                 <p>{description}</p>
               </div>
 
-              <div className="grid mt-8 justify-center">
-                <button className="font-semibold text-lg flex items-center sm:w-full px-20 py-5 text-white rounded bg-black">
+              <div className="grid mt-8 items-center text-center justify-center">
+                <button
+                  onClick={() =>
+                    handleAddProduct({
+                      title,
+                      id,
+                      thumbnail,
+                      price,
+                      discountPercentage,
+                      quantity,
+                    })
+                  }
+                  className="font-semibold text-lg flex items-center text-center sm:w-full px-20 py-5 text-white rounded bg-black"
+                >
                   <Icon
                     style={{
                       fontSize: "1.5rem",
                       color: "white",
                       marginRight: "1rem",
                     }}
-                    icon={bagOutline}
+                    icon={productAdded ? checkmark : bagOutline}
                   />
-                  Add to Bag
+                  {productAdded ? "Added" : "Add to Bag"}
                 </button>
-                <button className="font-semibold text-lg flex items-center mt-6 sm:w-full px-20 py-5 text-white rounded bg-black">
+                <button
+                  onClick={
+                    wishlist
+                      ? () => handleDisLikedProducts(id)
+                      : () =>
+                          handleWishListedProduct({
+                            title,
+                            id,
+                            thumbnail,
+                            price,
+                            description,
+                            discountPercentage,
+                            quantity,
+                          })
+                  }
+                  className="font-semibold text-lg flex items-center text-center mt-6 sm:w-full px-20 py-5 text-white rounded bg-black"
+                >
                   <Icon
                     style={{
                       fontSize: "1.5rem",
                       color: "white",
                       marginRight: ".7rem",
                     }}
-                    icon={heartOutline}
+                    icon={wishlist ? heartDislike : heartOutline}
                   />
-                  Add to Wish List
+                  {wishlist ? "Dislike" : "Add to Wish List"}
                 </button>
               </div>
             </div>

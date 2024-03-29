@@ -16,7 +16,12 @@ import {
 } from "ionicons/icons";
 import classes from "./ProductItemCard.module.css";
 import Icon from "./Icon";
-import { useCart, useWishList } from "../Store";
+import { useAuth, useCart, useWishList } from "../Store";
+import { database, realTimeDatabase } from "../FirebaseConfigs/Firesbase";
+import { ref, set } from "firebase/database";
+import { addDoc, collection } from "firebase/firestore";
+import { useQuery } from "react-query";
+import { WishListPostItemsServices } from "../Services/CartService";
 
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars); // Get the integer part of the rating
@@ -48,36 +53,11 @@ export default function ProductItemCard({ productData }) {
   const [productAdded, setProductAdded] = useState(false);
 
   const { addProductHandler } = useCart();
+  const { user } = useAuth();
   const { addProductToWishList, wishListed, removeProductFromWishList } =
     useWishList();
+
   const [wishList, setWishList] = useState(wishListed);
-
-  const handleMouseOver = () => {
-    setMouseIsOver(true);
-  };
-  const handleMouseOut = () => {
-    setMouseIsOver(false);
-  };
-  const handleImageClick = (index) => {
-    setCurrImageIndex(index);
-  };
-
-  const handleAddProduct = (product) => {
-    setProductAdded(true);
-    addProductHandler(product);
-
-    setTimeout(() => {
-      setProductAdded(false);
-    }, 1000);
-  };
-  const handleWishListedProducts = (data) => {
-    setWishList(!wishList);
-    addProductToWishList(data);
-  };
-  const handleDisLikedProducts = (id) => {
-    setWishList(!wishList);
-    removeProductFromWishList(id);
-  };
 
   const {
     title,
@@ -91,7 +71,20 @@ export default function ProductItemCard({ productData }) {
     stock,
     images,
     thumbnail,
+    quantity,
   } = productData || [];
+
+  const userId = user?.uid;
+
+  const handleMouseOver = () => {
+    setMouseIsOver(true);
+  };
+  const handleMouseOut = () => {
+    setMouseIsOver(false);
+  };
+  const handleImageClick = (index) => {
+    setCurrImageIndex(index);
+  };
 
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
@@ -102,6 +95,13 @@ export default function ProductItemCard({ productData }) {
       return `${title.slice(0, MAX_NAME_CHARS)}...`;
     }
     return title;
+  };
+
+  const handleUserAuthState = () => {
+    handleShowProductModal();
+    setTimeout(() => {
+      window.location.replace("/sign-in-&-create-account");
+    }, 1000);
   };
 
   function CONVERT_CURRENCY(priceInUSD) {
@@ -134,6 +134,49 @@ export default function ProductItemCard({ productData }) {
 
   const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY);
   const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY);
+
+  const handleAddProduct = (product) => {
+    if (user === null) {
+      handleUserAuthState();
+    } else {
+      addProductHandler(product);
+      setProductAdded(true);
+
+      setTimeout(() => {
+        setProductAdded(false);
+      }, 1000);
+    }
+  };
+
+  const handleWishListedProducts = async (data) => {
+    if (user === null) {
+      handleUserAuthState();
+    } else {
+      // const db = realTimeDatabase;
+      const db = database;
+      const listRef = collection(db, userId, "/wishlist/", "products");
+      const listId = listRef.key;
+      try {
+        await addProductToWishList(data);
+
+        const wishData = await addDoc(listRef, data);
+
+        setWishList(!wishList);
+
+        console.log("wishList item: ", wishData);
+        console.log("WishList id: ", listId);
+        alert("Product to wishlist store");
+      } catch (error) {
+        alert("error adding to wishlist store: ", error);
+        console.error(error);
+      }
+    }
+  };
+
+  const handleDisLikedProducts = (id) => {
+    setWishList(!wishList);
+    removeProductFromWishList(id);
+  };
 
   const PRODUCT_MODAL = (
     <ProductModal

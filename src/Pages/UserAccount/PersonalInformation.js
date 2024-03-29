@@ -21,6 +21,7 @@ const ActionButton = ({ actionHandler }) => {
 };
 
 export default function PersonalInformation() {
+  
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 

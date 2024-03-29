@@ -87,7 +87,7 @@ export default function CartPage() {
             </div>
             <div>
               <p className="font-semibold">
-                Original price in usd : {cartTotal}
+                {cartTotal}
               </p>
               <button
                 onClick={() => clearProductHandler()}
