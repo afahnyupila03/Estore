@@ -34,7 +34,7 @@
 
 @media (min-width: 850px) {
   .modal {
-    top:3vh;
+    top: 4vh;
     width: 50rem;
     left: 1.9rem;
     height: auto;
@@ -47,7 +47,7 @@
 
 @media (min-width: 991px) {
   .modal {
-    top: 3vh;
+    top: 5vh;
     width: 50rem;
     left: 7rem;
     height: auto;
@@ -60,7 +60,7 @@
 
 @media (min-width: 1024px) {
   .modal {
-    top: 5vh;
+    top: 1vh;
     width: 45rem;
     left: 10rem;
     height: auto;
@@ -73,7 +73,7 @@
 
 @media (min-width: 1280px) {
   .modal {
-    top: 3vh;
+    top: 2vh;
     width: 50rem;
     left: 17rem;
     height: auto;
@@ -99,9 +99,9 @@
 
 @media (min-width: 1440px) {
   .modal {
-    top: 8vh;
+    top: 5vh;
     width: 50rem;
-    left: 20rem;
+    left: 22rem;
     height: auto;
     overflow-x: hidden;
   }
