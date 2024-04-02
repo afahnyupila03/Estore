@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { useAuth } from "../../Store";
 
-export default function Auth () {
+export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(true);
   const { signUpHandler, signInHandler } = useAuth();
 

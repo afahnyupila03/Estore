@@ -86,9 +86,7 @@ export default function CartPage() {
               <p>Delivery and taxes will be calculated at checkout</p>
             </div>
             <div>
-              <p className="font-semibold">
-                {cartTotal}
-              </p>
+              <p className="font-semibold">{cartTotal}</p>
               <button
                 onClick={() => clearProductHandler()}
                 className="bg-red-500 text-white px-10 py-2 rounded text-xl font-mono"
@@ -98,9 +96,12 @@ export default function CartPage() {
             </div>
           </div>
           <div className="grid justify-center">
-            <button className="mt-10 bg-black text-white px-10 py-2 rounded text-xl font-mono">
+            <Link
+              to="/checkout-form"
+              className="mt-10 bg-black text-white px-10 py-2 rounded text-xl font-mono"
+            >
               Checkout
-            </button>
+            </Link>
             <div className="flex mt-8 items-center">
               <span className="mr-10">or</span>
               <Link

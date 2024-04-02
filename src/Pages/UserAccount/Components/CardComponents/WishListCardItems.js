@@ -76,7 +76,7 @@ export default function WishListCardItems({
       </div>
 
       <div className="p-4">
-        <>{PRODUCT_RATING(rating)}</>
+        <span>{PRODUCT_RATING(rating)}</span>
         <p>{title}</p>
         <p>{description}</p>
         <p>{FORMAT_MONEY(DISCOUNT, CURRENCY)}</p>
