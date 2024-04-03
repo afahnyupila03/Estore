@@ -39,16 +39,19 @@ export default function CustomTextInput({
   // Function to detect the card type based on the card number
   const getCardType = (cardNumber) => {
     // Visa
-    const visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
+    const visaRegex = /^(?<VISA>4\d{3}[\s\-]?(?:\d{4}[\s\-]?){2}\d(?:\d{3})?)$/;
 
     // Mastercard
-    const mastercardRegex = /^5[1-5][0-9]{14}$/;
+    const mastercardRegex =
+      /^(?<MASTERCARD>5[1-5]\d{2}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4})$/;
 
     // American Express
-    const amexRegex = /^3[47][0-9]{13}$/;
+    const amexRegex =
+      /^(?<AMEX>3[47]\d\d[\s\-]?(?!(\d)\2{5}|123456|234567|345678)\d{6}[\s\-]?(?!(\d)[\s\-]{4}|12345|56789)\d{5})$/;
 
     // Discover
-    const discoverRegex = /^6(?:011|5[0-9]{2})[0-9]{12}$/;
+    const discoverRegex =
+      /^(?<DISCOVER>6(?:011|22?=[\s\-]?[6-9]|[3-9]|[2-8]|9[\s\-]?[01]|2[0-5]|4[4-9]\d|5\d\d)[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4})$/;
 
     if (visaRegex.test(cardNumber)) {
       return "visa";
