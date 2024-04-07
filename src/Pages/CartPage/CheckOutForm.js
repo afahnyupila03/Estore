@@ -7,10 +7,12 @@ import SummaryCardItems from "./Components/SummaryCardItems";
 import { useAuth, useCart } from "../../Store";
 import { useQuery } from "react-query";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   DeliveryServices,
   PaymentMethodServices,
 } from "../../Services/AccountServices";
+import Divider from "../../Components/Divider";
 
 export default function CheckOutForm() {
   const [userFirstName, setUserFirstName] = useState("");
@@ -20,29 +22,19 @@ export default function CheckOutForm() {
   const [otherCardNumber, setOtherCardNumber] = useState(false);
   const [otherAddress, setOtherAddress] = useState(false);
   const [otherApt, setOtherApt] = useState(false);
-
+  const [deliveryValues, setDeliveryValues] = useState({
+    standard: false,
+    express: false,
+  });
+  const [markChecked, setMarkChecked] = useState({
+    standard: false,
+    express: false,
+  });
+  const [taxIsLoading, setTaxIsLoading] = useState(false);
+  const [checkoutLoading, setCheckoutLoading] = useState(false);
+  const [taxes, setTaxes] = useState(0);
+  const [checkoutTotal, setCheckoutTotal] = useState(0);
   const { user } = useAuth();
-  const userName = user?.displayName;
-  const userId = user?.uid;
-
-  const splitUserName = (displayName) => {
-    if (!displayName) {
-      return { first: "", last: "" };
-    }
-    const names = displayName.split(" ");
-    const first = names[0] || "";
-    const last = names.slice(1).join(" ") || "";
-    return { first, last };
-  };
-
-  useEffect(() => {
-    const { first, last } = splitUserName(userName);
-    setUserFirstName(first);
-    setUserLastName(last);
-  }, [userName]);
-
-  console.log("name: ", `${userFirstName} ${userLastName}`);
-
   const {
     products,
     totalAmount,
@@ -50,6 +42,20 @@ export default function CheckOutForm() {
     productQuantity,
     clearProductHandler,
   } = useCart();
+
+  const splitUserName = (userName) => {
+    if (!userName) {
+      return { first: "", last: "" };
+    }
+    const names = userName.split(" ");
+    const first = names[0] || "";
+    const last = names.slice(1).join(" ") || "";
+    return { first, last };
+  };
+
+  const userEmail = user?.email;
+  const userName = user?.displayName;
+  const userId = user?.uid;
 
   const {
     data: deliveryAddresses = [],
@@ -62,9 +68,87 @@ export default function CheckOutForm() {
     error: paymentError,
   } = useQuery(["payments", userId], () => PaymentMethodServices(userId));
 
-  const { firstName, lastName, address, state, apt, city, zip } =
-    deliveryAddresses.length > 0 ? deliveryAddresses[0] : {};
-  const { cardNumber } = paymentMethods.length > 0 ? paymentMethods[0] : {};
+  useEffect(() => {
+    const { first, last } = splitUserName(userName);
+    setUserFirstName(first);
+    setUserLastName(last);
+  }, [userName]);
+
+  const handleDeliveryValues = (e) => {
+    const { name, checked } = e.target;
+    if (name === "standard" && checked) {
+      setDeliveryValues({ standard: true, express: false });
+      setMarkChecked({ standard: true, express: false });
+    } else if (name === "express" && checked) {
+      setDeliveryValues({ standard: false, express: true });
+      setMarkChecked({ standard: false, express: true });
+    }
+  };
+
+  console.log(
+    "delivery value: ",
+    deliveryValues.standard,
+    deliveryValues.express
+  );
+  console.log("check mark values: ", markChecked.standard, markChecked.express);
+
+  const MONEY_FORMATTER = (amount, currency) => {
+    const formatter = new Intl.NumberFormat("fr", {
+      style: "currency",
+      currency: currency,
+    });
+    return formatter.format(amount);
+  };
+  const CURRENCY = "XAF";
+  const STANDARD = MONEY_FORMATTER(6000, CURRENCY);
+  const EXPRESS = MONEY_FORMATTER(10000, CURRENCY);
+
+  const EXPRESS_PRICE = parseInt(EXPRESS.replace(/\D/g, ""));
+  const STANDARD_PRICE = parseInt(STANDARD.replace(/\D/g, ""));
+
+  const SHIPPING_COST = () => {
+    if (deliveryValues.standard === true) {
+      return STANDARD_PRICE;
+    } else if (deliveryValues.express === true) {
+      return EXPRESS_PRICE;
+    } else {
+      return 0;
+    }
+  };
+
+  const VAT = totalAmount ? 0.1925 : 0;
+  const INCOME_TAX = totalAmount ? 0.3333 : 0;
+  const STAMP_DUTY = totalAmount ? 2000 : 0;
+
+  const handleTaxesCalc = (productPrice, vat, incomeTax, stampDuty) => {
+    setTaxIsLoading(true);
+    const calculateTaxes = productPrice * (vat * incomeTax) + stampDuty;
+
+    setTimeout(() => {
+      setTaxIsLoading(false);
+      setTaxes(calculateTaxes);
+    }, 2000);
+  };
+
+  const handleCheckoutTotal = (productPrice, taxes, shippingPrice) => {
+    setCheckoutLoading(true);
+    const calculateCheckoutTotal = productPrice + taxes + shippingPrice;
+
+    setTimeout(() => {
+      setCheckoutLoading(false);
+      setCheckoutTotal(calculateCheckoutTotal);
+    }, 2000);
+  };
+
+  useEffect(() => {
+    if (totalAmount) {
+      handleTaxesCalc(totalAmount, VAT, INCOME_TAX, STAMP_DUTY);
+    }
+  }, [totalAmount, VAT, INCOME_TAX, STAMP_DUTY]);
+
+  useEffect(() => {
+    handleCheckoutTotal(totalAmount, SHIPPING_COST(), taxes);
+  }, [totalAmount, SHIPPING_COST(), taxes]);
 
   const checkFormSubmitHandler = (values, actions) => {
     setTimeout(() => {
@@ -80,9 +164,9 @@ export default function CheckOutForm() {
       clearProductHandler();
       actions.resetForm({
         values: {
-          email: "",
-          firstName: "",
-          lastName: "",
+          email: userEmail,
+          firstName: userFirstName,
+          lastName: userLastName,
           company: "",
           address: "",
           aptSuite: "",
@@ -90,8 +174,8 @@ export default function CheckOutForm() {
           state: "",
           postalCode: "",
           tel: "",
-          standard: false,
-          express: false,
+          standard: deliveryValues.standard,
+          express: deliveryValues.express,
           cardNumber: "",
           cardHolder: "",
           expiryDate: "",
@@ -105,7 +189,7 @@ export default function CheckOutForm() {
     <div className="container mx-auto mt-4 lg:px-4">
       <Formik
         initialValues={{
-          email: "",
+          email: userEmail,
           firstName: userFirstName,
           lastName: userLastName,
           company: "",
@@ -115,20 +199,24 @@ export default function CheckOutForm() {
           state: "",
           postalCode: "",
           tel: "",
-          standard: false,
-          express: false,
+          standard: deliveryValues.standard,
+          express: deliveryValues.express,
           cardNumber: "",
           cardHolder: "",
           expiryDate: "",
           cvc: "",
+          // deliveryAmount: SHIPPING_COST(),
         }}
         onSubmit={checkFormSubmitHandler}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
           <Form>
             <div className="flex gap-x-5 justify-around">
+              {/* User Shipping Information */}
               <div>
-                <h1>Contact Information</h1>
+                <h1 className="mb-2 text-lg font-mono font-semibold">
+                  Contact Information
+                </h1>
                 <Field
                   component={CustomTextInput}
                   id="email"
@@ -138,39 +226,43 @@ export default function CheckOutForm() {
                   onChange={handleChange}
                   onBlur={handleBlur}
                   label="Email"
+                  placeholder="Email"
                   autoComplete="false"
                 />
 
-                <hr />
+                <Divider
+                  style={{ marginTop: "0.7rem", marginBottom: "0.7rem" }}
+                />
 
-                <h1>Shipping Information</h1>
+                <h1 className="mb-2 text-lg font-mono font-semibold">
+                  Shipping Information
+                </h1>
                 <div className="flex justify-between items-center">
-                  <div>
-                    <Field
-                      component={CustomTextInput}
-                      id="firstName"
-                      name="firstName"
-                      type="text"
-                      value={values.firstName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      label="First Name"
-                      autoComplete="true"
-                    />
-                  </div>
-                  <div>
-                    <Field
-                      component={CustomTextInput}
-                      id="lastName"
-                      name="lastName"
-                      type="text"
-                      value={values.lastName}
-                      onChange={handleChange}
-                      onBlur={handleBlur}
-                      label="Last Name"
-                      autoComplete="true"
-                    />
-                  </div>
+                  <Field
+                    component={CustomTextInput}
+                    id="firstName"
+                    name="firstName"
+                    type="text"
+                    value={values.firstName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    label="First name"
+                    placeholder="First name"
+                    autoComplete="true"
+                  />
+
+                  <Field
+                    component={CustomTextInput}
+                    id="lastName"
+                    name="lastName"
+                    type="text"
+                    value={values.lastName}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    label="Last name"
+                    placeholder="Last name"
+                    autoComplete="true"
+                  />
                 </div>
 
                 <div className="flex justify-between items-center">
@@ -198,7 +290,7 @@ export default function CheckOutForm() {
                         component="select"
                         name="address"
                         placeholder="Select address"
-                        label="Address" // Added label prop
+                        label="Address"
                         onChange={(e) => {
                           if (e.target.value === "otherAddress") {
                             setOtherAddress(true);
@@ -421,10 +513,19 @@ export default function CheckOutForm() {
                   />
                 </div>
 
-                <hr />
+                <Divider
+                  style={{ marginTop: "0.7rem", marginBottom: "0.7rem" }}
+                />
 
-                <h1>Delivery Method</h1>
-                <div className="flex justify-around items-center">
+                {/* Delivery Methods. */}
+                <h1 className="mb-2 text-lg font-mono font-semibold">
+                  Delivery Method
+                </h1>
+                <div
+                  role="group"
+                  aria-labelledBy="my-radio-group"
+                  className="flex justify-around items-center"
+                >
                   <div className="border-2 border-black rounded p-4">
                     <h1 className="text-center flex justify-center">
                       Standard
@@ -438,14 +539,15 @@ export default function CheckOutForm() {
                           component={CustomCheckbox}
                           name="standard"
                           id="standard"
-                          type="checkbox"
-                          values={values.standard}
-                          onChange={handleChange}
+                          type="radio"
+                          value={values.standard}
+                          checked={markChecked.standard}
+                          onChange={handleDeliveryValues}
                           onBlur={handleBlur}
                         />
                       </div>
                     </div>
-                    <p>input amount</p>
+                    <p>{STANDARD}</p>
                   </div>
 
                   <div className="border-2 border-black rounded p-4">
@@ -454,89 +556,103 @@ export default function CheckOutForm() {
                       <div>
                         <p>2-5 business days</p>
                       </div>
+
                       <div>
                         <Field
                           component={CustomCheckbox}
                           name="express"
                           id="express"
-                          type="checkbox"
-                          values={values.express}
-                          onChange={handleChange}
+                          type="radio"
+                          checked={markChecked.express}
+                          value={values.standard}
+                          onChange={handleDeliveryValues}
                           onBlur={handleBlur}
                         />
                       </div>
                     </div>
-                    <p>input amount</p>
+                    <p>{EXPRESS}</p>
                   </div>
                 </div>
 
-                <hr />
-
-                <h1>Payment</h1>
-                {otherCardNumber ? (
+                <Divider
+                  style={{ marginTop: "0.7rem", marginBottom: "0.7rem" }}
+                />
+                {/* Payment Methods */}
+                <h1 className="mb-2 text-lg font-mono font-semibold">
+                  Payment
+                </h1>
+                <div className="flex justify-between reverse">
                   <Field
                     component={CustomTextInput}
-                    id="cardNumber"
-                    name="cardNumber"
+                    id="cardHolder"
+                    name="cardHolder"
                     type="text"
-                    label="Card number"
-                    value={values.cardNumber}
+                    label="Name on card"
+                    value={values.cardHolder}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    renderCardImage={true}
                     autoComplete="false"
                   />
-                ) : (
-                  <div className="grid">
-                    <label htmlFor="city" className="font-semibold font-mono">
-                      City
-                    </label>
+
+                  {otherCardNumber ? (
                     <Field
-                      component="select"
+                      component={CustomTextInput}
+                      id="cardNumber"
                       name="cardNumber"
-                      placeholder="cardNumber"
-                      label="City" // Added label prop
-                      onChange={(e) => {
-                        if (e.target.value === "otherCardNumber") {
-                          setOtherCardNumber(true);
-                        } else {
-                          setOtherCardNumber(false);
-                        }
-                      }}
-                      style={{
-                        backgroundColor: "#9ca3af",
-                        borderRadius: ".4rem",
-                        padding: ".5rem",
-                        textAlign: "left",
-                        margin: ".5rem",
-                        width: "20rem",
-                        color: "#020617",
-                      }}
-                    >
-                      <option value="city">Card number</option>
-                      {deliveryAddresses.map((deliveryInfor) => (
-                        <option
-                          key={deliveryInfor.id}
-                          value={deliveryInfor.cardNumber}
-                        >
-                          {deliveryInfor.cardNumber}
+                      type="text"
+                      label="Card number"
+                      value={values.cardNumber}
+                      onChange={handleChange}
+                      onBlur={handleBlur}
+                      renderCardImage={true}
+                      autoComplete="false"
+                    />
+                  ) : (
+                    <div className="grid">
+                      <label
+                        htmlFor="cardNumber"
+                        className="font-semibold font-mono"
+                      >
+                        Card number
+                      </label>
+                      <Field
+                        component="select"
+                        name="cardNumber"
+                        placeholder="cardNumber"
+                        label="Card number" // Added label prop
+                        onChange={(e) => {
+                          if (e.target.value === "otherCardNumber") {
+                            setOtherCardNumber(true);
+                          } else {
+                            setOtherCardNumber(false);
+                          }
+                        }}
+                        style={{
+                          backgroundColor: "#9ca3af",
+                          borderRadius: ".4rem",
+                          padding: ".5rem",
+                          textAlign: "left",
+                          margin: ".5rem",
+                          width: "20rem",
+                          color: "#020617",
+                        }}
+                      >
+                        <option value="city">Card number</option>
+                        {paymentMethods.map((paymentInfo) => (
+                          <option
+                            key={paymentInfo.id}
+                            value={paymentInfo.cardNumber}
+                          >
+                            {paymentInfo.cardNumber}
+                          </option>
+                        ))}
+                        <option value="otherCardNumber">
+                          Other card number
                         </option>
-                      ))}
-                      <option value="otherCardNumber">Other card number</option>
-                    </Field>
-                  </div>
-                )}
-                <Field
-                  component={CustomTextInput}
-                  id="cardHolder"
-                  name="cardHolder"
-                  type="text"
-                  label="Name on card"
-                  value={values.cardHolder}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  autoComplete="false"
-                />
+                      </Field>
+                    </div>
+                  )}
+                </div>
 
                 <div className="flex justify-between">
                   <div>
@@ -570,40 +686,105 @@ export default function CheckOutForm() {
                 </div>
               </div>
 
+              {/* Product Summary Section. */}
               <div>
-                <h1>Order summary</h1>
-                {products.map((summaryOrder) => (
-                  <SummaryCardItems
-                    summaryData={summaryOrder}
-                    key={summaryOrder.id}
-                    removeProductHandler={() =>
-                      removeProductHandler(summaryOrder.id)
-                    }
-                  />
-                ))}
-                <hr />
-                <div className="flex justify-between">
-                  <p>Total amount of product</p> <p>{productQuantity}</p>
-                </div>
-                <div className="flex justify-between">
-                  <p>Subtotal</p> <p>{totalAmount}</p>
-                </div>
-                <div className="flex justify-between">
-                  <p>Shipping</p> <p>shippingAmount</p>
-                </div>
-                <div className="flex justify-between">
-                  <p>Taxes</p> <p>taxesAmount</p>
-                </div>
-                <hr />
-                <div className="flex justify-between">
-                  <p>Total</p> <p>totalAmount</p>
-                </div>
+                <h1 className="mb-2 text-lg font-mono font-semibold">
+                  Order summary
+                </h1>
 
                 <div>
-                  <button type="submit" disabled={isSubmitting}>
-                    {isSubmitting ? "loading invoice" : "Confirm order"}
-                  </button>
+                  {products.length === 0 ? (
+                    <div className="mt-8">
+                      <p className="mb-10 text-xl font-mono">
+                        No products to checkout...!
+                      </p>
+                      <Link
+                        to="/home"
+                        className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
+                      >
+                        Continue Shopping
+                      </Link>
+                    </div>
+                  ) : (
+                    products.map((summaryOrder) => (
+                      <SummaryCardItems
+                        summaryData={summaryOrder}
+                        key={summaryOrder.id}
+                        removeProductHandler={() =>
+                          removeProductHandler(summaryOrder.id)
+                        }
+                      />
+                    ))
+                  )}
                 </div>
+
+                <Divider
+                  style={{ marginTop: "0.7rem", marginBottom: "0.7rem" }}
+                />
+
+                {products.length > 0 && (
+                  <div>
+                    <div className="flex mt-2 justify-between items-center">
+                      <p className="mb-2 text-lg font-mono font-semibold">
+                        Total products :
+                      </p>
+                      <p className="text-gray-900 text-lg font-mono font-semibold">
+                        {productQuantity}
+                      </p>
+                    </div>
+                    <div className="flex mt-2 justify-between items-center">
+                      <p className="mb-2 text-lg font-mono font-semibold">
+                        Subtotal :
+                      </p>
+                      <p className="text-gray-900 text-lg font-mono font-semibold">
+                        {MONEY_FORMATTER(parseInt(totalAmount), CURRENCY)}
+                      </p>
+                    </div>
+                    <div className="flex mt-2 justify-between items-center">
+                      <p className="mb-2 text-lg font-mono font-semibold">
+                        Taxes :
+                      </p>
+                      <p className="text-gray-900 text-lg font-mono font-semibold">
+                        {taxIsLoading
+                          ? "Loading...."
+                          : MONEY_FORMATTER(parseInt(taxes), CURRENCY)}
+                      </p>
+                    </div>
+                    <div className="flex mt-2 justify-between items-center">
+                      <p className="mb-2 text-lg font-mono font-semibold">
+                        Shipping :
+                      </p>
+                      <p className="text-gray-900 text-lg font-mono font-semibold">
+                        {MONEY_FORMATTER(parseInt(SHIPPING_COST()), CURRENCY)}
+                      </p>
+                    </div>
+
+                    <Divider
+                      style={{ marginTop: "0.7rem", marginBottom: "0.7rem" }}
+                    />
+
+                    <div className="flex mt-2 justify-between">
+                      <p className="mb-2 text-lg font-mono font-semibold">
+                        Total :
+                      </p>
+                      <p className="text-gray-900 font-mono font-semibold">
+                        {checkoutLoading
+                          ? "calculating"
+                          : MONEY_FORMATTER(parseInt(checkoutTotal), CURRENCY)}
+                      </p>
+                    </div>
+
+                    <div className="flex justify-center mt-2">
+                      <button
+                        className="text-white text-center bg-black px-4 py-2 rounded"
+                        type="submit"
+                        disabled={isSubmitting}
+                      >
+                        {isSubmitting ? "loading invoice" : "Confirm order"}
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </Form>

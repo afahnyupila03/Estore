@@ -17,7 +17,7 @@ export default function SummaryCardItems({
   } = summaryData;
 
   return (
-    <div className="flex gap-x-60 gap-y-2 items-center font-mono text-xl justify-between">
+    <div className="flex gap-x-60 gap-y-2 items-center items-stretch font-mono text-xl justify-between">
       <div className="flex justify-between">
         <div className="flex justify-between aspect-h-1 aspect-w-1 w-40 overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-40">
           <img

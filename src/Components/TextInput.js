@@ -38,20 +38,11 @@ export default function CustomTextInput({
 
   // Function to detect the card type based on the card number
   const getCardType = (cardNumber) => {
-    // Visa
-    const visaRegex = /^(?<VISA>4\d{3}[\s\-]?(?:\d{4}[\s\-]?){2}\d(?:\d{3})?)$/;
-
-    // Mastercard
+    const visaRegex = /^(?<VISA>4\d{3}[\s-]?(?:\d{4}[\s-]?){2}\d(?:\d{3})?)$/;
     const mastercardRegex =
-      /^(?<MASTERCARD>5[1-5]\d{2}[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4})$/;
-
-    // American Express
-    const amexRegex =
-      /^(?<AMEX>3[47]\d\d[\s\-]?(?!(\d)\2{5}|123456|234567|345678)\d{6}[\s\-]?(?!(\d)[\s\-]{4}|12345|56789)\d{5})$/;
-
-    // Discover
-    const discoverRegex =
-      /^(?<DISCOVER>6(?:011|22?=[\s\-]?[6-9]|[3-9]|[2-8]|9[\s\-]?[01]|2[0-5]|4[4-9]\d|5\d\d)[\s\-]?\d{4}[\s\-]?\d{4}[\s\-]?\d{4})$/;
+      /^(?<MASTERCARD>5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4})$/;
+    const amexRegex = /^(?<AMEX>3[47]\d{13,14})$/;
+    const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
 
     if (visaRegex.test(cardNumber)) {
       return "visa";
@@ -117,7 +108,7 @@ export default function CustomTextInput({
 }
 
 export function CustomCheckbox({ field, form, ...props }) {
-  const { name, value, onChange, onBlur } = field;
+  const { name, value, onChange, onBlur, checked } = field;
   const { errors, touched } = form;
   const { label, type } = props;
 
@@ -131,6 +122,7 @@ export function CustomCheckbox({ field, form, ...props }) {
           onChange={onChange}
           onBlur={onBlur}
           value={value}
+          checked={checked}
           {...props}
         />
 
