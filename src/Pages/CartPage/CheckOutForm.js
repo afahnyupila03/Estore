@@ -8,11 +8,13 @@ import { useAuth, useCart } from "../../Store";
 import { useQuery } from "react-query";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import loading from "react-useanimations/lib/loading";
 import {
   DeliveryServices,
   PaymentMethodServices,
 } from "../../Services/AccountServices";
 import Divider from "../../Components/Divider";
+import Loader from "../../Components/Loader";
 
 export default function CheckOutForm() {
   const [userFirstName, setUserFirstName] = useState("");
@@ -147,7 +149,9 @@ export default function CheckOutForm() {
   }, [totalAmount, VAT, INCOME_TAX, STAMP_DUTY]);
 
   useEffect(() => {
-    handleCheckoutTotal(totalAmount, SHIPPING_COST(), taxes);
+    if (SHIPPING_COST()) {
+      handleCheckoutTotal(totalAmount, SHIPPING_COST(), taxes);
+    }
   }, [totalAmount, SHIPPING_COST(), taxes]);
 
   const checkFormSubmitHandler = (values, actions) => {
@@ -745,9 +749,11 @@ export default function CheckOutForm() {
                         Taxes :
                       </p>
                       <p className="text-gray-900 text-lg font-mono font-semibold">
-                        {taxIsLoading
-                          ? "Loading...."
-                          : MONEY_FORMATTER(parseInt(taxes), CURRENCY)}
+                        {taxIsLoading ? (
+                          <Loader animation={loading} size={20} />
+                        ) : (
+                          MONEY_FORMATTER(parseInt(taxes), CURRENCY)
+                        )}
                       </p>
                     </div>
                     <div className="flex mt-2 justify-between items-center">
@@ -768,9 +774,11 @@ export default function CheckOutForm() {
                         Total :
                       </p>
                       <p className="text-gray-900 font-mono font-semibold">
-                        {checkoutLoading
-                          ? "calculating"
-                          : MONEY_FORMATTER(parseInt(checkoutTotal), CURRENCY)}
+                        {checkoutLoading ? (
+                          <Loader animation={loading} size={20} />
+                        ) : (
+                          MONEY_FORMATTER(parseInt(checkoutTotal), CURRENCY)
+                        )}
                       </p>
                     </div>
 
