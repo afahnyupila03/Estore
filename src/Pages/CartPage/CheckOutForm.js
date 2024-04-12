@@ -19,6 +19,8 @@ import {
 import Divider from "../../Components/Divider";
 import Loader from "../../Components/Loader";
 import { ViewCheckoutProducts } from "../../Services/CartService";
+import { deleteDoc, doc } from "firebase/firestore";
+import { database } from "../../FirebaseConfigs/Firesbase";
 
 export default function CheckOutForm() {
   const [userFirstName, setUserFirstName] = useState("");
@@ -77,6 +79,11 @@ export default function CheckOutForm() {
     isError: checkoutIsError,
     error: checkoutError,
   } = useQuery(["checkoutData", userId], () => ViewCheckoutProducts(userId));
+  console.log(checkoutData);
+  const checkoutId = checkoutData.map((checkout) => {
+    const { id } = checkout;
+    return id;
+  });
 
   const productTotalPrice = checkoutData.map((total) => {
     const { totalAmount } = total;
@@ -181,41 +188,55 @@ export default function CheckOutForm() {
     }
   }, [SHIPPING_COST(), checkoutData, taxes]);
 
-  const checkFormSubmitHandler = (values, actions) => {
-    setTimeout(() => {
-      console.log("form values: ", values);
-      const productData = checkoutData.map((productInfo) => {
-        const { product } = productInfo;
-        const checkoutProduct = product.map(
-          ({ description, stock, images, rating, ...rest }) => rest
-        );
-        return checkoutProduct;
-      });
-      console.log("ProductData: ", productData);
-      clearProductHandler();
-      actions.resetForm({
-        values: {
-          email: userEmail,
-          firstName: userFirstName,
-          lastName: userLastName,
-          company: "",
-          address: "",
-          aptSuite: "",
-          city: "",
-          state: "",
-          postalCode: "",
-          tel: "",
-          standard: deliveryValues.standard,
-          express: deliveryValues.express,
-          cardNumber: "",
-          cardHolder: "",
-          expiryDate: "",
-          cvc: "",
-          finalPrice: checkoutTotal,
-          tax: taxes,
-        },
-      });
-    }, 1000);
+  const checkFormSubmitHandler = async (values, actions) => {
+    try {
+      setTimeout(() => {
+        console.log("form values: ", values);
+        const productData = checkoutData.map((productInfo) => {
+          const { product } = productInfo;
+          const checkoutProduct = product.map(
+            ({ description, stock, images, rating, ...rest }) => rest
+          );
+          return checkoutProduct;
+        });
+        console.log("ProductData: ", productData);
+        clearProductHandler();
+
+        actions.resetForm({
+          values: {
+            email: userEmail,
+            firstName: userFirstName,
+            lastName: userLastName,
+            company: "",
+            address: "",
+            aptSuite: "",
+            city: "",
+            state: "",
+            postalCode: "",
+            tel: "",
+            standard: deliveryValues.standard,
+            express: deliveryValues.express,
+            cardNumber: "",
+            cardHolder: "",
+            expiryDate: "",
+            cvc: "",
+            finalPrice: checkoutTotal,
+            tax: taxes,
+          },
+        });
+      }, 1000);
+
+      const checkoutRef = doc(
+        database,
+        userId + "/checkout/" + "products/" + checkoutId
+      );
+      await deleteDoc(checkoutRef);
+      alert("delete success");
+    } catch (error) {
+      console.error("Error deleting", error);
+      alert("error deleting", error);
+      throw error;
+    }
   };
 
   return (
