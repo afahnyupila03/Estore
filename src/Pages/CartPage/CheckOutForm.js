@@ -1,3 +1,6 @@
+// TODO: WHEN WRITING CHECKOUT DATA TO DATABASE...DIRECTLY PASS
+// THE VALUES OF THE DELIVERY_VALUES & SHIPPING_COST
+
 import { Field, Form, Formik } from "formik";
 import CustomTextInput, {
   CustomCheckbox,
@@ -15,6 +18,7 @@ import {
 } from "../../Services/AccountServices";
 import Divider from "../../Components/Divider";
 import Loader from "../../Components/Loader";
+import { ViewCheckoutProducts } from "../../Services/CartService";
 
 export default function CheckOutForm() {
   const [userFirstName, setUserFirstName] = useState("");
@@ -32,18 +36,14 @@ export default function CheckOutForm() {
     standard: false,
     express: false,
   });
+  const [shippingPrice, setShippingPrice] = useState(0);
   const [taxIsLoading, setTaxIsLoading] = useState(false);
   const [checkoutLoading, setCheckoutLoading] = useState(false);
   const [taxes, setTaxes] = useState(0);
   const [checkoutTotal, setCheckoutTotal] = useState(0);
   const { user } = useAuth();
-  const {
-    products,
-    totalAmount,
-    removeProductHandler,
-    productQuantity,
-    clearProductHandler,
-  } = useCart();
+  const { removeProductHandler, productQuantity, clearProductHandler } =
+    useCart();
 
   const splitUserName = (userName) => {
     if (!userName) {
@@ -70,6 +70,19 @@ export default function CheckOutForm() {
     error: paymentError,
   } = useQuery(["payments", userId], () => PaymentMethodServices(userId));
 
+  const {
+    data: checkoutData = [],
+    isLoading: checkoutIsLoading,
+    refetch: checkoutRefetch,
+    isError: checkoutIsError,
+    error: checkoutError,
+  } = useQuery(["checkoutData", userId], () => ViewCheckoutProducts(userId));
+
+  const productTotalPrice = checkoutData.map((total) => {
+    const { totalAmount } = total;
+    return totalAmount;
+  });
+
   useEffect(() => {
     const { first, last } = splitUserName(userName);
     setUserFirstName(first);
@@ -78,21 +91,14 @@ export default function CheckOutForm() {
 
   const handleDeliveryValues = (e) => {
     const { name, checked } = e.target;
-    if (name === "standard" && checked) {
-      setDeliveryValues({ standard: true, express: false });
-      setMarkChecked({ standard: true, express: false });
-    } else if (name === "express" && checked) {
-      setDeliveryValues({ standard: false, express: true });
-      setMarkChecked({ standard: false, express: true });
+    if (name === "standard") {
+      setDeliveryValues({ standard: checked, express: !checked });
+      setMarkChecked({ standard: checked, express: !checked });
+    } else if (name === "express") {
+      setDeliveryValues({ standard: !checked, express: checked });
+      setMarkChecked({ standard: !checked, express: checked });
     }
   };
-
-  console.log(
-    "delivery value: ",
-    deliveryValues.standard,
-    deliveryValues.express
-  );
-  console.log("check mark values: ", markChecked.standard, markChecked.express);
 
   const MONEY_FORMATTER = (amount, currency) => {
     const formatter = new Intl.NumberFormat("fr", {
@@ -118,12 +124,27 @@ export default function CheckOutForm() {
     }
   };
 
-  const VAT = totalAmount ? 0.1925 : 0;
-  const INCOME_TAX = totalAmount ? 0.3333 : 0;
-  const STAMP_DUTY = totalAmount ? 2000 : 0;
+  console.log("shipping price: ", shippingPrice);
+
+  useEffect(() => {
+    if (deliveryValues.standard === true) {
+      console.log("useEffect price: ", shippingPrice);
+      setShippingPrice(STANDARD);
+    } else if (deliveryValues.express === true) {
+      console.log("useEffect price: ", shippingPrice);
+      setShippingPrice(EXPRESS);
+    } else {
+      setShippingPrice(0);
+    }
+  }, [deliveryValues.standard, deliveryValues.express]);
+
+  const VAT = productTotalPrice ? 0.1925 : 0;
+  const INCOME_TAX = productTotalPrice ? 0.3333 : 0;
+  const STAMP_DUTY = productTotalPrice ? 2000 : 0;
 
   const handleTaxesCalc = (productPrice, vat, incomeTax, stampDuty) => {
     setTaxIsLoading(true);
+
     const calculateTaxes = productPrice * (vat * incomeTax) + stampDuty;
 
     setTimeout(() => {
@@ -134,7 +155,13 @@ export default function CheckOutForm() {
 
   const handleCheckoutTotal = (productPrice, taxes, shippingPrice) => {
     setCheckoutLoading(true);
-    const calculateCheckoutTotal = productPrice + taxes + shippingPrice;
+
+    const numericProductPrice = parseFloat(productPrice);
+    const numericTaxes = parseFloat(taxes);
+    const numericShippingPrice = parseFloat(shippingPrice);
+
+    const calculateCheckoutTotal =
+      numericProductPrice + numericTaxes + numericShippingPrice;
 
     setTimeout(() => {
       setCheckoutLoading(false);
@@ -143,28 +170,28 @@ export default function CheckOutForm() {
   };
 
   useEffect(() => {
-    if (totalAmount) {
-      handleTaxesCalc(totalAmount, VAT, INCOME_TAX, STAMP_DUTY);
+    if (checkoutData) {
+      handleTaxesCalc(productTotalPrice, VAT, INCOME_TAX, STAMP_DUTY);
     }
-  }, [totalAmount, VAT, INCOME_TAX, STAMP_DUTY]);
+  }, [checkoutData, VAT, INCOME_TAX, STAMP_DUTY]);
 
   useEffect(() => {
-    if (SHIPPING_COST()) {
-      handleCheckoutTotal(totalAmount, SHIPPING_COST(), taxes);
+    if (SHIPPING_COST() && checkoutData) {
+      handleCheckoutTotal(productTotalPrice, SHIPPING_COST(), taxes);
     }
-  }, [totalAmount, SHIPPING_COST(), taxes]);
+  }, [SHIPPING_COST(), checkoutData, taxes]);
 
   const checkFormSubmitHandler = (values, actions) => {
     setTimeout(() => {
       console.log("form values: ", values);
-      console.log(
-        "ProductData: ",
-        products.map(
-          ({ thumbnail, description, images, rating, stock, id, ...rest }) =>
-            rest
-        )
-      );
-      console.log("Cart total amount: ", totalAmount);
+      const productData = checkoutData.map((productInfo) => {
+        const { product } = productInfo;
+        const checkoutProduct = product.map(
+          ({ description, stock, images, rating, ...rest }) => rest
+        );
+        return checkoutProduct;
+      });
+      console.log("ProductData: ", productData);
       clearProductHandler();
       actions.resetForm({
         values: {
@@ -184,6 +211,8 @@ export default function CheckOutForm() {
           cardHolder: "",
           expiryDate: "",
           cvc: "",
+          finalPrice: checkoutTotal,
+          tax: taxes,
         },
       });
     }, 1000);
@@ -203,13 +232,14 @@ export default function CheckOutForm() {
           state: "",
           postalCode: "",
           tel: "",
-          standard: deliveryValues.standard,
-          express: deliveryValues.express,
+          standard: markChecked.standard,
+          express: markChecked.express,
+          shippingPrice: shippingPrice,
           cardNumber: "",
           cardHolder: "",
           expiryDate: "",
           cvc: "",
-          // deliveryAmount: SHIPPING_COST(),
+          deliveryAmount: SHIPPING_COST(),
         }}
         onSubmit={checkFormSubmitHandler}
       >
@@ -527,7 +557,7 @@ export default function CheckOutForm() {
                 </h1>
                 <div
                   role="group"
-                  aria-labelledBy="my-radio-group"
+                  aria-labelledby="my-radio-group"
                   className="flex justify-around items-center"
                 >
                   <div className="border-2 border-black rounded p-4">
@@ -696,103 +726,119 @@ export default function CheckOutForm() {
                   Order summary
                 </h1>
 
-                <div>
-                  {products.length === 0 ? (
-                    <div className="mt-8">
-                      <p className="mb-10 text-xl font-mono">
-                        No products to checkout...!
-                      </p>
-                      <Link
-                        to="/home"
-                        className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
-                      >
-                        Continue Shopping
-                      </Link>
-                    </div>
-                  ) : (
-                    products.map((summaryOrder) => (
-                      <SummaryCardItems
-                        summaryData={summaryOrder}
-                        key={summaryOrder.id}
-                        removeProductHandler={() =>
-                          removeProductHandler(summaryOrder.id)
-                        }
+                {checkoutData.map((item) => {
+                  const { totalAmount, totalProducts, product, id } = item;
+                  return (
+                    <div key={id}>
+                      <div>
+                        {!product ? (
+                          <div className="mt-8">
+                            <p className="mb-10 text-xl font-mono">
+                              No products to checkout...!
+                            </p>
+                            <Link
+                              to="/home"
+                              className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
+                            >
+                              Continue Shopping
+                            </Link>
+                          </div>
+                        ) : (
+                          product.map((summaryOrder) => (
+                            <SummaryCardItems
+                              summaryData={summaryOrder}
+                              key={summaryOrder.id}
+                              removeProductHandler={() =>
+                                removeProductHandler(summaryOrder.id)
+                              }
+                            />
+                          ))
+                        )}
+                      </div>
+                      <Divider
+                        style={{ marginTop: "0.7rem", marginBottom: "0.7rem" }}
                       />
-                    ))
-                  )}
-                </div>
+                      {product && (
+                        <div>
+                          <div className="flex mt-2 justify-between items-center">
+                            <p className="mb-2 text-lg font-mono font-semibold">
+                              Total products :
+                            </p>
+                            <p className="text-gray-900 text-lg font-mono font-semibold">
+                              {totalProducts}
+                            </p>
+                          </div>
+                          <div className="flex mt-2 justify-between items-center">
+                            <p className="mb-2 text-lg font-mono font-semibold">
+                              Subtotal :
+                            </p>
+                            <p className="text-gray-900 text-lg font-mono font-semibold">
+                              {MONEY_FORMATTER(parseInt(totalAmount), CURRENCY)}
+                            </p>
+                          </div>
+                          <div className="flex mt-2 justify-between items-center">
+                            <p className="mb-2 text-lg font-mono font-semibold">
+                              Taxes :
+                            </p>
+                            <p className="text-gray-900 text-lg font-mono font-semibold">
+                              {taxIsLoading ? (
+                                <Loader animation={loading} size={20} />
+                              ) : (
+                                MONEY_FORMATTER(parseInt(taxes), CURRENCY)
+                              )}
+                            </p>
+                          </div>
+                          <div className="flex mt-2 justify-between items-center">
+                            <p className="mb-2 text-lg font-mono font-semibold">
+                              Shipping :
+                            </p>
+                            <p className="text-gray-900 text-lg font-mono font-semibold">
+                              {MONEY_FORMATTER(
+                                parseInt(SHIPPING_COST()),
+                                CURRENCY
+                              )}
+                            </p>
+                          </div>
 
-                <Divider
-                  style={{ marginTop: "0.7rem", marginBottom: "0.7rem" }}
-                />
+                          <Divider
+                            style={{
+                              marginTop: "0.7rem",
+                              marginBottom: "0.7rem",
+                            }}
+                          />
 
-                {products.length > 0 && (
-                  <div>
-                    <div className="flex mt-2 justify-between items-center">
-                      <p className="mb-2 text-lg font-mono font-semibold">
-                        Total products :
-                      </p>
-                      <p className="text-gray-900 text-lg font-mono font-semibold">
-                        {productQuantity}
-                      </p>
-                    </div>
-                    <div className="flex mt-2 justify-between items-center">
-                      <p className="mb-2 text-lg font-mono font-semibold">
-                        Subtotal :
-                      </p>
-                      <p className="text-gray-900 text-lg font-mono font-semibold">
-                        {MONEY_FORMATTER(parseInt(totalAmount), CURRENCY)}
-                      </p>
-                    </div>
-                    <div className="flex mt-2 justify-between items-center">
-                      <p className="mb-2 text-lg font-mono font-semibold">
-                        Taxes :
-                      </p>
-                      <p className="text-gray-900 text-lg font-mono font-semibold">
-                        {taxIsLoading ? (
-                          <Loader animation={loading} size={20} />
-                        ) : (
-                          MONEY_FORMATTER(parseInt(taxes), CURRENCY)
-                        )}
-                      </p>
-                    </div>
-                    <div className="flex mt-2 justify-between items-center">
-                      <p className="mb-2 text-lg font-mono font-semibold">
-                        Shipping :
-                      </p>
-                      <p className="text-gray-900 text-lg font-mono font-semibold">
-                        {MONEY_FORMATTER(parseInt(SHIPPING_COST()), CURRENCY)}
-                      </p>
-                    </div>
+                          <div className="flex mt-2 justify-between">
+                            <p className="mb-2 text-lg font-mono font-semibold">
+                              Total :
+                            </p>
+                            <p className="text-gray-900 font-mono font-semibold">
+                              {checkoutLoading ? (
+                                <Loader animation={loading} size={20} />
+                              ) : (
+                                MONEY_FORMATTER(
+                                  parseInt(checkoutTotal),
+                                  CURRENCY
+                                )
+                              )}
+                            </p>
+                          </div>
 
-                    <Divider
-                      style={{ marginTop: "0.7rem", marginBottom: "0.7rem" }}
-                    />
-
-                    <div className="flex mt-2 justify-between">
-                      <p className="mb-2 text-lg font-mono font-semibold">
-                        Total :
-                      </p>
-                      <p className="text-gray-900 font-mono font-semibold">
-                        {checkoutLoading ? (
-                          <Loader animation={loading} size={20} />
-                        ) : (
-                          MONEY_FORMATTER(parseInt(checkoutTotal), CURRENCY)
-                        )}
-                      </p>
+                          <div className="flex justify-center mt-2">
+                            <button
+                              className="text-white text-center bg-black px-4 py-2 rounded"
+                              type="submit"
+                              disabled={isSubmitting}
+                            >
+                              {isSubmitting
+                                ? "loading invoice"
+                                : "Confirm order"}
+                            </button>
+                          </div>
+                        </div>
+                      )}
                     </div>
-
-                    <div className="flex justify-center mt-2">
-                      <button
-                        className="text-white text-center bg-black px-4 py-2 rounded"
-                        type="submit"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "loading invoice" : "Confirm order"}
-                      </button>
-                    </div>
-                  </div>
-                )}
+                  );
+                })}
               </div>
             </div>
           </Form>

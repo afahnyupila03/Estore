@@ -140,6 +140,7 @@ export default function ProductItemCard({ productData }) {
       handleUserAuthState();
     } else {
       addProductHandler(product);
+      alert("Add success");
       setProductAdded(true);
 
       setTimeout(() => {
@@ -305,8 +306,8 @@ export default function ProductItemCard({ productData }) {
         <div className="flex justify-between items-center">
           <div>
             <p className="flex text-xs lg:text-lg justify-start text-gray-700">
-            {brand}
-          </p>
+              {brand}
+            </p>
 
             <h4 className="font-mono text-sm font-semibold lg:font-semibold lg:text-lg flex text-left">
               <span aria-hidden="true">{getName(title)}</span>

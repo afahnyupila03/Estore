@@ -4,6 +4,8 @@ import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
 import { arrowForwardOutline } from "ionicons/icons";
 import { useAuth, useCart, useWishList } from "../../Store";
+import { database } from "../../FirebaseConfigs/Firesbase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function CartPage() {
   const { user } = useAuth();
@@ -16,6 +18,7 @@ export default function CartPage() {
   } = useCart();
 
   const { wishListQuantity } = useWishList();
+  const userId = user?.uid;
 
   console.log("reducer total-amount: ", totalAmount);
   console.log("reducer product quantity :", productQuantity);
@@ -30,6 +33,28 @@ export default function CartPage() {
   };
 
   const cartTotal = FORMAT_MONEY(parseInt(totalAmount), CURRENCY);
+
+  const CheckoutHandler = async (userId) => {
+    const db = database;
+    const ref = collection(db, userId, "/checkout/", "products");
+
+    try {
+      await addDoc(ref, {
+        // quantity: product.quantity,
+        totalProducts: productQuantity,
+        totalAmount: totalAmount,
+        product: products,
+        timestamp: serverTimestamp(),
+      });
+      const refId = ref.id;
+      alert("Success adding checkout: ", refId);
+      window.location.href = "/checkout-form";
+    } catch (error) {
+      alert("Error adding");
+      console.error(error);
+      return error;
+    }
+  };
 
   let content;
 
@@ -96,12 +121,12 @@ export default function CartPage() {
             </div>
           </div>
           <div className="grid justify-center">
-            <Link
-              to="/checkout-form"
+            <button
+              onClick={() => CheckoutHandler(userId)}
               className="mt-10 bg-black text-white px-10 py-2 rounded text-xl font-mono"
             >
               Checkout
-            </Link>
+            </button>
             <div className="flex mt-8 items-center">
               <span className="mr-10">or</span>
               <Link
