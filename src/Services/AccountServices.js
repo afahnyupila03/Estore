@@ -145,3 +145,35 @@ export const fetchPaymentId = async (userId) => {
     return Promise.reject(error);
   }
 };
+
+export const PurchaseServices = async (userId) => {
+  try {
+    const db = database;
+    const purchaseRef = collection(db, userId + "/products/" + "purchase");
+    const q = query(purchaseRef);
+    const purchaseSnapShot = await getDocs(q);
+
+    const purchaseData = [];
+    purchaseSnapShot.forEach((doc) => {
+      purchaseData.push({
+        id: doc.id,
+        purchaseId: doc.data().purchaseId,
+        address: doc.data().address,
+        city: doc.data().city,
+        checkoutTotal: doc.data().checkoutTotal,
+        displayName: doc.data().displayName,
+        email: doc.data().email,
+        productData: doc.data().productData,
+        productQuantity: doc.data().productQuantity,
+        shippingPrice: doc.data().shippingPrice,
+        state: doc.data().state,
+        tax: doc.data().tax,
+        tel: doc.data().tel,
+      });
+    });
+    return purchaseData;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+};

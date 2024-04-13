@@ -19,7 +19,13 @@ import {
 import Divider from "../../Components/Divider";
 import Loader from "../../Components/Loader";
 import { ViewCheckoutProducts } from "../../Services/CartService";
-import { deleteDoc, doc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+} from "firebase/firestore";
 import { database } from "../../FirebaseConfigs/Firesbase";
 
 export default function CheckOutForm() {
@@ -44,8 +50,7 @@ export default function CheckOutForm() {
   const [taxes, setTaxes] = useState(0);
   const [checkoutTotal, setCheckoutTotal] = useState(0);
   const { user } = useAuth();
-  const { removeProductHandler, productQuantity, clearProductHandler } =
-    useCart();
+  const { removeProductHandler, clearProductHandler } = useCart();
 
   const splitUserName = (userName) => {
     if (!userName) {
@@ -80,11 +85,19 @@ export default function CheckOutForm() {
     error: checkoutError,
   } = useQuery(["checkoutData", userId], () => ViewCheckoutProducts(userId));
   console.log(checkoutData);
+  const productQuantity = checkoutData.map((checkout) => {
+    const { totalProducts } = checkout;
+    return totalProducts;
+  });
   const checkoutId = checkoutData.map((checkout) => {
     const { id } = checkout;
     return id;
   });
+  const productData = checkoutData.map((productInfo) => {
+    const { product } = productInfo;
 
+    return product;
+  });
   const productTotalPrice = checkoutData.map((total) => {
     const { totalAmount } = total;
     return totalAmount;
@@ -136,10 +149,10 @@ export default function CheckOutForm() {
   useEffect(() => {
     if (deliveryValues.standard === true) {
       console.log("useEffect price: ", shippingPrice);
-      setShippingPrice(STANDARD);
+      setShippingPrice(STANDARD_PRICE);
     } else if (deliveryValues.express === true) {
       console.log("useEffect price: ", shippingPrice);
-      setShippingPrice(EXPRESS);
+      setShippingPrice(EXPRESS_PRICE);
     } else {
       setShippingPrice(0);
     }
@@ -188,43 +201,69 @@ export default function CheckOutForm() {
     }
   }, [SHIPPING_COST(), checkoutData, taxes]);
 
+  const purchaseId = () => {
+    const currentDate = new Date();
+    const year = currentDate.getFullYear();
+    const month = String(currentDate.getMonth() + 1).padStart(2, "0");
+    const uniqueCode = Math.floor(Math.random() * 10000)
+      .toString()
+      .padStart(8, "0");
+
+    return `INV-${year}-${month}-${uniqueCode}`;
+  };
+
   const checkFormSubmitHandler = async (values, actions) => {
     try {
-      setTimeout(() => {
-        console.log("form values: ", values);
-        const productData = checkoutData.map((productInfo) => {
-          const { product } = productInfo;
-          const checkoutProduct = product.map(
-            ({ description, stock, images, rating, ...rest }) => rest
-          );
-          return checkoutProduct;
-        });
-        console.log("ProductData: ", productData);
-        clearProductHandler();
+      const checkoutProduct = productData.map(
+        ({ description, stock, images, rating, ...rest }) => rest
+      );
+      const purchaseRef = collection(
+        database,
+        userId,
+        "/products/",
+        "purchase"
+      );
+      await addDoc(purchaseRef, {
+        productData: checkoutProduct,
+        productQuantity: productQuantity,
+        tax: taxes,
+        checkoutTotal: checkoutTotal,
+        shippingPrice: shippingPrice,
+        purchaseId: purchaseId(),
+        email: values.email,
+        displayName: values.firstName && values.lastName,
+        address: values.address,
+        city: values.city,
+        state: values.state,
+        tel: values.tel,
+        cardNumber: values.cardNumber,
+        timeStamp: serverTimestamp(),
+      });
 
-        actions.resetForm({
-          values: {
-            email: userEmail,
-            firstName: userFirstName,
-            lastName: userLastName,
-            company: "",
-            address: "",
-            aptSuite: "",
-            city: "",
-            state: "",
-            postalCode: "",
-            tel: "",
-            standard: deliveryValues.standard,
-            express: deliveryValues.express,
-            cardNumber: "",
-            cardHolder: "",
-            expiryDate: "",
-            cvc: "",
-            finalPrice: checkoutTotal,
-            tax: taxes,
-          },
-        });
-      }, 1000);
+      alert("added to purchase");
+
+      actions.resetForm({
+        values: {
+          email: userEmail,
+          firstName: userFirstName,
+          lastName: userLastName,
+          company: "",
+          address: "",
+          aptSuite: "",
+          city: "",
+          state: "",
+          postalCode: "",
+          tel: "",
+          standard: deliveryValues.standard,
+          express: deliveryValues.express,
+          cardNumber: "",
+          cardHolder: "",
+          expiryDate: "",
+          cvc: "",
+          finalPrice: checkoutTotal,
+          tax: taxes,
+        },
+      });
 
       const checkoutRef = doc(
         database,
@@ -243,9 +282,9 @@ export default function CheckOutForm() {
     <div className="container mx-auto mt-4 lg:px-4">
       <Formik
         initialValues={{
-          email: userEmail,
-          firstName: userFirstName,
-          lastName: userLastName,
+          email: "",
+          firstName: "",
+          lastName: "",
           company: "",
           address: "",
           aptSuite: "",

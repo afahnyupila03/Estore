@@ -1,29 +1,24 @@
 import {
   collection,
   getDocs,
-  setDoc,
   query,
   orderBy,
   limit,
+  addDoc,
 } from "firebase/firestore";
 import { database } from "../FirebaseConfigs/Firesbase";
 
-export const postCartItemService = async (items, userData, orderedItems) => {
+export const PostCartService = async (userId, product, price) => {
   try {
-    const response = await fetch(items, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user: userData,
-        orderedItems: orderedItems,
-      }),
-    });
-    const data = await response.json();
-    return data;
-  } catch (err) {
-    return Promise.reject(err);
+    const db = database;
+    const cartRef = collection(db, userId, "/cart/", "products");
+    await addDoc(cartRef, {
+      product: product,
+      // price: price,
+    })
+  } catch (error) {
+    console.error(error)
+    throw error;
   }
 };
 
@@ -50,25 +45,3 @@ export const ViewCheckoutProducts = async (userId) => {
   }
 };
 
-export const getCartItemsService = async (items) => {
-  try {
-    const response = await fetch(items);
-    const data = await response.json();
-    const loadedItems = [];
-    for (const cartItemsKey in data) {
-      loadedItems.push({
-        id: cartItemsKey,
-        image: data[cartItemsKey].image,
-        name: data[cartItemsKey].name,
-        price: data[cartItemsKey].price,
-      });
-    }
-    return loadedItems;
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
-
-export const trendingNearYouProductsService = async () => {};
-
-export const trendingNearYouProductService = async () => {};
