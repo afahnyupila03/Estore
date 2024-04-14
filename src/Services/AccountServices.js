@@ -149,7 +149,7 @@ export const fetchPaymentId = async (userId) => {
 export const PurchaseServices = async (userId) => {
   try {
     const db = database;
-    const purchaseRef = collection(db, userId + "/products/" + "purchase");
+    const purchaseRef = collection(db, userId + "/purchase/" + "products");
     const q = query(purchaseRef);
     const purchaseSnapShot = await getDocs(q);
 
@@ -169,6 +169,9 @@ export const PurchaseServices = async (userId) => {
         state: doc.data().state,
         tax: doc.data().tax,
         tel: doc.data().tel,
+        timeOfOrder: doc.data().timeOfOrder,
+        dayOfOrder: doc.data().dayOfOrder,
+        cardNumber: doc.data().cardNumber,
       });
     });
     return purchaseData;

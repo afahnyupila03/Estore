@@ -19,7 +19,7 @@ export default function PurchasePage() {
     isError,
     error,
   } = useQuery(["purchaseData", userId], () => PurchaseServices(userId));
-  console.log("purchase-data: ", isLoading && "loading", data && data);
+  console.log("purchase-data: ", isLoading && "loading", data.productData);
 
   let purchase;
 
@@ -83,29 +83,50 @@ export default function PurchasePage() {
             city,
             state,
             tel,
-            carNumber,
+            cardNumber,
             timeStamp,
           } = purchase;
-          console.log("Product-data: ", productData);
+          console.log(
+            "Product-data: NEW : ",
+            productData.map((item, index) => (
+              <div key={item.id}>
+                <p>Title: {item.title}</p>
+                <p>Brand: {item.brand}</p>
+                <p>Category: {item.category}</p>
+                <p>Price: {item.price}</p>
+                {/* Add more properties as needed */}
+              </div>
+            ))
+          );
+
           return (
             <div key={id}>
               <p>Purchase id : {purchaseId}</p>
               <p>Tax: {parseInt(tax)}</p>
               <p>Product-quantity: {productQuantity}</p>
               <p>Shipping price: {shippingPrice}</p>
-
-              <div>
-                {productData.map((product) => (
-                  <div key={product.id}>
-                    <p>product-name: {product.title}</p>
-                    <p>product-price: {product.price}</p>
-                    <PurchaseItemsCard
-                      key={product.id}
-                      purchaseData={product}
-                    />
-                  </div>
-                ))}
-              </div>
+              <p>Total {checkoutTotal}</p>
+              <p>Email: {email}</p>
+              <p>Name: {displayName}</p>
+              <p>Address: {address}</p>
+              <p>City: {city}</p>
+              <p>State: {state}</p>
+              <p>Tel: {tel}</p>
+              <p>Card number: {cardNumber}</p>
+              <h1>NEW TRY</h1>
+              {productData.map((item, index) => (
+                <div key={index}>
+                  {Object.keys(item).map((key) => (
+                    <div key={key}>
+                      <p>Title: {item[key].title}</p>
+                      <p>Brand: {item[key].brand}</p>
+                      <p>Category: {item[key].category}</p>
+                      <p>Price: {item[key].price}</p>
+                      {/* Add more properties as needed */}
+                    </div>
+                  ))}
+                </div>
+              ))}
             </div>
           );
         })}

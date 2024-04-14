@@ -31,11 +31,11 @@ import { database } from "../../FirebaseConfigs/Firesbase";
 export default function CheckOutForm() {
   const [userFirstName, setUserFirstName] = useState("");
   const [userLastName, setUserLastName] = useState("");
-  const [other, setOther] = useState(false);
   const [otherState, setOtherState] = useState(false);
-  const [otherCardNumber, setOtherCardNumber] = useState(false);
   const [otherAddress, setOtherAddress] = useState(false);
+  const [otherCity, setOtherCity] = useState(false);
   const [otherApt, setOtherApt] = useState(false);
+  const [otherCardNumber, setOtherCardNumber] = useState(false);
   const [deliveryValues, setDeliveryValues] = useState({
     standard: false,
     express: false,
@@ -144,8 +144,6 @@ export default function CheckOutForm() {
     }
   };
 
-  console.log("shipping price: ", shippingPrice);
-
   useEffect(() => {
     if (deliveryValues.standard === true) {
       console.log("useEffect price: ", shippingPrice);
@@ -158,14 +156,15 @@ export default function CheckOutForm() {
     }
   }, [deliveryValues.standard, deliveryValues.express]);
 
-  const VAT = productTotalPrice ? 0.1925 : 0;
-  const INCOME_TAX = productTotalPrice ? 0.3333 : 0;
-  const STAMP_DUTY = productTotalPrice ? 2000 : 0;
-
-  const handleTaxesCalc = (productPrice, vat, incomeTax, stampDuty) => {
+  const handleTaxesCalc = (productPrice) => {
     setTaxIsLoading(true);
 
-    const calculateTaxes = productPrice * (vat * incomeTax) + stampDuty;
+    const VAT = productPrice ? 0.1925 : 0;
+    const INCOME_TAX = productPrice ? 0.3333 : 0;
+    const STAMP_DUTY = productPrice ? 2000 : 0;
+
+    const GOVT_TAX = productPrice * (VAT * INCOME_TAX);
+    const calculateTaxes = GOVT_TAX && GOVT_TAX + STAMP_DUTY;
 
     setTimeout(() => {
       setTaxIsLoading(false);
@@ -191,9 +190,9 @@ export default function CheckOutForm() {
 
   useEffect(() => {
     if (checkoutData) {
-      handleTaxesCalc(productTotalPrice, VAT, INCOME_TAX, STAMP_DUTY);
+      handleTaxesCalc(productTotalPrice);
     }
-  }, [checkoutData, VAT, INCOME_TAX, STAMP_DUTY]);
+  }, [checkoutData]);
 
   useEffect(() => {
     if (SHIPPING_COST() && checkoutData) {
@@ -214,14 +213,16 @@ export default function CheckOutForm() {
 
   const checkFormSubmitHandler = async (values, actions) => {
     try {
+      const timeOfOrder = new Date().toTimeString().split(" ")[0];
+      const dayOfOrder = new Date().toDateString();
       const checkoutProduct = productData.map(
         ({ description, stock, images, rating, ...rest }) => rest
       );
       const purchaseRef = collection(
         database,
         userId,
-        "/products/",
-        "purchase"
+        "/purchase/",
+        "/products/"
       );
       await addDoc(purchaseRef, {
         productData: checkoutProduct,
@@ -231,18 +232,20 @@ export default function CheckOutForm() {
         shippingPrice: shippingPrice,
         purchaseId: purchaseId(),
         email: values.email,
-        displayName: values.firstName && values.lastName,
+        displayName: `${values.firstName} ${values.lastName}`,
         address: values.address,
         city: values.city,
         state: values.state,
         tel: values.tel,
         cardNumber: values.cardNumber,
         timeStamp: serverTimestamp(),
+        timeOfOrder: timeOfOrder,
+        dayOfOrder: dayOfOrder,
       });
 
       alert("added to purchase");
 
-      actions.resetForm({
+      /* actions.resetForm({
         values: {
           email: userEmail,
           firstName: userFirstName,
@@ -263,7 +266,7 @@ export default function CheckOutForm() {
           finalPrice: checkoutTotal,
           tax: taxes,
         },
-      });
+      }); */
 
       const checkoutRef = doc(
         database,
@@ -363,27 +366,26 @@ export default function CheckOutForm() {
                   {otherAddress ? (
                     <Field
                       component={CustomTextInput}
-                      id="address"
                       name="address"
                       type="text"
                       value={values.address}
+                      label="Address"
+                      placeholder="Enter address"
+                      id="address"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      autoComplete="true"
-                      label="Address"
+                      autoComplete="false"
                     />
                   ) : (
                     <div className="grid">
-                      <label
-                        htmlFor="address"
-                        className="font-semibold font-mono"
-                      >
+                      <label htmlFor="address" id="address">
                         Address
                       </label>
                       <Field
                         component="select"
+                        id="address"
                         name="address"
-                        placeholder="Select address"
+                        placeholder="select address"
                         label="Address"
                         onChange={(e) => {
                           if (e.target.value === "otherAddress") {
@@ -403,15 +405,17 @@ export default function CheckOutForm() {
                         }}
                       >
                         <option value="address">Select address</option>
-                        {deliveryAddresses.map((deliveryInfor) => (
-                          <option
-                            key={deliveryInfor.id}
-                            value={deliveryInfor.address}
-                          >
-                            {deliveryInfor.address}
-                          </option>
-                        ))}
-                        <option value="otherAddress">Other, SPecify...</option>
+                        {deliveryAddresses.map((deliveryAddress) => {
+                          const { id, address } = deliveryAddress;
+                          return (
+                            <option value={address} key={id}>
+                              {address}
+                            </option>
+                          );
+                        })}
+                        <option value="otherAddress">
+                          Other, please specify...
+                        </option>
                       </Field>
                     </div>
                   )}
@@ -437,7 +441,7 @@ export default function CheckOutForm() {
                         component="select"
                         name="apt"
                         placeholder="Select Apt"
-                        label="Apt, Suite, etc" // Added label prop
+                        label="Apt, Suite, etc"
                         onChange={(e) => {
                           if (e.target.value === "otherApt") {
                             setOtherApt(true);
@@ -455,15 +459,15 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="city">Select apt</option>
-                        {deliveryAddresses.map((deliveryInfor) => (
-                          <option
-                            key={deliveryInfor.id}
-                            value={deliveryInfor.apt}
-                          >
-                            {deliveryInfor.apt}
-                          </option>
-                        ))}
+                        <option value="apt">Select apt</option>
+                        {deliveryAddresses.map((deliveryApt) => {
+                          const { id, apt } = deliveryApt;
+                          return (
+                            <option key={id} value={apt}>
+                              {apt}
+                            </option>
+                          );
+                        })}
                         <option value="otherApt">Other, SPecify...</option>
                       </Field>
                     </div>
@@ -471,35 +475,37 @@ export default function CheckOutForm() {
                 </div>
 
                 <div className="flex justify-between items-center">
-                  {other ? (
+                  {otherCity ? (
                     <Field
                       component={CustomTextInput}
-                      id="city"
                       name="city"
                       type="text"
                       value={values.city}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      autoComplete="true"
                       label="City"
+                      placeholder="City"
+                      id="city"
+                      autoComplete="false"
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="city" className="font-semibold font-mono">
+                      <label htmlFor="city" id="city">
                         City
                       </label>
                       <Field
-                        component="select"
                         name="city"
-                        placeholder="select"
-                        label="City" // Added label prop
+                        id="city"
+                        component="select"
+                        placeholder="Select city"
                         onChange={(e) => {
-                          if (e.target.value === "other") {
-                            setOther(true);
+                          if (e.target.value === "otherCity") {
+                            setOtherCity(true);
                           } else {
-                            setOther(false);
+                            setOtherCity(false);
                           }
                         }}
+                        onBlur={handleBlur}
                         style={{
                           backgroundColor: "#9ca3af",
                           borderRadius: ".4rem",
@@ -511,43 +517,45 @@ export default function CheckOutForm() {
                         }}
                       >
                         <option value="city">Select city</option>
-                        {deliveryAddresses.map((deliveryInfor) => (
-                          <option
-                            key={deliveryInfor.id}
-                            value={deliveryInfor.address}
-                          >
-                            {deliveryInfor.address}
-                          </option>
-                        ))}
-                        <option value="other">Other, SPecify...</option>
+                        {deliveryAddresses.map((deliveryCity) => {
+                          const { id, city } = deliveryCity;
+                          return (
+                            <option value={city} key={id}>
+                              {city}
+                            </option>
+                          );
+                        })}
+                        <option value="otherCity">
+                          Other, please specify...
+                        </option>
                       </Field>
                     </div>
                   )}
+
                   {otherState ? (
                     <Field
                       component={CustomTextInput}
-                      id="state"
-                      name="state"
                       type="text"
-                      value={values.state}
+                      name="state"
+                      id="state"
+                      label="State / Province"
+                      placeholder="state / province"
+                      autoComplete="false"
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      autoComplete="true"
-                      label="State / Province"
+                      value={values.state}
                     />
                   ) : (
                     <div className="grid">
-                      <label
-                        htmlFor="state"
-                        className="font-semibold font-mono"
-                      >
+                      <label htmlFor="state" id="state">
                         State / Province
                       </label>
                       <Field
-                        component="select"
                         name="state"
-                        placeholder="state"
-                        label="state / Province" // Added label prop
+                        id="state"
+                        as="select"
+                        placeholder="Select state/ province"
+                        label="Select state / province"
                         onChange={(e) => {
                           if (e.target.value === "otherState") {
                             setOtherState(true);
@@ -565,17 +573,17 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="otherState">Select state</option>
-                        {deliveryAddresses.map((deliveryInfor) => (
-                          <option
-                            key={deliveryInfor.id}
-                            value={deliveryInfor.state}
-                          >
-                            {deliveryInfor.state}
-                          </option>
-                        ))}
+                        <option value="state">Select state</option>
+                        {deliveryAddresses.map((deliveryState) => {
+                          const { id, state } = deliveryState;
+                          return (
+                            <option key={id} value={state}>
+                              {state}
+                            </option>
+                          );
+                        })}
                         <option value="otherState">
-                          Other state, SPecify...
+                          Other, please specify...
                         </option>
                       </Field>
                     </div>
@@ -703,17 +711,13 @@ export default function CheckOutForm() {
                     />
                   ) : (
                     <div className="grid">
-                      <label
-                        htmlFor="cardNumber"
-                        className="font-semibold font-mono"
-                      >
+                      <label htmlFor="cardNumber" id="cardNumber">
                         Card number
                       </label>
                       <Field
-                        component="select"
+                        as="select"
                         name="cardNumber"
-                        placeholder="cardNumber"
-                        label="Card number" // Added label prop
+                        id="cardNumber"
                         onChange={(e) => {
                           if (e.target.value === "otherCardNumber") {
                             setOtherCardNumber(true);
@@ -731,17 +735,17 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="city">Card number</option>
-                        {paymentMethods.map((paymentInfo) => (
-                          <option
-                            key={paymentInfo.id}
-                            value={paymentInfo.cardNumber}
-                          >
-                            {paymentInfo.cardNumber}
-                          </option>
-                        ))}
+                        <option value="cardNumber">Select card number</option>
+                        {paymentMethods.map((paymentCard) => {
+                          const { id, cardNumber } = paymentCard;
+                          return (
+                            <option key={id} value={cardNumber}>
+                              {cardNumber}
+                            </option>
+                          );
+                        })}
                         <option value="otherCardNumber">
-                          Other card number
+                          Other, please specify...
                         </option>
                       </Field>
                     </div>
