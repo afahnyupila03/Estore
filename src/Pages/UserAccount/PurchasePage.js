@@ -6,7 +6,20 @@ import { useQuery } from "react-query";
 import { PurchaseServices } from "../../Services/AccountServices";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import PurchaseItemsCard from "./Components/CardComponents/PurchaseItemsCard";
+import Divider from "../../Components/Divider";
+
+const TABLE_STYLES = {
+  table: {
+    borderWidth: ".002rem",
+    borderColor: "black",
+    borderRadius: "20rem",
+    marginTop: "1rem",
+  },
+  purchaseInfo: {
+    paddingTop: "3rem",
+    paddingBottom: "10px",
+  },
+};
 
 export default function PurchasePage() {
   const { user } = useAuth();
@@ -19,7 +32,15 @@ export default function PurchasePage() {
     isError,
     error,
   } = useQuery(["purchaseData", userId], () => PurchaseServices(userId));
-  console.log("purchase-data: ", isLoading && "loading", data.productData);
+
+  const CURRENCY = "XAF";
+  const FORMAT_MONEY = (amount, currency) => {
+    const formatter = new Intl.NumberFormat("fr", {
+      currency: currency,
+      style: "currency",
+    });
+    return formatter.format(amount);
+  };
 
   let purchase;
 
@@ -67,7 +88,6 @@ export default function PurchasePage() {
   } else {
     purchase = (
       <div>
-        <h1>You have made purchases</h1>
         {data.map((purchase) => {
           const {
             id,
@@ -84,50 +104,92 @@ export default function PurchasePage() {
             state,
             tel,
             cardNumber,
-            timeStamp,
+            timeOfOrder,
+            dayOfOrder,
           } = purchase;
-          console.log(
-            "Product-data: NEW : ",
-            productData.map((item, index) => (
-              <div key={item.id}>
-                <p>Title: {item.title}</p>
-                <p>Brand: {item.brand}</p>
-                <p>Category: {item.category}</p>
-                <p>Price: {item.price}</p>
-                {/* Add more properties as needed */}
-              </div>
-            ))
-          );
 
           return (
-            <div key={id}>
-              <p>Purchase id : {purchaseId}</p>
-              <p>Tax: {parseInt(tax)}</p>
-              <p>Product-quantity: {productQuantity}</p>
-              <p>Shipping price: {shippingPrice}</p>
-              <p>Total {checkoutTotal}</p>
-              <p>Email: {email}</p>
-              <p>Name: {displayName}</p>
-              <p>Address: {address}</p>
-              <p>City: {city}</p>
-              <p>State: {state}</p>
-              <p>Tel: {tel}</p>
-              <p>Card number: {cardNumber}</p>
-              <h1>NEW TRY</h1>
-              {productData.map((item, index) => (
-                <div key={index}>
-                  {Object.keys(item).map((key) => (
-                    <div key={key}>
-                      <p>Title: {item[key].title}</p>
-                      <p>Brand: {item[key].brand}</p>
-                      <p>Category: {item[key].category}</p>
-                      <p>Price: {item[key].price}</p>
-                      {/* Add more properties as needed */}
-                    </div>
-                  ))}
-                </div>
-              ))}
-            </div>
+            // <div key={id}>
+            <table
+              key={id}
+              // style={TABLE_STYLES.table}
+              className="rounded-lg p-8 border-2 border-red"
+            >
+              <tr
+                style={TABLE_STYLES.purchaseInfo}
+                className="bg-gray-300 text-center"
+              >
+                <th>Date placed</th>
+                <th>Invoice N°</th>
+                <th>Tax</th>
+                <th>Shipping</th>
+                <th>Total amount</th>
+              </tr>
+              <tr>
+                <td>
+                  {dayOfOrder} {timeOfOrder}
+                </td>
+                <td>{purchaseId}</td>
+                <td className="text-center">
+                  {FORMAT_MONEY(parseInt(tax), CURRENCY)}
+                </td>
+                <td className="text-center">
+                  {FORMAT_MONEY(parseInt(shippingPrice), CURRENCY)}
+                </td>
+                <td className="text-center">
+                  {FORMAT_MONEY(parseInt(checkoutTotal), CURRENCY)}
+                </td>
+              </tr>
+              <tr className="bg-gray-300">
+                <th>Product</th>
+                <th>Brand</th>
+                <th>Price</th>
+                <th>Status</th>
+                <th>Info</th>
+              </tr>
+              {productData.map((item) =>
+                Object.keys(item).map((key) => (
+                  <tr key={key}>
+                    <td>
+                      {item[key].title} x {item[key].quantity}
+                    </td>
+                    <td className="text-center">{item[key].brand}</td>
+                    <td className="text-center">
+                      {FORMAT_MONEY(item[key].price, CURRENCY)}
+                    </td>
+                    <td className="text-center">En-route</td>
+                    <td className="text-center">View</td>
+                  </tr>
+                ))
+              )}
+              <tr className="bg-gray-300 text-center">
+                <th>User Infor</th>
+                <th>Delivery Info</th>
+                <th>Payment Info</th>
+                <th>Prod Quant </th>
+                <th>INVOICE</th>
+              </tr>
+              <tr>
+                <td>Email: {email}</td>
+                <td>
+                  {city}, {state}
+                </td>
+                <td>ends with ({cardNumber})</td>
+                <td>{productQuantity}</td>
+
+                <td className="text-center">VIEW INVOICE</td>
+              </tr>
+              <tr>
+                <td>Name: {displayName}</td>
+                <td>{address}</td>
+                <td></td>
+                <td></td>
+              </tr>
+              <tr>
+                <td>Tel: {tel}</td>
+              </tr>
+            </table>
+            // </div>
           );
         })}
       </div>
@@ -137,7 +199,9 @@ export default function PurchasePage() {
   return (
     <Fragment>
       <div>
-        <h1 className="text-2xl font-semibold font-mono">Purchases</h1>
+        <h1 className="text-2xl font-semibold font-mono">
+          Purchases <span>({data.length})</span>
+        </h1>
       </div>
       <div>{purchase}</div>
     </Fragment>

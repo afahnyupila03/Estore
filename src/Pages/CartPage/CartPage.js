@@ -20,9 +20,6 @@ export default function CartPage() {
   const { wishListQuantity } = useWishList();
   const userId = user?.uid;
 
-  console.log("reducer total-amount: ", totalAmount);
-  console.log("reducer product quantity :", productQuantity);
-
   const CURRENCY = "XAF";
   const FORMAT_MONEY = (amount, currency) => {
     const formatter = new Intl.NumberFormat("fr", {
