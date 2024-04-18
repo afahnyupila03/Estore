@@ -339,7 +339,6 @@ export default function PurchasePage() {
         </h1>
       </div>
       <div className="mt-2">{purchase}</div>
-      <Link to='/purchases/single'>Single</Link>
     </Fragment>
   );
 }
