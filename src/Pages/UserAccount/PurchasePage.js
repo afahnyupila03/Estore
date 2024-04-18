@@ -6,7 +6,12 @@ import { useQuery } from "react-query";
 import { PurchaseServices } from "../../Services/AccountServices";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
-import Divider from "../../Components/Divider";
+import AmericanExpress from "../../Assets/Cards/american-express.png";
+import MasterCard from "../../Assets/Cards/master.png";
+import Discover from "../../Assets/Cards/discover.png";
+import Visa from "../../Assets/Cards/visa.png";
+import Mtn from "../../Assets/Cards/MTN.jpg";
+import Orange from "../../Assets/Cards/orange.png";
 
 const TABLE_STYLES = {
   table: {
@@ -303,7 +308,7 @@ export default function PurchasePage() {
                         <Link
                           target="_blank"
                           className="text-gray-800"
-                          to={`/purchase/${purchaseId}`}
+                          to={`/purchases/${id}/${purchaseId}`}
                         >
                           View invoice
                         </Link>
@@ -334,18 +339,69 @@ export default function PurchasePage() {
         </h1>
       </div>
       <div className="mt-2">{purchase}</div>
+      <Link to='/purchases/single'>Single</Link>
     </Fragment>
   );
 }
 
-function HIDE_CARD_NUMBER(cardNumber) {
-  if (cardNumber.length === 16) {
-    const hiddenDigits = cardNumber.substring(12);
-    return hiddenDigits;
+const visaRegex = /^(?<VISA>4\d{3}[\s-]?(?:\d{4}[\s-]?){2}\d(?:\d{3})?)$/;
+const mastercardRegex =
+  /^(?<MASTERCARD>5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4})$/;
+const amexRegex = /^(?<AMEX>3[47]\d{13,14})$/;
+const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
+const orangeCameroonRegex = /^(6[5-7]\d{7})$/;
+const mtnCameroonRegex = /^(6[8-9]\d{7})$/;
+
+const getCardType = (cardNumber) => {
+  if (visaRegex.test(cardNumber)) {
+    return "visa";
+  } else if (mastercardRegex.test(cardNumber)) {
+    return "mastercard";
+  } else if (amexRegex.test(cardNumber)) {
+    return "amex";
+  } else if (discoverRegex.test(cardNumber)) {
+    return "discover";
+  } else if (orangeCameroonRegex.test(cardNumber)) {
+    return "orange";
+  } else if (mtnCameroonRegex.test(cardNumber)) {
+    return "mtn";
   } else {
-    return "Invalid card number";
+    return "Invalid number";
+  }
+};
+
+function HIDE_CARD_NUMBER(cardNumber) {
+  if (visaRegex.test(cardNumber)) {
+    return cardNumber.substring(12);
+  } else if (mastercardRegex.test(cardNumber)) {
+    return cardNumber.substring(12);
+  } else if (amexRegex.test(cardNumber)) {
+    return cardNumber.substring(11);
+  } else if (discoverRegex.test(cardNumber)) {
+    return cardNumber.substring(12);
+  } else if (
+    orangeCameroonRegex.test(cardNumber) ||
+    mtnCameroonRegex.test(cardNumber)
+  ) {
+    return cardNumber.substring(5);
   }
 }
+
+const getNumberType = (cardNumber) => {
+  if (visaRegex.test(cardNumber)) {
+    return Visa;
+  } else if (mastercardRegex.test(cardNumber)) {
+    return MasterCard;
+  } else if (amexRegex.test(cardNumber)) {
+    return AmericanExpress;
+  } else if (discoverRegex.test(cardNumber)) {
+    return Discover;
+  } else if (orangeCameroonRegex.test(cardNumber)) {
+    return Orange;
+  } else if (mtnCameroonRegex.test(cardNumber)) {
+    return Mtn;
+  }
+};
 
 const getName = (title) => {
   const MAX_TITLE_CHARS = 20;

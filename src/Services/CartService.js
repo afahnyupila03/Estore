@@ -8,19 +8,7 @@ import {
 } from "firebase/firestore";
 import { database } from "../FirebaseConfigs/Firesbase";
 
-export const PostCartService = async (userId, product, price) => {
-  try {
-    const db = database;
-    const cartRef = collection(db, userId, "/cart/", "products");
-    await addDoc(cartRef, {
-      product: product,
-      // price: price,
-    })
-  } catch (error) {
-    console.error(error)
-    throw error;
-  }
-};
+
 
 export const ViewCheckoutProducts = async (userId) => {
   try {

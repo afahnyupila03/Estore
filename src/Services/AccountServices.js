@@ -145,7 +145,7 @@ export const fetchPaymentId = async (userId) => {
     return Promise.reject(error);
   }
 };
-
+// , orderBy("timestamp", "desc")
 export const PurchaseServices = async (userId) => {
   try {
     const db = database;
@@ -178,5 +178,41 @@ export const PurchaseServices = async (userId) => {
   } catch (error) {
     console.error(error);
     throw error;
+  }
+};
+
+export const PurchaseService = async (userId, serviceId) => {
+  try {
+    const purchaseRef = doc(
+      database,
+      userId + "/purchase/" + "products/" + serviceId
+    );
+
+    const purchaseSnapshot = await getDoc(purchaseRef);
+
+    if (purchaseSnapshot.exists()) {
+      const purchaseData = {
+        id: serviceId,
+        purchaseId: purchaseSnapshot.data().purchaseId,
+        address: purchaseSnapshot.data().address,
+        city: purchaseSnapshot.data().city,
+        checkoutTotal: purchaseSnapshot.data().checkoutTotal,
+        displayName: purchaseSnapshot.data().displayName,
+        email: purchaseSnapshot.data().email,
+        productData: purchaseSnapshot.data().productData,
+        productQuantity: purchaseSnapshot.data().productQuantity,
+        shippingPrice: purchaseSnapshot.data().shippingPrice,
+        state: purchaseSnapshot.data().state,
+        tax: purchaseSnapshot.data().tax,
+        timeOfOrder: purchaseSnapshot.data().timeOfOrder,
+        dayOfOrder: purchaseSnapshot.data().dayOfOrder,
+      };
+      console.log("service products: ", purchaseData);
+      return purchaseData;
+    } else {
+      return null || "Invoice doesn't exist";
+    }
+  } catch (error) {
+    return Promise.reject(error);
   }
 };

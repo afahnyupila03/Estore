@@ -3,6 +3,8 @@ import AmericanExpress from "../Assets/Cards/american-express.png";
 import Mastercard from "../Assets/Cards/master.png";
 import Discover from "../Assets/Cards/discover.png";
 import Visa from "../Assets/Cards/visa.png";
+import Mtn from "../Assets/Cards/MTN.jpg";
+import Orange from "../Assets/Cards/orange.png";
 
 export default function CustomTextInput({
   field,
@@ -43,6 +45,8 @@ export default function CustomTextInput({
       /^(?<MASTERCARD>5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4})$/;
     const amexRegex = /^(?<AMEX>3[47]\d{13,14})$/;
     const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
+    const orangeCameroonRegex = /^(6[5-7]\d{7})$/;
+    const mtnCameroonRegex = /^(6[8-9]\d{7})$/;
 
     if (visaRegex.test(cardNumber)) {
       return "visa";
@@ -52,6 +56,12 @@ export default function CustomTextInput({
       return "amex";
     } else if (discoverRegex.test(cardNumber)) {
       return "discover";
+    } else if (orangeCameroonRegex.test(cardNumber)) {
+      return "orange";
+    } else if (mtnCameroonRegex.test(cardNumber)) {
+      return "mtn";
+    } else {
+      return "Invalid number";
     }
   };
 
@@ -86,6 +96,10 @@ export default function CustomTextInput({
                 ? Discover
                 : cardType === "visa"
                 ? Visa
+                : cardType === "mtn"
+                ? Mtn
+                : cardType === "orange"
+                ? Orange
                 : null
             }
             alt={cardType}
