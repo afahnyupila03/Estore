@@ -10,11 +10,15 @@ import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import Icon from "../../Components/Icon";
 import { reloadOutline } from "ionicons/icons";
+import jsPDF from "jspdf";
 
 export default function SinglePurchasePage() {
   const { user } = useAuth();
+
   const [contentReady, setContentReady] = useState(false);
   const captureRef = useRef(null);
+  const [hideButton, setHideButton] = useState(false);
+
   const { id, purchaseId } = useParams();
   const serviceId = doc(database, user?.uid + "/purchase/" + "products/" + id);
   const { data, isLoading, refetch, isError, error } = useQuery(
@@ -43,14 +47,25 @@ export default function SinglePurchasePage() {
   }, [productData]);
 
   const handleCaptureInvoice = () => {
+    setTimeout(() => {
+      setHideButton(true);
+    }, 500);
     if (contentReady) {
       setTimeout(() => {
-        html2canvas(captureRef.current).then((canvas) => {
+        const captureRef = document.querySelector(".border-2"); // Replace with the appropriate selector for the target div
+        html2canvas(captureRef).then((canvas) => {
           const imgData = canvas.toDataURL("image/png");
-          const link = document.createElement("a");
-          link.download = `${purchaseId}.png`;
-          link.href = imgData;
-          link.click();
+
+          const pdf = new jsPDF("p", "mm", "a4");
+          const imgWidth = 210;
+          const imgHeight = (canvas.height * imgWidth) / canvas.width;
+          let position = 0;
+
+          pdf.addImage(imgData, "PNG", 0, position, imgWidth, imgHeight);
+
+          pdf.save(`${purchaseId}.pdf`);
+
+          setHideButton(false);
         });
       }, 1000);
     }
@@ -100,8 +115,8 @@ export default function SinglePurchasePage() {
     INVOICE_DATA = (
       <div className="border-2 border-black rounded-md p-8" ref={captureRef}>
         <div className="flex mb-2 justify-between items-center">
-          <div className="bg-gray-800 flex items-center rounded-full p-6">
-            <h1 className="text-center mb-2 text-white text-2xl font-bold tracking-widest">
+          <div className="flex justify-center">
+            <h1 className="text-center mb-2 text-black text-6xl font-bold tracking-widest">
               TZ
             </h1>
           </div>
@@ -130,11 +145,11 @@ export default function SinglePurchasePage() {
             {city}, {state}
           </p>
         </div>
-        <div className="font-medium p-2 mb-2 text-white bg-gray-800 ">
-          <p className="ml-2">Invoice date: {`${dayOfOrder} ${timeOfOrder}`}</p>
+        <div className="font-medium text-black mb-4">
+          <p>Invoice date: {`${dayOfOrder} ${timeOfOrder}`}</p>
         </div>
         <table className=" text-black font-medium w-full">
-          <tr className="bg-gray-800 text-white px-4">
+          <tr className="text-center gap-x-4 mb-2 px-4">
             <th>SN</th>
             <th>Items</th>
             <th>Qty</th>
@@ -176,7 +191,7 @@ export default function SinglePurchasePage() {
             <p>
               Thank you for shopping
               <br />
-              with TimeZone
+              at TimeZone
             </p>
           </div>
           <div className="border-2 border-black p-2 rounded-md">
@@ -186,10 +201,10 @@ export default function SinglePurchasePage() {
           </div>
         </div>
         <button
-          className="bg-gray-800 
+          className={`${hideButton && "hidden"} bg-gray-800 
           text-white font-medium mt-4
           px-4 rounded-md tracking-wider
-          "
+          `}
           type="button"
           onClick={handleCaptureInvoice}
         >
