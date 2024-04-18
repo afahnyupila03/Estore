@@ -302,7 +302,7 @@ export default function PaymentMethodPage() {
                   type="text"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.accountName}
+                  value={`${values.firstName} ${values.lastName}`}
                   label="Account name*"
                   autoComplete="false"
                 />
@@ -316,7 +316,7 @@ export default function PaymentMethodPage() {
                   type="tel"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.accountNumber}
+                  value={values.cardNumber}
                   label="Mobile number*"
                   autoComplete="false"
                 />
@@ -364,20 +364,18 @@ export default function PaymentMethodPage() {
     <div>
       <div>
         <h1 className="text-2xl font-semibold font-mono">Payment Methods</h1>
-        {
-          user !== null && (
-            <div>
-              <button
-          onClick={modalHandler}
-          type="button"
-          className="p-2 border-2 border-black"
-        >
-          Add New Card
-        </button>
-        <p>Checkout faster by adding one or more cards to your account.</p>
-            </div>
-          )
-        }
+        {user !== null && (
+          <div>
+            <button
+              onClick={modalHandler}
+              type="button"
+              className="p-2 border-2 border-black"
+            >
+              Add New Card
+            </button>
+            <p>Checkout faster by adding one or more cards to your account.</p>
+          </div>
+        )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
           {PAYMENT_METHODS}

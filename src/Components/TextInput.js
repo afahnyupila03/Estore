@@ -3,6 +3,8 @@ import AmericanExpress from "../Assets/Cards/american-express.png";
 import Mastercard from "../Assets/Cards/master.png";
 import Discover from "../Assets/Cards/discover.png";
 import Visa from "../Assets/Cards/visa.png";
+import Mtn from "../Assets/Cards/MTN.jpg";
+import Orange from "../Assets/Cards/orange.png";
 
 export default function CustomTextInput({
   field,
@@ -38,17 +40,13 @@ export default function CustomTextInput({
 
   // Function to detect the card type based on the card number
   const getCardType = (cardNumber) => {
-    // Visa
-    var visaRegex = /^4[0-9]{12}(?:[0-9]{3})?$/;
-
-    // Mastercard
-    var mastercardRegex = /^5[1-5][0-9]{14}$/;
-
-    // American Express
-    var amexRegex = /^3[47][0-9]{13}$/;
-
-    // Discover
-    var discoverRegex = /^6(?:011|5[0-9]{2})[0-9]{12}$/;
+    const visaRegex = /^(?<VISA>4\d{3}[\s-]?(?:\d{4}[\s-]?){2}\d(?:\d{3})?)$/;
+    const mastercardRegex =
+      /^(?<MASTERCARD>5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4})$/;
+    const amexRegex = /^(?<AMEX>3[47]\d{13,14})$/;
+    const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
+    const orangeCameroonRegex = /^(6[5-7]\d{7})$/;
+    const mtnCameroonRegex = /^(6[8-9]\d{7})$/;
 
     if (visaRegex.test(cardNumber)) {
       return "visa";
@@ -58,6 +56,12 @@ export default function CustomTextInput({
       return "amex";
     } else if (discoverRegex.test(cardNumber)) {
       return "discover";
+    } else if (orangeCameroonRegex.test(cardNumber)) {
+      return "orange";
+    } else if (mtnCameroonRegex.test(cardNumber)) {
+      return "mtn";
+    } else {
+      return "Invalid number";
     }
   };
 
@@ -79,7 +83,6 @@ export default function CustomTextInput({
           label={label}
           placeholder={placeholder}
           style={errors[name] && touched[name] ? errorInput : inputField}
-          {...props}
         />
         {/* Display the detected card type image if renderCardImage is true */}
         {renderCardImage && cardType && (
@@ -93,6 +96,10 @@ export default function CustomTextInput({
                 ? Discover
                 : cardType === "visa"
                 ? Visa
+                : cardType === "mtn"
+                ? Mtn
+                : cardType === "orange"
+                ? Orange
                 : null
             }
             alt={cardType}
@@ -115,7 +122,7 @@ export default function CustomTextInput({
 }
 
 export function CustomCheckbox({ field, form, ...props }) {
-  const { name, value, onChange, onBlur } = field;
+  const { name, value, onChange, onBlur, checked } = field;
   const { errors, touched } = form;
   const { label, type } = props;
 
@@ -129,6 +136,7 @@ export function CustomCheckbox({ field, form, ...props }) {
           onChange={onChange}
           onBlur={onBlur}
           value={value}
+          checked={checked}
           {...props}
         />
 
@@ -139,6 +147,59 @@ export function CustomCheckbox({ field, form, ...props }) {
           <p style={{ color: "red" }}>{errors[name]}</p>
         )}
       </div>
+    </div>
+  );
+}
+
+export function CustomSelect({ field, form, className, ...props }) {
+  const { name, value, onChange, onBlur } = field;
+  const { errors, touched } = form;
+  const { label, type, placeholder } = props;
+
+  const inputField = {
+    backgroundColor: "#9ca3af",
+    borderRadius: ".4rem",
+    padding: ".5rem",
+    textAlign: "left",
+    margin: ".5rem",
+    width: "20rem",
+    color: "#020617",
+  };
+  const errorInput = {
+    backgroundColor: "#9ca3af",
+    borderRadius: ".4rem",
+    padding: ".5rem",
+    textAlign: "left",
+    margin: ".5rem",
+    width: "20rem",
+    borderColor: "red",
+    borderWidth: ".15rem",
+    color: "#020617",
+  };
+
+  return (
+    <div className={className}>
+      <label htmlFor={name} className="font-semibold font-mono">
+        {label}
+      </label>
+      <div>
+        <select
+          name={name}
+          value={value}
+          onChange={onChange}
+          onBlur={onBlur}
+          style={errors[name] && touched[name] ? errorInput : inputField}
+        >
+          {props.options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </div>
+      {errors[name] && touched[name] && (
+        <div style={{ color: "red" }}>{errors[name]}</div>
+      )}
     </div>
   );
 }

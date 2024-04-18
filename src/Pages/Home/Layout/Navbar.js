@@ -26,10 +26,14 @@ export default function () {
   const accRoute = AccountRoutes(t);
   const accSettings = AccountSettingsRoutes(t);
 
-  const ResAuthRoutes = [...accRoute, ...accSettings, {
-    navLink: "Customer Service",
-    navRoute: "my-account/landing/customer-service"
-  }];
+  const ResAuthRoutes = [
+    ...accRoute,
+    ...accSettings,
+    {
+      navLink: "Customer Service",
+      navRoute: "my-account/landing/customer-service",
+    },
+  ];
 
   return (
     <Disclosure as="nav">
@@ -60,7 +64,7 @@ export default function () {
                             : "text-black hover:bg-gray-700 hover:text-white",
                           "rounded-md px-3 py-2 text-sm font-medium"
                         )}
-                        aria-current={item.current ? "page" : undefined}
+                        aria-current={item.current ? item.navLink : undefined}
                       >
                         {item.navLink}
                       </NavLink>

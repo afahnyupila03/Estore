@@ -8,6 +8,7 @@ import CartPage from "../Pages/CartPage/CartPage";
 import AuthPage from "../Pages/Auth/Auth";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import CategoryPage from "../Pages/Category/Category";
+import CheckOutForm from "../Pages/CartPage/CheckOutForm";
 
 export const NavbarRoutes = [
   {
@@ -59,6 +60,10 @@ export const NavbarRoutes = [
   {
     path: "/cart",
     element: <CartPage />,
+  },
+  {
+    path: "/checkout-form",
+    element: <CheckOutForm />
   },
   {
     path: "/sign-in-&-create-account",

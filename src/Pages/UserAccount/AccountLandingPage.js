@@ -1,6 +1,3 @@
-import { onAuthStateChanged, signOut } from "firebase/auth";
-import { useEffect, useState } from "react";
-import { auth } from "../../FirebaseConfigs/Firesbase";
 import { IonIcon } from "@ionic/react";
 import {
   bicycleOutline,

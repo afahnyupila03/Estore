@@ -149,6 +149,8 @@ export default function DeliveryPage() {
         <UseAnimation animation={loading} size={80} />
       </div>
     );
+  } else if (user !== null && data === null) {
+    DELIVERY_ADDRESS = <p>No address added</p>;
   } else if (isError) {
     DELIVERY_ADDRESS = (
       <div>
@@ -158,8 +160,6 @@ export default function DeliveryPage() {
         </button>
       </div>
     );
-  } else if (user !== null && data === null) {
-    DELIVERY_ADDRESS = <p>No address added</p>;
   } else {
     DELIVERY_ADDRESS = data.map((delivery) => (
       <DeliveryCardItem

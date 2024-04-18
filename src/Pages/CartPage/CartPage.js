@@ -4,6 +4,8 @@ import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
 import { arrowForwardOutline } from "ionicons/icons";
 import { useAuth, useCart, useWishList } from "../../Store";
+import { database } from "../../FirebaseConfigs/Firesbase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 export default function CartPage() {
   const { user } = useAuth();
@@ -16,9 +18,7 @@ export default function CartPage() {
   } = useCart();
 
   const { wishListQuantity } = useWishList();
-
-  console.log("reducer total-amount: ", totalAmount);
-  console.log("reducer product quantity :", productQuantity);
+  const userId = user?.uid;
 
   const CURRENCY = "XAF";
   const FORMAT_MONEY = (amount, currency) => {
@@ -30,6 +30,28 @@ export default function CartPage() {
   };
 
   const cartTotal = FORMAT_MONEY(parseInt(totalAmount), CURRENCY);
+
+  const CheckoutHandler = async (userId) => {
+    const db = database;
+    const ref = collection(db, userId, "/checkout/", "products");
+
+    try {
+      await addDoc(ref, {
+        // quantity: product.quantity,
+        totalProducts: productQuantity,
+        totalAmount: totalAmount,
+        product: products,
+        timestamp: serverTimestamp(),
+      });
+      const refId = ref.id;
+      alert("Success adding checkout: ", refId);
+      window.location.href = "/checkout-form";
+    } catch (error) {
+      alert("Error adding");
+      console.error(error);
+      return error;
+    }
+  };
 
   let content;
 
@@ -86,9 +108,7 @@ export default function CartPage() {
               <p>Delivery and taxes will be calculated at checkout</p>
             </div>
             <div>
-              <p className="font-semibold">
-                {cartTotal}
-              </p>
+              <p className="font-semibold">{cartTotal}</p>
               <button
                 onClick={() => clearProductHandler()}
                 className="bg-red-500 text-white px-10 py-2 rounded text-xl font-mono"
@@ -98,7 +118,10 @@ export default function CartPage() {
             </div>
           </div>
           <div className="grid justify-center">
-            <button className="mt-10 bg-black text-white px-10 py-2 rounded text-xl font-mono">
+            <button
+              onClick={() => CheckoutHandler(userId)}
+              className="mt-10 bg-black text-white px-10 py-2 rounded text-xl font-mono"
+            >
               Checkout
             </button>
             <div className="flex mt-8 items-center">

@@ -5,6 +5,7 @@ import EmailAndMailPreferencePage from "../Pages/UserAccount/EmailAndMailPrefere
 import PaymentMethodPage from "../Pages/UserAccount/PaymentMethodPage";
 import PersonalInformation from "../Pages/UserAccount/PersonalInformation";
 import PurchasePage from "../Pages/UserAccount/PurchasePage";
+import SinglePurchasePage from "../Pages/UserAccount/SinglePurchasePage";
 import WishlistPage from "../Pages/UserAccount/WishlistPage";
 
 export const AccountRoute = [

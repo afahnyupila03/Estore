@@ -2,11 +2,63 @@ import React, { Fragment } from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Store";
+import { useQuery } from "react-query";
+import { PurchaseServices } from "../../Services/AccountServices";
+import UseAnimation from "../../Components/Loader";
+import loading from "react-useanimations/lib/loading";
+import AmericanExpress from "../../Assets/Cards/american-express.png";
+import MasterCard from "../../Assets/Cards/master.png";
+import Discover from "../../Assets/Cards/discover.png";
+import Visa from "../../Assets/Cards/visa.png";
+import Mtn from "../../Assets/Cards/MTN.jpg";
+import Orange from "../../Assets/Cards/orange.png";
+
+const TABLE_STYLES = {
+  table: {
+    borderWidth: ".002rem",
+    borderColor: "black",
+    borderRadius: "20rem",
+    marginTop: "1rem",
+  },
+  purchaseInfo: {
+    paddingTop: "3rem",
+    paddingBottom: "10px",
+  },
+};
 
 export default function PurchasePage() {
-  const purchaseItems = 0;
-
   const { user } = useAuth();
+  const userId = user?.uid;
+
+  const {
+    data = [],
+    refetch,
+    isLoading,
+    isError,
+    error,
+  } = useQuery(["purchaseData", userId], () => PurchaseServices(userId));
+
+  const CURRENCY = "XAF";
+  const FORMAT_MONEY = (amount, currency) => {
+    const formatter = new Intl.NumberFormat("fr", {
+      currency: currency,
+      style: "currency",
+    });
+    return formatter.format(amount);
+  };
+
+  function CONVERT_CURRENCY(priceInUSD) {
+    const exchangeRate = 608.58;
+    const convertedPrice = Math.round(priceInUSD * exchangeRate);
+    const discount = convertedPrice;
+    return discount;
+  }
+
+  function DISCOUNT_PRICE(discountPercentage, price) {
+    const discount = (discountPercentage / 100) * price;
+    const discountedPrice = Math.round(price - discount);
+    return discountedPrice;
+  }
 
   let purchase;
 
@@ -25,7 +77,13 @@ export default function PurchasePage() {
         </Link>
       </div>
     );
-  } else if (purchaseItems === 0 && user !== null) {
+  } else if (isLoading) {
+    purchase = (
+      <div className="flex justify-center mt-6">
+        <UseAnimation animation={loading} size={80} />
+      </div>
+    );
+  } else if (data === null && user !== null) {
     purchase = (
       <div className="mt-4">
         <p className="mb-4">0 Purchases made.</p>
@@ -34,10 +92,241 @@ export default function PurchasePage() {
         </Link>
       </div>
     );
+  } else if (isError) {
+    purchase = (
+      <div>
+        <p>
+          {error}
+          <button type="button" onClick={() => refetch()}>
+            Try again
+          </button>
+        </p>
+      </div>
+    );
   } else {
     purchase = (
       <div>
-        <h1>You have made purchases</h1>
+        {data.length > 3
+          ? data.slice(-2).map((purchase) => {
+              const {
+                id,
+                productData,
+                productQuantity,
+                tax,
+                checkoutTotal,
+                shippingPrice,
+                purchaseId,
+                email,
+                displayName,
+                address,
+                city,
+                state,
+                tel,
+                cardNumber,
+                timeOfOrder,
+                dayOfOrder,
+              } = purchase;
+
+              return (
+                // <div key={id}>
+                <table
+                  key={id}
+                  // style={TABLE_STYLES.table}
+                  className="rounded-lg text-center w-full border-2 border-black"
+                >
+                  <tr
+                    style={TABLE_STYLES.purchaseInfo}
+                    className="bg-gray-300 p-8 text-center"
+                  >
+                    <th>Date placed</th>
+                    <th>Invoice N°</th>
+                    <th>Tax</th>
+                    <th>Shipping</th>
+                    <th>Total amount</th>
+                  </tr>
+                  <tr>
+                    <td>
+                      {dayOfOrder} {timeOfOrder}
+                    </td>
+                    <td>{purchaseId}</td>
+                    <td className="text-center">
+                      {FORMAT_MONEY(parseInt(tax), CURRENCY)}
+                    </td>
+                    <td className="text-center">
+                      {FORMAT_MONEY(parseInt(shippingPrice), CURRENCY)}
+                    </td>
+                    <td className="text-center">
+                      {FORMAT_MONEY(parseInt(checkoutTotal), CURRENCY)}
+                    </td>
+                  </tr>
+                  <tr className="bg-gray-300">
+                    <th>Product</th>
+                    <th>Brand</th>
+                    <th>Price</th>
+                    <th>Status</th>
+                    <th>Info</th>
+                  </tr>
+                  {productData.map((item) =>
+                    Object.keys(item).map((key) => (
+                      <tr key={key}>
+                        <td>
+                          {getName(item[key].title)} x {item[key].quantity}
+                        </td>
+                        <td className="text-center">{item[key].brand}</td>
+                        <td className="text-center">
+                          {FORMAT_MONEY(item[key].price, CURRENCY)}
+                        </td>
+                        <td className="text-center">En-route</td>
+                        <td className="text-center">View</td>
+                      </tr>
+                    ))
+                  )}
+                  <tr className="bg-gray-300 text-center">
+                    <th>User Infor</th>
+                    <th>Delivery Info</th>
+                    <th>Payment Info</th>
+                    <th>Prod Quant </th>
+                    <th>INVOICE</th>
+                  </tr>
+                  <tr>
+                    <td>Email: {email}</td>
+                    <td>
+                      {city}, {state}
+                    </td>
+                    <td>ends with ({HIDE_CARD_NUMBER(cardNumber)})</td>
+                    <td className="text-center">{productQuantity}</td>
+
+                    <td className="text-center">VIEW INVOICE</td>
+                  </tr>
+                  <tr>
+                    <td>Name: {displayName}</td>
+                    <td>{address}</td>
+                    <td></td>
+                    <td></td>
+                  </tr>
+                  <tr>
+                    <td>Tel: {tel}</td>
+                  </tr>
+                </table>
+                // </div>
+              );
+            })
+          : data.map((purchase) => {
+              const {
+                id,
+                productData,
+                productQuantity,
+                tax,
+                checkoutTotal,
+                shippingPrice,
+                purchaseId,
+                email,
+                displayName,
+                address,
+                city,
+                state,
+                tel,
+                cardNumber,
+                timeOfOrder,
+                dayOfOrder,
+              } = purchase;
+
+              return (
+                <div className="border-1 border-black rounded-lg" key={id}>
+                  <table
+                    key={id}
+                    className="rounded-lg w-full border-2 border-black"
+                  >
+                    <tr
+                      style={TABLE_STYLES.purchaseInfo}
+                      className="bg-gray-300 p-8 text-center"
+                    >
+                      <th>Date placed</th>
+                      <th>Invoice N°</th>
+                      <th>Tax</th>
+                      <th>Shipping</th>
+                      <th>Total amount</th>
+                    </tr>
+                    <tr>
+                      <td>
+                        {dayOfOrder} {timeOfOrder}
+                      </td>
+                      <td>{purchaseId}</td>
+                      <td className="text-center">
+                        {FORMAT_MONEY(parseInt(tax), CURRENCY)}
+                      </td>
+                      <td className="text-center">
+                        {FORMAT_MONEY(parseInt(shippingPrice), CURRENCY)}
+                      </td>
+                      <td className="text-center">
+                        {FORMAT_MONEY(parseInt(checkoutTotal), CURRENCY)}
+                      </td>
+                    </tr>
+                    <tr className="bg-gray-300">
+                      <th>Product</th>
+                      <th>Brand</th>
+                      <th>Price</th>
+                      <th>Status</th>
+                      <th>Info</th>
+                    </tr>
+                    {productData.map((item) =>
+                      Object.keys(item).map((key) => (
+                        <tr key={key}>
+                          <td>
+                            {getName(item[key].title)} x {item[key].quantity}
+                          </td>
+                          <td className="text-center">{item[key].brand}</td>
+                          <td className="text-center">
+                            {FORMAT_MONEY(
+                              DISCOUNT_PRICE(
+                                item[key].discountPercentage,
+                                CONVERT_CURRENCY(item[key].price)
+                              ),
+                              CURRENCY
+                            )}
+                          </td>
+                          <td className="text-center">En-route...</td>
+                          <td className="text-center text-gray-800">View</td>
+                        </tr>
+                      ))
+                    )}
+                    <tr className="bg-gray-300 text-center">
+                      <th>User Infor</th>
+                      <th>Delivery Info</th>
+                      <th>Payment Info</th>
+                      <th>Prod Quant </th>
+                      <th>INVOICE</th>
+                    </tr>
+                    <tr>
+                      <td>{email}</td>
+                      <td>
+                        {city}, {state}
+                      </td>
+                      <td>ends with ({HIDE_CARD_NUMBER(cardNumber)})</td>
+                      <td className="text-center">{productQuantity}</td>
+                      <td className="text-center">
+                        <Link
+                          target="_blank"
+                          className="text-gray-800"
+                          to={`/purchases/${id}/${purchaseId}`}
+                        >
+                          View invoice
+                        </Link>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td>{displayName}</td>
+                      <td>{address}</td>
+                      <td></td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td> {tel}</td>
+                    </tr>
+                  </table>
+                </div>
+              );
+            })}
       </div>
     );
   }
@@ -45,9 +334,79 @@ export default function PurchasePage() {
   return (
     <Fragment>
       <div>
-        <h1 className="text-2xl font-semibold font-mono">Purchases</h1>
+        <h1 className="text-2xl font-semibold font-mono">
+          Purchases <span>({data.length})</span>
+        </h1>
       </div>
-      <div>{purchase}</div>
+      <div className="mt-2">{purchase}</div>
+      <Link to='/purchases/single'>Single</Link>
     </Fragment>
   );
 }
+
+const visaRegex = /^(?<VISA>4\d{3}[\s-]?(?:\d{4}[\s-]?){2}\d(?:\d{3})?)$/;
+const mastercardRegex =
+  /^(?<MASTERCARD>5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4})$/;
+const amexRegex = /^(?<AMEX>3[47]\d{13,14})$/;
+const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
+const orangeCameroonRegex = /^(6[5-7]\d{7})$/;
+const mtnCameroonRegex = /^(6[8-9]\d{7})$/;
+
+const getCardType = (cardNumber) => {
+  if (visaRegex.test(cardNumber)) {
+    return "visa";
+  } else if (mastercardRegex.test(cardNumber)) {
+    return "mastercard";
+  } else if (amexRegex.test(cardNumber)) {
+    return "amex";
+  } else if (discoverRegex.test(cardNumber)) {
+    return "discover";
+  } else if (orangeCameroonRegex.test(cardNumber)) {
+    return "orange";
+  } else if (mtnCameroonRegex.test(cardNumber)) {
+    return "mtn";
+  } else {
+    return "Invalid number";
+  }
+};
+
+function HIDE_CARD_NUMBER(cardNumber) {
+  if (visaRegex.test(cardNumber)) {
+    return cardNumber.substring(12);
+  } else if (mastercardRegex.test(cardNumber)) {
+    return cardNumber.substring(12);
+  } else if (amexRegex.test(cardNumber)) {
+    return cardNumber.substring(11);
+  } else if (discoverRegex.test(cardNumber)) {
+    return cardNumber.substring(12);
+  } else if (
+    orangeCameroonRegex.test(cardNumber) ||
+    mtnCameroonRegex.test(cardNumber)
+  ) {
+    return cardNumber.substring(5);
+  }
+}
+
+const getNumberType = (cardNumber) => {
+  if (visaRegex.test(cardNumber)) {
+    return Visa;
+  } else if (mastercardRegex.test(cardNumber)) {
+    return MasterCard;
+  } else if (amexRegex.test(cardNumber)) {
+    return AmericanExpress;
+  } else if (discoverRegex.test(cardNumber)) {
+    return Discover;
+  } else if (orangeCameroonRegex.test(cardNumber)) {
+    return Orange;
+  } else if (mtnCameroonRegex.test(cardNumber)) {
+    return Mtn;
+  }
+};
+
+const getName = (title) => {
+  const MAX_TITLE_CHARS = 20;
+  if (title.length > MAX_TITLE_CHARS) {
+    return `${title.slice(0, MAX_TITLE_CHARS)}...`;
+  }
+  return title;
+};

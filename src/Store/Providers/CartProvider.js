@@ -2,6 +2,8 @@ import { useReducer } from "react";
 import { CartContext } from "../Context/CartContext";
 import { DefaultCartState, CartReducer } from "../Reducers/CartReducer";
 import { Constants } from "../Constants";
+import { database } from "../../FirebaseConfigs/Firesbase";
+import { addDoc, collection, Firestore } from "firebase/firestore";
 
 export default function CartProvider({ children }) {
   const [cartState, cartDispatch] = useReducer(CartReducer, DefaultCartState);
