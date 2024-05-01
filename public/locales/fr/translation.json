@@ -1,4 +1,26 @@
 {
-    "english": "Anglais",
-    "french": "Francias"
+  "english": "Anglais",
+  "french": "Francias",
+  "category": {
+    "laptops": "ordinateurs portables",
+    "smartphones": "smartphones",
+    "fragrances": "parfums",
+    "skinCare": "soins de la peau",
+    "homeDeco": "décoration d'intérieur",
+    "furniture": "meubles",
+    "tops": "hauts",
+    "womenCloths": "vêtements pour femmes",
+    "womenFoot": "chaussures pour femmes",
+    "menShirts": "chemises pour hommes",
+    "menFoot": "chaussures pour hommes",
+    "menWatches": "montres pour hommes",
+    "womenWatches": "montres pour femmes",
+    "womenBags": "sacs pour femmes",
+    "womenJewelry": "bijoux pour femmes",
+    "sunshades": "lunettes de soleil",
+    "automotive": "automobile",
+    "motorcycle": "moto",
+    "lighting": "éclairage",
+    "groceries": "produits d'épicerie"
+  }
 }

@@ -7,8 +7,11 @@ import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import ProductCategoryCardItem from "../../Components/ProductCategoryCardItem";
 import { CATEGORY_FEATURES } from "./Layout/CategoryNavigation";
+import { useTranslation } from "react-i18next";
 
 export default function Home() {
+  const { t } = useTranslation();
+  const cateFeatures = CATEGORY_FEATURES(t);
   const {
     data = [],
     isError,
@@ -55,7 +58,7 @@ export default function Home() {
             Shop By Category
           </p>
           <div className="grid mb-40 gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 xl:gap-x-4">
-            {CATEGORY_FEATURES.map((catFeat) => (
+            {cateFeatures.map((catFeat) => (
               <ProductCategoryCardItem
                 key={catFeat.categoryLink}
                 categoryData={catFeat}

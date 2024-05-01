@@ -1,4 +1,26 @@
 {
-    "english": "English",
-    "french": "French"
+  "english": "English",
+  "french": "French",
+  "category": {
+    "laptops": "laptops",
+    "smartphones": "smartphones",
+    "fragrances": "fragrances",
+    "skinCare": "skin care",
+    "homeDeco": "home decoration",
+    "furniture": "furniture",
+    "tops": "tops",
+    "womenCloths": "women cloths",
+    "womenFoot": "women footwear",
+    "menShirts": "men shirts",
+    "menFoot": "men footwear",
+    "menWatches": "men watches",
+    "womenWatches": "women watches",
+    "womenBags": "women bags",
+    "womenJewelry": "women jewelry",
+    "sunshades": "sun shades",
+    "automotive": "automotive",
+    "motorcycle": "motorcycle",
+    "lighting": "lighting",
+    "groceries": "groceries"
+  }
 }
