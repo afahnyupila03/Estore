@@ -73,5 +73,18 @@
     "addToBag": "Ajouter au panier",
     "disLike": "Détester",
     "seeDetails": "voir les détails complets"
+  },
+  "cart": {
+    "shoppingBag": "Sac de magasinage",
+    "saved": "Sauvé pour plus tard",
+    "emptyBag": "Votre sac est vide",
+    "or": "ou",
+    "checkout": "Passer à la caisse",
+    "quantity": "Quantité",
+    "remove": "Supprimer",
+    "continueShopping": "Continuer les achats",
+    "noUser": "Aucun utilisateur trouvé. Veuillez vous connecter | Créer un compte pour voir le(s) produit(s) dans le sac.",
+    "checkoutDelivery": "La livraison et les taxes seront calculées au moment du paiement.",
+    "subTotal": "Sous-total"
   }
 }

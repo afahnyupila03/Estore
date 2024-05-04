@@ -73,5 +73,18 @@
     "addToBag": "Add to Bag",
     "dislike": "Dislike",
     "seeDetails": "see full details"
+  },
+  "cart": {
+    "shoppingBag": "shopping Bag",
+    "saved": "Saved for later",
+    "emptyBag": "Your bag is empty",
+    "or": "or",
+    "checkout": "Checkout",
+    "quantity": "Quantity",
+    "remove": "Remove",
+    "continueShopping": "Continuer Shopping",
+    "noUser": "No user found. Please Sign in | Create Account to see product(s) in bag.",
+    "checkoutDelivery": "Delivery and taxes will be calculated at checkout.",
+    "subTotal": "Subtotal"
   }
 }
