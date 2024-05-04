@@ -46,5 +46,28 @@
     "motorcycle": "motorcycle",
     "lighting": "lighting",
     "groceries": "groceries"
+  },
+  "home": {
+    "featuredProducts": "Featured Products",
+    "quickView": "Quick View",
+    "offFor": "off for this item",
+    "shopCorporate": "shop corporate gifts",
+    "contactUs": "Contact Us",
+    "orderStatus": "Order Status",
+    "returnPolicy": "Return Policy & Exchanges",
+    "priceAdjustment": "Price Adjustments",
+    "giftCard": "Gift Cards",
+    "FAQ": "FAQ",
+    "productRecalls": "Product Recalls",
+    "cameroon": "Cameroon",
+    "aboutUs": "About Us",
+    "allBrands": "All Brands",
+    "career": "Careers",
+    "corporateSocial": "Corporate Social Responsibility",
+    "diversity": "Diversity, Equity, Inclusion & Belonging",
+    "emailUpdates": "Get Email Updates",
+    "timezoneBlog": "TimeZone Blog",
+    "theThread": "The Thread",
+    "timezonePodcast": "TimeZone Podcast"
   }
 }

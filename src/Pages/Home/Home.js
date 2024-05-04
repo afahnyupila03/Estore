@@ -67,7 +67,7 @@ export default function Home() {
           </div>
 
           <h2 className="mb-10 font-semibold tracking-widest text-2xl font-mono">
-            Featured Products
+            {t("home.featuredProducts")}
           </h2>
 
           {productItems}

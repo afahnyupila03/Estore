@@ -46,5 +46,28 @@
     "motorcycle": "moto",
     "lighting": "éclairage",
     "groceries": "produits d'épicerie"
+  },
+  "home": {
+    "featuredProducts": "Produits populaires",
+"quickView": "Aperçu rapide",
+"offFor": "de réduction pour cet article",
+"shopCorporate": "boutique de cadeaux d'entreprise",
+"contactUs": "Contactez-nous",
+"orderStatus": "État de la commande",
+"returnPolicy": "Politique de retour et d'échange",
+"priceAdjustment": "Ajustements de prix",
+"giftCard": "Cartes cadeaux",
+"FAQ": "FAQ",
+"productRecalls": "Rappels de produits",
+"cameroon": "Cameroun",
+"aboutUs": "À propos de nous",
+"allBrands": "Toutes les marques",
+"career": "Carrières",
+"corporateSocial": "Responsabilité sociale des entreprises",
+"diversity": "Diversité, équité, inclusion et appartenance",
+"emailUpdates": "Recevez les mises à jour par e-mail",
+"timezoneBlog": "Blog TimeZone",
+"theThread": "Le fil",
+"timezonePodcast": "Podcast TimeZone"
   }
 }

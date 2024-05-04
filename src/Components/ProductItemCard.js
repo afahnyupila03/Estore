@@ -22,6 +22,7 @@ import { ref, set } from "firebase/database";
 import { addDoc, collection } from "firebase/firestore";
 import { useQuery } from "react-query";
 import { WishListPostItemsServices } from "../Services/CartService";
+import {useTranslation} from "react-i18next"
 
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars);
@@ -51,6 +52,8 @@ export default function ProductItemCard({ productData }) {
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [currImageIndex, setCurrImageIndex] = useState(0);
   const [productAdded, setProductAdded] = useState(false);
+
+  const {t} = useTranslation()
 
   const { addProductHandler } = useCart();
   const { user } = useAuth();
@@ -322,7 +325,7 @@ export default function ProductItemCard({ productData }) {
         <div className="text-left text-sm lg:text-lg">
           <p className="text-red-600">{DISCOUNT}</p>
           <p className="text-red-600">
-            -{discountPercentage}% off for this item
+            -{discountPercentage}% {t("home.offFor")}
           </p>
 
           <p className="line-through tracking-wide font-medium">
@@ -345,7 +348,7 @@ export default function ProductItemCard({ productData }) {
           } text-white py-2 px-6 rounded-sm font-medium text-lg bg-gray-700 w-full`}
           onClick={handleShowProductModal}
         >
-          Quick view
+          {t("home.quickView")}
         </button>
       </div>
 

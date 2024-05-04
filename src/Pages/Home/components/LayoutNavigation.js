@@ -83,52 +83,52 @@ export const AccountSettingsRoutes = (t, mailOutline, lockClosedOutline) => [
 
 export const CustomerServiceRoutes = (t) => [
   {
-    navLink: "Contact Us",
+    navLink: t("home.contactUs"),
     navRoute: "contact",
   },
   {
-    navLink: "Order Status",
+    navLink: t("home.orderStatus"),
     navRoute: "order-status",
   },
   {
-    navLink: "Delivery",
+    navLink: t("auth.delivery"),
     navRoute: "delivery",
   },
   {
-    navLink: "Return Policy & Exchanges",
+    navLink: t("home.returnPolicy"),
     navRoute: "return-policy-&-exchanges",
   },
   {
-    navLink: "Price Adjustments",
+    navLink: t("home.priceAdjustments"),
     navRoute: "price-adjustments",
   },
   {
-    navLink: "Gift Cards",
+    navLink: t("home.giftCards"),
     navRoute: "gift-cards",
   },
   {
-    navLink: "FAQ",
+    navLink: t("home.FAQ"),
     navRoute: "FAQ",
   },
   {
-    navLink: "Product Recalls",
+    navLink: t("home.productRecalls"),
     navRoute: "product-recalls",
   },
 ];
 
 export const AboutRoutes = (t) => [
-  { navLink: "All Brands", navRoute: "brands" },
-  { navLink: "Careers", navRoute: "careers" },
+  { navLink: t("home.allBrands"), navRoute: "brands" },
+  { navLink: t("home.career"), navRoute: "careers" },
   {
-    navLink: "Corporate Social Responsibility",
+    navLink: t("home.corporateSocial"),
     navRoute: "corporate-social-responsibility",
   },
   {
-    navLink: "Diversity, Equity, Inclusion & Belonging",
+    navLink: t("home.diversity"),
     navRoute: "diversity-equity-inclusion-&-belonging",
   },
-  { navLink: "Get Email Updates", navRoute: "email-updates" },
-  { navLink: "TimeZone Blog", navRoute: "blog" },
-  { navLink: "The Thread", navRoute: "thread" },
-  { navLink: "TimeZone Podcast", navRoute: "podcast" },
+  { navLink: t("home.emailUpdates"), navRoute: "email-updates" },
+  { navLink: t("home.timezoneBlog"), navRoute: "blog" },
+  { navLink: t("home.theThread"), navRoute: "thread" },
+  { navLink: t("home.timezonePodcast"), navRoute: "podcast" },
 ];

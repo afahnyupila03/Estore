@@ -19,7 +19,7 @@ export default function () {
       <div className="mx- text-sm lg:text-lg grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
 
         <div>
-          <h3 className="py-4 font-semibold font-mono">Customer Service</h3>
+          <h3 className="py-4 font-semibold font-mono">{t("auth.customerService")}</h3>
           <ul>
             {customerNavigation.map((customerRoutes) => (
               <li key={customerRoutes.navLink} className="py-1">
@@ -34,12 +34,12 @@ export default function () {
           </ul>
           <div className="flex items-center py-2">
             <ReactCountryFlag countryCode="CM" svg className="mr-2 my-2" />
-            <p className="font-semibold font-mono">Cameroon</p>
+            <p className="font-semibold font-mono">{t("home.cameroon")}</p>
           </div>
         </div>
 
         <div>
-          <h3 className="py-4 font-semibold font-mono">About Us</h3>
+          <h3 className="py-4 font-semibold font-mono">{t("home.aboutUs")}</h3>
           <ul>
             {aboutNavigation.map((aboutRoutes) => (
               <li key={aboutRoutes.navLink} className="py-1">
