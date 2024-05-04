@@ -68,6 +68,10 @@
     "emailUpdates": "Get Email Updates",
     "timezoneBlog": "TimeZone Blog",
     "theThread": "The Thread",
-    "timezonePodcast": "TimeZone Podcast"
+    "timezonePodcast": "TimeZone Podcast",
+    "added": "Added",
+    "addToBag": "Add to Bag",
+    "dislike": "Dislike",
+    "seeDetails": "see full details"
   }
 }
