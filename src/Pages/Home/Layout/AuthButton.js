@@ -115,7 +115,7 @@ export default function () {
 
               {/* Your Account Routes */}
               <h4 className="text-left px-4 font-semibold font-mono mt-2 mb-2">
-                Your Account
+                {t("auth.yourAccount")}
               </h4>
               {accountNavigation.map((accountNav) => (
                 <MenuItemsCard
@@ -127,23 +127,23 @@ export default function () {
               ))}
               {/* Account Settings Routes */}
               <h4 className="text-left font-mono px-4 font-semibold mt-2 mb-2">
-                Account Settings
+                {t("auth.accountSettings")}
               </h4>
               {accSettingsNavigation.map((accSettings) => (
                 <MenuItemsCard
                   key={accSettings.navLink}
-                  navigationLink={accSettings.navLink}
+                  navigationLink={REDUCED_CHARS(accSettings.navLink)}
                   navigationRoute={accSettings.navRoute}
                   icon={accSettings.iconName}
                 />
               ))}
               {/* Customer Line Route */}
               <h4 className="text-left font-mono px-4 font-semibold mt-4 mb-2">
-                Need Help ?
+                {t("auth.needHelp")}
               </h4>
               <MenuItemsCard
                 navigationRoute="my-account/landing/customer-service"
-                navigationLink="Customer Service"
+                navigationLink={t("auth.customerService")}
                 icon={chatbubblesOutline}
               />
 
@@ -152,7 +152,7 @@ export default function () {
                   className="bg-red-500 text-white px-4 py-2 rounded-lg mt-4"
                   onClick={handleUserSignOut}
                 >
-                  Logout
+                  {t("auth.logout")}
                 </button>
               )}
             </div>
@@ -161,4 +161,12 @@ export default function () {
       </Transition>
     </Popover>
   );
+}
+
+const REDUCED_CHARS = (name) => {
+  const MAX_CHARS = 20;
+  if (name.length > MAX_CHARS) {
+    return `${name.slice(0, MAX_CHARS)}...`
+  }
+  return name;
 }

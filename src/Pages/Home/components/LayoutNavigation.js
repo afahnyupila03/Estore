@@ -1,40 +1,40 @@
 export const NavbarRoutes = (t) => [
   {
-    navLink: "Home",
+    navLink: t("navbar.home"),
     navRoute: "/home",
   },
   {
-    navLink: "Shop",
+    navLink: t("navbar.shop"),
     navRoute: "shop",
   },
   {
-    navLink: "About",
+    navLink: t("navbar.about"),
     navRoute: "about",
   },
   {
-    navLink: "Latest",
+    navLink: t("navbar.latest"),
     navRoute: "latest",
   },
   {
-    navLink: "Blog",
+    navLink: t("navbar.blog"),
     navRoute: "blog",
   },
   {
-    navLink: "Contact",
+    navLink: t("navbar.contact"),
     navRoute: "contact",
   },
 ];
 
 export const AuthRoute = (t) => [
   {
-    navLink: "Sign In | Create Account",
+    navLink: t("auth.signInCreate"),
     navRoute: "/sign-in-&-create-account",
   },
 ];
 
 export const UserAccountRoute = (t, userName) => [
   {
-    navLink: `${userName}'s Account`,
+    navLink: `${t("auth.account")} ${userName}`,
     navRoute: "my-account/landing/password-&-personal-information",
   },
 ];
@@ -49,34 +49,34 @@ export const AccountRoutes = (
   {
     iconName: cubeOutline,
     navRoute: "my-account/landing/purchases",
-    navLink: "Purchases",
+    navLink: t("auth.purchases"),
   },
   {
     iconName: heartOutline,
     navRoute: "my-account/landing/wish-lists",
-    navLink: "Wish List",
+    navLink: t("auth.wishList"),
   },
   {
     iconName: bicycleOutline,
     navRoute: "my-account/landing/delivery",
-    navLink: "Delivery",
+    navLink: t("auth.delivery"),
   },
   {
     iconName: cardOutline,
     navRoute: "my-account/landing/payment-method",
-    navLink: "Payment Method",
+    navLink: t("auth.paymentMethod"),
   },
 ];
 
 export const AccountSettingsRoutes = (t, mailOutline, lockClosedOutline) => [
   {
     iconName: lockClosedOutline,
-    navLink: "Password & Personal Info",
+    navLink: t("auth.password&Personal"),
     navRoute: "my-account/landing/password-&-personal-information",
   },
   {
     iconName: mailOutline,
-    navLink: "Email & Mail Preferences",
+    navLink: t("auth.email&Mail"),
     navRoute: "my-account/landing/email-&-mail-preferences",
   },
 ];

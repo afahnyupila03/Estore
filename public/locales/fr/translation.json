@@ -1,7 +1,31 @@
 {
   "english": "Anglais",
   "french": "Francias",
+  "navbar": {
+    "home": "Accueil",
+    "shop": "Boutique",
+    "about": "À propos",
+    "latest": "Derniers",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "auth": {
+    "signInCreate": "Se Connecter | Créer un Compte",
+    "account": "Compte de",
+    "purchases": "Achats",
+    "wishList": "Liste de Souhaits",
+    "delivery": "Livraison",
+    "paymentMethod": "Méthode de Paiement",
+    "password&Personal": "Mot de Passe et Informations Personnelles",
+    "email&Mail": "E-mail et Préférences Postales",
+    "customerService": "Service Client",
+    "needHelp": "Besoin d'Aide ?",
+    "yourAccount": "Votre Compte",
+    "accountSettings": "Paramètres du Compte",
+    "logout": "Se déconnecter"
+  },
   "category": {
+    "shopBy": "Acheter par catégorie",
     "laptops": "ordinateurs portables",
     "smartphones": "smartphones",
     "fragrances": "parfums",
@@ -17,7 +41,7 @@
     "womenWatches": "montres pour femmes",
     "womenBags": "sacs pour femmes",
     "womenJewelry": "bijoux pour femmes",
-    "sunshades": "lunettes de soleil",
+    "sunShades": "lunettes de soleil",
     "automotive": "automobile",
     "motorcycle": "moto",
     "lighting": "éclairage",

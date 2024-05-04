@@ -55,7 +55,7 @@ export default function Home() {
         <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
           {/* Category Card */}
           <p className="mb-10 font-semibold text-2xl tracking-widest font-mono">
-            Shop By Category
+            {t("category.shopBy")}
           </p>
           <div className="grid mb-40 gap-x-2 gap-y-4 grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 xl:gap-x-4">
             {cateFeatures.map((catFeat) => (

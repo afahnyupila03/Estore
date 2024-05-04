@@ -1,7 +1,31 @@
 {
   "english": "English",
   "french": "French",
+  "navbar": {
+    "home": "Home",
+    "shop": "Shop",
+    "about": "About",
+    "latest": "Latest",
+    "blog": "Blog",
+    "contact": "Contact"
+  },
+  "auth": {
+    "signInCreate": "Sign In | Create Account",
+    "account": "'s Account",
+    "purchases": "Purchases",
+    "wishList": "Wish List",
+    "delivery": "Delivery",
+    "paymentMethod": "Payment Method",
+    "password&Personal": "Password & Personal Info",
+    "email&Mail": "Email & Mail Preferences",
+    "customerService": "Customer Service",
+    "needHelp": "Need Help ?",
+    "yourAccount": "Your Account",
+    "accountSettings": "Account Settings",
+    "logout": "Logout"
+  },
   "category": {
+    "shopBy": "Shop By Category",
     "laptops": "laptops",
     "smartphones": "smartphones",
     "fragrances": "fragrances",
