@@ -27,6 +27,7 @@ import {
   serverTimestamp,
 } from "firebase/firestore";
 import { database } from "../../FirebaseConfigs/Firesbase";
+import { useTranslation } from "react-i18next";
 
 export default function CheckOutForm() {
   const [userFirstName, setUserFirstName] = useState("");
@@ -51,6 +52,8 @@ export default function CheckOutForm() {
   const [checkoutTotal, setCheckoutTotal] = useState(0);
   const { user } = useAuth();
   const { removeProductHandler, clearProductHandler } = useCart();
+
+  const {t} = useTranslation()
 
   const splitUserName = (userName) => {
     if (!userName) {
@@ -312,7 +315,7 @@ export default function CheckOutForm() {
               {/* User Shipping Information */}
               <div>
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                  Contact Information
+                  {t("checkoutForm.contactInfo")}
                 </h1>
                 <Field
                   component={CustomTextInput}
@@ -322,8 +325,8 @@ export default function CheckOutForm() {
                   value={values.email}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  label="Email"
-                  placeholder="Email"
+                  label={t("checkoutForm.email")}
+                  placeholder={t("checkoutForm.email")}
                   autoComplete="false"
                 />
 
@@ -332,7 +335,7 @@ export default function CheckOutForm() {
                 />
 
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                  Shipping Information
+                {t("checkoutForm.shippingInfo")}
                 </h1>
                 <div className="flex justify-between items-center">
                   <Field
@@ -343,8 +346,8 @@ export default function CheckOutForm() {
                     value={values.firstName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    label="First name"
-                    placeholder="First name"
+                    label={t("checkoutForm.firstName")}
+                    placeholder={t("checkoutForm.firstName")}
                     autoComplete="true"
                   />
 
@@ -356,8 +359,8 @@ export default function CheckOutForm() {
                     value={values.lastName}
                     onChange={handleChange}
                     onBlur={handleBlur}
-                    label="Last name"
-                    placeholder="Last name"
+                    label={t("checkoutForm.lastName")}
+                    placeholder={t("checkoutForm.lastName")}
                     autoComplete="true"
                   />
                 </div>
@@ -369,7 +372,7 @@ export default function CheckOutForm() {
                       name="address"
                       type="text"
                       value={values.address}
-                      label="Address"
+                      label={t("checkoutForm.address")}
                       placeholder="Enter address"
                       id="address"
                       onChange={handleChange}
@@ -379,13 +382,13 @@ export default function CheckOutForm() {
                   ) : (
                     <div className="grid">
                       <label htmlFor="address" id="address">
-                        Address
+                      {t("checkoutForm.address")}
                       </label>
                       <Field
                         component="select"
                         id="address"
                         name="address"
-                        placeholder="select address"
+                        placeholder={t("checkoutForm.selectAddress")}
                         label="Address"
                         onChange={(e) => {
                           if (e.target.value === "otherAddress") {
@@ -404,7 +407,7 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="address">Select address</option>
+                        <option value="address">{t("checkoutForm.selectAddress")}</option>
                         {deliveryAddresses.map((deliveryAddress) => {
                           const { id, address } = deliveryAddress;
                           return (
@@ -414,7 +417,7 @@ export default function CheckOutForm() {
                           );
                         })}
                         <option value="otherAddress">
-                          Other, please specify...
+                        {t("checkoutForm.other")}
                         </option>
                       </Field>
                     </div>
@@ -430,18 +433,18 @@ export default function CheckOutForm() {
                       onChange={handleChange}
                       onBlur={handleBlur}
                       autoComplete="true"
-                      label="Apartment, Suite, etc"
+                      label={t("checkoutForm.apartment")}
                     />
                   ) : (
                     <div className="grid">
                       <label htmlFor="apt" className="font-semibold font-mono">
-                        Apartment, Suite, etc
+                      {t("checkoutForm.apartment")}
                       </label>
                       <Field
                         component="select"
                         name="apt"
-                        placeholder="Select Apt"
-                        label="Apt, Suite, etc"
+                        placeholder={t("checkoutForm.selectApart")}
+                        label={t("checkoutForm.apartment")}
                         onChange={(e) => {
                           if (e.target.value === "otherApt") {
                             setOtherApt(true);
@@ -459,7 +462,7 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="apt">Select apt</option>
+                        <option value="apt">{t("checkoutForm.selectApart")}</option>
                         {deliveryAddresses.map((deliveryApt) => {
                           const { id, apt } = deliveryApt;
                           return (
@@ -468,7 +471,7 @@ export default function CheckOutForm() {
                             </option>
                           );
                         })}
-                        <option value="otherApt">Other, SPecify...</option>
+                        <option value="otherApt">{t("checkoutForm.other")}</option>
                       </Field>
                     </div>
                   )}
@@ -483,7 +486,7 @@ export default function CheckOutForm() {
                       value={values.city}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      label="City"
+                      label={t("checkoutForm.city")}
                       placeholder="City"
                       id="city"
                       autoComplete="false"
@@ -491,13 +494,13 @@ export default function CheckOutForm() {
                   ) : (
                     <div className="grid">
                       <label htmlFor="city" id="city">
-                        City
+                      {t("checkoutForm.city")}
                       </label>
                       <Field
                         name="city"
                         id="city"
                         component="select"
-                        placeholder="Select city"
+                        placeholder={t("checkoutForm.selectCity")}
                         onChange={(e) => {
                           if (e.target.value === "otherCity") {
                             setOtherCity(true);
@@ -516,7 +519,7 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="city">Select city</option>
+                        <option value="city">{t("checkoutForm.selectCity")}</option>
                         {deliveryAddresses.map((deliveryCity) => {
                           const { id, city } = deliveryCity;
                           return (
@@ -526,7 +529,7 @@ export default function CheckOutForm() {
                           );
                         })}
                         <option value="otherCity">
-                          Other, please specify...
+                        {t("checkoutForm.other")}
                         </option>
                       </Field>
                     </div>
@@ -538,8 +541,8 @@ export default function CheckOutForm() {
                       type="text"
                       name="state"
                       id="state"
-                      label="State / Province"
-                      placeholder="state / province"
+                      label={t("checkoutForm.state")}
+                      placeholder={t("checkoutForm.state")}
                       autoComplete="false"
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -548,14 +551,14 @@ export default function CheckOutForm() {
                   ) : (
                     <div className="grid">
                       <label htmlFor="state" id="state">
-                        State / Province
+                      {t("checkoutForm.state")}
                       </label>
                       <Field
                         name="state"
                         id="state"
                         as="select"
-                        placeholder="Select state/ province"
-                        label="Select state / province"
+                        placeholder={t("checkoutForm.state")}
+                        label={t("checkoutForm.state")}
                         onChange={(e) => {
                           if (e.target.value === "otherState") {
                             setOtherState(true);
@@ -573,7 +576,7 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="state">Select state</option>
+                        <option value="state">{t("checkoutForm.selectState")}</option>
                         {deliveryAddresses.map((deliveryState) => {
                           const { id, state } = deliveryState;
                           return (
@@ -583,7 +586,7 @@ export default function CheckOutForm() {
                           );
                         })}
                         <option value="otherState">
-                          Other, please specify...
+                        {t("checkoutForm.other")}
                         </option>
                       </Field>
                     </div>
@@ -600,7 +603,7 @@ export default function CheckOutForm() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     autoComplete="false"
-                    label="Phone"
+                    label={t("checkoutForm.phone")}
                   />
                   <Field
                     component={CustomTextInput}
@@ -611,7 +614,7 @@ export default function CheckOutForm() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     autoComplete="false"
-                    label="Postal code"
+                    label={t("checkoutForm.postalCode")}
                   />
                 </div>
 
@@ -621,7 +624,7 @@ export default function CheckOutForm() {
 
                 {/* Delivery Methods. */}
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                  Delivery Method
+                {t("checkoutForm.deliveryMethod")}
                 </h1>
                 <div
                   role="group"
@@ -630,11 +633,11 @@ export default function CheckOutForm() {
                 >
                   <div className="border-2 border-black rounded p-4">
                     <h1 className="text-center flex justify-center">
-                      Standard
+                    {t("checkoutForm.standard")}
                     </h1>
                     <div className="flex justify-around gap-x-10 items-center">
                       <div>
-                        <p>4-10 business days</p>
+                        <p>4-10 {t("checkoutForm.businessDays")}</p>
                       </div>
                       <div>
                         <Field
@@ -653,10 +656,10 @@ export default function CheckOutForm() {
                   </div>
 
                   <div className="border-2 border-black rounded p-4">
-                    <h1 className="text-center flex justify-center">Express</h1>
+                    <h1 className="text-center flex justify-center">{t("checkoutForm.express")}</h1>
                     <div className="flex justify-around gap-x-10 items-center">
                       <div>
-                        <p>2-5 business days</p>
+                        <p>2-5 {t("checkoutForm.businessDays")}</p>
                       </div>
 
                       <div>
@@ -681,7 +684,7 @@ export default function CheckOutForm() {
                 />
                 {/* Payment Methods */}
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                  Payment
+                {t("checkoutForm.payment")}
                 </h1>
                 <div className="flex justify-between reverse">
                   <Field
@@ -689,7 +692,7 @@ export default function CheckOutForm() {
                     id="cardHolder"
                     name="cardHolder"
                     type="text"
-                    label="Name on card"
+                    label={t("checkoutForm.nameOnCard")}
                     value={values.cardHolder}
                     onChange={handleChange}
                     onBlur={handleBlur}
@@ -702,7 +705,7 @@ export default function CheckOutForm() {
                       id="cardNumber"
                       name="cardNumber"
                       type="text"
-                      label="Card number"
+                      label={t("checkoutForm.cardNumber")}
                       value={values.cardNumber}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -712,7 +715,7 @@ export default function CheckOutForm() {
                   ) : (
                     <div className="grid">
                       <label htmlFor="cardNumber" id="cardNumber">
-                        Card number
+                      {t("checkoutForm.cardNumber")}
                       </label>
                       <Field
                         as="select"
@@ -735,7 +738,7 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="cardNumber">Select card number</option>
+                        <option value="cardNumber">{t("checkoutForm.selectCard")}</option>
                         {paymentMethods.map((paymentCard) => {
                           const { id, cardNumber } = paymentCard;
                           return (
@@ -745,7 +748,7 @@ export default function CheckOutForm() {
                           );
                         })}
                         <option value="otherCardNumber">
-                          Other, please specify...
+                        {t("checkoutForm.other")}
                         </option>
                       </Field>
                     </div>
@@ -760,7 +763,7 @@ export default function CheckOutForm() {
                       name="expiryDate"
                       type="text"
                       pattern="\d{2}/\d{2}"
-                      label="Expiry date"
+                      label={t("checkoutForm.expiryDate")}
                       value={values.expiryDate}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -774,7 +777,7 @@ export default function CheckOutForm() {
                       id="cvc"
                       name="cvc"
                       type="integer"
-                      label="cvc"
+                      label={t("checkoutForm.cvc")}
                       value={values.cvc}
                       onChange={handleChange}
                       onBlur={handleBlur}
@@ -787,7 +790,7 @@ export default function CheckOutForm() {
               {/* Product Summary Section. */}
               <div>
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                  Order summary
+                {t("checkoutForm.orderSummary")}
                 </h1>
 
                 {checkoutData.map((item) => {
@@ -798,13 +801,13 @@ export default function CheckOutForm() {
                         {!product ? (
                           <div className="mt-8">
                             <p className="mb-10 text-xl font-mono">
-                              No products to checkout...!
+                            {t("checkoutForm.noProducts")}
                             </p>
                             <Link
                               to="/home"
                               className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
                             >
-                              Continue Shopping
+                              {t("cart.continueShopping")}
                             </Link>
                           </div>
                         ) : (
@@ -826,7 +829,7 @@ export default function CheckOutForm() {
                         <div>
                           <div className="flex mt-2 justify-between items-center">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                              Total products :
+                            {t("checkoutForm.totalProducts")} :
                             </p>
                             <p className="text-gray-900 text-lg font-mono font-semibold">
                               {totalProducts}
@@ -834,7 +837,7 @@ export default function CheckOutForm() {
                           </div>
                           <div className="flex mt-2 justify-between items-center">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                              Subtotal :
+                            {t("checkoutForm.subtotal")} :
                             </p>
                             <p className="text-gray-900 text-lg font-mono font-semibold">
                               {MONEY_FORMATTER(parseInt(totalAmount), CURRENCY)}
@@ -842,8 +845,7 @@ export default function CheckOutForm() {
                           </div>
                           <div className="flex mt-2 justify-between items-center">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                              Taxes :
-                            </p>
+                            {t("checkoutForm.taxes")}                            </p>
                             <p className="text-gray-900 text-lg font-mono font-semibold">
                               {taxIsLoading ? (
                                 <Loader animation={loading} size={20} />
@@ -854,7 +856,7 @@ export default function CheckOutForm() {
                           </div>
                           <div className="flex mt-2 justify-between items-center">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                              Shipping :
+                            {t("checkoutForm.shipping")} :
                             </p>
                             <p className="text-gray-900 text-lg font-mono font-semibold">
                               {MONEY_FORMATTER(
@@ -873,7 +875,7 @@ export default function CheckOutForm() {
 
                           <div className="flex mt-2 justify-between">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                              Total :
+                            {t("checkoutForm.total")} :
                             </p>
                             <p className="text-gray-900 font-mono font-semibold">
                               {checkoutLoading ? (
@@ -894,8 +896,8 @@ export default function CheckOutForm() {
                               disabled={isSubmitting}
                             >
                               {isSubmitting
-                                ? "loading invoice"
-                                : "Confirm order"}
+                                ? `${t("checkoutForm.loadingInvoice")}`
+                                : `${t("checkoutForm.confirmOrder")}`}
                             </button>
                           </div>
                         </div>
