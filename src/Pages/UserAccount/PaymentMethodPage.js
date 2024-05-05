@@ -19,12 +19,14 @@ import { closeOutline } from "ionicons/icons";
 import { addDoc, collection } from "firebase/firestore";
 import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 // TODO: FIX EDIT AND DELETE PAYMENT HANDLERS.
 
 export default function PaymentMethodPage() {
   const { user } = useAuth();
+
+  const {t} = useTranslation()
 
   const [paymentModal, setPaymentModal] = useState(false);
   const [editModal, setEditModal] = useState(false);

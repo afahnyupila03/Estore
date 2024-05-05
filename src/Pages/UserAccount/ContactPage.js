@@ -6,9 +6,12 @@ import Request from "../../Assets/request.png";
 import Cancel from "../../Assets/cancel.png";
 import Help from "../../Assets/help.png";
 import Yes from "../../Assets/vote-yes.png";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 export default function ContactPage() {
+
+  const {t} = useTranslation()
+
   return (
     <div>
       <div>

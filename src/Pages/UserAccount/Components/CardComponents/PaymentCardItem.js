@@ -1,4 +1,4 @@
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 import React from "react";
 
 export default function PaymentCardItem({
@@ -6,6 +6,9 @@ export default function PaymentCardItem({
   editHandler,
   deleteHandler,
 }) {
+
+  const {t} = useTranslation();
+
   const { id, firstName, lastName, cardNumber, expiryDate, securityCode } =
     paymentDetails || [];
   return (

@@ -12,7 +12,7 @@ export function Backdrop() {
   return (
     <div
       style={backdropColor}
-      className="backdrop-blur-sm  fixed top-0 left-0 z-20 w-full h-full"
+      className="backdrop-blur-sm fixed top-0 left-0 z-20 w-full h-full"
     />
   );
 }
@@ -31,6 +31,11 @@ export const ModalOverlay = ({ children, icon, style, actionHandler }) => {
 const portalElement = document.getElementById("productModal");
 
 export default function ProductModal({ children, icon, style, actionHandler }) {
+  if (!portalElement) {
+    console.error("Target element 'productModal' not found in the DOM");
+    return null;
+  }
+
   return (
     <Fragment>
       {ReactDOM.createPortal(<Backdrop />, portalElement)}

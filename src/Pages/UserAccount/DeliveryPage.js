@@ -18,7 +18,7 @@ import {
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
@@ -27,6 +27,8 @@ export default function DeliveryPage() {
   const [editModal, setEditModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const {t} = useTranslation()
 
   const { user } = useAuth();
   const userId = user?.uid;

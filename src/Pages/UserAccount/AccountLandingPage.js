@@ -12,7 +12,7 @@ import { NAV_CONST } from "./Components/AccountNavConst";
 import { Routes, Route, Link, Outlet } from "react-router-dom";
 import { AccountRoute } from "../../Routes/AccountRoute";
 import { useAuth } from "../../Store";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 export const getFirstTwoLetters = (displayName) => {
   if (displayName) {
@@ -31,6 +31,8 @@ export const getFirstTwoLetters = (displayName) => {
 
 export default function AccountLandingPage() {
   const { user, signOutHandler } = useAuth();
+
+  const { t } = useTranslation();
 
   const userName = user?.displayName;
 

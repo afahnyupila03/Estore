@@ -1,7 +1,7 @@
 import { getFirstTwoLetters } from "./AccountLandingPage";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../Store";
-import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 // className="grid justify-center"
 
@@ -9,6 +9,8 @@ export const BRAND = "TIME ZONE";
 
 export default function EmailAndMailPreferencePage() {
   const { user } = useAuth();
+
+  const {t} = useTranslation()
 
   const userEmail = user?.email;
 
