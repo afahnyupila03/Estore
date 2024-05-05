@@ -152,6 +152,9 @@
     "required": "*Required",
     "edit": "Edit",
     "remove": "Remove",
-    "city": "City"
+    "city": "City",
+    "deliveryAuthMessage": "No user found. Please sign in | create account to view delivery address(s).",
+    "tryAgain": "Try again",
+    "noAddress": "No address added"
   }
 }

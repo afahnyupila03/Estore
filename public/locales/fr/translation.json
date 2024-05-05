@@ -152,6 +152,9 @@
     "required": "* Obligatoire",
     "edit": "Modifier",
     "remove": "Supprimer",
-    "city": "Ville"
+    "city": "Ville",
+    "deliveryAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'adresse de livraison.",
+    "tryAgain": "Réessayer",
+    "noAddress": "Aucune adresse ajoutée"
   }
 }

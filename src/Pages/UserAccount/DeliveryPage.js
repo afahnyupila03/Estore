@@ -133,14 +133,13 @@ export default function DeliveryPage() {
     DELIVERY_ADDRESS = (
       <div className="mt-8">
         <p className="mb-10 font-mono text-xl">
-          No user found. Please sign in / create user account to view delivery
-          address(s).
+          {t("delivery.deliveryAuthMessage")}
         </p>
         <Link
           to="/sign-in-&-create-account"
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
         >
-          Sign in / Create account
+          {t("auth.signInCreate")}
         </Link>
       </div>
     );
@@ -151,13 +150,13 @@ export default function DeliveryPage() {
       </div>
     );
   } else if (user !== null && data === null) {
-    DELIVERY_ADDRESS = <p>No address added</p>;
+    DELIVERY_ADDRESS = <p>{t("delivery.noAddress")}</p>;
   } else if (isError) {
     DELIVERY_ADDRESS = (
       <div>
         <p>{error}</p>
         <button type="button" onClick={() => refetch()}>
-          Try again
+          {t("delivery.tryAgain")}
         </button>
       </div>
     );
@@ -190,7 +189,7 @@ export default function DeliveryPage() {
           {t("delivery.addAddress")}
         </h1>
         <span className="text-center text-sm lg:text-lg text-red-500">
-        {t("delivery.required")}
+          {t("delivery.required")}
         </span>
       </div>
 
@@ -241,8 +240,8 @@ export default function DeliveryPage() {
               value={values.lastName}
               onChange={handleChange}
               onBlur={handleBlur}
-              label= {t("checkoutForm.lastName")}
-              placeholder= {t("checkoutForm.lastName")}
+              label={t("checkoutForm.lastName")}
+              placeholder={t("checkoutForm.lastName")}
               autoComplete="true"
             />
             <Field
@@ -335,15 +334,15 @@ export default function DeliveryPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold font-mono">{t("delivery.deliveryAddress")}</h1>
+      <h1 className="text-2xl font-semibold font-mono">
+        {t("delivery.deliveryAddress")}
+      </h1>
       {user !== null && (
         <div>
           <button onClick={modalHandler} className="p-2 border-2 border-black">
             {t("delivery.addNew")}
           </button>
-          <p>
-          {t("delivery.checkoutFaster")}
-          </p>
+          <p>{t("delivery.checkoutFaster")}</p>
         </div>
       )}
 
