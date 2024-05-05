@@ -126,5 +126,20 @@
     "loadingInvoice": "loading incvoice",
     "noProducts": "No products to checkout...!",
     "selectCity": "Select city"
+  },
+  "contact": {
+    "hereForYou": "We're Here for You",
+    "callOrChat": "Call or chat with us here.",
+    "SelfService": "Check out our self-service tools to get help fast.",
+    "trackOrder": "Track Your Order",
+    "getStarted": "Get Started",
+    "makeReturn": "Make a Return",
+    "requestPrice": "Request a Price Adjustment",
+    "needCancel": "Need to cancel a recent order?",
+    "actQuickly": "If you act quickly, you can cancel an order while it's still processing. Just find the order in your purchases, choose Details, then select Cancel Order.",
+    "here247": "Need help? We're here 24/7.",
+    "service": "Service: +237 999 999 999",
+    "ourService": "Our Service promise since 1901",
+    "findOut": "Find Out More"
   }
 }

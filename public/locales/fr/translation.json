@@ -126,5 +126,20 @@
     "loadingInvoice": "Chargement de la facture",
     "noProducts": "Aucun produit à commander...!",
     "selectCity": "Sélectionner une ville"
+  },
+  "contact": {
+    "hereForYou": "Nous sommes là pour vous",
+    "callOrChat": "Appelez ou discutez avec nous ici.",
+    "selfService": "Consultez nos outils en libre-service pour obtenir de l'aide rapidement.",
+    "trackOrder": "Suivez votre commande",
+    "getStarted": "Commencer",
+    "makeReturn": "Effectuer un retour",
+    "requestPrice": "Demander un ajustement de prix",
+    "needCancel": "Besoin d'annuler une commande récente ?",
+    "actQuickly": "Si vous agissez rapidement, vous pouvez annuler une commande tant qu'elle est encore en cours de traitement. Trouvez simplement la commande dans vos achats, choisissez Détails, puis sélectionnez Annuler la commande.",
+    "here247": "Besoin d'aide ? Nous sommes là 24/7.",
+    "service": "Service : +237 999 999 999",
+    "ourService": "Notre promesse de service depuis 1901",
+    "findOut": "En savoir plus"
   }
 }

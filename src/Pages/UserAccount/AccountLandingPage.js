@@ -108,19 +108,6 @@ export default function AccountLandingPage() {
         </div>
       )}
       <div className="flex-1 bg-white">
-        {user !== null && (
-          <header>
-            <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-              <div className="flex font-semibold font-mono tracking-wider rounded uppercase text-white p-4 bg-gray-800 items-center text-lg justify-center">
-                <span className="p-4 bg-red-500 rounded-full mr-2">
-                  {getFirstTwoLetters(userName)}
-                </span>
-
-                <p>{userName}</p>
-              </div>
-            </div>
-          </header>
-        )}
         <main>
           <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <Routes>
