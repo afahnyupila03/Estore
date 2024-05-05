@@ -1,4 +1,5 @@
 export const NAV_CONST = (
+  t,
   bicycleOutline,
   cardOutline,
   chatbubbleOutline,
@@ -6,46 +7,45 @@ export const NAV_CONST = (
   heartOutline,
   lockClosedOutline,
   mailOutline,
-  t
 ) => [
   {
-    name: "Purchases",
+    name: t("auth.purchases"),
     href: "purchases",
     current: false,
     icon: cubeOutline,
   },
   {
-    name: "Wish lists",
+    name: t("auth.wishList"),
     href: "wish-lists",
     current: false,
     icon: heartOutline,
   },
   {
-    name: "Delivery",
+    name: t("auth.delivery"),
     href: "delivery",
     current: false,
     icon: bicycleOutline,
   },
   {
-    name: "Payment Method",
+    name: t("auth.paymentMethod"),
     href: "payment-method",
     current: false,
     icon: cardOutline,
   },
   {
-    name: "Password & Personal Infor",
+    name: t("auth.password&Personal"),
     href: "password-&-personal-information",
     current: false,
     icon: lockClosedOutline,
   },
   {
-    name: "Email & Mail Preferences",
+    name: t("auth.email&Mail"),
     href: "email-&-mail-preferences",
     current: false,
     icon: mailOutline,
   },
   {
-    name: "Customer Service",
+    name: t("auth.customerService"),
     href: "customer-service",
     current: false,
     icon: chatbubbleOutline,

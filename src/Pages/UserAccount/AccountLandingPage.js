@@ -9,10 +9,10 @@ import {
   mailOutline,
 } from "ionicons/icons";
 import { NAV_CONST } from "./Components/AccountNavConst";
-import { useTranslation } from "react-i18next";
 import { Routes, Route, Link, Outlet } from "react-router-dom";
 import { AccountRoute } from "../../Routes/AccountRoute";
 import { useAuth } from "../../Store";
+import { t } from "i18next";
 
 export const getFirstTwoLetters = (displayName) => {
   if (displayName) {
@@ -29,22 +29,20 @@ export const getFirstTwoLetters = (displayName) => {
   }
 };
 
-
 export default function AccountLandingPage() {
   const { user, signOutHandler } = useAuth();
-  const { t } = useTranslation;
 
   const userName = user?.displayName;
 
   const navigation = NAV_CONST(
+    t,
     bicycleOutline,
     cardOutline,
     chatbubbleOutline,
     cubeOutline,
     heartOutline,
     lockClosedOutline,
-    mailOutline,
-    t
+    mailOutline
   );
 
   function classNames(...classes) {
@@ -91,7 +89,7 @@ export default function AccountLandingPage() {
                     className="mr-4"
                     style={{ fontSize: "1.5rem" }}
                   />
-                  {item.name}
+                  {REDUCE_TITLE(item.name)}
                 </Link>
               </li>
             ))}
@@ -102,7 +100,7 @@ export default function AccountLandingPage() {
                   onClick={handleLogout}
                   className="p-4 text-white bg-gray-500 rounded-lg"
                 >
-                  Logout
+                  {t("auth.logout")}
                 </button>
               )}
             </li>
@@ -141,3 +139,11 @@ export default function AccountLandingPage() {
     </div>
   );
 }
+
+const REDUCE_TITLE = (title) => {
+  const MAX = 20;
+  if (title.length > MAX) {
+    return `${title.slice(0, MAX)}...`;
+  }
+  return title;
+};
