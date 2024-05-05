@@ -1,6 +1,9 @@
 {
   "english": "Anglais",
   "french": "Francias",
+  "available": "disponible en stock",
+  "customerPurchase": "Les clients ont également acheté",
+  "productInfor": "Information produit",
   "navbar": {
     "home": "Accueil",
     "shop": "Boutique",
@@ -72,7 +75,8 @@
     "added": "Ajouté",
     "addToBag": "Ajouter au panier",
     "disLike": "Détester",
-    "seeDetails": "voir les détails complets"
+    "seeDetails": "voir les détails complets",
+    "addToWishlist": "Ajouter à la liste de souhaits"
   },
   "cart": {
     "shoppingBag": "Sac de magasinage",

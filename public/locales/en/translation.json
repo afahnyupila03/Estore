@@ -1,6 +1,9 @@
 {
   "english": "English",
   "french": "French",
+  "available": "available in stock",
+  "customerPurchase": "Customer Also Purchased",
+  "productInfor": "Product information",
   "navbar": {
     "home": "Home",
     "shop": "Shop",
@@ -72,7 +75,8 @@
     "added": "Added",
     "addToBag": "Add to Bag",
     "dislike": "Dislike",
-    "seeDetails": "see full details"
+    "seeDetails": "see full details",
+    "addToWishlist": "Add to Wishlist"
   },
   "cart": {
     "shoppingBag": "shopping Bag",
