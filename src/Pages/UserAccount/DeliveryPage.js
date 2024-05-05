@@ -188,7 +188,8 @@ export default function DeliveryPage() {
         <h1 className="font-semibold font-mono text-sm lg:text-2xl">
           {t("delivery.addAddress")}
         </h1>
-        <span className="text-center text-sm lg:text-lg text-red-500">
+        <span className="text-center text-sm lg:text-lg">
+          <span>* </span>
           {t("delivery.required")}
         </span>
       </div>

@@ -149,7 +149,7 @@
     "addAddress": "Ajouter une nouvelle adresse",
     "save": "Enregistrer",
     "cancel": "Annuler",
-    "required": "* Obligatoire",
+    "required": "Obligatoire",
     "edit": "Modifier",
     "remove": "Supprimer",
     "city": "Ville",
@@ -159,6 +159,16 @@
   },
   "personalInfor": {
     "aboutSales": "Découvrez les ventes et plus encore chez TIMEZONE.",
-    "emailAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'e-mail de l'utilisateur."
+    "emailAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'e-mail de l'utilisateur.",
+    "paymentMethods": "Méthodes de paiement",
+    "newCard": "Ajouter une nouvelle carte",
+    "checkoutFaster": "Passez votre commande plus rapidement en ajoutant une ou plusieurs cartes à votre compte.",
+    "primaryMethods": "Ceci sera votre méthode de paiement principale.",
+    "saveCard": "Enregistrez votre carte pour l'utiliser lors de vos prochains achats chez TimeZone. Supprimez cette carte de votre compte TimeZone pour ce service.",
+    "securityCode": "Code de sécurité",
+    "payMomo": "Payer via MOMO / OM",
+    "payBank": "Payer par carte bancaire",
+    "accountName": "Nom du compte",
+    "momoNumber": "Numéro MOMO / OM"
   }
 }

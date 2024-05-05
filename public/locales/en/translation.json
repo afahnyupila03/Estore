@@ -159,6 +159,16 @@
   },
   "personalInfor": {
     "aboutSales": "TZ Hear about sales and more at TIMEZONE.",
-    "emailAuthMessage": "No user found. Please sign in | create account to view user email."
+    "emailAuthMessage": "No user found. Please sign in | create account to view user email.",
+    "paymentMethods": "Payment Methods",
+    "newCard": "Add New Card",
+    "checkoutFaster": "Checkout faster by adding one or more cards to your account.",
+    "primaryMethods": "This will be your primary payment method.",
+    "saveCard": "Save your card to enable use on future TimeZone purchases. Remove this card from your TimeZone account to this service",
+    "securityCode": "Security code",
+    "payMomo": "Pay via MOMO / OM",
+    "payBank": "pay via bank card",
+    "accountName": "Account name",
+    "momoNumber": "MOMO / OM number"
   }
 }

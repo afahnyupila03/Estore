@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React from "react";
 
 export default function PaymentCardItem({
@@ -14,15 +15,20 @@ export default function PaymentCardItem({
       key={id}
     >
       <div className="mb-4">
-        <p>Unique id: {id}</p>
         <p>
           {firstName} {lastName}
         </p>
       </div>
       <div className="mb-4">
-        <p>Card Number: {HIDE_CARD_NUMBER(cardNumber)}</p>
-        <p>SecurityCode: {HIDE_SECURITY_CODE(securityCode)}</p>
-        <p>Expiry date: {expiryDate}</p>
+        <p>
+          {t("checkoutForm.cardNumber")}: {HIDE_CARD_NUMBER(cardNumber)}
+        </p>
+        <p>
+          {t("personalInfor.securityCode")}: {HIDE_SECURITY_CODE(securityCode)}
+        </p>
+        <p>
+          {t("checkoutForm.expiryDate")}: {expiryDate}
+        </p>
       </div>
       <div>
         <div>
@@ -38,7 +44,7 @@ export default function PaymentCardItem({
             onClick={deleteHandler}
             className="border-black border-b-2 text-center"
           >
-            {t("delivery.edit")}
+            {t("delivery.remove")}
           </button>
         </div>
       </div>
@@ -53,8 +59,6 @@ function HIDE_CARD_NUMBER(bankNumber) {
       "*".repeat(10) +
       bankNumber.substring(13, 16);
     return hiddenDigits;
-  } else {
-    return "Invalid bank number";
   }
 }
 
