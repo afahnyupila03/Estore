@@ -11,9 +11,12 @@ import loading from "react-useanimations/lib/loading";
 import Icon from "../../Components/Icon";
 import { reloadOutline } from "ionicons/icons";
 import jsPDF from "jspdf";
+import { useTranslation } from "react-i18next";
 
 export default function SinglePurchasePage() {
   const { user } = useAuth();
+
+  const { t } = useTranslation();
 
   const [contentReady, setContentReady] = useState(false);
   const captureRef = useRef(null);
@@ -124,37 +127,39 @@ export default function SinglePurchasePage() {
             <h1>TimeZone,</h1>
             <p>Saint clair, Molyko,</p>
             <p>Buea, Southwest,</p>
-            <p>Cameroon</p>
+            <p>{t("home.cameroon")}</p>
           </div>
         </div>
         <div className="flex mb-2 justify-between font-medium">
           <div className="text-black">
-            <h3>Bill To:</h3>
+            <h3>{t("purchases.billTo")}</h3>
             <p>{email}</p>
             <p>{displayName}</p>
           </div>
           <div className="text-black">
-            <h3>Invoice:</h3>
+            <h3 className="text-black">{t("purchases.invoice:")}</h3>
             <p>{purchaseId}</p>
           </div>
         </div>
         <div className="text-black mb-2 font-medium">
-          <h3>Ship To:</h3>
+          <h3>{t("purchases.shipTo")}</h3>
           <p>{address}</p>
           <p>
             {city}, {state}
           </p>
         </div>
         <div className="font-medium text-black mb-4">
-          <p>Invoice date: {`${dayOfOrder} ${timeOfOrder}`}</p>
+          <p>
+            {t("purchases.invoiceDate")} {`${dayOfOrder} ${timeOfOrder}`}
+          </p>
         </div>
         <table className=" text-black font-medium w-full">
           <tr className="text-center gap-x-4 mb-2 px-4">
-            <th>SN</th>
-            <th>Items</th>
-            <th>Qty</th>
-            <th>Price</th>
-            <th>Amount</th>
+            <th>{t("purchases.sn")}</th>
+            <th>{t("purchases.items")}</th>
+            <th>{t("purchases.qty")}</th>
+            <th>{t("purchases.price")}</th>
+            <th>{t("purchases.amount")}</th>
           </tr>
           {productData.map((invoice, index) =>
             Object.keys(invoice).map((key, subIndex) => (
@@ -189,15 +194,23 @@ export default function SinglePurchasePage() {
         <div className="mt-4 flex justify-between text-black font-medium">
           <div>
             <p>
-              Thank you for shopping
+              {t("purchases.thankYou")}
               <br />
-              at TimeZone
+              {t("at")} TimeZone
             </p>
           </div>
           <div className="border-2 border-black p-2 rounded-md">
-            <p>Shipping: {FORMAT_MONEY(parseInt(shippingPrice), CURRENCY)}</p>
-            <p>Tax: {FORMAT_MONEY(parseInt(tax), CURRENCY)}</p>
-            <p>Total: {FORMAT_MONEY(parseInt(checkoutTotal), CURRENCY)}</p>
+            <p>
+              {t("checkoutForm.shipping")}:
+              {FORMAT_MONEY(parseInt(shippingPrice), CURRENCY)}
+            </p>
+            <p>
+              {t("checkoutForm.taxes")}: {FORMAT_MONEY(parseInt(tax), CURRENCY)}
+            </p>
+            <p>
+              {t("checkoutForm.total")}:{" "}
+              {FORMAT_MONEY(parseInt(checkoutTotal), CURRENCY)}
+            </p>
           </div>
         </div>
         <button
@@ -208,7 +221,7 @@ export default function SinglePurchasePage() {
           type="button"
           onClick={handleCaptureInvoice}
         >
-          Download invoice
+          {t("purchases.downloadInvoice")}
         </button>
       </div>
     );
