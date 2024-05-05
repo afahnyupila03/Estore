@@ -156,5 +156,9 @@
     "deliveryAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'adresse de livraison.",
     "tryAgain": "Réessayer",
     "noAddress": "Aucune adresse ajoutée"
+  },
+  "personalInfor": {
+    "aboutSales": "Découvrez les ventes et plus encore chez TIMEZONE.",
+    "emailAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'e-mail de l'utilisateur."
   }
 }

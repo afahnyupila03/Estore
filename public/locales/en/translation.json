@@ -156,5 +156,9 @@
     "deliveryAuthMessage": "No user found. Please sign in | create account to view delivery address(s).",
     "tryAgain": "Try again",
     "noAddress": "No address added"
+  },
+  "personalInfor": {
+    "aboutSales": "TZ Hear about sales and more at TIMEZONE.",
+    "emailAuthMessage": "No user found. Please sign in | create account to view user email."
   }
 }
