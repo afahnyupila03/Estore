@@ -30,7 +30,7 @@ export default function PaymentCardItem({
             onClick={editHandler}
             className="border-black border-b-2 text-center"
           >
-            Edit
+            {t("delivery.edit")}
           </button>
         </div>
         <div>
@@ -38,7 +38,7 @@ export default function PaymentCardItem({
             onClick={deleteHandler}
             className="border-black border-b-2 text-center"
           >
-            Remove
+            {t("delivery.edit")}
           </button>
         </div>
       </div>

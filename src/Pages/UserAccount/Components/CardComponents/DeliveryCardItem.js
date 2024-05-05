@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React from "react";
 
 export default function DeliveryCardItem({
@@ -29,7 +30,7 @@ export default function DeliveryCardItem({
           type="button"
           onClick={editHandler}
         >
-          Edit
+          {t("delivery.edit")}
         </button>
       </div>
       <div>
@@ -38,7 +39,7 @@ export default function DeliveryCardItem({
           // type="button"
           onClick={deleteHandler}
         >
-          Remove
+          {t("delivery.remove")}
         </button>
       </div>
     </div>

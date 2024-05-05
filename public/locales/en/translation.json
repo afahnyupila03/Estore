@@ -141,5 +141,17 @@
     "service": "Service: +237 999 999 999",
     "ourService": "Our Service promise since 1901",
     "findOut": "Find Out More"
+  },
+  "delivery": {
+    "deliveryAddress": "Delivery Address",
+    "addNew": "Add New Address",
+    "checkoutFaster": "Checkout faster by adding one or more shipping addresses to your account.",
+    "addAddress": "Add new address",
+    "save:": "Save",
+    "cancel": "Cancel",
+    "required": "*Required",
+    "edit": "Edit",
+    "remove": "Remove",
+    "city": "City"
   }
 }
