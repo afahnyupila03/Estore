@@ -7,6 +7,7 @@ import {
   star,
   starHalfOutline,
 } from "ionicons/icons";
+import { useTranslation } from "react-i18next";
 
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars); // Get the integer part of the rating
@@ -36,6 +37,8 @@ export default function WishListCardItems({
   removeItemHandler,
   wishListProducts,
 }) {
+  const { t } = useTranslation();
+
   const { title, price, discountPercentage, thumbnail, description, rating } =
     wishListProducts;
 
@@ -85,7 +88,11 @@ export default function WishListCardItems({
       <div>
         <button
           onClick={addItemHandler}
-          style={{ paddingLeft: "1rem", paddingRight: "1rem", width: "11.8rem" }}
+          style={{
+            paddingLeft: "1rem",
+            paddingRight: "1rem",
+            width: "11.8rem",
+          }}
           className=" bg-black text-white text-center flex items-center w-58 py-2 rounded font-mono text-xl mb-2"
           type="button"
         >
@@ -94,7 +101,7 @@ export default function WishListCardItems({
             icon={bagHandleOutline}
             className="mr-2"
           />
-          Add to bag
+          {t("home.addToBag")}
         </button>
         <button
           onClick={removeItemHandler}
@@ -106,7 +113,7 @@ export default function WishListCardItems({
             icon={heartDislikeOutline}
             style={{ fontSize: "1.5rem" }}
           />
-          Dislike
+          {t("home.dislike")}
         </button>
       </div>
     </div>

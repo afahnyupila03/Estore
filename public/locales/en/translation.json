@@ -235,5 +235,11 @@
     "sn": "SN",
     "thankYou": "Thank you for shopping",
     "downloadInvoice": "Download invoice"
+  },
+  "wishlist": {
+    "wishlistAuthMessage": "No user found. Please sign in / create account to view wish list.",
+    "emptyWishlist": "Your wish list is empty.",
+    "visitShop": "Visit shop to add products.",
+    "share": "Share"
   }
 }
