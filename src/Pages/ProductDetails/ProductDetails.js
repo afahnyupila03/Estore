@@ -15,6 +15,7 @@ import {
 import loading from "react-useanimations/lib/loading";
 import { star, starHalfOutline } from "ionicons/icons";
 import { useAuth, useCart, useWishList } from "../../Store";
+import { t } from "i18next";
 
 function PRODUCT_RATINGS(stars) {
   const fullStars = Math.floor(stars);
@@ -184,7 +185,7 @@ export default function ProductDetails() {
             </div>
 
             <div className="mt-4 lg:row-span-3 lg:mt-0">
-              <h2 className="sr-only">Product information</h2>
+              <h2 className="sr-only">{t("productInfor")}</h2>
               <p className="text-3xl tracking-tight text-gray-900">
                 {DISCOUNT}
               </p>
@@ -219,7 +220,9 @@ export default function ProductDetails() {
                     }}
                     icon={productAdded ? checkmark : bagOutline}
                   />
-                  {productAdded ? "Added" : "Add to Bag"}
+                  {productAdded
+                    ? `${t("home.added")}`
+                    : `${t("home.addToBag")}`}
                 </button>
                 <button
                   onClick={
@@ -236,7 +239,7 @@ export default function ProductDetails() {
                             quantity,
                           })
                   }
-                  className="font-semibold text-lg flex items-center text-center mt-6 sm:w-full px-20 py-5 text-white rounded bg-black"
+                  className="font-semibold flex items-center text-center mt-6 sm:w-full px-20 py-5 text-white rounded bg-black"
                 >
                   <Icon
                     style={{
@@ -246,13 +249,15 @@ export default function ProductDetails() {
                     }}
                     icon={wishList ? heartDislike : heartOutline}
                   />
-                  {wishList ? "Dislike" : "Add to Wish List"}
+                  {wishList
+                    ? `${t("home.disLike")}`
+                    : `${t("home.addToWishlist")}`}
                 </button>
               </div>
             </div>
 
             <div className="mt-4">
-              <p>{stock} available in stock</p>
+              <p>{stock} {t("available")}</p>
             </div>
           </div>
         </div>
@@ -260,7 +265,7 @@ export default function ProductDetails() {
         {/* RETHINK THIS SECTION AND CODE LOGIC */}
         <div className="mx-auto px-8">
           <h1 className="font-medium tracking-wide uppercase">
-            customers also purchased
+            {t("customerPurchase")}
           </h1>
         </div>
       </div>

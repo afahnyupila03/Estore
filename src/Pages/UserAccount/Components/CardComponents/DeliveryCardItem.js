@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import React from "react";
 
 export default function DeliveryCardItem({
@@ -5,22 +6,24 @@ export default function DeliveryCardItem({
   deleteHandler,
   editHandler,
 }) {
+  const { t } = useTranslation();
+
   const { id, firstName, lastName, address, city, zip, state, apt } =
     deliveryDetails || {};
 
   return (
     <div loading="lazy" className="font-mono p-4 border-2 border-black rounded">
       <div className="mb-4">
-        <p>Unique id: {id}</p>
         <p>
           {firstName} {lastName}
         </p>
         <p className="mb-2">{address}</p>
-        <p>{city}</p>
+        <p>
+          {state} {city}
+        </p>
         <p>
           {apt} {zip}
         </p>
-        <p>{state}</p>
       </div>
 
       <div>
@@ -29,7 +32,7 @@ export default function DeliveryCardItem({
           type="button"
           onClick={editHandler}
         >
-          Edit
+          {t("delivery.edit")}
         </button>
       </div>
       <div>
@@ -38,7 +41,7 @@ export default function DeliveryCardItem({
           // type="button"
           onClick={deleteHandler}
         >
-          Remove
+          {t("delivery.remove")}
         </button>
       </div>
     </div>

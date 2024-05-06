@@ -6,77 +6,81 @@ import Request from "../../Assets/request.png";
 import Cancel from "../../Assets/cancel.png";
 import Help from "../../Assets/help.png";
 import Yes from "../../Assets/vote-yes.png";
+import { useTranslation } from "react-i18next";
 
 export default function ContactPage() {
+
+  const {t} = useTranslation()
+
   return (
     <div>
       <div>
-        <div className="text-2xl flex justify-start mb-8 font-semibold font-mono">
-          <h1>Customer Service</h1>
+        <div className="text-2xl flex justify-start mb-6 font-semibold font-mono">
+          <h1>{t("auth.customerService")}</h1>
         </div>
-        <div className="grid justify-center mb-20">
+        <div className="grid justify-center mb-14">
           <h1 className="text-2xl text-center font-semibold font-mono">
-            We're Here for You
+           {t("contact.hereForYou")}
           </h1>
-          <p className="text-center">Call or chat with us here.</p>
+          <p className="text-center">{t("contact.callOrChat")}</p>
         </div>
 
         <div className="mb-20">
 
           <div className=" grid justify-center mb-10">
             <h1 className="text-2xl text-center font-semibold font-mono">
-              Need Help?
+              {t("auth.needHelp")}
             </h1>
             <p className="text-center">
-              Check out our self-service tools to get help fast.
+              {t("contact.selfService")}
             </p>
           </div>
 
           <div className="flex gap-x-8 gap-y-6 items-center flex-col md:flex-row lg:flex-row justify-evenly">
             <Card
-              actionHeader="Track Your Order"
+              actionHeader={t("contact.trackOrder")}
               image={Track}
               imageName="track"
-              actionButton="Get Started"
+              actionButton={t("contact.getStarted")}
             />
             <Card
-              actionHeader="Make a Return"
+              actionHeader={t("contact.makeReturn")}
               image={Return}
               imageName="return"
-              actionButton="Get Started"
+              actionButton={t("contact.getStarted")}
             />
             <Card
-              actionHeader="Request a Price Adjustment"
+              actionHeader={t("contact.requestPrice")}
               image={Request}
               imageName="request"
-              actionButton="Get Started"
+              actionButton={t("contact.getStarted")}
             />
           </div>
         </div>
 
         <div className="grid mb-10 justify-items-stretch">
           <Card
-            actionHeader="Need to cancel a recent order?"
-            actionText="If you act quickly, you can cancel an order while it's still processing. Just find the order in your purchases, choose Details, then select Cancel Order."
+            actionHeader={t("contact.needCancel")}
+            actionText={t("contact.actQuickly")}
             image={Cancel}
             name="cancel"
             imageClass="hidden lg:block"
-            actionButton="Get Started"
+            actionButton={t("contact.getStarted")}
           />
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-y-8 mb-10 justify-evenly">
           <Card
-            actionHeader="Need help? We're here 24/7."
-            actionText="Service: +237 999 999 999"
+            actionHeader={t("contact.here247")}
+            actionText={t("contact.service")}
             image={Help}
             imageName="help"
           />
           <Card
             image={Yes}
             imageName="yes"
-            actionHeader="Our Service promise since 1901"
-            actionButton="Find Out More"
+            actionHeader={t("contact.outService")}
+            actionButton={t("contact.findOut")}
           />
         </div>
       </div>

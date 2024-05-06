@@ -25,7 +25,7 @@ export function EmailOVerlay({ children }) {
 
 const portalElement = document.getElementById("editEmail");
 
-export default function Emailodal({ children }) {
+export default function EmailModal({ children }) {
   return (
     <Fragment>
       {ReactDOM.createPortal(<EmailBackdrop />, portalElement)}

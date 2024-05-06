@@ -18,6 +18,7 @@ import {
 import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
 import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
@@ -26,6 +27,8 @@ export default function DeliveryPage() {
   const [editModal, setEditModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+
+  const {t} = useTranslation()
 
   const { user } = useAuth();
   const userId = user?.uid;
@@ -132,14 +135,13 @@ export default function DeliveryPage() {
     DELIVERY_ADDRESS = (
       <div className="mt-8">
         <p className="mb-10 font-mono text-xl">
-          No user found. Please sign in / create user account to view delivery
-          address(s).
+          {t("delivery.deliveryAuthMessage")}
         </p>
         <Link
           to="/sign-in-&-create-account"
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
         >
-          Sign in / Create account
+          {t("auth.signInCreate")}
         </Link>
       </div>
     );
@@ -150,13 +152,13 @@ export default function DeliveryPage() {
       </div>
     );
   } else if (user !== null && data === null) {
-    DELIVERY_ADDRESS = <p>No address added</p>;
+    DELIVERY_ADDRESS = <p>{t("delivery.noAddress")}</p>;
   } else if (isError) {
     DELIVERY_ADDRESS = (
       <div>
         <p>{error}</p>
         <button type="button" onClick={() => refetch()}>
-          Try again
+          {t("delivery.tryAgain")}
         </button>
       </div>
     );
@@ -186,10 +188,11 @@ export default function DeliveryPage() {
       </div>
       <div className="grid justify-center">
         <h1 className="font-semibold font-mono text-sm lg:text-2xl">
-          Add new address
+          {t("delivery.addAddress")}
         </h1>
-        <span className="text-center text-sm lg:text-lg text-red-500">
-          *Required
+        <span className="text-center text-sm lg:text-lg">
+          <span>* </span>
+          {t("delivery.required")}
         </span>
       </div>
 
@@ -228,8 +231,8 @@ export default function DeliveryPage() {
               value={values.firstName}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="First name"
-              placeholder="First name"
+              label={t("checkoutForm.firstName")}
+              placeholder={t("checkoutForm.firstName")}
               autoComplete="true"
             />
             <Field
@@ -240,8 +243,8 @@ export default function DeliveryPage() {
               value={values.lastName}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="Last name"
-              placeholder="Last name"
+              label={t("checkoutForm.lastName")}
+              placeholder={t("checkoutForm.lastName")}
               autoComplete="true"
             />
             <Field
@@ -252,7 +255,7 @@ export default function DeliveryPage() {
               value={values.address}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="Address*"
+              label={`* ${t("checkoutForm.address")}`}
               placeholder="Enter your street address"
               autoComplete="false"
             />
@@ -264,7 +267,7 @@ export default function DeliveryPage() {
               value={values.aptSuite}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="Apt, suite, company, c/o (optional)"
+              label={t("checkoutForm.apartment")}
               placeholder="Enter your street address"
               autoComplete="false"
             />
@@ -276,7 +279,7 @@ export default function DeliveryPage() {
               value={values.zip}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="Zip/postal code*"
+              label={`*${t("checkoutForm.postalCode")}`}
               placeholder="Zip/postal code"
               autoComplete="false"
             />
@@ -288,7 +291,7 @@ export default function DeliveryPage() {
               value={values.city}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="City*"
+              label={`*${t("delivery.city")}`}
               placeholder="City"
               autoComplete="false"
             />
@@ -300,7 +303,7 @@ export default function DeliveryPage() {
               value={values.state}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="State/Province*"
+              label={`*${t("checkoutForm.state")}`}
               placeholder="State/province"
               autoComplete="false"
             />
@@ -314,7 +317,7 @@ export default function DeliveryPage() {
                     : "mb-4 mt-4 p-2 w-40 bg-black text-white font-mono text-xl"
                 }
               >
-                Save
+                {t("delivery.save")}
               </button>
             </div>
             <div className="flex justify-center">
@@ -323,7 +326,7 @@ export default function DeliveryPage() {
                 type="button"
                 className="font-mono text-xl border-b-2 border-black"
               >
-                Cancel
+                {t("delivery.cancel")}
               </button>
             </div>
           </Form>
@@ -334,16 +337,15 @@ export default function DeliveryPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold font-mono">Delivery Addresses</h1>
+      <h1 className="text-2xl font-semibold font-mono">
+        {t("delivery.deliveryAddress")}
+      </h1>
       {user !== null && (
         <div>
           <button onClick={modalHandler} className="p-2 border-2 border-black">
-            Add New Address
+            {t("delivery.addNew")}
           </button>
-          <p>
-            Checkout faster by adding one or more shipping addresses to your
-            account.
-          </p>
+          <p>{t("delivery.checkoutFaster")}</p>
         </div>
       )}
 

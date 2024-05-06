@@ -6,8 +6,11 @@ import { arrowForwardOutline } from "ionicons/icons";
 import { useAuth, useCart, useWishList } from "../../Store";
 import { database } from "../../FirebaseConfigs/Firesbase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { useTranslation } from "react-i18next";
 
 export default function CartPage() {
+  const { t } = useTranslation();
+
   const { user } = useAuth();
   const {
     products,
@@ -58,26 +61,24 @@ export default function CartPage() {
   if (user === null) {
     content = (
       <div className="mt-8">
-        <p className="mb-10 font-mono text-xl">
-          No user found. Please sign in / create account to see products in bag.
-        </p>
+        <p className="mb-10 font-mono text-xl">{t("cart.noUser")}</p>
         <Link
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
           to="/sign-in-&-create-account"
         >
-          Sign in / Create Account
+          {t("auth.signInCreate")}
         </Link>
       </div>
     );
   } else if (products.length === 0 && user !== null) {
     content = (
       <div className="mt-8">
-        <p className="mb-10 text-xl font-mono">Your bag is empty</p>
+        <p className="mb-10 text-xl font-mono">{t("cart.emptyBag")}</p>
         <Link
           to="/home"
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
         >
-          Continue Shopping
+          {t("cart.continueShopping")}
         </Link>
       </div>
     );
@@ -104,17 +105,11 @@ export default function CartPage() {
         <div className="mx-auto mt-10 container text-xl font-mono px-10">
           <div className="flex justify-around">
             <div>
-              <p className="font-semibold">Subtotal</p>
-              <p>Delivery and taxes will be calculated at checkout</p>
+              <p className="font-semibold">{t("cart.subTotal")}</p>
+              <p>{t("cart.checkoutDelivery")}</p>
             </div>
             <div>
               <p className="font-semibold">{cartTotal}</p>
-              <button
-                onClick={() => clearProductHandler()}
-                className="bg-red-500 text-white px-10 py-2 rounded text-xl font-mono"
-              >
-                Empty Cart
-              </button>
             </div>
           </div>
           <div className="grid justify-center">
@@ -122,15 +117,15 @@ export default function CartPage() {
               onClick={() => CheckoutHandler(userId)}
               className="mt-10 bg-black text-white px-10 py-2 rounded text-xl font-mono"
             >
-              Checkout
+              {t("cart.checkout")}
             </button>
             <div className="flex mt-8 items-center">
-              <span className="mr-10">or</span>
+              <span className="mr-10">{t("cart.or")}</span>
               <Link
                 to="/home"
                 className="flex items-center bg-black text-white px-10 py-2 rounded text-xl font-mono"
               >
-                <span className="mr-2">Continue Shopping</span>
+                <span className="mr-2">{t("cart.continueShopping")}</span>
                 <Icon icon={arrowForwardOutline} />
               </Link>
             </div>
@@ -145,12 +140,12 @@ export default function CartPage() {
       <div className="flex justify-center px-40 py-8 font-semibold font-mono text-lg">
         <div className="border-2 border-r-0 border-black px-8 py-4">
           <p>
-            Shopping Bag <span>({productQuantity})</span>
+            {t("cart.shoppingBag")} <span>({productQuantity})</span>
           </p>
         </div>
         <div className="border-2 border-black px-8 py-4">
           <p>
-            Saved for later <span>({wishListQuantity})</span>
+            {t("cart.saved")} <span>({wishListQuantity})</span>
           </p>
         </div>
       </div>

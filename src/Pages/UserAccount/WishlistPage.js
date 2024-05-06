@@ -4,8 +4,11 @@ import { shareOutline } from "ionicons/icons";
 import { Link } from "react-router-dom";
 import { useAuth, useCart, useWishList } from "../../Store";
 import WishListCardItems from "./Components/CardComponents/WishListCardItems";
+import { useTranslation } from "react-i18next";
 
 export default function WishlistPage() {
+  const { t } = useTranslation();
+
   const {
     wishListProducts,
     wishListQuantity,
@@ -22,25 +25,25 @@ export default function WishlistPage() {
     wishlist = (
       <div className="mt-8">
         <p className="mb-10 font-mono text-xl">
-          No user found. Please sign in / create account to view wish list.
+          {t("wishlist.wishlistAuthMessage")}
         </p>
         <Link
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
           to="/sign-in-&-create-account"
         >
-          Sign in / Create Account
+          {t("auth.signInCreate")}
         </Link>
       </div>
     );
   } else if (user !== null && wishListProducts.length === 0) {
     wishlist = (
       <div className="mt-8">
-        <p className="mb-10 text-xl font-mono">Your wish list is empty.</p>
+        <p className="mb-10 text-xl font-mono">{t("wishlist.emptyWishlist")}</p>
         <Link
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
           to="/home"
         >
-          Visit shop to add products.
+          {t("wishlist.visitShop")}
         </Link>
       </div>
     );
@@ -66,13 +69,13 @@ export default function WishlistPage() {
     <div>
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold font-mono">
-          Wish List
+          {t("auth.wishList")}
           <span>({wishListQuantity})</span>
         </h1>
         {user !== null && (
           <div className="flex items-center">
             <IonIcon icon={shareOutline} className="mr-2" />
-            <p>Share</p>
+            <p>{t("wishlist.share")}</p>
           </div>
         )}
       </div>

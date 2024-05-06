@@ -18,9 +18,18 @@ export default function ProductCategoryCardItem({ categoryData }) {
           className="p-2 lg:text-lg font-semibold text-xs font-mono flex items-center justify-center"
           to={`category/${categoryRoute}`}
         >
-          {UpperCaseLink(categoryLink)}
+          {REDUCE_TITLE(UpperCaseLink(categoryLink))}
         </Link>
       </div>
     </div>
   );
+}
+
+
+const REDUCE_TITLE = name => {
+  const MAX_CHARS = 15;
+  if (name.trim().length > MAX_CHARS) {
+    return `${name.slice(0, MAX_CHARS)}...`
+  };
+  return name;
 }

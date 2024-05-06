@@ -12,6 +12,9 @@ import Discover from "../../Assets/Cards/discover.png";
 import Visa from "../../Assets/Cards/visa.png";
 import Mtn from "../../Assets/Cards/MTN.jpg";
 import Orange from "../../Assets/Cards/orange.png";
+import { useTranslation } from "react-i18next";
+import { IonIcon } from "@ionic/react";
+import { airplaneOutline, paperPlaneOutline } from "ionicons/icons";
 
 const TABLE_STYLES = {
   table: {
@@ -28,6 +31,9 @@ const TABLE_STYLES = {
 
 export default function PurchasePage() {
   const { user } = useAuth();
+
+  const { t } = useTranslation();
+
   const userId = user?.uid;
 
   const {
@@ -66,14 +72,13 @@ export default function PurchasePage() {
     purchase = (
       <div className="mt-8">
         <p className="mb-10 font-mono text-xl">
-          No user found. Please sign in to user account / create user account to
-          make purchases.{" "}
+          {t("purchases.purchaseAuthMessage")}
         </p>
         <Link
           className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
           to="/sign-in-&-create-account"
         >
-          Sign in / Create Account
+          {t("auth.signInCreate")}
         </Link>
       </div>
     );
@@ -86,9 +91,9 @@ export default function PurchasePage() {
   } else if (data === null && user !== null) {
     purchase = (
       <div className="mt-4">
-        <p className="mb-4">0 Purchases made.</p>
+        <p className="mb-4">{t("purchases.0Purchases")}</p>
         <Link to="/home" className="p-2 bg-black text-white">
-          Shop now
+          {t("purchases.shopNow")}
         </Link>
       </div>
     );
@@ -98,7 +103,7 @@ export default function PurchasePage() {
         <p>
           {error}
           <button type="button" onClick={() => refetch()}>
-            Try again
+            {t("delivery.tryAgain")}
           </button>
         </p>
       </div>
@@ -132,17 +137,17 @@ export default function PurchasePage() {
                 <table
                   key={id}
                   // style={TABLE_STYLES.table}
-                  className="rounded-lg text-center w-full border-2 border-black"
+                  className="rounded-lg text-center w-full border-2 border-black mb-2"
                 >
                   <tr
                     style={TABLE_STYLES.purchaseInfo}
                     className="bg-gray-300 p-8 text-center"
                   >
-                    <th>Date placed</th>
-                    <th>Invoice N°</th>
-                    <th>Tax</th>
-                    <th>Shipping</th>
-                    <th>Total amount</th>
+                    <th>{t("purchases.datePlaced")}</th>
+                    <th>{t("purchases.invoiceNo")}</th>
+                    <th>{t("checkoutForm.taxes")}</th>
+                    <th>{t("checkoutForm.shipping")}</th>
+                    <th>{t("purchases.totalAmount")}</th>
                   </tr>
                   <tr>
                     <td>
@@ -160,11 +165,11 @@ export default function PurchasePage() {
                     </td>
                   </tr>
                   <tr className="bg-gray-300">
-                    <th>Product</th>
-                    <th>Brand</th>
-                    <th>Price</th>
-                    <th>Status</th>
-                    <th>Info</th>
+                    <th>{t("purchases.product")}</th>
+                    <th>{t("purchases.brand")}</th>
+                    <th>{t("purchases.price")}</th>
+                    <th>{t("purchases.status")}</th>
+                    <th>{t("purchases.info")}</th>
                   </tr>
                   {productData.map((item) =>
                     Object.keys(item).map((key) => (
@@ -176,36 +181,43 @@ export default function PurchasePage() {
                         <td className="text-center">
                           {FORMAT_MONEY(item[key].price, CURRENCY)}
                         </td>
-                        <td className="text-center">En-route</td>
-                        <td className="text-center">View</td>
+                        <td className="text-center">
+                          {t("purchases.transit")}
+                          <IonIcon icon={paperPlaneOutline} className="ml-2" />
+                        </td>
+                        <td className="text-center">{t("purchases.view")}</td>
                       </tr>
                     ))
                   )}
                   <tr className="bg-gray-300 text-center">
-                    <th>User Infor</th>
-                    <th>Delivery Info</th>
-                    <th>Payment Info</th>
-                    <th>Prod Quant </th>
-                    <th>INVOICE</th>
+                    <th>{t("purchases.userInfo")}</th>
+                    <th>{t("purchases.deliveryInfo")}</th>
+                    <th>{t("purchases.paymentInfo")}</th>
+                    <th>{t("purchases.prodQuant")}</th>
+                    <th>{t("purchases.invoice")}</th>
                   </tr>
                   <tr>
-                    <td>Email: {email}</td>
+                    <td>{email}</td>
                     <td>
                       {city}, {state}
                     </td>
-                    <td>ends with ({HIDE_CARD_NUMBER(cardNumber)})</td>
+                    <td>
+                      {t("endsWith")} ({HIDE_CARD_NUMBER(cardNumber)})
+                    </td>
                     <td className="text-center">{productQuantity}</td>
 
-                    <td className="text-center">VIEW INVOICE</td>
+                    <td className="text-center">
+                      {t("purchases.viewInvoice")}
+                    </td>
                   </tr>
                   <tr>
-                    <td>Name: {displayName}</td>
+                    <td>{displayName}</td>
                     <td>{address}</td>
                     <td></td>
                     <td></td>
                   </tr>
                   <tr>
-                    <td>Tel: {tel}</td>
+                    <td>{tel}</td>
                   </tr>
                 </table>
                 // </div>
@@ -235,17 +247,17 @@ export default function PurchasePage() {
                 <div className="border-1 border-black rounded-lg" key={id}>
                   <table
                     key={id}
-                    className="rounded-lg w-full border-2 border-black"
+                    className="rounded-lg w-full border-2 border-black mb-2"
                   >
                     <tr
                       style={TABLE_STYLES.purchaseInfo}
                       className="bg-gray-300 p-8 text-center"
                     >
-                      <th>Date placed</th>
-                      <th>Invoice N°</th>
-                      <th>Tax</th>
-                      <th>Shipping</th>
-                      <th>Total amount</th>
+                      <th>{t("purchases.datePlaced")}</th>
+                      <th>{t("purchases.invoiceNo")}</th>
+                      <th>{t("checkoutForm.taxes")}</th>
+                      <th>{t("checkoutForm.shipping")}</th>
+                      <th>{t("purchases.totalAmount")}</th>
                     </tr>
                     <tr>
                       <td>
@@ -263,11 +275,11 @@ export default function PurchasePage() {
                       </td>
                     </tr>
                     <tr className="bg-gray-300">
-                      <th>Product</th>
-                      <th>Brand</th>
-                      <th>Price</th>
-                      <th>Status</th>
-                      <th>Info</th>
+                      <th>{t("purchases.product")}</th>
+                      <th>{t("purchases.brand")}</th>
+                      <th>{t("purchases.price")}</th>
+                      <th>{t("purchases.status")}</th>
+                      <th>{t("purchases.info")}</th>
                     </tr>
                     {productData.map((item) =>
                       Object.keys(item).map((key) => (
@@ -285,24 +297,34 @@ export default function PurchasePage() {
                               CURRENCY
                             )}
                           </td>
-                          <td className="text-center">En-route...</td>
-                          <td className="text-center text-gray-800">View</td>
+                          <td className="text-center">
+                            {t("purchases.transit")}
+                            <IonIcon
+                              icon={paperPlaneOutline}
+                              className="ml-2"
+                            />
+                          </td>
+                          <td className="text-center text-gray-800">
+                            {t("purchases.view")}
+                          </td>
                         </tr>
                       ))
                     )}
                     <tr className="bg-gray-300 text-center">
-                      <th>User Infor</th>
-                      <th>Delivery Info</th>
-                      <th>Payment Info</th>
-                      <th>Prod Quant </th>
-                      <th>INVOICE</th>
+                      <th>{t("purchases.userInfo")}</th>
+                      <th>{t("purchases.deliveryInfo")}</th>
+                      <th>{t("purchases.paymentInfo")}</th>
+                      <th>{t("purchases.prodQuant")}</th>
+                      <th>{t("purchases.invoice")}</th>
                     </tr>
                     <tr>
                       <td>{email}</td>
                       <td>
                         {city}, {state}
                       </td>
-                      <td>ends with ({HIDE_CARD_NUMBER(cardNumber)})</td>
+                      <td>
+                        {t("endsWith")} ({HIDE_CARD_NUMBER(cardNumber)})
+                      </td>
                       <td className="text-center">{productQuantity}</td>
                       <td className="text-center">
                         <Link
@@ -310,7 +332,7 @@ export default function PurchasePage() {
                           className="text-gray-800"
                           to={`/purchases/${id}/${purchaseId}`}
                         >
-                          View invoice
+                          {t("purchases.viewInvoice")}
                         </Link>
                       </td>
                     </tr>
@@ -321,7 +343,7 @@ export default function PurchasePage() {
                       <td></td>
                     </tr>
                     <tr>
-                      <td> {tel}</td>
+                      <td>{tel}</td>
                     </tr>
                   </table>
                 </div>
@@ -335,7 +357,7 @@ export default function PurchasePage() {
     <Fragment>
       <div>
         <h1 className="text-2xl font-semibold font-mono">
-          Purchases <span>({data.length})</span>
+          {t("auth.purchases")} <span>({data.length})</span>
         </h1>
       </div>
       <div className="mt-2">{purchase}</div>

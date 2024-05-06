@@ -1,3 +1,4 @@
+import { t } from "i18next";
 import React from "react";
 
 export default function CartItemsCard({
@@ -58,7 +59,7 @@ export default function CartItemsCard({
         </div>
         <div>
           <p>{title}</p>
-          <p>Quantity: {CALC_QUANTITY(quantity)}</p>
+          <p>{t("cart.quantity")}: {CALC_QUANTITY(quantity)}</p>
         </div>
       </div>
 
@@ -74,7 +75,7 @@ export default function CartItemsCard({
             className=" bg-black text-white px-10 py-2 rounded font-mono text-xl"
             type="button"
           >
-            Remove
+            {t("cart.remove")}
           </button>
         </div>
       </div>
