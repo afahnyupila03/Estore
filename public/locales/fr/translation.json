@@ -237,7 +237,7 @@
     "downloadInvoice": "Télécharger la facture"
   },
   "wishlist": {
-    "wishlistAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter / créer un compte pour voir la liste de souhaits.",
+    "wishlistAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir la liste de souhaits.",
     "emptyWishlist": "Votre liste de souhaits est vide.",
     "visitShop": "Visitez la boutique pour ajouter des produits.",
     "share": "Partager"
