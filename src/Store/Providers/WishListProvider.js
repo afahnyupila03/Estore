@@ -12,19 +12,11 @@ export default function WishListProvider({ children }) {
     defaultWishListState
   );
 
-  const addProductToWishList = async (product) => {
-    try {
-      dispatchWishList({
-        type: Constants.ADD,
-        payload: { product: product },
-      });
-    } catch (error) {
-      dispatchWishList({
-        type: Constants.ERROR,
-        payload: { error },
-      });
-    }
-  };
+  const addProductToWishList = async (product) =>
+    dispatchWishList({
+      type: Constants.ADD,
+      payload: { product: product },
+    });
 
   const removeProductFromWishList = (id) =>
     dispatchWishList({

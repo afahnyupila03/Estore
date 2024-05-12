@@ -149,28 +149,12 @@ export default function ProductItemCard({ productData }) {
     }
   };
 
-  const handleWishListedProducts = async (data) => {
+  const handleWishListedProducts = (data) => {
     if (user === null) {
       handleUserAuthState();
     } else {
-      // const db = realTimeDatabase;
-      const db = database;
-      const listRef = collection(db, userId, "/wishlist/", "products");
-      const listId = listRef.key;
-      try {
-        await addProductToWishList(data);
-
-        const wishData = await addDoc(listRef, data);
-
-        setWishList(!wishList);
-
-        console.log("wishList item: ", wishData);
-        console.log("WishList id: ", listId);
-        alert("Product to wishlist store");
-      } catch (error) {
-        alert("error adding to wishlist store: ", error);
-        console.error(error);
-      }
+      addProductToWishList(data);
+      setWishList(!wishList);
     }
   };
 
