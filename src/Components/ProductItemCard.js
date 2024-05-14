@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductModal from "./ProductModal";
 import { IonIcon } from "@ionic/react";
@@ -54,10 +54,15 @@ export default function ProductItemCard({ productData }) {
 
   const { addProductHandler } = useCart();
   const { user } = useAuth();
-  const { addProductToWishList, wishListed, removeProductFromWishList } =
-    useWishList();
+  const {
+    addProductToWishList,
+    wishListed,
+    removeProductFromWishList,
+    setWishListState,
+  } = useWishList();
 
   const [wishList, setWishList] = useState(wishListed);
+  const [updatedWishList, setUpdatedWishList] = useState(false);
 
   const {
     title,
@@ -149,19 +154,79 @@ export default function ProductItemCard({ productData }) {
     }
   };
 
-  const handleWishListedProducts = (data) => {
+  const handleWishListedProducts = (data, wishList) => {
     if (user === null) {
       handleUserAuthState();
     } else {
-      addProductToWishList(data);
-      setWishList(!wishList);
+      addProductToWishList(data, wishList);
+      setWishList((prevWishList) => {
+        // Toggle the wishList state
+        const updatedWishList = !prevWishList;
+
+        // Retrieve existing wish list data from sessionStorage
+        const storedWishListData =
+          JSON.parse(sessionStorage.getItem("wishListData")) || [];
+        // Add the new product to the wish list data
+        const updatedWishListData = [...storedWishListData, data];
+
+        // Update sessionStorage with the new wish list data
+        sessionStorage.setItem(
+          "wishListData",
+          JSON.stringify(updatedWishListData)
+        );
+
+        return updatedWishList;
+      });
+      // Update state to reflect wish list change (optional)
+      setUpdatedWishList(!updatedWishList);
+
+      // Indicate success
+      return true;
     }
   };
 
   const handleDisLikedProducts = (id) => {
+    // Toggle the wishList state
     setWishList(!wishList);
+
+    // Remove product from the wish list
     removeProductFromWishList(id);
+
+    // Retrieve existing wish list data from sessionStorage
+    const storedWishListData =
+      JSON.parse(sessionStorage.getItem("wishListData")) || [];
+
+    // Filter out the product with the given ID
+    const updatedWishListData = storedWishListData.filter(
+      (product) => product.id !== id
+    );
+
+    // Update sessionStorage with the new wish list data
+    sessionStorage.setItem("wishListData", JSON.stringify(updatedWishListData));
+
+    // Indicate success
+    return true;
   };
+
+  const getAllLocalStorageData = () => {
+    const allData = {};
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      // Exclude the language key from the retrieved data
+      if (key !== "i18nextLng") {
+        const value = localStorage.getItem(key);
+        allData[key] = JSON.parse(value);
+      }
+    }
+    return allData;
+  };
+
+  const localStorageData = getAllLocalStorageData();
+  const products = localStorageData["wishListData"];
+  // const wishlistState = localStorageData["wishListState"];
+
+  console.log("Products:", products);
+  // console.log("Wishlist State:", wishlistState);
 
   const handleItemClick = (event) => {
     if (window.innerWidth <= 767) {
@@ -241,7 +306,7 @@ export default function ProductItemCard({ productData }) {
                 onClick={
                   wishList
                     ? () => handleDisLikedProducts(id)
-                    : () => handleWishListedProducts(productData)
+                    : () => handleWishListedProducts(productData, wishListed)
                 }
                 className="underline flex items-center"
               >
@@ -312,6 +377,7 @@ export default function ProductItemCard({ productData }) {
           <p className="line-through tracking-wide font-medium">
             {PRODUCT_PRICE}
           </p>
+          <p>Wishlist product state: {updatedWishList.toString()}</p>
 
           <div className="flex items-center">
             {PRODUCT_RATING(rating)}

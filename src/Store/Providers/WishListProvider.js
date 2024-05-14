@@ -12,10 +12,10 @@ export default function WishListProvider({ children }) {
     defaultWishListState
   );
 
-  const addProductToWishList = async (product) =>
+  const addProductToWishList = (product, wishListed) =>
     dispatchWishList({
       type: Constants.ADD,
-      payload: { product: product },
+      payload: { product: product, wishListed: wishListed },
     });
 
   const removeProductFromWishList = (id) =>
@@ -27,6 +27,12 @@ export default function WishListProvider({ children }) {
   const clearWishListHandler = () =>
     dispatchWishList({ type: Constants.CLEAR });
 
+  const setWishListState = () =>
+    dispatchWishList({
+      type: Constants.SET,
+      payload: wishListState,
+    });
+
   const wishListValue = {
     wishListProducts: wishListState.wishListProducts,
     wishListQuantity: wishListState.wishListQuantity,
@@ -34,6 +40,7 @@ export default function WishListProvider({ children }) {
     addProductToWishList,
     removeProductFromWishList,
     clearWishListHandler,
+    setWishListState,
   };
 
   return (

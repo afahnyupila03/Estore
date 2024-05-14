@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { IonIcon } from "@ionic/react";
 import { shareOutline } from "ionicons/icons";
 import { Link } from "react-router-dom";
@@ -15,6 +15,7 @@ export default function WishlistPage() {
   } = useWishList();
   const { user } = useAuth();
   const { addProductHandler } = useCart();
+
 
   let wishlist;
 
