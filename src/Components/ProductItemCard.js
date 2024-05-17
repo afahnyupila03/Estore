@@ -63,6 +63,7 @@ export default function ProductItemCard({ productData }) {
 
   const [wishList, setWishList] = useState(wishListed);
   const [updatedWishList, setUpdatedWishList] = useState(false);
+  const [isInWishList, setIsInWishList] = useState(false);
 
   const {
     title,
@@ -154,67 +155,40 @@ export default function ProductItemCard({ productData }) {
     }
   };
 
-  const handleWishListedProducts = (data, wishList) => {
+  const handleWishListedProducts = (data) => {
     if (user === null) {
       handleUserAuthState();
     } else {
-      addProductToWishList(data, wishList);
-      setWishList((prevWishList) => {
-        // Toggle the wishList state
-        const updatedWishList = !prevWishList;
-
-        // Retrieve existing wish list data from sessionStorage
-        const storedWishListData =
-          JSON.parse(sessionStorage.getItem("wishListData")) || [];
-        // Add the new product to the wish list data
-        const updatedWishListData = [...storedWishListData, data];
-
-        // Update sessionStorage with the new wish list data
-        sessionStorage.setItem(
-          "wishListData",
-          JSON.stringify(updatedWishListData)
-        );
-
-        return updatedWishList;
-      });
-      // Update state to reflect wish list change (optional)
-      setUpdatedWishList(!updatedWishList);
-
-      // Indicate success
-      return true;
+      addProductToWishList(data);
+      setIsInWishList(true);
+      const storedWishListData =
+        JSON.parse(sessionStorage.getItem("wishListData")) || [];
+      const updatedWishListData = [...storedWishListData, data];
+      sessionStorage.setItem(
+        "wishListData",
+        JSON.stringify(updatedWishListData)
+      );
     }
   };
 
   const handleDisLikedProducts = (id) => {
-    // Toggle the wishList state
-    setWishList(!wishList);
-
-    // Remove product from the wish list
     removeProductFromWishList(id);
-
-    // Retrieve existing wish list data from sessionStorage
+    setIsInWishList(false);
     const storedWishListData =
       JSON.parse(sessionStorage.getItem("wishListData")) || [];
-
-    // Filter out the product with the given ID
     const updatedWishListData = storedWishListData.filter(
       (product) => product.id !== id
     );
-
-    // Update sessionStorage with the new wish list data
     sessionStorage.setItem("wishListData", JSON.stringify(updatedWishListData));
-
-    // Indicate success
-    return true;
   };
 
   const getAllLocalStorageData = () => {
     const allData = {};
-    for (let i = 0; i < localStorage.length; i++) {
-      const key = localStorage.key(i);
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
       // Exclude the language key from the retrieved data
       if (key !== "i18nextLng") {
-        const value = localStorage.getItem(key);
+        const value = sessionStorage.getItem(key);
         allData[key] = JSON.parse(value);
       }
     }
@@ -223,10 +197,16 @@ export default function ProductItemCard({ productData }) {
 
   const localStorageData = getAllLocalStorageData();
   const products = localStorageData["wishListData"];
-  // const wishlistState = localStorageData["wishListState"];
+
+  useEffect(() => {
+    const storedSessionData =
+      JSON.parse(sessionStorage.getItem("wishListData")) || [];
+    const isInWishList = storedSessionData.some((product) => product.id === id);
+    setIsInWishList(isInWishList);
+  }, [id]);
 
   console.log("Products:", products);
-  // console.log("Wishlist State:", wishlistState);
+  console.log("Wishlist State:", { wishListed, updatedWishList });
 
   const handleItemClick = (event) => {
     if (window.innerWidth <= 767) {
@@ -304,18 +284,18 @@ export default function ProductItemCard({ productData }) {
               </button>
               <button
                 onClick={
-                  wishList
+                  isInWishList
                     ? () => handleDisLikedProducts(id)
-                    : () => handleWishListedProducts(productData, wishListed)
+                    : () => handleWishListedProducts(productData)
                 }
                 className="underline flex items-center"
               >
                 <IonIcon
-                  icon={wishList ? heartDislike : add}
+                  icon={isInWishList ? heartDislike : add}
                   className="mr-1"
                   style={{ fontSize: "1.5rem" }}
                 />
-                {wishList ? "Dislike" : "Wish List"}
+                {isInWishList ? "Dislike" : "Wish List"}
               </button>
             </div>
           </div>
@@ -362,7 +342,7 @@ export default function ProductItemCard({ productData }) {
               <span aria-hidden="true">{getName(title)}</span>
             </h4>
           </div>
-          {wishList && (
+          {isInWishList && (
             <div>
               <IonIcon icon={heart} style={{ fontSize: "1.5rem" }} />
             </div>
@@ -377,7 +357,6 @@ export default function ProductItemCard({ productData }) {
           <p className="line-through tracking-wide font-medium">
             {PRODUCT_PRICE}
           </p>
-          <p>Wishlist product state: {updatedWishList.toString()}</p>
 
           <div className="flex items-center">
             {PRODUCT_RATING(rating)}
