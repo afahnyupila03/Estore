@@ -9,4 +9,5 @@ export const Constants = {
   RESET_PASSWORD: "RESET_PASSWORD",
   DELETE: "DELETE",
   ERROR: "ERROR",
+  SET: "SET",
 };

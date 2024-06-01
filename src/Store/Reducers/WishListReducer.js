@@ -70,6 +70,9 @@ export const WishListReducer = (state, action) => {
         wishListed: false,
       };
 
+    case Constants.SET:
+      return action.payload;
+
     case Constants.CLEAR:
       return defaultWishListState;
 

@@ -1,9 +1,11 @@
 import { useContext } from "react";
-import AuthProvider from "./Providers/AuthProvider";
-import CartProvider from "./Providers/CartProvider";
+
 import { AuthContext } from "./Context/AuthContext";
 import { CartContext } from "./Context/CartContext";
 import { WishListContext } from "./Context/WishListContext";
+
+import AuthProvider from "./Providers/AuthProvider";
+import CartProvider from "./Providers/CartProvider";
 import WishListProvider from "./Providers/WishListProvider";
 
 export default function AppState({ children }) {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ProductModal from "./ProductModal";
 import { IonIcon } from "@ionic/react";
@@ -60,10 +60,16 @@ export default function ProductItemCard({ productData }) {
 
   const { addProductHandler } = useCart();
   const { user } = useAuth();
-  const { addProductToWishList, wishListed, removeProductFromWishList } =
-    useWishList();
+  const {
+    addProductToWishList,
+    wishListed,
+    removeProductFromWishList,
+    setWishListState,
+  } = useWishList();
 
   const [wishList, setWishList] = useState(wishListed);
+  const [updatedWishList, setUpdatedWishList] = useState(false);
+  const [isInWishList, setIsInWishList] = useState(false);
 
   const {
     title,
@@ -157,35 +163,58 @@ export default function ProductItemCard({ productData }) {
     }
   };
 
-  const handleWishListedProducts = async (data) => {
+  const handleWishListedProducts = (data) => {
     if (user === null) {
       handleUserAuthState();
     } else {
-      // const db = realTimeDatabase;
-      const db = database;
-      const listRef = collection(db, userId, "/wishlist/", "products");
-      const listId = listRef.key;
-      try {
-        await addProductToWishList(data);
-
-        const wishData = await addDoc(listRef, data);
-
-        setWishList(!wishList);
-
-        console.log("wishList item: ", wishData);
-        console.log("WishList id: ", listId);
-        alert("Product to wishlist store");
-      } catch (error) {
-        alert("error adding to wishlist store: ", error);
-        console.error(error);
-      }
+      addProductToWishList(data);
+      setIsInWishList(true);
+      const storedWishListData =
+        JSON.parse(sessionStorage.getItem("wishListData")) || [];
+      const updatedWishListData = [...storedWishListData, data];
+      sessionStorage.setItem(
+        "wishListData",
+        JSON.stringify(updatedWishListData)
+      );
     }
   };
 
   const handleDisLikedProducts = (id) => {
-    setWishList(!wishList);
     removeProductFromWishList(id);
+    setIsInWishList(false);
+    const storedWishListData =
+      JSON.parse(sessionStorage.getItem("wishListData")) || [];
+    const updatedWishListData = storedWishListData.filter(
+      (product) => product.id !== id
+    );
+    sessionStorage.setItem("wishListData", JSON.stringify(updatedWishListData));
   };
+
+  const getAllLocalStorageData = () => {
+    const allData = {};
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      // Exclude the language key from the retrieved data
+      if (key !== "i18nextLng") {
+        const value = sessionStorage.getItem(key);
+        allData[key] = JSON.parse(value);
+      }
+    }
+    return allData;
+  };
+
+  const localStorageData = getAllLocalStorageData();
+  const products = localStorageData["wishListData"];
+
+  useEffect(() => {
+    const storedSessionData =
+      JSON.parse(sessionStorage.getItem("wishListData")) || [];
+    const isInWishList = storedSessionData.some((product) => product.id === id);
+    setIsInWishList(isInWishList);
+  }, [id]);
+
+  console.log("Products:", products);
+  console.log("Wishlist State:", { wishListed, updatedWishList });
 
   const handleItemClick = (event) => {
     if (window.innerWidth <= 767) {
@@ -263,18 +292,20 @@ export default function ProductItemCard({ productData }) {
               </button>
               <button
                 onClick={
-                  wishList
+                  isInWishList
                     ? () => handleDisLikedProducts(id)
                     : () => handleWishListedProducts(productData)
                 }
                 className="underline flex items-center"
               >
                 <IonIcon
-                  icon={wishList ? heartDislike : add}
+                  icon={isInWishList ? heartDislike : add}
                   className="mr-1"
                   style={{ fontSize: "1.5rem" }}
                 />
-                {wishList ? `${t("home.dislike")}` : `${t("auth.wishList")}`}
+
+                {isInWishList ? `${t("home.dislike")}` : `${t("auth.wishList")}`}
+
               </button>
             </div>
           </div>
@@ -321,7 +352,7 @@ export default function ProductItemCard({ productData }) {
               <span aria-hidden="true">{getName(title)}</span>
             </h4>
           </div>
-          {wishList && (
+          {isInWishList && (
             <div>
               <IonIcon icon={heart} style={{ fontSize: "1.5rem" }} />
             </div>
