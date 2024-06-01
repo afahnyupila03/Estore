@@ -9,6 +9,7 @@ import PasswordModal from "./Components/ModalComponents/EditPasswordModal";
 import NameModal from "./Components/ModalComponents/EditNameModal";
 import DeleteModal from "./Components/ModalComponents/DeleteModal";
 import { useAuth } from "../../Store";
+import { useTranslation } from "react-i18next";
 
 const ActionButton = ({ actionHandler }) => {
   return (
@@ -21,7 +22,8 @@ const ActionButton = ({ actionHandler }) => {
 };
 
 export default function PersonalInformation() {
-  
+  const { t } = useTranslation();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
 
@@ -175,12 +177,14 @@ export default function PersonalInformation() {
       </div>
       <div className="font-mono text-lg lg:text-xl text-start mb-4">
         <h1 className="font-bold mb-4 text-center">
-          {reAuth ? "Sign in" : "Change Email"}
+          {reAuth
+            ? `${t("personalInfor.signIn")}`
+            : `${t("personalInfor.changeEmail")}`}
         </h1>
         <p>
           {reAuth
-            ? "Please re-authenticate to change email."
-            : "Enter a new email for TimeZone"}
+            ? `${t("personalInfor.reAuthenticate")}`
+            : `${t("personalInfor.enterNew")}`}
         </p>
       </div>
       <Formik
@@ -204,7 +208,11 @@ export default function PersonalInformation() {
               value={reAuth ? values.email : values.currentEmail}
               name={reAuth ? "email" : "currentEmail"}
               id={reAuth ? "email" : "currentEmail"}
-              label={reAuth ? "Email" : "Current email"}
+              label={
+                reAuth
+                  ? `${t("checkoutForm.email")}`
+                  : `${t("personalInfor.currentEmail")}`
+              }
               onChange={handleChange}
               onBlur={handleBlur}
               autoComplete="off"
@@ -215,7 +223,11 @@ export default function PersonalInformation() {
               value={reAuth ? values.password : values.newEmail}
               name={reAuth ? "password" : "newEmail"}
               id={reAuth ? "password" : "newEmail"}
-              label={reAuth ? "Password" : "New email"}
+              label={
+                reAuth
+                  ? `${t("personalInfor.password")}`
+                  : `${t("personalInfor.newEmail")}`
+              }
               onChange={handleChange}
               onBlur={handleBlur}
               autoComplete="off"
@@ -224,20 +236,22 @@ export default function PersonalInformation() {
             {reAuth ? (
               <div className="flex justify-center font-mono">
                 <button type="button" onClick={handleResetPassword}>
-                  Forgot password? Reset password.
+                  {t("personalInfor.forgotPassword")}
                 </button>
               </div>
             ) : (
               <div className="flex justify-center font-semibold text-lg font-mono mt-2">
                 <p>
-                  By tapping Change Email, you agree to our
-                  <span>
-                    <Link className="underline ml-2 mr-2">Privacy Policy</Link>
-                  </span>
-                  and
+                  {t("personalInfor.byTapping")}
                   <span>
                     <Link className="underline ml-2 mr-2">
-                      Terms &amp; Conditions.
+                      {t("personalInfor.privacyPolicy")}
+                    </Link>
+                  </span>
+                  {t("and")}
+                  <span>
+                    <Link className="underline ml-2 mr-2">
+                      {t("personalInfor.termsCondition")}
                     </Link>
                   </span>
                 </p>
@@ -248,7 +262,9 @@ export default function PersonalInformation() {
                 type="submit"
                 className="p-2 mb-4 w-60 mt-6 rounded bg-black text-white"
               >
-                {reAuth ? "Sign in" : "Change Email"}
+                {reAuth
+                  ? `${t("personalInfor.signIn")}`
+                  : `${t("personalInfor.changeEmail")}`}
               </button>
             </div>
           </Form>
@@ -264,12 +280,14 @@ export default function PersonalInformation() {
       </div>
       <div className="mb-4 font-mono">
         <h1 className="text-2xl text-center mb-4 font-semibold">
-          {reAuth ? "Sign in" : "Change password"}
+          {reAuth
+            ? `${t("personalInfor.signIn")}`
+            : `${t("personalInfor.changePassword")}`}
         </h1>
         <p className="text-lg">
           {reAuth
-            ? "Please re-authenticate to change password."
-            : "Please enter Current and New password"}
+            ? `${t("personalInfor.reAuthPassword")}`
+            : `${t("personalInfor.currentNewPassword")}`}
         </p>
       </div>
       <Formik
@@ -296,8 +314,16 @@ export default function PersonalInformation() {
               value={reAuth ? values.email : values.currentPassword}
               onChange={handleChange}
               onBlur={handleBlur}
-              label={reAuth ? "Email" : "Current password"}
-              placeholder={reAuth ? "Email" : "Current password"}
+              label={
+                reAuth
+                  ? `${t("checkoutForm.email")}`
+                  : `${t("personalInfor.currentPassword")}`
+              }
+              placeholder={
+                reAuth
+                  ? `${t("checkoutForm.email")}`
+                  : `${t("personalInfor.currentPassword")}`
+              }
               autoComplete="off"
             />
             <Field
@@ -308,45 +334,37 @@ export default function PersonalInformation() {
               value={reAuth ? values.password : values.newPassword}
               onChange={handleChange}
               onBlur={handleBlur}
-              label={reAuth ? "Password" : "New password"}
-              placeholder={reAuth ? "Password" : "New password"}
+              label={
+                reAuth
+                  ? `${t("personalInfor.password")}`
+                  : `${t("personalInfor.newPassword")}`
+              }
+              placeholder={
+                reAuth
+                  ? `${t("personalInfor.password")}`
+                  : `${t("personalInfor.newPassword")}`
+              }
               autoComplete="off"
             />
             {reAuth ? (
-              <>
-                <div className="flex justify-center font-mono">
-                  <button type="button" onClick={handleResetPassword}>
-                    Forgot password? Reset password.
-                  </button>
-                </div>
-                <div className="flex justify-center font-semibold text-lg text-left px-2 font-mono mt-2">
-                  <p>
-                    By tapping Sign in, you agree to our
-                    <span>
-                      <Link className="underline ml-2 mr-2">
-                        Privacy Policy
-                      </Link>
-                    </span>
-                    and
-                    <span>
-                      <Link className="underline ml-2 mr-2">
-                        Terms &amp; Conditions.
-                      </Link>
-                    </span>
-                  </p>
-                </div>
-              </>
+              <div className="flex justify-center font-mono">
+                <button type="button" onClick={handleResetPassword}>
+                  {t("personalInfor.forgotPassword")}
+                </button>
+              </div>
             ) : (
               <div className="flex justify-center font-semibold text-lg font-mono px-4 mt-2">
                 <p>
-                  By tapping Change password, you agree to our
-                  <span>
-                    <Link className="underline ml-2 mr-2">Privacy Policy</Link>
-                  </span>
-                  and
+                  {t("personalInfor.tapChangePassword")}
                   <span>
                     <Link className="underline ml-2 mr-2">
-                      Terms &amp; Conditions.
+                      {t("personalInfor.privacyPolicy")}
+                    </Link>
+                  </span>
+                  {t("and")}
+                  <span>
+                    <Link className="underline ml-2 mr-2">
+                      {t("personalInfor.termsCondition")}
                     </Link>
                   </span>
                 </p>
@@ -362,7 +380,9 @@ export default function PersonalInformation() {
                 }
                 type="submit"
               >
-                {reAuth ? "Sign in" : "Change password"}
+                {reAuth
+                  ? `${t("personalInfor.signIn")}`
+                  : `${t("personalInfor.changePassword")}`}
               </button>
             </div>
           </Form>
@@ -392,7 +412,7 @@ export default function PersonalInformation() {
               name="firstName"
               id="firstName"
               type="text"
-              label="First name"
+              label={t("checkoutForm.firstName")}
               autoComplete="true"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -403,7 +423,7 @@ export default function PersonalInformation() {
               name="lastName"
               id="lastName"
               type="text"
-              label="Last name"
+              label={t("checkoutForm.lastName")}
               autoComplete="true"
               onChange={handleChange}
               onBlur={handleBlur}
@@ -416,7 +436,7 @@ export default function PersonalInformation() {
                 disabled={isSubmitting}
                 className="p-2 rounded w-40 bg-black font-mono text-white text-lg"
               >
-                Edit
+                {t("delivery.edit")}
               </button>
             </div>
           </Form>
@@ -432,12 +452,14 @@ export default function PersonalInformation() {
       </div>
       <div className="font-mono mb-6">
         <h1 className="text-2xl font-semibold mb-4">
-          {reAuth ? "Sign In" : "Delete your account"}
+          {reAuth
+            ? `${t("personalInfor.signIn")}`
+            : `${t("personalInfor.deleteTimezone")}`}
         </h1>
         <p className="text-lg">
           {reAuth
-            ? "Enter login details to delete account"
-            : "Are you sure you want to delete your account ?"}
+            ? `${t("personalInfor.enterDetails")}`
+            : `${t("personalInfor.areYouSure")}`}
         </p>
       </div>
       {reAuth ? (
@@ -456,8 +478,8 @@ export default function PersonalInformation() {
                 value={values.email}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                label="Email"
-                placeholder="Email"
+                label={t("checkoutForm.email")}
+                placeholder={t("checkoutForm.email")}
                 autoComplete="off"
               />
               <Field
@@ -468,13 +490,21 @@ export default function PersonalInformation() {
                 value={values.password}
                 onChange={handleChange}
                 onBlur={handleBlur}
-                label="Password"
-                placeholder="Password"
+                label={t("personalInfor.password")}
+                placeholder={t("personalInfor.password")}
                 autoComplete="off"
               />
               <div>
-                <button disabled={isSubmitting} type="submit">
-                  Sign In
+                <button
+                  disabled={isSubmitting}
+                  type="submit"
+                  className={
+                    isSubmitting
+                      ? "p-2 bg-gray-400 text-white w-40 rounded"
+                      : "p-2 bg-black text-white w-40 rounded"
+                  }
+                >
+                  {t("personalInfor.signIn")}
                 </button>
               </div>
             </Form>
@@ -487,14 +517,14 @@ export default function PersonalInformation() {
             onClick={handleDeleteAccount}
             className="bg-red-600 text-white text-lg p-2 w-40 rounded"
           >
-            Yes
+            {t("yes")}
           </button>
           <button
             onClick={openDeleteModal}
             type="button"
             className="bg-black text-white text-lg p-2 w-40 rounded"
           >
-            No
+            {t("no")}
           </button>
         </div>
       )}
@@ -505,15 +535,13 @@ export default function PersonalInformation() {
     <div>
       {user === null ? (
         <div className="text-xl font-mono font-medium">
-          <p>No user found.</p>
-          <p className="mb-10">
-            Please sign in / create account to view user information.
-          </p>
+          <p>{t("personalInfor.noUser")}</p>
+          <p className="mb-10">{t("personalInfor.personalAuthMessage")}</p>
           <Link
             className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
             to="/sign-in-&-create-account"
           >
-            Sign in / Create Account
+            {t("auth.signInCreate")}
           </Link>
         </div>
       ) : (
@@ -521,12 +549,12 @@ export default function PersonalInformation() {
           {/* Password & Personal Information */}
           <div>
             <h1 className="text-2xl font-semibold font-mono">
-              Password & Personal Information
+              {t("auth.password&Personal")}
             </h1>
             <div>
               <div className="text-lg mt-4 font-mono">
                 <p>
-                  This information is the same at: <br />
+                  {t("personalInfor.sameInfor")} <br />
                   <span className="text-2xl font-semibold font-mono">
                     TIMEZONE
                   </span>
@@ -534,9 +562,11 @@ export default function PersonalInformation() {
               </div>
 
               <div className="mt-6">
-                <h1 className="text-3xl font-mono">Sign-in info</h1>
+                <h1 className="text-3xl font-mono">
+                  {t("personalInfor.signInInfo")}
+                </h1>
                 <div className="font-mono text-lg mt-4">
-                  <h1 className="font-medium">Email</h1>
+                  <h1 className="font-medium">{t("checkoutForm.email")}</h1>
                   <p
                     style={{ width: "18rem" }}
                     className=" p-4 bg-black text-white text-center rounded"
@@ -544,14 +574,16 @@ export default function PersonalInformation() {
                     {userEmail}
                   </p>
                   <button className="mt-2" onClick={openEmailModal}>
-                    Change email
+                    {t("personalInfor.changeEmail")}
                   </button>
                   <hr className="border-black" style={{ width: "7.5rem" }} />
                 </div>
 
                 <div className="font-mono text-lg mt-4">
-                  <h1 className="font-medium">Password</h1>
-                  <button onClick={openPasswordModal}>Change password</button>
+                  <h1 className="font-medium">{t("personalInfor.password")}</h1>
+                  <button onClick={openPasswordModal}>
+                    {t("personalInfor.changePassword")}
+                  </button>
                   <hr className="border-black" style={{ width: "9.5rem" }} />
                 </div>
               </div>
@@ -560,38 +592,42 @@ export default function PersonalInformation() {
 
           {/* Personal Information */}
           <div className="mt-14 font-mono">
-            <h1 className="text-2xl font-semibold">Personal Information</h1>
+            <h1 className="text-2xl font-semibold">
+              {t("personalInfor.personalInfor")}
+            </h1>
             <div>
-              <h1 className="font-medium mb-2">Name</h1>
+              <h1 className="font-medium mb-2">{t("personalInfor.name")}</h1>
               <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
                 {UPPERCASE_NAME(userName)}
               </p>
-              <button onClick={openNameModal}>Edit</button>
+              <button onClick={openNameModal}>{t("delivery.edit")}</button>
               <hr className="w-8 border-black" />
             </div>
           </div>
 
           {/* Security */}
           <div className="mt-10 font-mono text-lg">
-            <h1 className="text-2xl font-semibold font-mono">Security</h1>
-            <p>Logout of your account</p>
+            <h1 className="text-2xl font-semibold font-mono">
+              {t("personalInfor.security")}
+            </h1>
+            <p>{t("personalInfor.logoutAccount")}</p>
             <button
               onClick={handleLogout}
               className="p-2 bg-black text-white w-40 rounded mt-2 text-center"
             >
-              Logout
+              {t("auth.logout")}
             </button>
           </div>
 
           {/* Delete Account */}
           <div className="mt-4 font-mono text-lg">
-            <p className="mb-2">Delete your TimeZone account</p>
+            <p className="mb-2">{t("personalInfor.deleteTimezone")}</p>
             <button
               type="button"
               onClick={openDeleteModal}
               className="p-2 bg-red-600 text-white font-mono rounded"
             >
-              Delete account
+              {t("personalInfor.deleteAccount")}
             </button>
           </div>
         </div>

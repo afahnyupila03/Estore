@@ -22,6 +22,9 @@ import { ref, set } from "firebase/database";
 import { addDoc, collection } from "firebase/firestore";
 import { useQuery } from "react-query";
 import { WishListPostItemsServices } from "../Services/CartService";
+import { useTranslation } from "react-i18next";
+import UseAnimation from "../Components/Loader";
+import loading from "react-useanimations/lib/loading";
 
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars);
@@ -50,7 +53,10 @@ export default function ProductItemCard({ productData }) {
   const [openProductModal, setOpenProductModal] = useState(false);
   const [mouseIsOver, setMouseIsOver] = useState(false);
   const [currImageIndex, setCurrImageIndex] = useState(0);
+  const [addingProduct, setAddingProduct] = useState(false);
   const [productAdded, setProductAdded] = useState(false);
+
+  const { t } = useTranslation();
 
   const { addProductHandler } = useCart();
   const { user } = useAuth();
@@ -145,13 +151,15 @@ export default function ProductItemCard({ productData }) {
     if (user === null) {
       handleUserAuthState();
     } else {
+      setAddingProduct(true);
       addProductHandler(product);
       alert("Add success");
       setProductAdded(true);
 
       setTimeout(() => {
         setProductAdded(false);
-      }, 200);
+      }, 1000);
+      setAddingProduct(false);
     }
   };
 
@@ -213,7 +221,7 @@ export default function ProductItemCard({ productData }) {
       event.preventDefault();
       window.location.href = `/product-details/${id}/${title}`;
     } else {
-      // handleShowProductModal();31
+      // handleShowProductModal();
     }
   };
 
@@ -280,7 +288,7 @@ export default function ProductItemCard({ productData }) {
                   className="mr-2"
                   style={{ fontSize: "1.5rem" }}
                 />
-                {productAdded ? "Added" : "Add to Bag"}
+                {productAdded ? `${t("home.added")}` : `${t("home.addToBag")}`}
               </button>
               <button
                 onClick={
@@ -295,7 +303,9 @@ export default function ProductItemCard({ productData }) {
                   className="mr-1"
                   style={{ fontSize: "1.5rem" }}
                 />
-                {isInWishList ? "Dislike" : "Wish List"}
+
+                {isInWishList ? `${t("home.dislike")}` : `${t("auth.wishList")}`}
+
               </button>
             </div>
           </div>
@@ -304,7 +314,7 @@ export default function ProductItemCard({ productData }) {
               to={`/product-details/${id}/${title}`}
               className="underline text-lg"
             >
-              See full details
+              {t("home.seeDetails")}
             </Link>
           </div>
         </div>
@@ -351,7 +361,7 @@ export default function ProductItemCard({ productData }) {
         <div className="text-left text-sm lg:text-lg">
           <p className="text-red-600">{DISCOUNT}</p>
           <p className="text-red-600">
-            -{discountPercentage}% off for this item
+            -{discountPercentage}% {t("home.offFor")}
           </p>
 
           <p className="line-through tracking-wide font-medium">
@@ -374,7 +384,7 @@ export default function ProductItemCard({ productData }) {
           } text-white py-2 px-6 rounded-sm font-medium text-lg bg-gray-700 w-full`}
           onClick={handleShowProductModal}
         >
-          Quick view
+          {t("home.quickView")}
         </button>
       </div>
 

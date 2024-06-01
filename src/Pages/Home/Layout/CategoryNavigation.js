@@ -1,82 +1,82 @@
-export const CATEGORY_FEATURES = [
+export const CATEGORY_FEATURES = (t) => [
   {
     categoryRoute: "laptops",
-    categoryLink: "laptops",
+    categoryLink: t("category.laptops"),
   },
   {
     categoryRoute: "smartphones",
-    categoryLink: "smartphones",
+    categoryLink: t("category.smartphones"),
   },
   {
     categoryRoute: "fragrances",
-    categoryLink: "fragrances",
+    categoryLink: t("category.fragrances"),
   },
   {
     categoryRoute: "skincare",
-    categoryLink: "skin care",
+    categoryLink: t("category.skinCare"),
   },
   {
     categoryRoute: "groceries",
-    categoryLink: "groceries",
+    categoryLink: t("category.groceries"),
   },
   {
     categoryRoute: "home-decoration",
-    categoryLink: "home decoration",
+    categoryLink: t("category.homeDeco"),
   },
   {
     categoryRoute: "furniture",
-    categoryLink: "furniture",
+    categoryLink: t("category.furniture"),
   },
   {
     categoryRoute: "tops",
-    categoryLink: "tops",
+    categoryLink: t("category.tops"),
   },
   {
     categoryRoute: "womens-dresses",
-    categoryLink: "Women Cloths",
+    categoryLink: t("category.womenCloths"),
   },
   {
     categoryRoute: "womens-shoes",
-    categoryLink: "Women Footwear",
+    categoryLink: t("category.womenFoot"),
   },
   {
     categoryRoute: "mens-shirts",
-    categoryLink: "Men Shirts",
+    categoryLink: t("category.menShirts"),
   },
   {
     categoryRoute: "mens-shoes",
-    categoryLink: "Men Footwear",
+    categoryLink: t("category.menFoot"),
   },
   {
     categoryRoute: "mens-watches",
-    categoryLink: "Men Watches",
+    categoryLink: t("category.menWatches"),
   },
   {
     categoryRoute: "womens-watches",
-    categoryLink: "Women Watches",
+    categoryLink: t("category.womenWatches"),
   },
   {
     categoryRoute: "womens-bags",
-    categoryLink: "Women Bags",
+    categoryLink: t("category.womenBags"),
   },
   {
     categoryRoute: "womens-jewellery",
-    categoryLink: "Women Jewelry",
+    categoryLink: t("category.womenJewelry"),
   },
   {
     categoryRoute: "sunglasses",
-    categoryLink: "Sun Shades",
+    categoryLink: t("category.sunShades"),
   },
   {
     categoryRoute: "automotive",
-    categoryLink: "Automotive",
+    categoryLink: t("category.automotive"),
   },
   {
     categoryRoute: "motorcycle",
-    categoryLink: "Motorcycle",
+    categoryLink: t("category.motorcycle"),
   },
   {
     categoryRoute: "lighting",
-    categoryLink: "lighting",
+    categoryLink: t("category.lighting"),
   },
 ];

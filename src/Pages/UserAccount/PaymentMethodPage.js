@@ -19,11 +19,14 @@ import { closeOutline } from "ionicons/icons";
 import { addDoc, collection } from "firebase/firestore";
 import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 // TODO: FIX EDIT AND DELETE PAYMENT HANDLERS.
 
 export default function PaymentMethodPage() {
   const { user } = useAuth();
+
+  const {t} = useTranslation()
 
   const [paymentModal, setPaymentModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -180,17 +183,19 @@ export default function PaymentMethodPage() {
         />
       </div>
       <div className="flex justify-center">
-        <h1 className="p-2 font-mono text-xl font-semibold">Add New Card</h1>
+        <h1 className="p-2 font-mono text-xl font-semibold">
+          {t("personalInfor.newCard")}
+        </h1>
       </div>
       <div>
         <p className="font-mono text-sm lg:text-lg flex justify-center p-4 text-center">
-          Save your card to enable use on future TimeZone purchases. Remove this
-          card from your TimeZone account to this service
+          {t("personalInfor.saveCard")}
         </p>
       </div>
       <div>
         <p className="flex justify-center font-mono font-semibold text-xl">
-          <span className="text-red-500">*</span>Required
+          <span className="text-red-500">*</span>
+          {t("delivery.required")}
         </p>
         {/* singleMethod */}
         <Formik
@@ -228,7 +233,7 @@ export default function PaymentMethodPage() {
                   type="text"
                   id="firstName"
                   autoComplete="true"
-                  label="First name"
+                  label={t("checkoutForm.firstName")}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="First name"
@@ -242,7 +247,7 @@ export default function PaymentMethodPage() {
                   type="text"
                   id="lastName"
                   autoComplete="true"
-                  label="Last name"
+                  label={t("checkoutForm.lastName")}
                   onChange={handleChange}
                   onBlur={handleBlur}
                   placeholder="Last name"
@@ -257,10 +262,9 @@ export default function PaymentMethodPage() {
                   id="cardNumber"
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  label="Card Number*"
+                  label={`*${t("checkoutForm.cardNumber")}`}
                   autoComplete="false"
                   placeholder="Card Number"
-                  renderCardImage={true}
                 />
               )}
 
@@ -273,7 +277,7 @@ export default function PaymentMethodPage() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   autoComplete="false"
-                  label="Expiration date*"
+                  label={`*${t("checkoutForm.expiryDate")}`}
                   type="text"
                   pattern="\d{2}/\d{2}"
                   required
@@ -289,7 +293,7 @@ export default function PaymentMethodPage() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.securityCode}
-                  label="Security code*"
+                  label={`*${t("personalInfor.securityCode")}`}
                   autoComplete="false"
                 />
               )}
@@ -303,7 +307,7 @@ export default function PaymentMethodPage() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={`${values.firstName} ${values.lastName}`}
-                  label="Account name*"
+                  label={`*${t("personalInfor.accountName")}`}
                   autoComplete="false"
                 />
               )}
@@ -317,14 +321,14 @@ export default function PaymentMethodPage() {
                   onBlur={handleBlur}
                   onChange={handleChange}
                   value={values.cardNumber}
-                  label="Mobile number*"
+                  label={`*${t("personalInfor.momoNumber")}`}
                   autoComplete="false"
                 />
               )}
 
               <div className="flex justify-center mt-2">
                 <p className="font-mono lg:text-center text-lg ">
-                  This will be your primary payment method.
+                  {t("personalInfor.primaryMethods")}
                 </p>
               </div>
               <div className="flex justify-center">
@@ -332,7 +336,9 @@ export default function PaymentMethodPage() {
                   type="button"
                   onClick={() => setMobilePayment(!mobilePayment)}
                 >
-                  {mobilePayment ? "Pay via MOMO/OM" : "Pay via bank card"}
+                  {mobilePayment
+                    ? `${t("personalInfor.payMomo")}`
+                    : `${t("personalInfor.payBank")}`}
                 </button>
               </div>
               <div className="flex justify-center mt-4">
@@ -341,7 +347,7 @@ export default function PaymentMethodPage() {
                   disabled={isSubmitting}
                   className="p-2 w-20 lg:w-40 bg-black text-white font-mono text-sm lg:text-xl"
                 >
-                  Save
+                  {t("delivery.save")}
                 </button>
               </div>
               <div className="flex justify-center text-sm lg:text-xl pb-8 mt-4">
@@ -350,7 +356,7 @@ export default function PaymentMethodPage() {
                   className="border-b-2 border-black"
                   onClick={modalHandler}
                 >
-                  Cancel
+                  {t("delivery.tryAgain")}
                 </button>
               </div>
             </Form>
@@ -371,9 +377,9 @@ export default function PaymentMethodPage() {
               type="button"
               className="p-2 border-2 border-black"
             >
-              Add New Card
+              {t("personalInfor.newCard")}
             </button>
-            <p>Checkout faster by adding one or more cards to your account.</p>
+            <p>{t("personalInfor.checkoutFaster")}</p>
           </div>
         )}
 
