@@ -53,7 +53,13 @@
     "automotive": "automotive",
     "motorcycle": "motorcycle",
     "lighting": "lighting",
-    "groceries": "groceries"
+    "groceries": "groceries",
+    "vehicle": "Vehicle",
+    "tablets": "Tablets",
+    "beauty": "Beauty",
+    "kitchenAccess": "Kitchen Accessories",
+    "mobileAccess": "Mobile Accessories",
+    "sportsAccess": "Sports Accessories"
   },
   "home": {
     "featuredProducts": "Featured Products",

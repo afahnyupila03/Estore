@@ -53,7 +53,13 @@
     "automotive": "automobile",
     "motorcycle": "moto",
     "lighting": "éclairage",
-    "groceries": "produits d'épicerie"
+    "groceries": "produits d'épicerie",
+    "vehicle": "Véhicule",
+    "tablets": "Tablettes",
+    "beauty": "Beauté",
+    "kitchenAccess": "Accessoires de Cuisine",
+    "mobileAccess": "Accessoires Mobiles",
+    "sportsAccess": "Accessoires de Sport"
   },
   "home": {
     "featuredProducts": "Produits populaires",

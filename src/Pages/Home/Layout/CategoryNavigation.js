@@ -68,15 +68,31 @@ export const CATEGORY_FEATURES = (t) => [
     categoryLink: t("category.sunShades"),
   },
   {
-    categoryRoute: "automotive",
-    categoryLink: t("category.automotive"),
+    categoryRoute: "vehicle",
+    categoryLink: t("category.vehicle"),
   },
   {
     categoryRoute: "motorcycle",
     categoryLink: t("category.motorcycle"),
   },
   {
-    categoryRoute: "lighting",
-    categoryLink: t("category.lighting"),
+    categoryRoute: "tablets",
+    categoryLink: t("category.tablets"),
+  },
+  {
+    categoryRoute: "beauty",
+    categoryLink: t("category.beauty"),
+  },
+  {
+    categoryRoute: "kitchen-accessories",
+    categoryLink: t("category.kitchenAccess"),
+  },
+  {
+    categoryRoute: "mobile-accessories",
+    categoryLink: t("category.mobileAccess"),
+  },
+  {
+    categoryRoute: "sports-accessories",
+    categoryLink: t("category.sportsAccess"),
   },
 ];
