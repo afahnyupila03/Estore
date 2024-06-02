@@ -53,7 +53,7 @@ export default function CheckOutForm() {
   const { user } = useAuth();
   const { removeProductHandler, clearProductHandler } = useCart();
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const splitUserName = (userName) => {
     if (!userName) {
@@ -335,7 +335,7 @@ export default function CheckOutForm() {
                 />
 
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                {t("checkoutForm.shippingInfo")}
+                  {t("checkoutForm.shippingInfo")}
                 </h1>
                 <div className="flex justify-between items-center">
                   <Field
@@ -381,8 +381,12 @@ export default function CheckOutForm() {
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="address" className="font-semibold font-mono" id="address">
-                      {t("checkoutForm.address")}
+                      <label
+                        htmlFor="address"
+                        className="font-semibold font-mono"
+                        id="address"
+                      >
+                        {t("checkoutForm.address")}
                       </label>
                       <Field
                         component="select"
@@ -405,10 +409,11 @@ export default function CheckOutForm() {
                           margin: ".5rem",
                           width: "20rem",
                           color: "#020617",
-                          
                         }}
                       >
-                        <option value="address">{t("checkoutForm.selectAddress")}</option>
+                        <option value="address">
+                          {t("checkoutForm.selectAddress")}
+                        </option>
                         {deliveryAddresses.map((deliveryAddress) => {
                           const { id, address } = deliveryAddress;
                           return (
@@ -418,7 +423,7 @@ export default function CheckOutForm() {
                           );
                         })}
                         <option value="otherAddress">
-                        {t("checkoutForm.other")}
+                          {t("checkoutForm.other")}
                         </option>
                       </Field>
                     </div>
@@ -439,7 +444,7 @@ export default function CheckOutForm() {
                   ) : (
                     <div className="grid">
                       <label htmlFor="apt" className="font-semibold font-mono">
-                      {t("checkoutForm.apartment")}
+                        {t("checkoutForm.apartment")}
                       </label>
                       <Field
                         component="select"
@@ -463,7 +468,9 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="apt">{t("checkoutForm.selectApart")}</option>
+                        <option value="apt">
+                          {t("checkoutForm.selectApart")}
+                        </option>
                         {deliveryAddresses.map((deliveryApt) => {
                           const { id, apt } = deliveryApt;
                           return (
@@ -472,7 +479,9 @@ export default function CheckOutForm() {
                             </option>
                           );
                         })}
-                        <option value="otherApt">{t("checkoutForm.other")}</option>
+                        <option value="otherApt">
+                          {t("checkoutForm.other")}
+                        </option>
                       </Field>
                     </div>
                   )}
@@ -494,8 +503,12 @@ export default function CheckOutForm() {
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="city" className="font-semibold font-mono" id="city">
-                      {t("delivery.city")}
+                      <label
+                        htmlFor="city"
+                        className="font-semibold font-mono"
+                        id="city"
+                      >
+                        {t("delivery.city")}
                       </label>
                       <Field
                         name="city"
@@ -520,7 +533,9 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="city">{t("checkoutForm.selectCity")}</option>
+                        <option value="city">
+                          {t("checkoutForm.selectCity")}
+                        </option>
                         {deliveryAddresses.map((deliveryCity) => {
                           const { id, city } = deliveryCity;
                           return (
@@ -530,7 +545,7 @@ export default function CheckOutForm() {
                           );
                         })}
                         <option value="otherCity">
-                        {t("checkoutForm.other")}
+                          {t("checkoutForm.other")}
                         </option>
                       </Field>
                     </div>
@@ -551,8 +566,12 @@ export default function CheckOutForm() {
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="state" className="font-semibold font-mono" id="state">
-                      {t("checkoutForm.state")}
+                      <label
+                        htmlFor="state"
+                        className="font-semibold font-mono"
+                        id="state"
+                      >
+                        {t("checkoutForm.state")}
                       </label>
                       <Field
                         name="state"
@@ -577,7 +596,9 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="state">{t("checkoutForm.selectState")}</option>
+                        <option value="state">
+                          {t("checkoutForm.selectState")}
+                        </option>
                         {deliveryAddresses.map((deliveryState) => {
                           const { id, state } = deliveryState;
                           return (
@@ -587,7 +608,7 @@ export default function CheckOutForm() {
                           );
                         })}
                         <option value="otherState">
-                        {t("checkoutForm.other")}
+                          {t("checkoutForm.other")}
                         </option>
                       </Field>
                     </div>
@@ -625,7 +646,7 @@ export default function CheckOutForm() {
 
                 {/* Delivery Methods. */}
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                {t("checkoutForm.deliveryMethod")}
+                  {t("checkoutForm.deliveryMethod")}
                 </h1>
                 <div
                   role="group"
@@ -634,7 +655,7 @@ export default function CheckOutForm() {
                 >
                   <div className="border-2 border-black rounded p-4">
                     <h1 className="text-center flex justify-center">
-                    {t("checkoutForm.standard")}
+                      {t("checkoutForm.standard")}
                     </h1>
                     <div className="flex justify-around gap-x-10 items-center">
                       <div>
@@ -657,7 +678,9 @@ export default function CheckOutForm() {
                   </div>
 
                   <div className="border-2 border-black rounded p-4">
-                    <h1 className="text-center flex justify-center">{t("checkoutForm.express")}</h1>
+                    <h1 className="text-center flex justify-center">
+                      {t("checkoutForm.express")}
+                    </h1>
                     <div className="flex justify-around gap-x-10 items-center">
                       <div>
                         <p>2-5 {t("checkoutForm.businessDays")}</p>
@@ -685,7 +708,7 @@ export default function CheckOutForm() {
                 />
                 {/* Payment Methods */}
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                {t("checkoutForm.payment")}
+                  {t("checkoutForm.payment")}
                 </h1>
                 <div className="flex justify-between reverse">
                   <Field
@@ -715,8 +738,12 @@ export default function CheckOutForm() {
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="cardNumber" className="font-semibold font-mono" id="cardNumber">
-                      {t("checkoutForm.cardNumber")}
+                      <label
+                        htmlFor="cardNumber"
+                        className="font-semibold font-mono"
+                        id="cardNumber"
+                      >
+                        {t("checkoutForm.cardNumber")}
                       </label>
                       <Field
                         as="select"
@@ -739,7 +766,9 @@ export default function CheckOutForm() {
                           color: "#020617",
                         }}
                       >
-                        <option value="cardNumber">{t("checkoutForm.selectCard")}</option>
+                        <option value="cardNumber">
+                          {t("checkoutForm.selectCard")}
+                        </option>
                         {paymentMethods.map((paymentCard) => {
                           const { id, cardNumber } = paymentCard;
                           return (
@@ -749,7 +778,7 @@ export default function CheckOutForm() {
                           );
                         })}
                         <option value="otherCardNumber">
-                        {t("checkoutForm.other")}
+                          {t("checkoutForm.other")}
                         </option>
                       </Field>
                     </div>
@@ -791,7 +820,7 @@ export default function CheckOutForm() {
               {/* Product Summary Section. */}
               <div>
                 <h1 className="mb-2 text-lg font-mono font-semibold">
-                {t("checkoutForm.orderSummary")}
+                  {t("checkoutForm.orderSummary")}
                 </h1>
 
                 {checkoutData.map((item) => {
@@ -802,7 +831,7 @@ export default function CheckOutForm() {
                         {!product ? (
                           <div className="mt-8">
                             <p className="mb-10 text-xl font-mono">
-                            {t("checkoutForm.noProducts")}
+                              {t("checkoutForm.noProducts")}
                             </p>
                             <Link
                               to="/home"
@@ -830,7 +859,7 @@ export default function CheckOutForm() {
                         <div>
                           <div className="flex mt-2 justify-between items-center">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                            {t("checkoutForm.totalProducts")} :
+                              {t("checkoutForm.totalProducts")} :
                             </p>
                             <p className="text-gray-900 text-lg font-mono font-semibold">
                               {totalProducts}
@@ -838,7 +867,7 @@ export default function CheckOutForm() {
                           </div>
                           <div className="flex mt-2 justify-between items-center">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                            {t("checkoutForm.subtotal")} :
+                              {t("checkoutForm.subtotal")} :
                             </p>
                             <p className="text-gray-900 text-lg font-mono font-semibold">
                               {MONEY_FORMATTER(parseInt(totalAmount), CURRENCY)}
@@ -846,7 +875,8 @@ export default function CheckOutForm() {
                           </div>
                           <div className="flex mt-2 justify-between items-center">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                            {t("checkoutForm.taxes")}                            </p>
+                              {t("checkoutForm.taxes")}{" "}
+                            </p>
                             <p className="text-gray-900 text-lg font-mono font-semibold">
                               {taxIsLoading ? (
                                 <Loader animation={loading} size={20} />
@@ -857,7 +887,7 @@ export default function CheckOutForm() {
                           </div>
                           <div className="flex mt-2 justify-between items-center">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                            {t("checkoutForm.shipping")} :
+                              {t("checkoutForm.shipping")} :
                             </p>
                             <p className="text-gray-900 text-lg font-mono font-semibold">
                               {MONEY_FORMATTER(
@@ -876,7 +906,7 @@ export default function CheckOutForm() {
 
                           <div className="flex mt-2 justify-between">
                             <p className="mb-2 text-lg font-mono font-semibold">
-                            {t("checkoutForm.total")} :
+                              {t("checkoutForm.total")} :
                             </p>
                             <p className="text-gray-900 font-mono font-semibold">
                               {checkoutLoading ? (
