@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
@@ -12,14 +12,37 @@ export default function CartPage() {
   const { t } = useTranslation();
 
   const { user } = useAuth();
-  const {
-    products,
-    totalAmount,
-    productQuantity,
-    removeProductHandler,
-  } = useCart();
+  const { addProductHandler, removeProductHandler } = useCart();
 
-  const { wishListQuantity } = useWishList();
+  const [cartProducts, setCartProducts] = useState([]);
+  const [wishlistProducts, setWishlistProducts] = useState([]);
+  const [cartTotalQuantity, setCartTotalQuantity] = useState(0);
+  const [cartTotalAmount, setCartTotalAmount] = useState(0);
+
+  const getAllStorageData = () => {
+    const allData = {};
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key !== "i18nextLng") {
+        const value = sessionStorage.getItem(key);
+        allData[key] = JSON.parse(value);
+      }
+    }
+    return allData;
+  };
+
+  useEffect(() => {
+    const sessionStorageData = getAllStorageData();
+    const { products = [], productQuantity = 0, totalAmount = 0 } =
+      sessionStorageData["cartState"] || {};
+    setCartProducts(products);
+    setCartTotalAmount(totalAmount);
+    setCartTotalQuantity(productQuantity);
+    const wishlistProduct = sessionStorageData["wishListData"] || [];
+    setWishlistProducts(wishlistProduct);
+  }, []);
+
+  const wishListQuantity = wishlistProducts.length;
   const userId = user?.uid;
 
   const CURRENCY = "XAF";
@@ -31,7 +54,17 @@ export default function CartPage() {
     return formatter.format(amount);
   };
 
-  const cartTotal = FORMAT_MONEY(parseInt(totalAmount), CURRENCY);
+  const cartTotal = FORMAT_MONEY(parseInt(cartTotalAmount), CURRENCY);
+
+  const handleRemoveProducts = (id) => {
+    removeProductHandler(id);
+    const updatedData = getAllStorageData();
+    const { products, productQuantity, totalAmount } =
+      updatedData["cartState"] || [];
+    setCartProducts(products);
+    setCartTotalAmount(totalAmount);
+    setCartTotalQuantity(productQuantity);
+  };
 
   const CheckoutHandler = async (userId) => {
     const db = database;
@@ -39,10 +72,9 @@ export default function CartPage() {
 
     try {
       await addDoc(ref, {
-        // quantity: product.quantity,
-        totalProducts: productQuantity,
-        totalAmount: totalAmount,
-        product: products,
+        totalProducts: cartTotalQuantity,
+        totalAmount: cartTotalAmount,
+        product: cartProducts,
         timestamp: serverTimestamp(),
       });
       const refId = ref.id;
@@ -69,7 +101,7 @@ export default function CartPage() {
         </Link>
       </div>
     );
-  } else if (products.length === 0 && user !== null) {
+  } else if (cartTotalQuantity === 0 && user !== null) {
     content = (
       <div className="mt-8">
         <p className="mb-10 text-xl font-mono">{t("cart.emptyBag")}</p>
@@ -88,12 +120,11 @@ export default function CartPage() {
           className="mx-60 border-gray-500 mb-4"
           style={{ width: "70%", borderWidth: "1" }}
         />
-        {products.map((cart) => (
+        {cartProducts.map((cart) => (
           <CartItemsCard
             productItems={cart}
             key={cart.id}
-            itemsQuantity={productQuantity}
-            removeItemHandler={() => removeProductHandler(cart.id)}
+            removeItemHandler={() => handleRemoveProducts(cart.id)}
           />
         ))}
         <hr
@@ -139,7 +170,7 @@ export default function CartPage() {
       <div className="flex justify-center px-40 py-8 font-semibold font-mono text-lg">
         <div className="border-2 border-r-0 border-black px-8 py-4">
           <p>
-            {t("cart.shoppingBag")} <span>({productQuantity})</span>
+            {t("cart.shoppingBag")} <span>({cartTotalQuantity})</span>
           </p>
         </div>
         <div className="border-2 border-black px-8 py-4">
