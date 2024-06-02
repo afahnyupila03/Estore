@@ -47,7 +47,6 @@ export default function WishlistPage() {
     const sessionStorageData = getAllLocalStorageData();
     const products = sessionStorageData["wishListData"] || [];
     setWishListProducts(products);
-    setWishListQuantity(products.length);
   }, []);
 
   let wishlist;

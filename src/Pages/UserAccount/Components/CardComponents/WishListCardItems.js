@@ -70,7 +70,7 @@ export default function WishListCardItems({
 
   return (
     <div className="flex gap-x-10 gap-y-2 items-center font-mono text-xl justify-between">
-      <div className="aspect-h-1 aspect-w-1 w-40 overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-40">
+      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-40">
         <img
           src={thumbnail}
           alt={title}
@@ -113,7 +113,7 @@ export default function WishListCardItems({
             icon={heartDislikeOutline}
             style={{ fontSize: "1.5rem" }}
           />
-          {t("home.dislike")}
+          {t("home.disLike")}
         </button>
       </div>
     </div>

@@ -12,7 +12,7 @@ export const CATEGORY_FEATURES = (t) => [
     categoryLink: t("category.fragrances"),
   },
   {
-    categoryRoute: "skincare",
+    categoryRoute: "skin-care",
     categoryLink: t("category.skinCare"),
   },
   {
