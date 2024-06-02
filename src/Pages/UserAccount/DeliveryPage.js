@@ -165,7 +165,7 @@ export default function DeliveryPage() {
   } else {
     DELIVERY_ADDRESS = data.map((delivery) => (
       <DeliveryCardItem
-        deleteHandler={deleteDeliveryHandler}
+        deleteHandler={() => deleteDeliveryHandler(userId, delivery.id)}
         editHandler={editHandler}
         key={delivery.id}
         deliveryDetails={delivery}
