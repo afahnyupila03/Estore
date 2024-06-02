@@ -17,7 +17,6 @@ export default function CartPage() {
     totalAmount,
     productQuantity,
     removeProductHandler,
-    clearProductHandler,
   } = useCart();
 
   const { wishListQuantity } = useWishList();
