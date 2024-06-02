@@ -381,7 +381,7 @@ export default function CheckOutForm() {
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="address" id="address">
+                      <label htmlFor="address" className="font-semibold font-mono" id="address">
                       {t("checkoutForm.address")}
                       </label>
                       <Field
@@ -405,6 +405,7 @@ export default function CheckOutForm() {
                           margin: ".5rem",
                           width: "20rem",
                           color: "#020617",
+                          
                         }}
                       >
                         <option value="address">{t("checkoutForm.selectAddress")}</option>
@@ -486,21 +487,21 @@ export default function CheckOutForm() {
                       value={values.city}
                       onChange={handleChange}
                       onBlur={handleBlur}
-                      label={t("checkoutForm.city")}
+                      label={t("delivery.city")}
                       placeholder="City"
                       id="city"
                       autoComplete="false"
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="city" id="city">
-                      {t("checkoutForm.city")}
+                      <label htmlFor="city" className="font-semibold font-mono" id="city">
+                      {t("delivery.city")}
                       </label>
                       <Field
                         name="city"
                         id="city"
                         component="select"
-                        placeholder={t("checkoutForm.selectCity")}
+                        placeholder={t("delivery.selectCity")}
                         onChange={(e) => {
                           if (e.target.value === "otherCity") {
                             setOtherCity(true);
@@ -550,7 +551,7 @@ export default function CheckOutForm() {
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="state" id="state">
+                      <label htmlFor="state" className="font-semibold font-mono" id="state">
                       {t("checkoutForm.state")}
                       </label>
                       <Field
@@ -714,7 +715,7 @@ export default function CheckOutForm() {
                     />
                   ) : (
                     <div className="grid">
-                      <label htmlFor="cardNumber" id="cardNumber">
+                      <label htmlFor="cardNumber" className="font-semibold font-mono" id="cardNumber">
                       {t("checkoutForm.cardNumber")}
                       </label>
                       <Field

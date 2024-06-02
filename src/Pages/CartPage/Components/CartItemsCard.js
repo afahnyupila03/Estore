@@ -2,7 +2,7 @@ import { t } from "i18next";
 import React from "react";
 
 export default function CartItemsCard({
-  itemsQuantity,
+  
   removeItemHandler,
   productItems,
 }) {
@@ -59,7 +59,7 @@ export default function CartItemsCard({
         </div>
         <div>
           <p>{title}</p>
-          <p>{t("cart.quantity")}: {CALC_QUANTITY(quantity)}</p>
+          <p>{t("cart.quantity")}: {CALC_QUANTITY(quantity)} or {quantity}</p>
         </div>
       </div>
 

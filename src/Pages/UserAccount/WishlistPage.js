@@ -35,7 +35,7 @@ export default function WishlistPage() {
     for (let i = 0; i < sessionStorage.length; i++) {
       const key = sessionStorage.key(i);
       // Exclude the language key from the retrieved data
-      if (key !== "i18nextLng") {
+      if (key !== "i18nextLng" && key!== "cartState") {
         const value = sessionStorage.getItem(key);
         allData[key] = JSON.parse(value);
       }

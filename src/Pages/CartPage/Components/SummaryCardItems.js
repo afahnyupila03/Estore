@@ -19,22 +19,21 @@ export default function SummaryCardItems({
   return (
     <div className="flex gap-x-60 gap-y-2 items-center items-stretch font-mono text-xl justify-between">
       <div className="flex justify-between gap-x-4">
-        <div className="aspect-h-1 aspect-w-1 w-40 overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-40">
+        <div className="aspect-h-1 aspect-w-full w-full rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-40">
           <img
             src={thumbnail}
             alt={title}
-            className="h-40 w-40 fixed object-cover object-center lg:h-40 lg:w-40"
+            className="h-40 w-full fixed object-fit object-center lg:w-full lg:h-40"
           />
-          <div className="pl-4">
+          {/* <div className="pl-4">
             <p>{title}</p>
             <p>{brand}</p>
             <p>{category}</p>
-          </div>
+          </div> */}
         </div>
-        <div className="mx-auto px-4">
+        <div className="mx-auto px-2">
           <p>{title}</p>
           <p>{brand}</p>
-          <p>{category}</p>
         </div>
         {/* <p>{title}</p> */}
       </div>

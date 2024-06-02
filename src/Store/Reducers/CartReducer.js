@@ -19,6 +19,12 @@ export const CartReducer = (state, action) => {
     return convertedPrice;
   };
 
+  const updateSessionStorage = (newState) => {
+    sessionStorage.setItem("cartState", JSON.stringify(newState));
+  };
+
+  let newState;
+
   switch (action.type) {
     case Constants.ADD:
       const existingProductIndex = state.products.findIndex(
@@ -37,7 +43,7 @@ export const CartReducer = (state, action) => {
         // Increment the quantity of the existing product by 1
         existingProduct.quantity += 1;
 
-        return {
+        newState = {
           ...state,
           products: updatedProducts,
           totalAmount: state.totalAmount + SELLING_PRICE,
@@ -48,13 +54,17 @@ export const CartReducer = (state, action) => {
           ...action.payload.product,
           quantity: 1,
         };
-        return {
+
+        newState = {
           ...state,
           products: [...state.products, newProduct],
           totalAmount: state.totalAmount + SELLING_PRICE,
           productQuantity: state.productQuantity + 1,
         };
       }
+
+      updateSessionStorage(newState);
+      return newState;
 
     case Constants.REMOVE:
       const productId = action.payload.id;
@@ -77,17 +87,21 @@ export const CartReducer = (state, action) => {
           updatedProducts.splice(productIndex, 1);
         }
 
-        return {
+        newState = {
           ...state,
           products: updatedProducts,
           totalAmount: state.totalAmount - removedPrice,
           productQuantity: state.productQuantity - 1,
         };
+
+        updateSessionStorage(newState);
+        return newState;
       } else {
         return state;
       }
 
     case Constants.CLEAR:
+      updateSessionStorage(DefaultCartState);
       return DefaultCartState;
 
     default:
