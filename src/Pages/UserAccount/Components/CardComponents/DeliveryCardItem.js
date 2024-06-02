@@ -14,6 +14,7 @@ export default function DeliveryCardItem({
   return (
     <div loading="lazy" className="font-mono p-4 border-2 border-black rounded">
       <div className="mb-4">
+        <p>{id}</p>
         <p>
           {firstName} {lastName}
         </p>
