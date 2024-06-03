@@ -15,7 +15,13 @@ import { ref, remove } from "firebase/database";
 import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -137,6 +143,36 @@ export default function PaymentMethodPage() {
     }
   };
 
+  const editPaymentDetailsHandler = async (values) => {
+    try {
+      const db = database;
+      const paymentRef = doc(
+        db,
+        userId,
+        "payment-method",
+        "bankCard",
+        selectedPaymentId
+      );
+      await updateDoc(paymentRef, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        cardNumber: values.cardNumber,
+        expiryDate: values.expiryDate,
+        securityCode: values.securityCode,
+      });
+      alert(
+        `Payment details with ${selectedPaymentId} has been updated successfully.`
+      );
+      refetch();
+      setEditModal(false);
+      setPaymentModal(false);
+      setSelectedPaymentId(null);
+    } catch (error) {
+      alert("Error updating payment card details: " + error.message);
+      console.error(error);
+    }
+  };
+
   let PAYMENT_METHODS;
 
   if (user === null) {
@@ -228,7 +264,9 @@ export default function PaymentMethodPage() {
                 }
           }
           // validationSchema={PaymentSchema}
-          onSubmit={paymentMethodHandler}
+          onSubmit={
+            editModal ? editPaymentDetailsHandler : paymentMethodHandler
+          }
         >
           {({ values, handleChange, handleBlur, isSubmitting }) => (
             <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">

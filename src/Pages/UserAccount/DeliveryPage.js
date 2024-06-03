@@ -204,8 +204,6 @@ export default function DeliveryPage() {
     ));
   }
 
-  
-
   const DELIVERY_MODAL = (
     <DeliveryModal>
       <div className="flex justify-end">
