@@ -33,16 +33,13 @@ export const DeliveryAddressService = async (userId, addressId) => {
   try {
     const addressRef = doc(
       database,
-      userId,
-      "delivery",
-      "addressMe",
-      addressId
+      userId + "/delivery/" + "addressMe/" + addressId
     );
     const docSnapshot = await getDoc(addressRef);
 
     if (docSnapshot.exists()) {
       const addressData = {
-        id: docSnapshot.id,
+        id: addressId,
         firstName: docSnapshot.data().firstName,
         lastName: docSnapshot.data().lastName,
         address: docSnapshot.data().address,
@@ -51,27 +48,11 @@ export const DeliveryAddressService = async (userId, addressId) => {
         city: docSnapshot.data().city,
         zip: docSnapshot.data().zip,
       };
-      console.log(addressData.id);
+      console.log("service address:", addressData);
       return addressData;
     } else {
-      return null; // Document not found
+      return null || "Error loading single address"
     }
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
-
-export const fetchDeliveryId = async (userId) => {
-  try {
-    const deliveryIdRef = collection(database, userId, "delivery", "addressMe");
-    // const deliveryIdSnapshot = await getDoc(deliveryIdRef);
-    const q = query(deliveryIdRef);
-    const querySnapshot = await getDocs(q);
-    const deliverIds = [];
-    querySnapshot.forEach((doc) => {
-      deliverIds.push(doc.id);
-    });
-    return deliverIds;
   } catch (error) {
     return Promise.reject(error);
   }
@@ -131,21 +112,6 @@ export const PaymentMethodService = async (userId, paymentId) => {
   }
 };
 
-export const fetchPaymentId = async (userId) => {
-  try {
-    const paymentIdRef = doc(database, `${userId}/payment-method/bankCard/`);
-    const paymentIdSnapshot = await getDoc(paymentIdRef);
-
-    if (paymentIdSnapshot.exists()) {
-      return paymentIdSnapshot.data().id;
-    } else {
-      return "defaultPaymentId";
-    }
-  } catch (error) {
-    return Promise.reject(error);
-  }
-};
-// , orderBy("timestamp", "desc")
 export const PurchaseServices = async (userId) => {
   try {
     const db = database;

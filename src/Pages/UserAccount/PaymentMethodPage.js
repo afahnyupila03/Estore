@@ -10,7 +10,6 @@ import { database } from "../../FirebaseConfigs/Firesbase";
 import {
   PaymentMethodService,
   PaymentMethodServices,
-  fetchPaymentId,
 } from "../../Services/AccountServices";
 import { ref, remove } from "firebase/database";
 import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
@@ -61,13 +60,10 @@ export default function PaymentMethodPage() {
     error,
   } = useQuery(["bankCard", userId], () => PaymentMethodServices(userId));
 
-  const { data: paymentId } = useQuery(["paymentId", userId], () =>
-    fetchPaymentId(userId)
-  );
 
   const { data: singleMethod = [] } = useQuery(
-    ["singleMethod", userId, paymentId],
-    () => PaymentMethodService(userId, paymentId)
+    ["singleMethod", userId, singleMethod.id],
+    () => PaymentMethodService(userId, singleMethod.id)
   );
 
   function modalHandler() {

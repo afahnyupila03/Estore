@@ -13,22 +13,26 @@ import { database } from "../../FirebaseConfigs/Firesbase";
 import {
   DeliveryAddressService,
   DeliveryServices,
-  fetchDeliveryId,
 } from "../../Services/AccountServices";
-import { addDoc, collection, deleteDoc, doc } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
-// TODO: FIX EDIT AND DELETE DELIVERY HANDLERS
 
 export default function DeliveryPage() {
   const [modal, setModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
+  const [selectedAddressId, setSelectedAddressId] = useState(null);
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const { user } = useAuth();
   const userId = user?.uid;
@@ -56,24 +60,21 @@ export default function DeliveryPage() {
     error,
     isError,
     refetch,
-  } = useQuery(["delivery", userId], () => DeliveryServices(userId));
+  } = useQuery(["delivery", userId], () => DeliveryServices(userId), {
+    enabled: !!userId, // Only run the query if userId is available
+  });
 
-  const { data: deliveryId } = useQuery(["dynamicDeliveryId", userId], () =>
-    fetchDeliveryId(userId)
+  const singleAddressQuery = useQuery(
+    ["single", userId, selectedAddressId],
+    () => DeliveryAddressService(userId, selectedAddressId),
+    {
+      enabled: !!selectedAddressId, // Only run the query if selectedAddressId is available
+    }
   );
-
-  const firstDeliveryId =
-    deliveryId && deliveryId.length > 0 ? deliveryId[0] : null;
-
-  const { data: singleAddress } = useQuery(
-    ["single", userId, firstDeliveryId],
-    () => DeliveryAddressService(userId, firstDeliveryId)
-  );
-  console.log(singleAddress);
 
   const submitAddressHandler = async (values, actions) => {
     const db = database;
-    const newDeliveryRef = collection(db, userId, "/delivery/", "addressMe"); // Assuming userId is defined
+    const newDeliveryRef = collection(db, userId, "delivery", "addressMe");
 
     try {
       const docRef = await addDoc(newDeliveryRef, {
@@ -103,6 +104,7 @@ export default function DeliveryPage() {
       });
 
       setModal(false);
+      refetch();
     } catch (error) {
       alert("Error writing data to Firestore: " + error.message);
       console.error(error);
@@ -111,7 +113,6 @@ export default function DeliveryPage() {
 
   const deleteDeliveryHandler = async (userId, uniqueId) => {
     const db = database;
-
     const deleteRef = doc(db, `${userId}/delivery/addressMe/${uniqueId}`);
 
     try {
@@ -124,9 +125,33 @@ export default function DeliveryPage() {
     }
   };
 
-  const editHandler = () => {
+  const editHandler = (addressId) => {
+    setSelectedAddressId(addressId);
     setEditModal(true);
     setModal(true);
+  };
+
+  const editAddressHandler = async (values) => {
+    try {
+      const db = database;
+      const ref = doc(db, userId, "delivery", "addressMe", selectedAddressId);
+      await updateDoc(ref, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        address: values.address,
+        apt: values.aptSuite,
+        zip: values.zip,
+        city: values.city,
+        state: values.state,
+      });
+      alert(`Address with id: ${selectedAddressId} has been updated.`);
+      refetch();
+      setModal(false);
+      setSelectedAddressId(null);
+    } catch (error) {
+      alert("Error updating address: " + error.message);
+      console.error(error);
+    }
   };
 
   let DELIVERY_ADDRESS;
@@ -151,7 +176,7 @@ export default function DeliveryPage() {
         <UseAnimation animation={loading} size={80} />
       </div>
     );
-  } else if (user !== null && data === null) {
+  } else if (user !== null && data.length === 0) {
     DELIVERY_ADDRESS = <p>{t("delivery.noAddress")}</p>;
   } else if (isError) {
     DELIVERY_ADDRESS = (
@@ -165,8 +190,8 @@ export default function DeliveryPage() {
   } else {
     DELIVERY_ADDRESS = data.map((delivery) => (
       <DeliveryCardItem
-        deleteHandler={deleteDeliveryHandler}
-        editHandler={editHandler}
+        deleteHandler={() => deleteDeliveryHandler(userId, delivery.id)}
+        editHandler={() => editHandler(delivery.id)}
         key={delivery.id}
         deliveryDetails={delivery}
       />
@@ -175,6 +200,8 @@ export default function DeliveryPage() {
 
   const modalHandler = () => {
     setModal(!modal);
+    setEditModal(false);
+    setSelectedAddressId(null);
   };
 
   const DELIVERY_MODAL = (
@@ -198,15 +225,16 @@ export default function DeliveryPage() {
 
       <Formik
         initialValues={
-          editModal
+          editModal && singleAddressQuery.data
             ? {
-                firstName: singleAddress.firstName,
-                lastName: singleAddress.lastName,
-                address: singleAddress.address,
-                aptSuite: singleAddress.apt,
-                zip: singleAddress.zip,
-                city: singleAddress.city,
-                state: singleAddress.state,
+                id: singleAddressQuery.data.id,
+                firstName: singleAddressQuery.data.firstName,
+                lastName: singleAddressQuery.data.lastName,
+                address: singleAddressQuery.data.address,
+                aptSuite: singleAddressQuery.data.apt,
+                zip: singleAddressQuery.data.zip,
+                city: singleAddressQuery.data.city,
+                state: singleAddressQuery.data.state,
               }
             : {
                 firstName: firstName,
@@ -218,7 +246,7 @@ export default function DeliveryPage() {
                 state: "",
               }
         }
-        onSubmit={submitAddressHandler}
+        onSubmit={editModal ? editAddressHandler : submitAddressHandler}
         // validationSchema={DeliveryAddressSchema}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
@@ -310,7 +338,7 @@ export default function DeliveryPage() {
             <div className="flex justify-center">
               <button
                 type="submit"
-                // disabled={isSubmitting}
+                disabled={isSubmitting}
                 className={
                   isSubmitting
                     ? "mb-4 mt-4 p-2 w-40 bg-gray-400 text-white font-mono text-xl"
@@ -354,7 +382,6 @@ export default function DeliveryPage() {
       </div>
 
       {modal && DELIVERY_MODAL}
-      {editModal && modal && DELIVERY_MODAL}
     </div>
   );
 }
