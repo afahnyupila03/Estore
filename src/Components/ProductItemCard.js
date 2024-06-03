@@ -304,8 +304,9 @@ export default function ProductItemCard({ productData }) {
                   style={{ fontSize: "1.5rem" }}
                 />
 
-                {isInWishList ? `${t("home.dislike")}` : `${t("auth.wishList")}`}
-
+                {isInWishList
+                  ? `${t("home.dislike")}`
+                  : `${t("auth.wishList")}`}
               </button>
             </div>
           </div>

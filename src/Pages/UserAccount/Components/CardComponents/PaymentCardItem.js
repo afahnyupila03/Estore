@@ -11,10 +11,7 @@ export default function PaymentCardItem({
   const { id, firstName, lastName, cardNumber, expiryDate, securityCode } =
     paymentDetails || [];
   return (
-    <div
-      className="border-black border-2 rounded p-4 font-mono"
-      loading="lazy"
-    >
+    <div className="border-black border-2 rounded p-4 font-mono" loading="lazy">
       <div className="mb-4">
         <p>{id}</p>
         <p>

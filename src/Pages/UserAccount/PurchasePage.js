@@ -120,7 +120,7 @@ export default function PurchasePage() {
                 tax,
                 checkoutTotal,
                 shippingPrice,
-                purchaseId, 
+                purchaseId,
                 email,
                 displayName,
                 address,

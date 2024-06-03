@@ -28,7 +28,11 @@ export default function CartIcon({ cartCount }) {
       <Link className="ml-6 cart-link" to="/cart">
         <IonIcon icon={bagHandleOutline} size="large" />
       </Link>
-      {cartCount > 0 && <div className="bg-gray-900" style={styles.cartCounter}>{cartCount}</div>}
+      {cartCount > 0 && (
+        <div className="bg-gray-900" style={styles.cartCounter}>
+          {cartCount}
+        </div>
+      )}
     </div>
   );
 }

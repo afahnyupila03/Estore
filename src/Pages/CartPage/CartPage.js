@@ -33,8 +33,11 @@ export default function CartPage() {
 
   useEffect(() => {
     const sessionStorageData = getAllStorageData();
-    const { products = [], productQuantity = 0, totalAmount = 0 } =
-      sessionStorageData["cartState"] || {};
+    const {
+      products = [],
+      productQuantity = 0,
+      totalAmount = 0,
+    } = sessionStorageData["cartState"] || {};
     setCartProducts(products);
     setCartTotalAmount(totalAmount);
     setCartTotalQuantity(productQuantity);
