@@ -125,11 +125,33 @@ export default function DeliveryPage() {
     }
   };
 
-  const editHandler = async (addressId) => {
+  const editHandler = (addressId) => {
     setSelectedAddressId(addressId);
     setEditModal(true);
     setModal(true);
-    await updateDoc();
+  };
+
+  const editAddressHandler = async (values) => {
+    try {
+      const db = database;
+      const ref = doc(db, userId, "delivery", "addressMe", selectedAddressId);
+      await updateDoc(ref, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        address: values.address,
+        apt: values.aptSuite,
+        zip: values.zip,
+        city: values.city,
+        state: values.state,
+      });
+      alert(`Address with id: ${selectedAddressId} has been updated.`);
+      refetch();
+      setModal(false);
+      setSelectedAddressId(null);
+    } catch (error) {
+      alert("Error updating address: " + error.message);
+      console.error(error);
+    }
   };
 
   let DELIVERY_ADDRESS;
@@ -224,8 +246,8 @@ export default function DeliveryPage() {
                 state: "",
               }
         }
-        onSubmit={submitAddressHandler}
-        validationSchema={DeliveryAddressSchema}
+        onSubmit={editModal ? editAddressHandler : submitAddressHandler}
+        // validationSchema={DeliveryAddressSchema}
       >
         {({ values, handleChange, handleBlur, isSubmitting }) => (
           <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
