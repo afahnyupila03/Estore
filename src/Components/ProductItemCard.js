@@ -331,7 +331,7 @@ export default function ProductItemCard({ productData }) {
     >
       <div
         id={id}
-        className="aspect-h-1 aspect-w-1 lg:w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 h-80"
+        className="aspect-h-1 aspect-w-1 lg:w-full overflow-hidden rounded-md bg-gray-900 lg:aspect-none group-hover:opacity-75 h-80"
       >
         <img
           src={thumbnail}

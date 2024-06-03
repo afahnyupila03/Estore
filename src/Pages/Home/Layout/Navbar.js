@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Disclosure } from "@headlessui/react";
 import { NavLink } from "react-router-dom";
 import {
@@ -21,6 +21,9 @@ function classNames(...classes) {
 export default function () {
   const { t } = useTranslation();
 
+  const [cartTotalProducts, setCartTotalProducts] = useState(0);
+  const [wishListTotalProducts, setWishListTotalProducts] = useState([]);
+
   const navbarRoutes = NavbarRoutes(t);
   const authRoute = UserAccountRoute(t);
   const accRoute = AccountRoutes(t);
@@ -34,6 +37,28 @@ export default function () {
       navRoute: "my-account/landing/customer-service",
     },
   ];
+
+  const getAllStorageData = () => {
+    const allData = {};
+    for (let i = 0; i < sessionStorage.length; i++) {
+      const key = sessionStorage.key(i);
+      if (key != "i18nextLng") {
+        const value = sessionStorage.getItem(key);
+        allData[key] = JSON.parse(value);
+      }
+    }
+    return allData;
+  };
+
+  useEffect(() => {
+    const sessionStorageData = getAllStorageData();
+    const { productQuantity = 0 } = sessionStorageData["cartState"] || {};
+    setCartTotalProducts(productQuantity);
+    const wishlistProducts = sessionStorageData["wishListData"] || [];
+    setWishListTotalProducts(wishlistProducts);
+  }, []);
+
+  const wishlistQuantity = wishListTotalProducts.length;
 
   return (
     <Disclosure as="nav">
@@ -73,7 +98,7 @@ export default function () {
                 </div>
               </div>
               <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-                <CartButton />
+                <CartButton cartCount={cartTotalProducts} />
               </div>
               <div className="hidden sm:ml-6 sm:block">
                 <AuthButton />
