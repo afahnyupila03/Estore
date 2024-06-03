@@ -51,7 +51,7 @@ export const DeliveryAddressService = async (userId, addressId) => {
       console.log("service address:", addressData);
       return addressData;
     } else {
-      return null || "Error loading single address"
+      return null || "Error loading address card details";
     }
   } catch (error) {
     return Promise.reject(error);
@@ -70,7 +70,7 @@ export const PaymentMethodServices = async (userId) => {
     const paymentInfo = [];
     querySnapshot.forEach((doc) => {
       paymentInfo.push({
-        id: doc.data().id,
+        id: doc.id,
         firstName: doc.data().firstName,
         lastName: doc.data().lastName,
         cardNumber: doc.data().cardNumber,
@@ -95,17 +95,17 @@ export const PaymentMethodService = async (userId, paymentId) => {
 
     if (paymentSnapshot.exists()) {
       const paymentMethod = {
-        id: paymentSnapshot.data().id,
+        id: paymentId,
         firstName: paymentSnapshot.data().firstName,
         lastName: paymentSnapshot.data().lastName,
         cardNumber: paymentSnapshot.data().cardNumber,
         expiryDate: paymentSnapshot.data().expiryDate,
         securityCode: paymentSnapshot.data().securityCode,
       };
-      console.log(paymentMethod.id);
+      console.log("payment service:", paymentMethod);
       return paymentMethod;
     } else {
-      return null;
+      return null || "Error loading payment card details";
     }
   } catch (error) {
     return Promise.reject(error);

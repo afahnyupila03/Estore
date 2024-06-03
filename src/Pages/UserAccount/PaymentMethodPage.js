@@ -15,7 +15,13 @@ import { ref, remove } from "firebase/database";
 import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
-import { addDoc, collection } from "firebase/firestore";
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -25,13 +31,14 @@ import { useTranslation } from "react-i18next";
 export default function PaymentMethodPage() {
   const { user } = useAuth();
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const [paymentModal, setPaymentModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [mobilePayment, setMobilePayment] = useState(true);
+  const [selectedPaymentId, setSelectedPaymentId] = useState(null);
 
   const userName = user?.displayName;
   const userId = user?.uid;
@@ -58,17 +65,23 @@ export default function PaymentMethodPage() {
     refetch,
     isError,
     error,
-  } = useQuery(["bankCard", userId], () => PaymentMethodServices(userId));
+  } = useQuery(["bankCard", userId], () => PaymentMethodServices(userId), {
+    enabled: !!userId,
+  });
 
-
-  const { data: singleMethod = [] } = useQuery(
-    ["singleMethod", userId, singleMethod.id],
-    () => PaymentMethodService(userId, singleMethod.id)
+  const singlePaymentQuery = useQuery(
+    ["singlePayment", userId, selectedPaymentId],
+    () => PaymentMethodService(userId, selectedPaymentId),
+    {
+      enabled: !!selectedPaymentId,
+    }
   );
 
-  function modalHandler() {
+  const modalHandler = () => {
     setPaymentModal(!paymentModal);
-  }
+    setEditModal(false);
+    setSelectedPaymentId(null);
+  };
 
   const paymentMethodHandler = async (values, actions) => {
     const db = database;
@@ -100,31 +113,64 @@ export default function PaymentMethodPage() {
           securityCode: "",
         },
       });
+      setEditModal(false);
+      refetch();
     } catch (error) {
       alert("Error write payment-method to Firestore: " + error.message);
       console.log(error);
     }
   };
 
-  const editPaymentHandler = () => {
+  const editPaymentHandler = (paymentId) => {
+    setSelectedPaymentId(paymentId);
     setEditModal(true);
     setPaymentModal(true);
   };
 
-  const deletePaymentHandler = (userId, payMethodId) => {
-    if (!payMethodId) {
-      alert("Error: uniqueId is undefined");
-      return;
+  const deletePaymentHandler = async (userId, paymentId) => {
+    const db = database;
+    const paymentRef = doc(
+      db,
+      `${userId}/payment-method/bankCard/${paymentId}`
+    );
+    try {
+      await deleteDoc(paymentRef);
+      alert(`Payment details with id ${paymentId} was successfully deleted!`);
+      refetch(userId);
+    } catch (error) {
+      alert("Error deleting payment method " + error.message);
+      console.error(error);
     }
-    const dbRef = ref(database, `${userId}/payment-method/${payMethodId}`);
-    remove(dbRef)
-      .then(() => {
-        alert("Deleted successfully");
-        refetch();
-      })
-      .catch((error) => {
-        alert(error);
+  };
+
+  const editPaymentDetailsHandler = async (values) => {
+    try {
+      const db = database;
+      const paymentRef = doc(
+        db,
+        userId,
+        "payment-method",
+        "bankCard",
+        selectedPaymentId
+      );
+      await updateDoc(paymentRef, {
+        firstName: values.firstName,
+        lastName: values.lastName,
+        cardNumber: values.cardNumber,
+        expiryDate: values.expiryDate,
+        securityCode: values.securityCode,
       });
+      alert(
+        `Payment details with ${selectedPaymentId} has been updated successfully.`
+      );
+      refetch();
+      setEditModal(false);
+      setPaymentModal(false);
+      setSelectedPaymentId(null);
+    } catch (error) {
+      alert("Error updating payment card details: " + error.message);
+      console.error(error);
+    }
   };
 
   let PAYMENT_METHODS;
@@ -163,8 +209,8 @@ export default function PaymentMethodPage() {
       <PaymentCardItem
         key={payment.id}
         paymentDetails={payment}
-        editHandler={editPaymentHandler}
-        deleteHandler={deletePaymentHandler}
+        editHandler={() => editPaymentHandler(payment.id)}
+        deleteHandler={() => deletePaymentHandler(userId, payment.id)}
       />
     ));
   }
@@ -196,15 +242,16 @@ export default function PaymentMethodPage() {
         {/* singleMethod */}
         <Formik
           initialValues={
-            editModal
+            editModal && singlePaymentQuery.data
               ? {
-                  firstName: singleMethod.firstName,
-                  lastName: singleMethod.lastName,
-                  cardNumber: singleMethod.cardNumber,
-                  expiryDate: singleMethod.expiryDate,
-                  securityCode: singleMethod.securityCode,
-                  // accountName: singleMethod.accountName,
-                  // accountNumber: singleMethod.accountNumber,
+                  id: singlePaymentQuery.data.id,
+                  firstName: singlePaymentQuery.data.firstName,
+                  lastName: singlePaymentQuery.data.lastName,
+                  cardNumber: singlePaymentQuery.data.cardNumber,
+                  expiryDate: singlePaymentQuery.data.expiryDate,
+                  securityCode: singlePaymentQuery.data.securityCode,
+                  // accountName: singlePaymentQuery.data.accountName,
+                  // accountNumber: singlePaymentQuery.data.accountNumber,
                 }
               : {
                   firstName: firstName,
@@ -217,7 +264,9 @@ export default function PaymentMethodPage() {
                 }
           }
           // validationSchema={PaymentSchema}
-          onSubmit={paymentMethodHandler}
+          onSubmit={
+            editModal ? editPaymentDetailsHandler : paymentMethodHandler
+          }
         >
           {({ values, handleChange, handleBlur, isSubmitting }) => (
             <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
@@ -352,7 +401,7 @@ export default function PaymentMethodPage() {
                   className="border-b-2 border-black"
                   onClick={modalHandler}
                 >
-                  {t("delivery.tryAgain")}
+                  {t("delivery.cancel")}
                 </button>
               </div>
             </Form>
