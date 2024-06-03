@@ -125,6 +125,12 @@ export default function DeliveryPage() {
     }
   };
 
+  const modalHandler = () => {
+    setModal(!modal);
+    setEditModal(false);
+    setSelectedAddressId(null);
+  };
+
   const editHandler = (addressId) => {
     setSelectedAddressId(addressId);
     setEditModal(true);
@@ -198,11 +204,7 @@ export default function DeliveryPage() {
     ));
   }
 
-  const modalHandler = () => {
-    setModal(!modal);
-    setEditModal(false);
-    setSelectedAddressId(null);
-  };
+  
 
   const DELIVERY_MODAL = (
     <DeliveryModal>

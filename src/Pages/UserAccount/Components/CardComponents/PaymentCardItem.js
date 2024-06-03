@@ -6,8 +6,7 @@ export default function PaymentCardItem({
   editHandler,
   deleteHandler,
 }) {
-
-  const {t} = useTranslation();
+  const { t } = useTranslation();
 
   const { id, firstName, lastName, cardNumber, expiryDate, securityCode } =
     paymentDetails || [];
@@ -15,9 +14,9 @@ export default function PaymentCardItem({
     <div
       className="border-black border-2 rounded p-4 font-mono"
       loading="lazy"
-      key={id}
     >
       <div className="mb-4">
+        <p>{id}</p>
         <p>
           {firstName} {lastName}
         </p>
@@ -36,6 +35,7 @@ export default function PaymentCardItem({
       <div>
         <div>
           <button
+            type="button"
             onClick={editHandler}
             className="border-black border-b-2 text-center"
           >
@@ -44,6 +44,7 @@ export default function PaymentCardItem({
         </div>
         <div>
           <button
+            type="button"
             onClick={deleteHandler}
             className="border-black border-b-2 text-center"
           >
