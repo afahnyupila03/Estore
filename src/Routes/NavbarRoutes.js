@@ -9,6 +9,7 @@ import AuthPage from "../Pages/Auth/Auth";
 import ProductDetails from "../Pages/ProductDetails/ProductDetails";
 import CategoryPage from "../Pages/Category/Category";
 import CheckOutForm from "../Pages/CartPage/CheckOutForm";
+import FAQ from "../Pages/Home/Layout/FAQ";
 
 export const NavbarRoutes = [
   {
@@ -69,4 +70,8 @@ export const NavbarRoutes = [
     path: "/sign-in-&-create-account",
     element: <AuthPage />,
   },
+  {
+    path: "/FAQ",
+    element: <FAQ />
+  }
 ];

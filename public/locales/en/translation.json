@@ -248,5 +248,52 @@
     "emptyWishlist": "Your wish list is empty.",
     "visitShop": "Visit shop to add products.",
     "share": "Share"
+  },
+  "faq": {
+    "frequentlyAsked": "Frequently Asked Questions.",
+    "questions": {
+      "returnPolicy": "What is the return policy?",
+      "trackOrder": "How can I track my order?",
+      "shipping": "Do you offer nation-wide and international shipping?",
+      "paymentMethods": "What are the accepted payment methods?",
+      "cancelOrder": "Can I change or cancel my order after it's been placed?",
+      "returnItem": "How do I return an item?",
+      "damagedItem": "What should I do if my item arrives damaged or defective?",
+      "wrappingServices": "Do you offer gift wrapping services?",
+      "shippingPolicy": "What is your shipping policy?",
+      "changeShippingAddress": "Can I change the shipping address after placing an order?",
+      "nationalReturns": "Do you offer national and international returns?",
+      "customerSupport": "How can I contact customer support?",
+      "additionalFees": "Are there any additional fees or taxes?",
+      "privacyPolicy": "What is your privacy policy?",
+      "discount": "Do you offer discounts for bulk orders?",
+      "changeItem": "Can I change the size or color of an item in my order?",
+      "warrantyPolicy": "What is your warranty policy?",
+      "priceMatching": "Do you offer price matching?",
+      "orderStatus": "How can I check the status of my order?",
+      "shippingOptions": "Do you offer expedited shipping options?"
+    },
+    "answers": {
+      "ourReturn": "Our return policy allows returns within 30 days of purchase.",
+      "trackingLink": "You can track your order using the tracking link provided in the confirmation email.",
+      "nation-wide": "Yes, we offer nation-wide and international shipping to select countries.",
+      "acceptPayments": "We accept payments via credit/debit cards, mobile operators such as MTN and ORANGE mobile money services.",
+      "ordersCannot": "Unfortunately, orders cannot be changed or canceled once they have been placed. Please review your order carefully before confirming.",
+      "returnItems": "To return an item, please contact our customer support team within 30 days of purchase. They will provide you with instructions on how to proceed with the return process.",
+      "damagedOrDefected": "If your item arrives damaged or defective, please contact our customer support team immediately. We will arrange for a replacement or refund as per our return policy.",
+      "offerGiftWrapping": "Yes, we offer gift wrapping services for an additional fee. You can select this option during the checkout process.",
+      "standardAndExpedited": "We offer standard and expedited shipping options. Standard shipping usually takes 5-10 business days, while expedited shipping takes 2-5 business days.",
+      "cannotChangeShippingAddress": "Unfortunately, we cannot change the shipping address once an order has been placed. Please ensure that the shipping address provided is accurate before confirming your order.",
+      "weAcceptNational": "Yes, we accept national and international returns. However, customers are responsible for any return shipping costs incurred.",
+      "contactCustomerTeam": "You can contact our customer support team via email at support@example.com or by phone at 1-800-123-4567.",
+      "pricesListed": "Prices listed on our website do not include taxes or additional fees. These charges may apply depending on your location and the items purchased.",
+      "policyOutlines": "Our privacy policy outlines how we collect, use, and protect your personal information. You can view our full privacy policy on our website.",
+      "offerDiscounts": "Yes, we offer discounts for bulk orders. Please contact our sales team for more information on pricing and discounts.",
+      "cannotModify": "Unfortunately, we cannot modify orders once they have been placed. Please ensure that the size and color selected are correct before confirming your order.",
+      "limitedWarranty": "We offer a limited warranty on select products. Please refer to the product description or contact our customer support team for more information on warranties.",
+      "priceMatching": "Yes, we offer price matching on select items. If you find the same product at a lower price elsewhere, please contact our customer support team for assistance.",
+      "checkStatus": "You can check the status of your order by logging into your account on our website or by contacting our customer support team.",
+      "expeditedShipping": "Yes, we offer expedited shipping options for an additional fee. You can select this option during the checkout process."
+    }
   }
 }

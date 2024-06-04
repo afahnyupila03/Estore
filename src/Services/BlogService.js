@@ -22,8 +22,8 @@ export const BlogServices = async () => {
       }
     }
     return articles;
-  } catch (error) {
-    return Promise.reject(error);
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 
@@ -45,7 +45,7 @@ export const BlogService = async (id) => {
       updatedAt: data.updated_at,
     };
     return blogPost;
-  } catch (error) {
-    return Promise.reject(error);
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };

@@ -1,3 +1,6 @@
+import i18n from "i18next";
+import { faqQuestionBase } from "../Pages/Home/components/FAQQuestionBase";
+
 export const getFeaturedProducts = async () => {
   try {
     const response = await fetch("https://dummyjson.com/products?limit=8");
@@ -24,7 +27,7 @@ export const getFeaturedProducts = async () => {
     }
     return productItems;
   } catch (err) {
-    return Promise.reject(err);
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 
@@ -54,6 +57,15 @@ export const getFeaturedProductService = async (id, title) => {
     };
     return product;
   } catch (err) {
-    return Promise.reject(err);
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
+};
+
+export const FAQServices = async (t) => {
+  // Simulating an async operation, as if fetching from an API
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(faqQuestionBase(t));
+    }, 500); // Delay to simulate network latency
+  });
 };

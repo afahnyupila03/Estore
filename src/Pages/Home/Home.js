@@ -11,7 +11,9 @@ import { useTranslation } from "react-i18next";
 
 export default function Home() {
   const { t } = useTranslation();
+
   const cateFeatures = CATEGORY_FEATURES(t);
+
   const {
     data = [],
     isError,
@@ -19,6 +21,7 @@ export default function Home() {
     error,
     refetch,
   } = useQuery("products", () => getFeaturedProducts());
+
   let productItems;
   if (isLoading) {
     productItems = (

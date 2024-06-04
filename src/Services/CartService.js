@@ -27,9 +27,8 @@ export const ViewCheckoutProducts = async (userId) => {
       });
     });
     return checkoutData;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 

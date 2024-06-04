@@ -248,5 +248,52 @@
     "emptyWishlist": "Votre liste de souhaits est vide.",
     "visitShop": "Visitez la boutique pour ajouter des produits.",
     "share": "Partager"
+  },
+  "faq": {
+    "frequentlyAsked": "Questions Fréquemment Posées.",
+    "questions": {
+      "returnPolicy": "Quelle est la politique de retour?",
+      "trackOrder": "Comment puis-je suivre ma commande?",
+      "shipping": "Offrez-vous des livraisons nationales et internationales?",
+      "paymentMethods": "Quels sont les modes de paiement acceptés?",
+      "cancelOrder": "Puis-je modifier ou annuler ma commande après l'avoir passée?",
+      "returnItem": "Comment puis-je retourner un article?",
+      "damagedItem": "Que dois-je faire si mon article arrive endommagé ou défectueux?",
+      "wrappingServices": "Proposez-vous des services d'emballage cadeau?",
+      "shippingPolicy": "Quelle est votre politique de livraison?",
+      "changeShippingAddress": "Puis-je changer l'adresse de livraison après avoir passé une commande?",
+      "nationalReturns": "Proposez-vous des retours nationaux et internationaux?",
+      "customerSupport": "Comment puis-je contacter le service client?",
+      "additionalFees": "Y a-t-il des frais supplémentaires ou des taxes?",
+      "privacyPolicy": "Quelle est votre politique de confidentialité?",
+      "discount": "Offrez-vous des réductions pour les commandes en gros?",
+      "changeItem": "Puis-je changer la taille ou la couleur d'un article dans ma commande?",
+      "warrantyPolicy": "Quelle est votre politique de garantie?",
+      "priceMatching": "Proposez-vous un alignement des prix?",
+      "orderStatus": "Comment puis-je vérifier le statut de ma commande?",
+      "shippingOptions": "Proposez-vous des options de livraison accélérée?"
+    },
+    "answers": {
+      "ourReturn": "Notre politique de retour permet les retours dans les 30 jours suivant l'achat.",
+      "trackingLink": "Vous pouvez suivre votre commande à l'aide du lien de suivi fourni dans l'e-mail de confirmation.",
+      "nation-wide": "Oui, nous offrons des livraisons nationales et internationales vers certains pays.",
+      "acceptPayments": "Nous acceptons les paiements par cartes de crédit/débit, ainsi que les services de paiement mobile tels que MTN et ORANGE Money.",
+      "ordersCannot": "Malheureusement, les commandes ne peuvent pas être modifiées ou annulées une fois qu'elles ont été passées. Veuillez vérifier votre commande attentivement avant de confirmer.",
+      "returnItems": "Pour retourner un article, veuillez contacter notre équipe de support client dans les 30 jours suivant l'achat. Ils vous fourniront des instructions sur la procédure de retour.",
+      "damagedOrDefected": "Si votre article arrive endommagé ou défectueux, veuillez contacter immédiatement notre équipe de support client. Nous organiserons un remplacement ou un remboursement conformément à notre politique de retour.",
+      "offerGiftWrapping": "Oui, nous offrons des services d'emballage cadeau moyennant des frais supplémentaires. Vous pouvez sélectionner cette option lors du processus de paiement.",
+      "standardAndExpedited": "Nous offrons des options de livraison standard et accélérée. La livraison standard prend généralement 5 à 10 jours ouvrables, tandis que la livraison accélérée prend 2 à 5 jours ouvrables.",
+      "cannotChangeShippingAddress": "Malheureusement, nous ne pouvons pas modifier l'adresse de livraison une fois la commande passée. Veuillez vous assurer que l'adresse de livraison fournie est correcte avant de confirmer votre commande.",
+      "weAcceptNational": "Oui, nous acceptons les retours nationaux et internationaux. Cependant, les clients sont responsables de tous les frais d'expédition de retour.",
+      "contactCustomerTeam": "Vous pouvez contacter notre équipe de support client par e-mail à support@example.com ou par téléphone au 1-800-123-4567.",
+      "pricesListed": "Les prix indiqués sur notre site Web n'incluent pas les taxes ou les frais supplémentaires. Ces frais peuvent s'appliquer en fonction de votre emplacement et des articles achetés.",
+      "policyOutlines": "Notre politique de confidentialité décrit comment nous collectons, utilisons et protégeons vos informations personnelles. Vous pouvez consulter notre politique de confidentialité complète sur notre site Web.",
+      "offerDiscounts": "Oui, nous offrons des réductions pour les commandes en gros. Veuillez contacter notre équipe commerciale pour plus d'informations sur les prix et les réductions.",
+      "cannotModify": "Malheureusement, nous ne pouvons pas modifier les commandes une fois qu'elles ont été passées. Veuillez vous assurer que la taille et la couleur sélectionnées sont correctes avant de confirmer votre commande.",
+      "limitedWarranty": "Nous offrons une garantie limitée sur certains produits. Veuillez vous référer à la description du produit ou contacter notre équipe de support client pour plus d'informations sur les garanties.",
+      "priceMatching": "Oui, nous offrons l'alignement des prix sur certains articles. Si vous trouvez le même produit à un prix inférieur ailleurs, veuillez contacter notre équipe de support client pour obtenir de l'aide.",
+      "checkStatus": "Vous pouvez vérifier le statut de votre commande en vous connectant à votre compte sur notre site Web ou en contactant notre équipe de support client.",
+      "expeditedShipping": "Oui, nous offrons des options de livraison accélérée moyennant des frais supplémentaires. Vous pouvez sélectionner cette option lors du processus de paiement."
+    }
   }
 }

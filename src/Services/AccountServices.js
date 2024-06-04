@@ -24,8 +24,8 @@ export const DeliveryServices = async (userId) => {
       });
     });
     return deliveryInfo;
-  } catch (error) {
-    return Promise.reject(error);
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 
@@ -53,8 +53,8 @@ export const DeliveryAddressService = async (userId, addressId) => {
     } else {
       return null || "Error loading address card details";
     }
-  } catch (error) {
-    return Promise.reject(error);
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 
@@ -80,8 +80,8 @@ export const PaymentMethodServices = async (userId) => {
     });
     // console.log(paymentInfo.)
     return paymentInfo;
-  } catch (error) {
-    return Promise.reject(error);
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 
@@ -107,8 +107,8 @@ export const PaymentMethodService = async (userId, paymentId) => {
     } else {
       return null || "Error loading payment card details";
     }
-  } catch (error) {
-    return Promise.reject(error);
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 
@@ -141,9 +141,8 @@ export const PurchaseServices = async (userId) => {
       });
     });
     return purchaseData;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 
@@ -178,7 +177,7 @@ export const PurchaseService = async (userId, serviceId) => {
     } else {
       return null || "Invoice doesn't exist";
     }
-  } catch (error) {
-    return Promise.reject(error);
+  } catch (err) {
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };

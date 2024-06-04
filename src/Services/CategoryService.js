@@ -28,7 +28,7 @@ export const CategoryService = async (category) => {
     }
     return smartphoneItems;
   } catch (err) {
-    return Promise.reject(err);
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 

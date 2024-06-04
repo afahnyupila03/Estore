@@ -99,11 +99,11 @@ export const CustomerServiceRoutes = (t) => [
     navRoute: "return-policy-&-exchanges",
   },
   {
-    navLink: t("home.priceAdjustments"),
+    navLink: t("home.priceAdjustment"),
     navRoute: "price-adjustments",
   },
   {
-    navLink: t("home.giftCards"),
+    navLink: t("home.giftCard"),
     navRoute: "gift-cards",
   },
   {
