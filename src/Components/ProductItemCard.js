@@ -236,7 +236,7 @@ export default function ProductItemCard({ productData }) {
           <img
             src={currImageIndex !== null ? images[currImageIndex] : thumbnail}
             alt={title}
-            loading="lazy"
+            loading="eager"
             className="object-fill h-80 rounded w-full"
           />
           <div className="flex items-center justify-center mt-4">

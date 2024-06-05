@@ -13,7 +13,7 @@ export const NavbarRoutes = (t) => [
   },
   {
     navLink: t("navbar.latest"),
-    navRoute: "latest",
+    navRoute: "latest-products",
   },
   {
     navLink: t("navbar.blog"),

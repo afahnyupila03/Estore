@@ -46,7 +46,7 @@ export const NavbarRoutes = [
     element: <Blog />,
   },
   {
-    path: "/latest",
+    path: "/latest-products",
     element: <Latest />,
   },
   {
