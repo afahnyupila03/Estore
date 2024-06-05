@@ -18,11 +18,7 @@ export const NavbarRoutes = (t) => [
   {
     navLink: t("navbar.blog"),
     navRoute: "blog",
-  },
-  {
-    navLink: t("navbar.contact"),
-    navRoute: "contact",
-  },
+  }
 ];
 
 export const AuthRoute = (t) => [

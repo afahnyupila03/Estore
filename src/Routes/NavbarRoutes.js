@@ -1,5 +1,4 @@
 import Blog from "../Pages/Blog/Blog";
-import Contact from "../Pages/Contact/Contact";
 import Shop from "../Pages/Shop/Shop";
 import Latest from "../Pages/Latest/Latest";
 import Home from "../Pages/Home/Home";
@@ -43,10 +42,6 @@ export const NavbarRoutes = [
     element: <About />,
   },
   {
-    path: "/contact",
-    element: <Contact />,
-  },
-  {
     path: "/blog",
     element: <Blog />,
   },
@@ -56,7 +51,7 @@ export const NavbarRoutes = [
   },
   {
     path: "/cart/sign-in-&-create-account",
-    element: <AuthPage />
+    element: <AuthPage />,
   },
   {
     path: "/cart",
@@ -64,7 +59,7 @@ export const NavbarRoutes = [
   },
   {
     path: "/checkout-form",
-    element: <CheckOutForm />
+    element: <CheckOutForm />,
   },
   {
     path: "/sign-in-&-create-account",
@@ -72,6 +67,6 @@ export const NavbarRoutes = [
   },
   {
     path: "/FAQ",
-    element: <FAQ />
-  }
+    element: <FAQ />,
+  },
 ];
