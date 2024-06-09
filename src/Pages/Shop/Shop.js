@@ -1,11 +1,5 @@
 import React from "react";
-import { useQuery } from "react-query";
-import UseAnimation from "../../Components/Loader";
-import loading from "react-useanimations/lib/loading";
-import { ShopProductsService } from "../../Services/ShopService";
-import { Link } from "react-router-dom";
-import ProductItemCard from "../../Components/ProductItemCard";
-
+import { Link, Outlet } from "react-router-dom";
 import { Sidebar } from "flowbite-react";
 import { FaSprayCan } from "react-icons/fa";
 import { GiWoodenChair } from "react-icons/gi";
@@ -45,24 +39,15 @@ import { useTranslation } from "react-i18next";
 const Shop = () => {
   const { t } = useTranslation();
 
-  const {
-    data = {},
-    isLoading,
-    isError,
-    error,
-    refetch,
-  } = useQuery("shopProducts", () => ShopProductsService());
-  console.log(data);
-
   const Accessories = AccessoriesRoute(t, FaKitchenSet, FaMobile, IoFitness);
   const AutoMobile = AutoMobileRoutes(t, IoCarSport, FaMotorcycle);
   const Electronics = ElectronicRoutes(
     t,
     IoLaptop,
-    IoTabletLandscape,
-    FaMobile
+    FaMobile,
+    IoTabletLandscape
   );
-  const Men = MenRoutes(t, IoWatchSharp, FaShoePrints, FaShirt);
+  const Men = MenRoutes(t, FaShoePrints, FaShirt, IoWatchSharp);
   const Women = WomenRoutes(
     t,
     IoSparkles,
@@ -73,39 +58,18 @@ const Shop = () => {
     IoWatchSharp
   );
 
-  let shopProducts;
-
-  if (isLoading) {
-    shopProducts = <UseAnimation animation={loading} size={60} />;
-  } else if (isError) {
-    shopProducts = (
-      <div>
-        <p>{error}</p>
-        <button onClick={() => refetch()}>Try again</button>
-      </div>
-    );
-  } else {
-    shopProducts = (
-      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        {data.map((shopItems) => (
-          <ProductItemCard productData={shopItems} key={shopItems.id} />
-        ))}
-      </div>
-    );
-  }
-
   const iconSize = 20;
   const classStyle = "mr-4";
-  const divClass = "flex items-center";
+  const divClass = "flex";
   const sideBarClass = "text-lg";
 
   return (
-    <div className="flex items-center">
-      <Sidebar aria-label="Sidebar with content separator example">
+    <div className="flex">
+      <Sidebar aria-label="product-category">
         <Sidebar.Items>
           <Sidebar.ItemGroup>
             <Sidebar.Collapse
-              label="Accessories"
+              label={t("category.access")}
               className={twMerge(sideBarClass)}
               renderChevronIcon={(theme, open) => {
                 return open ? (
@@ -122,202 +86,206 @@ const Shop = () => {
               }}
             >
               {Accessories.map((accessories) => (
-                <Sidebar.Item
+                <Link
                   key={accessories.name}
-                  className={`${sideBarClass}`}
-                  href={accessories.route}
+                  className={sideBarClass}
+                  to={accessories.route}
                 >
-                  <div className={`${divClass}`}>
+                  <div className={`${divClass} mb-2`}>
                     {React.createElement(accessories.icon, {
                       className: classStyle,
                       size: iconSize,
                     })}
                     {accessories.name}
                   </div>
-                </Sidebar.Item>
+                </Link>
               ))}
             </Sidebar.Collapse>
 
             <Sidebar.Collapse
-              label="Automobiles"
+              label={t("category.automobiles")}
+              className={twMerge(sideBarClass)}
               renderChevronIcon={(theme, open) => {
-                const IconComponent = open ? HiOutlineMinusSm : HiOutlinePlusSm;
-
-                return (
-                  <IconComponent
-                    aria-hidden
-                    className={twMerge(
-                      theme.label.icon.open[open ? "on" : "off"]
-                    )}
+                return open ? (
+                  <HiOutlineMinusSm
+                    size={iconSize}
+                    className={twMerge("ml-1", theme.label.icon.open["on"])}
+                  />
+                ) : (
+                  <HiOutlinePlusSm
+                    size={iconSize}
+                    className={twMerge("ml-1", theme.label.icon.open["off"])}
                   />
                 );
               }}
             >
               {AutoMobile.map((automobiles) => (
-                <Sidebar.Item
+                <Link
                   key={automobiles.name}
-                  className={`${sideBarClass}`}
-                  href={automobiles.route}
+                  className={sideBarClass}
+                  to={automobiles.route}
                 >
-                  <div className={`${divClass}`}>
+                  <div className={`${divClass} mb-2`}>
                     {React.createElement(automobiles.icon, {
                       className: classStyle,
                       size: iconSize,
                     })}
                     {automobiles.name}
                   </div>
-                </Sidebar.Item>
+                </Link>
               ))}
             </Sidebar.Collapse>
 
             <Sidebar.Collapse
-              label="Electronics"
+              label={t("category.electronics")}
+              className={twMerge(sideBarClass)}
               renderChevronIcon={(theme, open) => {
-                const IconComponent = open ? HiOutlineMinusSm : HiOutlinePlusSm;
-
-                return (
-                  <IconComponent
-                    aria-hidden
-                    className={twMerge(
-                      theme.label.icon.open[open ? "on" : "off"]
-                    )}
+                return open ? (
+                  <HiOutlineMinusSm
+                    size={iconSize}
+                    className={twMerge("ml-1", theme.label.icon.open["on"])}
+                  />
+                ) : (
+                  <HiOutlinePlusSm
+                    size={iconSize}
+                    className={twMerge("ml-1", theme.label.icon.open["off"])}
                   />
                 );
               }}
             >
               {Electronics.map((electronics) => (
-                <Sidebar.Item
+                <Link
                   key={electronics.name}
-                  className={`${sideBarClass}`}
-                  href={electronics.route}
+                  className={sideBarClass}
+                  to={electronics.route}
                 >
-                  <div className={`${divClass}`}>
+                  <div className={`${divClass} mb-2`}>
                     {React.createElement(electronics.icon, {
                       className: classStyle,
                       size: iconSize,
                     })}
                     {electronics.name}
                   </div>
-                </Sidebar.Item>
+                </Link>
               ))}
             </Sidebar.Collapse>
 
-            <Sidebar.Item className={`${sideBarClass}`} href="#">
-              <div className={`${divClass}`}>
-                <FaSprayCan className={`${classStyle}`} size={iconSize} />
-                Fragrances
+            <Link className={sideBarClass} to="/shop/fragrances">
+              <div className={`${divClass} mb-2`}>
+                <FaSprayCan className={classStyle} size={iconSize} />
+                {t("category.fragrances")}
               </div>
-            </Sidebar.Item>
+            </Link>
 
-            <Sidebar.Item className={`${sideBarClass}`} href="#">
-              <div className={`${divClass}`}>
-                <GiWoodenChair className={`${classStyle}`} size={iconSize} />
-                Furniture
+            <Link className={sideBarClass} to="/shop/furniture">
+              <div className={`${divClass} mb-2`}>
+                <GiWoodenChair className={classStyle} size={iconSize} />
+                {t("category.furniture")}
               </div>
-            </Sidebar.Item>
+            </Link>
 
-            <Sidebar.Item className={`${sideBarClass}`} href="#">
-              <div className="flex items-center">
-                <MdLocalGroceryStore
-                  className={`${classStyle}`}
-                  size={iconSize}
-                />
-                Groceries
+            <Link className={sideBarClass} to="/shop/groceries">
+              <div className={`${divClass} mb-2`}>
+                <MdLocalGroceryStore className={classStyle} size={iconSize} />
+                {t("category.groceries")}
               </div>
-            </Sidebar.Item>
+            </Link>
 
-            <Sidebar.Item className={`${sideBarClass}`} href="#">
-              <div className={`${divClass}`}>
-                <IoHome className={`${classStyle}`} size={iconSize} />
-                Home Decoration
+            <Link className={sideBarClass} to="/shop/home-decoration">
+              <div className={`${divClass} mb-2`}>
+                <IoHome className={classStyle} size={iconSize} />
+                {t("category.homeDeco")}
               </div>
-            </Sidebar.Item>
+            </Link>
 
             <Sidebar.Collapse
-              label="Men"
+              label={t("category.men")}
+              className={twMerge(sideBarClass)}
               renderChevronIcon={(theme, open) => {
-                const IconComponent = open ? HiOutlineMinusSm : HiOutlinePlusSm;
-
-                return (
-                  <IconComponent
-                    aria-hidden
-                    className={twMerge(
-                      theme.label.icon.open[open ? "on" : "off"]
-                    )}
+                return open ? (
+                  <HiOutlineMinusSm
+                    size={iconSize}
+                    className={twMerge("ml-1", theme.label.icon.open["on"])}
+                  />
+                ) : (
+                  <HiOutlinePlusSm
+                    size={iconSize}
+                    className={twMerge("ml-1", theme.label.icon.open["off"])}
                   />
                 );
               }}
             >
               {Men.map((men) => (
-                <Sidebar.Item
-                  key={men.name}
-                  className={`${sideBarClass}`}
-                  href={men.route}
-                >
-                  <div className={`${divClass}`}>
+                <Link key={men.name} className={sideBarClass} to={men.route}>
+                  <div className={`${divClass} mb-2`}>
                     {React.createElement(men.icon, {
                       className: classStyle,
                       size: iconSize,
                     })}
                     {men.name}
                   </div>
-                </Sidebar.Item>
+                </Link>
               ))}
             </Sidebar.Collapse>
 
-            <Sidebar.Item className={`${sideBarClass}`} href="#">
-              <div className={`${divClass}`}>
-                <FaHandSparkles className={`${classStyle}`} size={iconSize} />
-                Skincare
+            <Link className={sideBarClass} to="/shop/skin-care">
+              <div className={`${divClass} mb-2`}>
+                <FaHandSparkles className={classStyle} size={iconSize} />
+                {t("category.skinCare")}
               </div>
-            </Sidebar.Item>
+            </Link>
 
-            <Sidebar.Item className={`${sideBarClass}`} href="#">
-              <div className={`${divClass}`}>
-                <IoGlasses className={`${classStyle}`} size={iconSize} />
-                Sunglasses
+            <Link className={sideBarClass} to="/shop/sunglasses">
+              <div className={`${divClass} mb-2`}>
+                <IoGlasses className={classStyle} size={iconSize} />
+                {t("category.sunShades")}
               </div>
-            </Sidebar.Item>
+            </Link>
 
             <Sidebar.Collapse
-              label="Women"
+              label={t("category.women")}
+              className={twMerge(sideBarClass)}
               renderChevronIcon={(theme, open) => {
-                const IconComponent = open ? HiOutlineMinusSm : HiOutlinePlusSm;
-
-                return (
-                  <IconComponent
-                    aria-hidden
-                    className={twMerge(
-                      theme.label.icon.open[open ? "on" : "off"]
-                    )}
+                return open ? (
+                  <HiOutlineMinusSm
+                    size={iconSize}
+                    className={twMerge("ml-1", theme.label.icon.open["on"])}
+                  />
+                ) : (
+                  <HiOutlinePlusSm
+                    size={iconSize}
+                    className={twMerge("ml-1", theme.label.icon.open["off"])}
                   />
                 );
               }}
             >
               {Women.map((women) => (
-                <Sidebar.Item
+                <Link
                   key={women.name}
-                  className={`${sideBarClass}`}
-                  href={women.route}
+                  className={sideBarClass}
+                  to={women.route}
                 >
-                  <div className={`${divClass}`}>
+                  <div className={`${divClass} mb-2`}>
                     {React.createElement(women.icon, {
                       className: classStyle,
                       size: iconSize,
                     })}
                     {women.name}
                   </div>
-                </Sidebar.Item>
+                </Link>
               ))}
             </Sidebar.Collapse>
           </Sidebar.ItemGroup>
         </Sidebar.Items>
       </Sidebar>
-      <div>
-        <h1>Shop Page</h1>
+
+      <div className="px-6">
+        <Outlet />
       </div>
     </div>
   );
 };
 
 export default Shop;
+
+// DELIVERY-ICON: import { MdDeliveryDining } from "react-icons/md";

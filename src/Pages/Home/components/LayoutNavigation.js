@@ -133,17 +133,17 @@ export const AccessoriesRoute = (t, kitchen, mobile, sports) => [
   {
     icon: kitchen,
     name: t("category.kitchenAccess"),
-    route: "/kitchen-accessories",
+    route: "/shop/kitchen-accessories",
   },
   {
     icon: mobile,
     name: t("category.mobileAccess"),
-    route: "/mobile-accessories",
+    route: "/shop/mobile-accessories",
   },
   {
     icon: sports,
     name: t("category.sportsAccess"),
-    route: "/sport-accessories",
+    route: "/shop/sport-accessories",
   },
 ];
 
@@ -151,12 +151,12 @@ export const AutoMobileRoutes = (t, vehicle, bike) => [
   {
     icon: bike,
     name: t("category.motorcycle"),
-    route: "/motorcycles",
+    route: "/shop/motorcycles",
   },
   {
     icon: vehicle,
     name: t("category.vehicle"),
-    route: "/vehicle",
+    route: "/shop/vehicle",
   },
 ];
 
@@ -164,17 +164,17 @@ export const ElectronicRoutes = (t, laptop, smartphone, tablet) => [
   {
     icon: laptop,
     name: t("category.laptops"),
-    route: "/laptops",
+    route: "/shop/laptops",
   },
   {
     icon: smartphone,
     name: t("category.smartphones"),
-    route: "/smartphones",
+    route: "/shop/smartphones",
   },
   {
     icon: tablet,
-    name: t("category.tablet"),
-    route: "/tablets",
+    name: t("category.tablets"),
+    route: "/shop/tablets",
   },
 ];
 
@@ -182,17 +182,17 @@ export const MenRoutes = (t, footwear, shirts, watches) => [
   {
     icon: footwear,
     name: t("category.menFoot"),
-    route: "/men-footwear",
+    route: "/shop/men-footwear",
   },
   {
     icon: shirts,
     name: t("category.menShirts"),
-    route: "/men-shirts",
+    route: "/shop/men-shirts",
   },
   {
     icon: watches,
     name: t("category.menWatches"),
-    route: "/men-watches",
+    route: "/shop/men-watches",
   },
 ];
 
@@ -208,7 +208,7 @@ export const WomenRoutes = (
   {
     icon: beauty,
     name: t("category.beauty"),
-    route: "/beauty",
+    route: "/shop/beauty",
   },
   {
     icon: bags,
@@ -218,26 +218,26 @@ export const WomenRoutes = (
   {
     icon: cloths,
     name: t("category.womenCloths"),
-    route: "/women-cloths",
+    route: "/shop/women-cloths",
   },
   {
     icon: footwear,
     name: t("category.womenFoot"),
-    route: "/women-footwear",
+    route: "/shop/women-footwear",
   },
   {
     icon: jewelry,
     name: t("category.womenJewelry"),
-    route: "/women-jewelry",
+    route: "/shop/women-jewelry",
   },
   {
     icon: cloths,
     name: t("category.tops"),
-    route: "/tops",
+    route: "/shop/tops",
   },
   {
     icon: watches,
     name: t("category.womenWatches"),
-    route: "/women-watches",
+    route: "/shop/women-watches",
   },
 ];

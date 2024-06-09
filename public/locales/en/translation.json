@@ -59,7 +59,12 @@
     "beauty": "Beauty",
     "kitchenAccess": "Kitchen Accessories",
     "mobileAccess": "Mobile Accessories",
-    "sportsAccess": "Sports Accessories"
+    "sportsAccess": "Sports Accessories",
+    "access": "Accessories",
+    "automobiles": "Automobiles",
+    "electronics": "Electronics",
+    "men": "Men",
+    "women": "Women"
   },
   "home": {
     "featuredProducts": "Featured Products",

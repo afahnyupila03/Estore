@@ -35,6 +35,12 @@ export const NavbarRoutes = [
   {
     path: "/shop",
     element: <Shop />,
+    children: [
+      {
+        path: "/shop/:category",
+        element: <CategoryPage />,
+      },
+    ],
   },
 
   {
