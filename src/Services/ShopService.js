@@ -1,36 +1,58 @@
-export const ShopProductsService = async () => {
+export const ShopProductsServices = async () => {
   try {
-    const response = await fetch("https://fakestoreapi.com/products");
+    const response = await fetch('https://dummyjson.com/products?limit=28&skip=28&sortBy=title&order=asc');
     const data = await response.json();
-    const shopProducts = [];
-    for (const shopItemKeys in data) {
-      shopProducts.push({
-        id: shopItemKeys,
-        title: data[shopItemKeys].title,
-        price: data[shopItemKeys].price,
-        image: data[shopItemKeys].image,
-        category: data[shopItemKeys].category,
-      });
+    const productData = data.products;
+    const productItems = [];
+    for (const key in productData) {
+      if (productData.hasOwnProperty(key)) {
+        productItems.push({
+          id: productData[key].id,
+          title: productData[key].title,
+          thumbnail: productData[key].thumbnail,
+          price: productData[key].price,
+          brand: productData[key].brand,
+          description: productData[key].description,
+          category: productData[key].category,
+          discountPercentage: productData[key].discountPercentage,
+          images: productData[key].images,
+          rating: productData[key].rating,
+          stock: productData[key].stock,
+          quantity: productData[key].quantity,
+        });
+      }
     }
-    return shopProducts;
+    return productItems;
   } catch (err) {
     return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };
 
-export const shopProductService = async (id) => {
+export const shopProductService = async (id, title) => {
   try {
-    const response = await fetch(`https://fakestoreapi.com/products/${id}`);
+    const response = await fetch(
+      `https://dummyjson.com/products/${id}?title=${title}`
+    );
+
     const data = await response.json();
-    const products = {
+    const dataProduct = data.product;
+    console.log("Data detail call: ", data);
+    console.log("Product Detail Call:", dataProduct);
+    const product = {
       id: id,
-      title: data.title,
-      category: data.category,
-      image: data.image,
-      description: data.description,
+      title: title,
+      thumbnail: data.thumbnail,
       price: data.price,
+      brand: data.brand,
+      description: data.description,
+      category: data.category,
+      discountPercentage: data.discountPercentage,
+      images: data.images,
+      rating: data.rating,
+      stock: data.stock,
+      quantity: data.quantity,
     };
-    return products;
+    return product;
   } catch (err) {
     return Promise.reject(err instanceof Error ? err : new Error(err));
   }

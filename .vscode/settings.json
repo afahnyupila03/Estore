@@ -3,6 +3,7 @@
         "chatbubbles",
         "Firesbase",
         "Firestore",
+        "flowbite",
         "Formik",
         "frontleft",
         "Furnitures",
@@ -14,6 +15,7 @@
         "Junghans",
         "labelledby",
         "MOMO",
+        "tailwindcss",
         "womens"
     ]
 }

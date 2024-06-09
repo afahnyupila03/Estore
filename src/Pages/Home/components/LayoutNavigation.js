@@ -13,15 +13,11 @@ export const NavbarRoutes = (t) => [
   },
   {
     navLink: t("navbar.latest"),
-    navRoute: "latest",
+    navRoute: "latest-products",
   },
   {
     navLink: t("navbar.blog"),
     navRoute: "blog",
-  },
-  {
-    navLink: t("navbar.contact"),
-    navRoute: "contact",
   },
 ];
 
@@ -131,4 +127,117 @@ export const AboutRoutes = (t) => [
   { navLink: t("home.timezoneBlog"), navRoute: "blog" },
   { navLink: t("home.theThread"), navRoute: "thread" },
   { navLink: t("home.timezonePodcast"), navRoute: "podcast" },
+];
+
+export const AccessoriesRoute = (t, kitchen, mobile, sports) => [
+  {
+    icon: kitchen,
+    name: t("category.kitchenAccess"),
+    route: "/shop/kitchen-accessories",
+  },
+  {
+    icon: mobile,
+    name: t("category.mobileAccess"),
+    route: "/shop/mobile-accessories",
+  },
+  {
+    icon: sports,
+    name: t("category.sportsAccess"),
+    route: "/shop/sports-accessories",
+  },
+];
+
+export const AutoMobileRoutes = (t, vehicle, bike) => [
+  {
+    icon: bike,
+    name: t("category.motorcycle"),
+    route: "/shop/motorcycle",
+  },
+  {
+    icon: vehicle,
+    name: t("category.vehicle"),
+    route: "/shop/vehicle",
+  },
+];
+
+export const ElectronicRoutes = (t, laptop, smartphone, tablet) => [
+  {
+    icon: laptop,
+    name: t("category.laptops"),
+    route: "/shop/laptops",
+  },
+  {
+    icon: smartphone,
+    name: t("category.smartphones"),
+    route: "/shop/smartphones",
+  },
+  {
+    icon: tablet,
+    name: t("category.tablets"),
+    route: "/shop/tablets",
+  },
+];
+
+export const MenRoutes = (t, footwear, shirts, watches) => [
+  {
+    icon: footwear,
+    name: t("category.menFoot"),
+    route: "/shop/mens-shoes",
+  },
+  {
+    icon: shirts,
+    name: t("category.menShirts"),
+    route: "/shop/mens-shirts",
+  },
+  {
+    icon: watches,
+    name: t("category.menWatches"),
+    route: "/shop/mens-watches",
+  },
+];
+
+export const WomenRoutes = (
+  t,
+  beauty,
+  bags,
+  cloths,
+  footwear,
+  jewelry,
+  watches
+) => [
+  {
+    icon: beauty,
+    name: t("category.beauty"),
+    route: "/shop/beauty",
+  },
+  {
+    icon: bags,
+    name: t("category.womenBags"),
+    route: "/shop/womens-bags",
+  },
+  {
+    icon: cloths,
+    name: t("category.womenCloths"),
+    route: "/shop/womens-dresses",
+  },
+  {
+    icon: footwear,
+    name: t("category.womenFoot"),
+    route: "/shop/womens-shoes",
+  },
+  {
+    icon: jewelry,
+    name: t("category.womenJewelry"),
+    route: "/shop/womens-jewellery",
+  },
+  {
+    icon: cloths,
+    name: t("category.tops"),
+    route: "/shop/tops",
+  },
+  {
+    icon: watches,
+    name: t("category.womenWatches"),
+    route: "/shop/womens-watches",
+  },
 ];

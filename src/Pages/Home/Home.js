@@ -6,7 +6,7 @@ import ProductItemCard from "../../Components/ProductItemCard";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import ProductCategoryCardItem from "../../Components/ProductCategoryCardItem";
-import { CATEGORY_FEATURES } from "./Layout/CategoryNavigation";
+import { CATEGORY_FEATURES } from "./components/CategoryNavigation";
 import { useTranslation } from "react-i18next";
 
 export default function Home() {
