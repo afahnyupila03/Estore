@@ -1,5 +1,7 @@
 import React from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Outlet, useLocation } from "react-router-dom";
+import { ShopProductsServices } from "../../Services/ShopService";
+import { useQuery } from "react-query";
 import { Sidebar } from "flowbite-react";
 import { FaSprayCan } from "react-icons/fa";
 import { GiWoodenChair } from "react-icons/gi";
@@ -36,8 +38,48 @@ import {
 } from "../Home/components/LayoutNavigation";
 import { useTranslation } from "react-i18next";
 
+import ProductItemCard from "../../Components/ProductItemCard";
+import UseAnimation from "../../Components/Loader";
+import loading from "react-useanimations/lib/loading";
+
 const Shop = () => {
   const { t } = useTranslation();
+
+  const { data, isLoading, isError, error, refetch } = useQuery(
+    "shopProducts",
+    () => ShopProductsServices()
+  );
+
+  let shopProducts;
+
+  if (isLoading) {
+    shopProducts = (
+      <div className="flex justify-center">
+        <p>{error}</p>
+        <UseAnimation
+          animation={loading}
+          className="text-red-5000"
+          color="red"
+          size={100}
+        />
+      </div>
+    );
+  } else if (isError) {
+    shopProducts = (
+      <div className="flex justify-center">
+        <p>{error}</p>
+        <button onClick={() => refetch()}>Try again</button>
+      </div>
+    );
+  } else {
+    shopProducts = (
+      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+        {data.map((products) => (
+          <ProductItemCard productData={products} key={products.id} />
+        ))}
+      </div>
+    );
+  }
 
   const Accessories = AccessoriesRoute(t, FaKitchenSet, FaMobile, IoFitness);
   const AutoMobile = AutoMobileRoutes(t, IoCarSport, FaMotorcycle);
@@ -57,6 +99,22 @@ const Shop = () => {
     GiNecklaceDisplay,
     IoWatchSharp
   );
+
+  const categoryRoutes = [
+    "/shop/fragrances",
+    "/shop/furniture",
+    "/shop/groceries",
+    "/shop/home-decoration",
+    "/shop/skin-care",
+    "/shop/sunglasses",
+    ...Accessories.map((item) => item.route),
+    ...AutoMobile.map((item) => item.route),
+    ...Electronics.map((item) => item.route),
+    ...Men.map((item) => item.route),
+    ...Women.map((item) => item.route),
+  ];
+
+  const isCategoryActive = categoryRoutes.includes(location.pathname);
 
   const iconSize = 20;
   const classStyle = "mr-4";
@@ -279,9 +337,7 @@ const Shop = () => {
         </Sidebar.Items>
       </Sidebar>
 
-      <div className="px-6">
-        <Outlet />
-      </div>
+      <div className="px-6">{isCategoryActive ? <Outlet /> : shopProducts}</div>
     </div>
   );
 };
