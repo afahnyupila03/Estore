@@ -143,7 +143,7 @@ export const AccessoriesRoute = (t, kitchen, mobile, sports) => [
   {
     icon: sports,
     name: t("category.sportsAccess"),
-    route: "/shop/sport-accessories",
+    route: "/shop/sports-accessories",
   },
 ];
 
@@ -151,7 +151,7 @@ export const AutoMobileRoutes = (t, vehicle, bike) => [
   {
     icon: bike,
     name: t("category.motorcycle"),
-    route: "/shop/motorcycles",
+    route: "/shop/motorcycle",
   },
   {
     icon: vehicle,
@@ -182,17 +182,17 @@ export const MenRoutes = (t, footwear, shirts, watches) => [
   {
     icon: footwear,
     name: t("category.menFoot"),
-    route: "/shop/men-footwear",
+    route: "/shop/mens-shoes",
   },
   {
     icon: shirts,
     name: t("category.menShirts"),
-    route: "/shop/men-shirts",
+    route: "/shop/mens-shirts",
   },
   {
     icon: watches,
     name: t("category.menWatches"),
-    route: "/shop/men-watches",
+    route: "/shop/mens-watches",
   },
 ];
 
@@ -213,22 +213,22 @@ export const WomenRoutes = (
   {
     icon: bags,
     name: t("category.womenBags"),
-    route: "/women-bags",
+    route: "/shop/womens-bags",
   },
   {
     icon: cloths,
     name: t("category.womenCloths"),
-    route: "/shop/women-cloths",
+    route: "/shop/womens-dresses",
   },
   {
     icon: footwear,
     name: t("category.womenFoot"),
-    route: "/shop/women-footwear",
+    route: "/shop/womens-shoes",
   },
   {
     icon: jewelry,
     name: t("category.womenJewelry"),
-    route: "/shop/women-jewelry",
+    route: "/shop/womens-jewellery",
   },
   {
     icon: cloths,
@@ -238,6 +238,6 @@ export const WomenRoutes = (
   {
     icon: watches,
     name: t("category.womenWatches"),
-    route: "/shop/women-watches",
+    route: "/shop/womens-watches",
   },
 ];
