@@ -1,6 +1,6 @@
 export const ShopProductsServices = async () => {
   try {
-    const response = await fetch('https://dummyjson.com/products?limit=28&skip=28&sortBy=title&order=asc');
+    const response = await fetch('https://dummyjson.com/products?limit=12&skip=32&sortBy=title&order=asc');
     const data = await response.json();
     const productData = data.products;
     const productItems = [];

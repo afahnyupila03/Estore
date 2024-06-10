@@ -166,7 +166,7 @@ export default function () {
 const REDUCED_CHARS = (name) => {
   const MAX_CHARS = 20;
   if (name.length > MAX_CHARS) {
-    return `${name.slice(0, MAX_CHARS)}...`
+    return `${name.slice(0, MAX_CHARS)}...`;
   }
   return name;
-}
+};
