@@ -21,6 +21,17 @@ export const getFeaturedProducts = async () => {
           rating: productData[key].rating,
           stock: productData[key].stock,
           quantity: productData[key].quantity,
+          availabilityStatus: productData[key].availabilityStatus,
+          dimensions: productData[key].dimensions,
+          meta: productData[key].meta,
+          minimumOrderQuantity: productData[key].minimumOrderQuantity,
+          returnPolicy: productData[key].returnPolicy,
+          reviews: productData[key].reviews,
+          shippingInformation: productData[key].shippingInformation,
+          sku: productData[key].sku,
+          tags: productData[key].tags,
+          warrantyInformation: productData[key].warrantyInformation,
+          weight: productData[key].weight,
         });
       }
     }
@@ -53,6 +64,17 @@ export const getFeaturedProductService = async (id, title) => {
       rating: data.rating,
       stock: data.stock,
       quantity: data.quantity,
+      availabilityStatus: data.availabilityStatus,
+      dimensions: data.dimensions,
+      meta: data.meta,
+      minimumOrderQuantity: data.minimumOrderQuantity,
+      returnPolicy: data.returnPolicy,
+      reviews: data.reviews,
+      shippingInformation: data.shippingInformation,
+      sku: data.sku,
+      tags: data.tags,
+      warrantyInformation: data.warrantyInformation,
+      weight: data.weight,
     };
     return product;
   } catch (err) {
@@ -62,7 +84,9 @@ export const getFeaturedProductService = async (id, title) => {
 
 export const getLatestProducts = async () => {
   try {
-    const response = await fetch("https://dummyjson.com/products?limit=28&skip=9");
+    const response = await fetch(
+      "https://dummyjson.com/products?limit=28&skip=9"
+    );
     const data = await response.json();
     const productData = data.products;
     const productItems = [];
@@ -81,6 +105,17 @@ export const getLatestProducts = async () => {
           rating: productData[key].rating,
           stock: productData[key].stock,
           quantity: productData[key].quantity,
+          availabilityStatus: productData[key].availabilityStatus,
+          dimensions: productData[key].dimensions,
+          meta: productData[key].meta,
+          minimumOrderQuantity: productData[key].minimumOrderQuantity,
+          returnPolicy: productData[key].returnPolicy,
+          reviews: productData[key].reviews,
+          shippingInformation: productData[key].shippingInformation,
+          sku: productData[key].sku,
+          tags: productData[key].tags,
+          warrantyInformation: productData[key].warrantyInformation,
+          weight: productData[key].weight,
         });
       }
     }
@@ -113,6 +148,17 @@ export const getLatestProduct = async (id, title) => {
       rating: data.rating,
       stock: data.stock,
       quantity: data.quantity,
+      availabilityStatus: data.availabilityStatus,
+      dimensions: data.dimensions,
+      meta: data.meta,
+      minimumOrderQuantity: data.minimumOrderQuantity,
+      returnPolicy: data.returnPolicy,
+      reviews: data.reviews,
+      shippingInformation: data.shippingInformation,
+      sku: data.sku,
+      tags: data.tags,
+      warrantyInformation: data.warrantyInformation,
+      weight: data.weight,
     };
     return product;
   } catch (err) {
