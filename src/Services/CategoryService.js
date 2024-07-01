@@ -23,6 +23,17 @@ export const CategoryService = async (category) => {
           discountPercentage: productData[smartphoneKey].discountPercentage,
           rating: productData[smartphoneKey].rating,
           stock: productData[smartphoneKey].stock,
+          availabilityStatus: productData[smartphoneKey].availabilityStatus,
+          dimensions: productData[smartphoneKey].dimensions,
+          meta: productData[smartphoneKey].meta,
+          minimumOrderQuantity: productData[smartphoneKey].minimumOrderQuantity,
+          returnPolicy: productData[smartphoneKey].returnPolicy,
+          reviews: productData[smartphoneKey].reviews,
+          shippingInformation: productData[smartphoneKey].shippingInformation,
+          sku: productData[smartphoneKey].sku,
+          tags: productData[smartphoneKey].tags,
+          warrantyInformation: productData[smartphoneKey].warrantyInformation,
+          weight: productData[smartphoneKey].weight,
         });
       }
     }
@@ -54,9 +65,21 @@ export const CategoryServiceItem = async (category, id, title) => {
       images: data.images,
       rating: data.rating,
       stock: data.stock,
+      quantity: data.quantity,
+      availabilityStatus: data.availabilityStatus,
+      dimensions: data.dimensions,
+      meta: data.meta,
+      minimumOrderQuantity: data.minimumOrderQuantity,
+      returnPolicy: data.returnPolicy,
+      reviews: data.reviews,
+      shippingInformation: data.shippingInformation,
+      sku: data.sku,
+      tags: data.tags,
+      warrantyInformation: data.warrantyInformation,
+      weight: data.weight,
     };
     return product;
   } catch (err) {
-    return Promise.reject(err);
+    return Promise.reject(err instanceof Error ? err : new Error(err));
   }
 };

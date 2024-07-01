@@ -27,8 +27,8 @@ export default function ProductCategoryCardItem({ categoryData }) {
 
 
 const REDUCE_TITLE = name => {
-  const MAX_CHARS = 15;
-  if (name.trim().length > MAX_CHARS) {
+  const MAX_CHARS = 12;
+  if (name.length > MAX_CHARS) {
     return `${name.slice(0, MAX_CHARS)}...`
   };
   return name;

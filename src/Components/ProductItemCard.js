@@ -101,6 +101,7 @@ export default function ProductItemCard({ productData }) {
   function handleShowProductModal() {
     setOpenProductModal(!openProductModal);
   }
+
   const getName = (title) => {
     const MAX_NAME_CHARS = 15;
     if (title.length > MAX_NAME_CHARS) {
@@ -130,6 +131,7 @@ export default function ProductItemCard({ productData }) {
     const discountedPrice = Math.round(price - discount);
     return discountedPrice;
   }
+  
   function formatMoney(amount, currency) {
     const formatter = new Intl.NumberFormat("fr", {
       style: "currency",
