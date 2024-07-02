@@ -259,9 +259,8 @@ export default function ProductItemCard({ productData }) {
         {/* Product Information */}
         <div className="text-lg">
           <div className="flex flex-col justify-start">
-            <p className="flex">
-              {PRODUCT_RATING(rating)} <span className="ml-2">({stock})</span>
-            </p>
+            <p className="flex">{PRODUCT_RATING(rating)}</p>
+            <p>{`${t("inStock")}: ${stock}`}</p>
             <Link
               to={`/product-details/${id}/${title}`}
               className="hover:underline"
