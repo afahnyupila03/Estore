@@ -29,21 +29,16 @@ import loading from "react-useanimations/lib/loading";
 function PRODUCT_RATING(stars) {
   const fullStars = Math.floor(stars);
   const halfStar = stars - fullStars >= 0.5;
+  const starsArray = [];
 
-  let starsArray = [];
-
+  // Add full stars
   for (let i = 0; i < fullStars; i++) {
-    starsArray.push(<Icon icon={star} key={i} />);
+    starsArray.push(<Icon icon={star} key={`full-${i}`} />);
   }
 
+  // Add half star if needed
   if (halfStar) {
     starsArray.push(<Icon icon={starHalfOutline} key="half" />);
-  }
-
-  const remainingStars = 5 - starsArray.length;
-
-  for (let i = 0; i < remainingStars; i++) {
-    starsArray.push(<Icon icon={star} key={`empty-${i}`} />);
   }
 
   return <div>{starsArray}</div>;
@@ -131,7 +126,7 @@ export default function ProductItemCard({ productData }) {
     const discountedPrice = Math.round(price - discount);
     return discountedPrice;
   }
-  
+
   function formatMoney(amount, currency) {
     const formatter = new Intl.NumberFormat("fr", {
       style: "currency",
