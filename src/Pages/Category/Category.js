@@ -21,37 +21,38 @@ export default function CategoryPage() {
   } = useQuery(["category", category], () => CategoryService(category));
   console.log("Category: ", data);
 
-  let categoryProducts;
-  if (isLoading) {
-    categoryProducts = (
-      <div className="flex justify-center">
-        <UseAnimation animation={loading} size={100} />
-      </div>
-    );
-  } else if (isError) {
-    categoryProducts = (
-      <div className="flex justify-center">
-        <Icon
-          icon={reloadOutline}
-          style={{ fontSize: "7rem" }}
-          actionButton={() => refetch()}
-        />
-      </div>
-    );
-  } else {
-    categoryProducts = (
-      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        {data.map((products) => (
-          <ProductItemCard productData={products} key={products.id} />
-        ))}
-      </div>
-    );
-  }
+  const categoryProducts = () => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center">
+          <UseAnimation animation={loading} size={100} />
+        </div>
+      );
+    } else if (isError) {
+      return (
+        <div className="flex justify-center">
+          <Icon
+            icon={reloadOutline}
+            style={{ fontSize: "7rem" }}
+            actionButton={() => refetch()}
+          />
+        </div>
+      );
+    } else {
+      return (
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          {data.map((products) => (
+            <ProductItemCard productData={products} key={products.id} />
+          ))}
+        </div>
+      );
+    }
+  };
 
   return (
     <div>
       <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        {categoryProducts}
+        {categoryProducts()}
       </div>
     </div>
   );

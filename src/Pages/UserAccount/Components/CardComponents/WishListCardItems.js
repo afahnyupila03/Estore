@@ -108,7 +108,7 @@ export default function WishListCardItems({
             icon={heartDislikeOutline}
             style={{ fontSize: "1.5rem" }}
           />
-          {t("home.disLike")}
+          {t("home.dislike")}
         </button>
       </div>
     </div>

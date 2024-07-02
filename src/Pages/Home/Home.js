@@ -28,35 +28,36 @@ export default function Home() {
     refetch,
   } = useQuery("products", () => getFeaturedProducts());
 
-  let productItems;
-  if (isLoading) {
-    productItems = (
-      <div className="flex justify-center">
-        <p>{error}</p>
-        <UseAnimation
-          animation={loading}
-          className="text-red-5000"
-          color="red"
-          size={100}
-        />
-      </div>
-    );
-  } else if (isError) {
-    productItems = (
-      <div className="flex justify-center">
-        <p>{error}</p>
-        <button onClick={() => refetch()}>Try again</button>
-      </div>
-    );
-  } else {
-    productItems = (
-      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        {data.map((products) => (
-          <ProductItemCard productData={products} key={products.id} />
-        ))}
-      </div>
-    );
-  }
+  const renderProductItems = () => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center">
+          <p>{error}</p>
+          <UseAnimation
+            animation={loading}
+            className="text-red-5000"
+            color="red"
+            size={100}
+          />
+        </div>
+      );
+    } else if (isError) {
+      return (
+        <div className="flex justify-center">
+          <p>{error}</p>
+          <button onClick={() => refetch()}>Try again</button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          {data.map((products) => (
+            <ProductItemCard productData={products} key={products.id} />
+          ))}
+        </div>
+      );
+    }
+  };
 
   const settings = {
     dots: true,
@@ -71,7 +72,10 @@ export default function Home() {
   return (
     <React.Fragment>
       <div className="bg-white">
-        <div className="mx-auto lg:block hidden mb-10" style={{width: "82rem", marginLeft: "0", marginRight: "-4rem"}}>
+        <div
+          className="mx-auto lg:block hidden mb-10"
+          style={{ width: "82rem", marginLeft: "0", marginRight: "-4rem" }}
+        >
           <Slider {...settings}>
             <div>
               <img src={channel} alt="channel_img" />
@@ -90,7 +94,7 @@ export default function Home() {
             {t("home.featuredProducts")}
           </h2>
 
-          {productItems}
+          {renderProductItems()}
         </div>
       </div>
       <FinePens />

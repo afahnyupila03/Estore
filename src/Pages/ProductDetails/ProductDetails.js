@@ -223,7 +223,7 @@ function ProductDetails() {
                       icon={wishList ? heartDislike : heartOutline}
                     />
                     {wishList
-                      ? `${t("home.disLike")}`
+                      ? `${t("home.dislike")}`
                       : `${t("home.addToWishlist")}`}
                   </button>
                 </div>
