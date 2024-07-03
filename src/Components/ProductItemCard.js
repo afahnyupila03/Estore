@@ -218,7 +218,7 @@ export default function ProductItemCard({ productData }) {
       event.preventDefault();
       window.location.href = `/product-details/${id}/${title}`;
     } else {
-      // handleShowProductModal();
+      handleShowProductModal();
     }
   };
 

@@ -119,135 +119,225 @@ function ProductDetails() {
     [wishList, removeProductFromWishList]
   );
 
+  const renderLoading = () => (
+    <div className="flex m-40 justify-center">
+      <UseAnimation animation={loading} size={100} />
+    </div>
+  );
+
+  const renderError = () => (
+    <div className="flex justify-center">
+      <Icon
+        icon={reloadOutline}
+        style={{ fontSize: "7rem" }}
+        actionButton={() => refetch()}
+      />
+    </div>
+  );
+
+  const renderProductInfoAndPrice = (data) => (
+    <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+      {/* PRODUCT INFORMATION */}
+      <div className="border-t border-gray-200 pt-4">
+        <dt className="font-medium text-xl text-gray-900">
+          Product Information
+        </dt>
+        <dd className="mt-2 text-lg text-gray-800">
+          Category: {data.category}
+        </dd>
+        <dd className="mt-2 text-lg text-gray-800">Brand: {data.brand}</dd>
+        <dd className="mt-2 text-lg text-gray-800">
+          Tags: {data.tags.join(", ")}
+        </dd>
+      </div>
+
+      {/* PRODUCT PRICE INFORMATION */}
+      <div className="border-t border-gray-200 pt-4">
+        <dt className="font-medium text-xl text-gray-900">Product Price</dt>
+        <dd className="mt-2 text-lg text-gray-800">{DISCOUNT}</dd>
+        <dd className="mt-2 text-lg text-gray-800">
+          <span className="line-through">{formatMoney(XAF_PRICE, "XAF")}</span>
+        </dd>
+        <dd className="mt-2 text-lg text-gray-800">
+          {PRODUCT_RATINGS(data.rating)}
+        </dd>
+        <dd className="mt-2 text-lg text-gray-800">
+          {t("inStock")}: {data.stock}
+        </dd>
+        <dd className="mt-2 text-lg text-gray-800">
+          Minimum order quantity: {data.minimumOrderQuantity}
+        </dd>
+      </div>
+    </dl>
+  );
+
+  const renderProductDimensionsAndPrice = (data) => (
+    <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+      {/* PRODUCT DIMENSIONS */}
+      <div className="border-t border-gray-200 pt-4">
+        <dt className="font-medium text-xl text-gray-900">
+          Product Dimensions
+        </dt>
+        <dd className="mt-2 text-lg text-gray-800">Weight: {data.weight}</dd>
+        {data.dimensions && (
+          <>
+            <dd className="mt-2 text-lg text-gray-800">
+              Width: {`${data.dimensions.width} Kg`}
+            </dd>
+            <dd className="mt-2 text-lg text-gray-800">
+              Height: {`${data.dimensions.height} Cm`}
+            </dd>
+            <dd className="mt-2 text-lg text-gray-800">
+              Depth: {`${data.dimensions.depth} Ft`}
+            </dd>
+          </>
+        )}
+      </div>
+
+      {/* WARRANTY INFORMATION */}
+      <div className="border-t border-gray-200 pt-4">
+        <dt className="font-medium text-xl text-gray-900">
+          Warranty Information
+        </dt>
+        <dd className="mt-2 text-lg text-gray-800">
+          Warranty: {data.warrantyInformation}
+        </dd>
+        <dd className="mt-2 text-lg text-gray-800">
+          Shipping information: {data.shippingInformation}
+        </dd>
+        <dd className="mt-2 text-lg text-gray-800">
+          Return Policy: {data.returnPolicy}
+        </dd>
+      </div>
+    </dl>
+  );
+
+  const renderProductMetaDataAndActionButtons = (data) => (
+    <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+      {/* META-DATA */}
+      <div className="border-t border-gray-200 pt-4">
+        <dt className="font-medium text-xl text-gray-900">Product Meta-data</dt>
+        <dd className="mt-2 text-lg text-gray-800">Sku: {data.sku}</dd>
+        {data.meta && (
+          <>
+            <dd className="mt-2 text-lg text-gray-800">
+              Bar-code: {data.meta.barcode}
+            </dd>
+            <dd className="mt-2 text-lg text-gray-800">
+              <div className="flex justify-between">
+                <div>QRCode:</div>
+                <div>
+                  <img src={data.meta.qrCode} alt={data.meta.qrCode} />
+                </div>
+              </div>
+            </dd>
+          </>
+        )}
+      </div>
+
+      {/* ACTION BUTTONS */}
+      <div className="border-t border-gray-200 pt-4">
+        <dd className="mt-2">
+          <button
+            onClick={() =>
+              handleAddProduct({
+                title: data.title,
+                id: data.id,
+                thumbnail: data.thumbnail,
+                price: data.price,
+                discountPercentage: data.discountPercentage,
+                quantity: data.quantity,
+              })
+            }
+            className="font-medium text-lg flex justify-center my-4 py-2 items-center sm:w-full text-white rounded bg-gray-900"
+          >
+            <Icon
+              style={{
+                fontSize: "1.5rem",
+                color: "white",
+                marginRight: "1rem",
+              }}
+              icon={productAdded ? checkmark : bagOutline}
+            />
+            {productAdded ? `${t("home.added")}` : `${t("home.addToBag")}`}
+          </button>
+        </dd>
+        <dd className="mt-2">
+          <button
+            onClick={
+              wishList
+                ? () => handleDisLikedProducts(data.id)
+                : () =>
+                    handleWishListedProduct({
+                      title: data.title,
+                      id: data.id,
+                      thumbnail: data.thumbnail,
+                      price: data.price,
+                      description: data.description,
+                      discountPercentage: data.discountPercentage,
+                      quantity: data.quantity,
+                    })
+            }
+            className="font-medium text-lg flex justify-center my-4 py-2 items-center sm:w-full text-white rounded bg-gray-900"
+          >
+            <Icon
+              style={{
+                fontSize: "1.5rem",
+                color: "white",
+                marginRight: ".7rem",
+              }}
+              icon={wishList ? heartDislike : heartOutline}
+            />
+            {wishList ? `${t("home.dislike")}` : `${t("home.addToWishlist")}`}
+          </button>
+        </dd>
+      </div>
+    </dl>
+  );
+
+  const renderProductImages = (data) => (
+    <div className="grid grid-cols-2 grid-rows-2 gap-4 sm:gap-6 lg:gap-8">
+      {data.images?.map((image) => (
+        <img
+          key={image}
+          src={image}
+          alt={image}
+          className="rounded-lg bg-gray-900"
+        />
+      ))}
+    </div>
+  );
+
   const renderProductDetails = () => {
     if (isLoading) {
-      return (
-        <div className="flex m-40 justify-center">
-          <UseAnimation animation={loading} size={100} />
-        </div>
-      );
-    } else if (error) {
-      return (
-        <div className="flex justify-center">
-          <Icon
-            icon={reloadOutline}
-            style={{ fontSize: "7rem" }}
-            actionButton={() => refetch()}
-          />
-        </div>
-      );
-    } else {
-      return (
-        <div className="mt-10 px-40">
-          <div>
-            <div className="grid grid-cols-2 gap-x-20">
-              <div className="grid grid-cols-2 w-full h-full gap-x-1 gap-y-4">
-                {data.images?.map((image) => (
-                  <img
-                    key={image}
-                    loading="lazy"
-                    src={image}
-                    alt={image}
-                    className="w-full h-full"
-                  />
-                ))}
-              </div>
-            </div>
-            <div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
-              <div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
-                <h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-                  {data.title}
-                </h1>
-              </div>
-              <div className="mt-4 lg:row-span-3 lg:mt-0">
-                <h2 className="sr-only">{t("productInfor")}</h2>
-                <p className="text-3xl tracking-tight text-gray-900">
-                  {DISCOUNT}
-                </p>
-                <div className="mt-6">
-                  <div className="flex items-center">
-                    <div className="flex items-center">
-                      {PRODUCT_RATINGS(data.rating)}
-                    </div>
-                  </div>
-                </div>
-                <div className="grid mt-8 items-center text-center justify-center">
-                  <button
-                    onClick={() =>
-                      handleAddProduct({
-                        title: data.title,
-                        id: data.id,
-                        thumbnail: data.thumbnail,
-                        price: data.price,
-                        discountPercentage: data.discountPercentage,
-                        quantity: data.quantity,
-                      })
-                    }
-                    className="font-semibold text-lg flex items-center text-center sm:w-full px-20 py-5 text-white rounded bg-black"
-                  >
-                    <Icon
-                      style={{
-                        fontSize: "1.5rem",
-                        color: "white",
-                        marginRight: "1rem",
-                      }}
-                      icon={productAdded ? checkmark : bagOutline}
-                    />
-                    {productAdded
-                      ? `${t("home.added")}`
-                      : `${t("home.addToBag")}`}
-                  </button>
-                  <button
-                    onClick={
-                      wishList
-                        ? () => handleDisLikedProducts(data.id)
-                        : () =>
-                            handleWishListedProduct({
-                              title: data.title,
-                              id: data.id,
-                              thumbnail: data.thumbnail,
-                              price: data.price,
-                              description: data.description,
-                              discountPercentage: data.discountPercentage,
-                              quantity: data.quantity,
-                            })
-                    }
-                    className="font-semibold flex items-center text-center mt-6 sm:w-full px-20 py-5 text-white rounded bg-black"
-                  >
-                    <Icon
-                      style={{
-                        fontSize: "1.5rem",
-                        color: "white",
-                        marginRight: ".7rem",
-                      }}
-                      icon={wishList ? heartDislike : heartOutline}
-                    />
-                    {wishList
-                      ? `${t("home.dislike")}`
-                      : `${t("home.addToWishlist")}`}
-                  </button>
-                </div>
-              </div>
-              <div className="mt-4">
-                <p>
-                  {data.stock} {t("available")}
-                </p>
-              </div>
-            </div>
-          </div>
-          <div className="mx-auto px-8">
-            <h1 className="font-medium tracking-wide uppercase">
-              {t("customerPurchase")}
-            </h1>
-          </div>
-        </div>
-      );
+      return renderLoading();
     }
+    if (error) {
+      return renderError();
+    }
+    return (
+      <div className="bg-white">
+        <div className="mx-auto grid max-w-2xl grid-cols-1 items-center gap-x-8 gap-y-16 px-4 py-24 sm:px-6 sm:py-32 lg:max-w-7xl lg:grid-cols-2 lg:px-8">
+          <div>
+            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+              {data.title}
+            </h2>
+            <p className="mt-4 text-gray-800">{data.description}</p>
+            {renderProductInfoAndPrice(data)}
+            {renderProductDimensionsAndPrice(data)}
+            {renderProductMetaDataAndActionButtons(data)}
+          </div>
+          {renderProductImages(data)}
+        </div>
+      </div>
+    );
   };
 
   return (
     <div className="container mx-auto px-4 text-lg">
       {renderProductDetails()}
+      {/* NEW SECTION  */}
+      <div></div>
     </div>
   );
 }
