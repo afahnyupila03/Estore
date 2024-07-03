@@ -39,11 +39,11 @@ const Blog = () => {
   );
 
   const renderBlogPost = (data) => (
-    <div className="bg-white py-5 sm:py-32">
+    <div className="bg-white py-2">
       <div className="mx-auto max-w-7xl px-3 lg:px-2">
-        <div className="mx-auto mt-5 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-5 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
-          {data.map((blog) => (
-            <BlogCard blogData={blog} key={blog.id} />
+        <div className="mx-auto mt-2 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 pt-5 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+          {data.map((blog, index) => (
+            <BlogCard blogData={blog} key={index} />
           ))}
         </div>
       </div>
