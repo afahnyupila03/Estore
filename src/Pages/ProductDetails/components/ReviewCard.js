@@ -32,12 +32,14 @@ const ReviewCard = ({ reviewCard }) => {
 
   return (
     <div className="bg-gray-800 p-6 rounded-lg shadow-lg max-w-sm">
-      <div className="flex justify-between items-center mb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4">
         <div>
           <h3 className="text-lg text-white font-semibold">{reviewerName}</h3>
           <p className="text-sm text-white">{reviewerEmail}</p>
         </div>
-        <div className="text-sm text-white">{formatDate(date)}</div>
+        <div className="text-sm text-white mt-2 sm:mt-0 sm:ml-4">
+          {formatDate(date)}
+        </div>
       </div>
       <div className="flex items-center mb-4">{renderStars(rating)}</div>
       <p className="text-white">{comment}</p>
