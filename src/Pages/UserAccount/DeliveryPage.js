@@ -160,49 +160,49 @@ export default function DeliveryPage() {
     }
   };
 
-  let DELIVERY_ADDRESS;
-
-  if (user === null) {
-    DELIVERY_ADDRESS = (
-      <div className="mt-8">
-        <p className="mb-10 font-mono text-xl">
-          {t("delivery.deliveryAuthMessage")}
-        </p>
-        <Link
-          to="/sign-in-&-create-account"
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
-        >
-          {t("auth.signInCreate")}
-        </Link>
-      </div>
-    );
-  } else if (isLoading) {
-    DELIVERY_ADDRESS = (
-      <div className="flex justify-center mt-6">
-        <UseAnimation animation={loading} size={80} />
-      </div>
-    );
-  } else if (user !== null && data.length === 0) {
-    DELIVERY_ADDRESS = <p>{t("delivery.noAddress")}</p>;
-  } else if (isError) {
-    DELIVERY_ADDRESS = (
-      <div>
-        <p>{error}</p>
-        <button type="button" onClick={() => refetch()}>
-          {t("delivery.tryAgain")}
-        </button>
-      </div>
-    );
-  } else {
-    DELIVERY_ADDRESS = data.map((delivery) => (
-      <DeliveryCardItem
-        deleteHandler={() => deleteDeliveryHandler(userId, delivery.id)}
-        editHandler={() => editHandler(delivery.id)}
-        key={delivery.id}
-        deliveryDetails={delivery}
-      />
-    ));
-  }
+  const renderDeliveryAddress = () => {
+    if (user === null) {
+      return (
+        <div className="mt-8">
+          <p className="mb-10 font-mono text-xl">
+            {t("delivery.deliveryAuthMessage")}
+          </p>
+          <Link
+            to="/sign-in-&-create-account"
+            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+          >
+            {t("auth.signInCreate")}
+          </Link>
+        </div>
+      );
+    } else if (isLoading) {
+      return (
+        <div className="flex justify-center mt-6">
+          <UseAnimation animation={loading} size={80} />
+        </div>
+      );
+    } else if (user !== null && data.length === 0) {
+      return <p>{t("delivery.noAddress")}</p>;
+    } else if (isError) {
+      return (
+        <div>
+          <p>{error}</p>
+          <button type="button" onClick={() => refetch()}>
+            {t("delivery.tryAgain")}
+          </button>
+        </div>
+      );
+    } else {
+      return data.map((delivery) => (
+        <DeliveryCardItem
+          deleteHandler={() => deleteDeliveryHandler(userId, delivery.id)}
+          editHandler={() => editHandler(delivery.id)}
+          key={delivery.id}
+          deliveryDetails={delivery}
+        />
+      ));
+    }
+  };
 
   const DELIVERY_MODAL = (
     <DeliveryModal>
@@ -378,7 +378,7 @@ export default function DeliveryPage() {
       )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
-        {DELIVERY_ADDRESS}
+        {renderDeliveryAddress()}
       </div>
 
       {modal && DELIVERY_MODAL}

@@ -1,6 +1,7 @@
 {
   "english": "Anglais",
   "french": "Francias",
+  "inStock": "Disponible en stock",
   "available": "disponible en stock",
   "customerPurchase": "Les clients ont également acheté",
   "productInfor": "Information produit",
@@ -341,5 +342,27 @@
       "checkStatus": "Vous pouvez vérifier le statut de votre commande en vous connectant à votre compte sur notre site Web ou en contactant notre équipe de support client.",
       "expeditedShipping": "Oui, nous offrons des options de livraison accélérée moyennant des frais supplémentaires. Vous pouvez sélectionner cette option lors du processus de paiement."
     }
+  },
+  "productDetails": {
+    "productInformation": "Informations sur le produit",
+    "category": "Catégorie",
+    "brand": "Marque",
+    "tags": "Étiquettes",
+    "productPrice": "Prix du produit",
+    "minimumOrder": "Quantité minimum de commande",
+    "productDimension": "Dimensions du produit",
+    "weight": "Poids",
+    "width": "Largeur",
+    "height": "Hauteur",
+    "depth": "Profondeur",
+    "WarrantyInformation": "Informations sur la garantie",
+    "warranty": "Garantie",
+    "shippingInformation": "Informations sur l'expédition",
+    "returnPolicy": "Politique de retour",
+    "productMeta": "Métadonnées du produit",
+    "sku": "Sku",
+    "barCode": "Code-barres",
+    "qrCode": "QR Code",
+    "productReviews": "Avis sur le produit"
   }
 }

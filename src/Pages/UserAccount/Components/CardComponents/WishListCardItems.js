@@ -10,23 +10,18 @@ import {
 import { useTranslation } from "react-i18next";
 
 function PRODUCT_RATING(stars) {
-  const fullStars = Math.floor(stars); // Get the integer part of the rating
-  const halfStar = stars - fullStars >= 0.5; // Check if there is a half star
+  const fullStars = Math.floor(stars);
+  const halfStar = stars - fullStars >= 0.5;
+  const starsArray = [];
 
-  let starsArray = [];
-
+  // Add full stars
   for (let i = 0; i < fullStars; i++) {
-    starsArray.push(<Icon icon={star} key={i} />);
+    starsArray.push(<Icon icon={star} key={`full-${i}`} />);
   }
 
+  // Add half star if needed
   if (halfStar) {
-    starsArray.push(<Icon icon={starHalfOutline} key="half" />); // Assuming there's a half-star icon available
-  }
-
-  const remainingStars = 5 - starsArray.length; // Calculate the remaining empty stars
-
-  for (let i = 0; i < remainingStars; i++) {
-    starsArray.push(<Icon icon={star} key={`empty-${i}`} />);
+    starsArray.push(<Icon icon={starHalfOutline} key="half" />);
   }
 
   return <div>{starsArray}</div>;
@@ -113,7 +108,7 @@ export default function WishListCardItems({
             icon={heartDislikeOutline}
             style={{ fontSize: "1.5rem" }}
           />
-          {t("home.disLike")}
+          {t("home.dislike")}
         </button>
       </div>
     </div>

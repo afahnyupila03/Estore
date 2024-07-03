@@ -50,36 +50,36 @@ const Shop = () => {
     () => ShopProductsServices()
   );
 
-  let shopProducts;
-
-  if (isLoading) {
-    shopProducts = (
-      <div className="flex justify-center">
-        <p>{error}</p>
-        <UseAnimation
-          animation={loading}
-          className="text-red-5000"
-          color="red"
-          size={100}
-        />
-      </div>
-    );
-  } else if (isError) {
-    shopProducts = (
-      <div className="flex justify-center">
-        <p>{error}</p>
-        <button onClick={() => refetch()}>Try again</button>
-      </div>
-    );
-  } else {
-    shopProducts = (
-      <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
-        {data.map((products) => (
-          <ProductItemCard productData={products} key={products.id} />
-        ))}
-      </div>
-    );
-  }
+  const shopProducts = () => {
+    if (isLoading) {
+      return (
+        <div className="flex justify-center">
+          <p>{error}</p>
+          <UseAnimation
+            animation={loading}
+            className="text-red-5000"
+            color="red"
+            size={100}
+          />
+        </div>
+      );
+    } else if (isError) {
+      return (
+        <div className="flex justify-center">
+          <p>{error}</p>
+          <button onClick={() => refetch()}>Try again</button>
+        </div>
+      );
+    } else {
+      return (
+        <div className="mt-6 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
+          {data.map((products) => (
+            <ProductItemCard productData={products} key={products.id} />
+          ))}
+        </div>
+      );
+    }
+  };
 
   const Accessories = AccessoriesRoute(t, FaKitchenSet, FaMobile, IoFitness);
   const AutoMobile = AutoMobileRoutes(t, IoCarSport, FaMotorcycle);
@@ -337,7 +337,7 @@ const Shop = () => {
         </Sidebar.Items>
       </Sidebar>
 
-      <div className="px-6">{isCategoryActive ? <Outlet /> : shopProducts}</div>
+      <div className="px-6">{isCategoryActive ? <Outlet /> : shopProducts()}</div>
     </div>
   );
 };

@@ -173,47 +173,47 @@ export default function PaymentMethodPage() {
     }
   };
 
-  let PAYMENT_METHODS;
-
-  if (user === null) {
-    PAYMENT_METHODS = (
-      <div className="mt-8">
-        <p className="mb-10 font-mono text-xl">
-          No user found. Please sign in / create account to view wish list.
-        </p>
-        <Link
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
-          to="/sign-in-&-create-account"
-        >
-          Sign in / Create Account
-        </Link>
-      </div>
-    );
-  } else if (isLoading) {
-    PAYMENT_METHODS = (
-      <div className="flex justify-center">
-        <UseAnimation animation={loading} size={80} />
-      </div>
-    );
-  } else if (isError) {
-    PAYMENT_METHODS = (
-      <div>
-        <p>{error}</p>
-        <button onClick={() => refetch()}>Refresh</button>
-      </div>
-    );
-  } else if (data === null) {
-    PAYMENT_METHODS = <p>No payment methods added.</p>;
-  } else {
-    PAYMENT_METHODS = data.map((payment) => (
-      <PaymentCardItem
-        key={payment.id}
-        paymentDetails={payment}
-        editHandler={() => editPaymentHandler(payment.id)}
-        deleteHandler={() => deletePaymentHandler(userId, payment.id)}
-      />
-    ));
-  }
+  const renderPaymentMethods = () => {
+    if (user === null) {
+      return (
+        <div className="mt-8">
+          <p className="mb-10 font-mono text-xl">
+            No user found. Please sign in / create account to view wish list.
+          </p>
+          <Link
+            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            to="/sign-in-&-create-account"
+          >
+            Sign in / Create Account
+          </Link>
+        </div>
+      );
+    } else if (isLoading) {
+      return (
+        <div className="flex justify-center">
+          <UseAnimation animation={loading} size={80} />
+        </div>
+      );
+    } else if (isError) {
+      return (
+        <div>
+          <p>{error}</p>
+          <button onClick={() => refetch()}>Refresh</button>
+        </div>
+      );
+    } else if (data === null) {
+      return <p>No payment methods added.</p>;
+    } else {
+      return data.map((payment) => (
+        <PaymentCardItem
+          key={payment.id}
+          paymentDetails={payment}
+          editHandler={() => editPaymentHandler(payment.id)}
+          deleteHandler={() => deletePaymentHandler(userId, payment.id)}
+        />
+      ));
+    }
+  };
 
   const PAYMENT_MODAL = (
     <PaymentModal>
@@ -429,7 +429,7 @@ export default function PaymentMethodPage() {
         )}
 
         <div className="grid grid-cols-1 lg:grid-cols-3 mt-8 justify-evenly gap-x-4 gap-y-4">
-          {PAYMENT_METHODS}
+          {renderPaymentMethods()}
         </div>
       </div>
       {paymentModal && PAYMENT_MODAL}

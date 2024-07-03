@@ -35,7 +35,7 @@ export default function WishlistPage() {
     for (let i = 0; i < sessionStorage.length; i++) {
       const key = sessionStorage.key(i);
       // Exclude the language key from the retrieved data
-      if (key !== "i18nextLng" && key!== "cartState") {
+      if (key !== "i18nextLng" && key !== "cartState") {
         const value = sessionStorage.getItem(key);
         allData[key] = JSON.parse(value);
       }
@@ -49,56 +49,58 @@ export default function WishlistPage() {
     setWishListProducts(products);
   }, []);
 
-  let wishlist;
-
-  if (user === null) {
-    wishlist = (
-      <div className="mt-8">
-        <p className="mb-10 font-mono text-xl">
-          {t("wishlist.wishlistAuthMessage")}
-        </p>
-        <Link
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
-          to="/sign-in-&-create-account"
-        >
-          {t("auth.signInCreate")}
-        </Link>
-      </div>
-    );
-  } else if (user !== null && wishListProducts.length === 0) {
-    wishlist = (
-      <div className="mt-8">
-        <p className="mb-10 text-xl font-mono">{t("wishlist.emptyWishlist")}</p>
-        <Link
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
-          to="/home"
-        >
-          {t("wishlist.visitShop")}
-        </Link>
-      </div>
-    );
-  } else {
-    wishlist = (
-      <div className="mt-8 gap-y-2 mb-4">
-        {wishListProducts.map((wishListProducts) => (
-          <WishListCardItems
-            key={wishListProducts.id}
-            removeItemHandler={() =>
-              handleDislikeWishListedProducts(wishListProducts.id)
-            }
-            addItemHandler={() => addProductHandler(wishListProducts)}
-            wishListProducts={wishListProducts}
-          />
-        ))}
-      </div>
-    );
-  }
+  const renderWishListProducts = () => {
+    if (user === null) {
+      return (
+        <div className="mt-8">
+          <p className="mb-10 font-mono text-xl">
+            {t("wishlist.wishlistAuthMessage")}
+          </p>
+          <Link
+            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            to="/sign-in-&-create-account"
+          >
+            {t("auth.signInCreate")}
+          </Link>
+        </div>
+      );
+    } else if (user !== null && wishListProducts.length === 0) {
+      return (
+        <div className="mt-8">
+          <p className="mb-10 text-xl font-mono">
+            {t("wishlist.emptyWishlist")}
+          </p>
+          <Link
+            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            to="/home"
+          >
+            {t("wishlist.visitShop")}
+          </Link>
+        </div>
+      );
+    } else {
+      return (
+        <div className="mt-8 gap-y-2 mb-4">
+          {wishListProducts.map((wishListProducts) => (
+            <WishListCardItems
+              key={wishListProducts.id}
+              removeItemHandler={() =>
+                handleDislikeWishListedProducts(wishListProducts.id)
+              }
+              addItemHandler={() => addProductHandler(wishListProducts)}
+              wishListProducts={wishListProducts}
+            />
+          ))}
+        </div>
+      );
+    }
+  };
 
   return (
     <div>
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold font-mono">
-         {t("auth.wishList")}
+          {t("auth.wishList")}
           <span>({wishListProducts.length})</span>
         </h1>
         {user !== null && (
@@ -108,7 +110,7 @@ export default function WishlistPage() {
           </div>
         )}
       </div>
-      {wishlist}
+      {renderWishListProducts()}
     </div>
   );
 }

@@ -66,188 +66,77 @@ export default function PurchasePage() {
     return discountedPrice;
   }
 
-  let purchase;
+  const renderPurchaseContent = () => {
+    if (user === null) {
+      return (
+        <div className="mt-8">
+          <p className="mb-10 font-mono text-xl">
+            {t("purchases.purchaseAuthMessage")}
+          </p>
+          <Link
+            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            to="/sign-in-&-create-account"
+          >
+            {t("auth.signInCreate")}
+          </Link>
+        </div>
+      );
+    } else if (isLoading) {
+      return (
+        <div className="flex justify-center mt-6">
+          <UseAnimation animation={loading} size={80} />
+        </div>
+      );
+    } else if (data === null && user !== null) {
+      return (
+        <div className="mt-4">
+          <p className="mb-4">{t("purchases.0Purchases")}</p>
+          <Link to="/home" className="p-2 bg-black text-white">
+            {t("purchases.shopNow")}
+          </Link>
+        </div>
+      );
+    } else if (isError) {
+      return (
+        <div>
+          <p>
+            {error}
+            <button type="button" onClick={() => refetch()}>
+              {t("delivery.tryAgain")}
+            </button>
+          </p>
+        </div>
+      );
+    } else {
+      return (
+        <div>
+          {data.length > 3
+            ? data.slice(-2).map((purchase) => {
+                const {
+                  id,
+                  productData,
+                  productQuantity,
+                  tax,
+                  checkoutTotal,
+                  shippingPrice,
+                  purchaseId,
+                  email,
+                  displayName,
+                  address,
+                  city,
+                  state,
+                  tel,
+                  cardNumber,
+                  timeOfOrder,
+                  dayOfOrder,
+                } = purchase;
 
-  if (user === null) {
-    purchase = (
-      <div className="mt-8">
-        <p className="mb-10 font-mono text-xl">
-          {t("purchases.purchaseAuthMessage")}
-        </p>
-        <Link
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
-          to="/sign-in-&-create-account"
-        >
-          {t("auth.signInCreate")}
-        </Link>
-      </div>
-    );
-  } else if (isLoading) {
-    purchase = (
-      <div className="flex justify-center mt-6">
-        <UseAnimation animation={loading} size={80} />
-      </div>
-    );
-  } else if (data === null && user !== null) {
-    purchase = (
-      <div className="mt-4">
-        <p className="mb-4">{t("purchases.0Purchases")}</p>
-        <Link to="/home" className="p-2 bg-black text-white">
-          {t("purchases.shopNow")}
-        </Link>
-      </div>
-    );
-  } else if (isError) {
-    purchase = (
-      <div>
-        <p>
-          {error}
-          <button type="button" onClick={() => refetch()}>
-            {t("delivery.tryAgain")}
-          </button>
-        </p>
-      </div>
-    );
-  } else {
-    purchase = (
-      <div>
-        {data.length > 3
-          ? data.slice(-2).map((purchase) => {
-              const {
-                id,
-                productData,
-                productQuantity,
-                tax,
-                checkoutTotal,
-                shippingPrice,
-                purchaseId,
-                email,
-                displayName,
-                address,
-                city,
-                state,
-                tel,
-                cardNumber,
-                timeOfOrder,
-                dayOfOrder,
-              } = purchase;
-
-              return (
-                // <div key={id}>
-                <table
-                  key={id}
-                  // style={TABLE_STYLES.table}
-                  className="rounded-lg text-center w-full border-2 border-black mb-2"
-                >
-                  <tr
-                    style={TABLE_STYLES.purchaseInfo}
-                    className="bg-gray-300 p-8 text-center"
-                  >
-                    <th>{t("purchases.datePlaced")}</th>
-                    <th>{t("purchases.invoiceNo")}</th>
-                    <th>{t("checkoutForm.taxes")}</th>
-                    <th>{t("checkoutForm.shipping")}</th>
-                    <th>{t("purchases.totalAmount")}</th>
-                  </tr>
-                  <tr>
-                    <td>
-                      {dayOfOrder} {timeOfOrder}
-                    </td>
-                    <td>{purchaseId}</td>
-                    <td className="text-center">
-                      {FORMAT_MONEY(parseInt(tax), CURRENCY)}
-                    </td>
-                    <td className="text-center">
-                      {FORMAT_MONEY(parseInt(shippingPrice), CURRENCY)}
-                    </td>
-                    <td className="text-center">
-                      {FORMAT_MONEY(parseInt(checkoutTotal), CURRENCY)}
-                    </td>
-                  </tr>
-                  <tr className="bg-gray-300">
-                    <th>{t("purchases.product")}</th>
-                    <th>{t("purchases.brand")}</th>
-                    <th>{t("purchases.price")}</th>
-                    <th>{t("purchases.status")}</th>
-                    <th>{t("purchases.info")}</th>
-                  </tr>
-                  {productData.map((item) =>
-                    Object.keys(item).map((key) => (
-                      <tr key={key}>
-                        <td>
-                          {getName(item[key].title)} x {item[key].quantity}
-                        </td>
-                        <td className="text-center">{item[key].brand}</td>
-                        <td className="text-center">
-                          {FORMAT_MONEY(item[key].price, CURRENCY)}
-                        </td>
-                        <td className="text-center">
-                          {t("purchases.transit")}
-                          <IonIcon icon={paperPlaneOutline} className="ml-2" />
-                        </td>
-                        <td className="text-center">{t("purchases.view")}</td>
-                      </tr>
-                    ))
-                  )}
-                  <tr className="bg-gray-300 text-center">
-                    <th>{t("purchases.userInfo")}</th>
-                    <th>{t("purchases.deliveryInfo")}</th>
-                    <th>{t("purchases.paymentInfo")}</th>
-                    <th>{t("purchases.prodQuant")}</th>
-                    <th>{t("purchases.invoice")}</th>
-                  </tr>
-                  <tr>
-                    <td>{email}</td>
-                    <td>
-                      {city}, {state}
-                    </td>
-                    <td>
-                      {t("endsWith")} ({HIDE_CARD_NUMBER(cardNumber)})
-                    </td>
-                    <td className="text-center">{productQuantity}</td>
-
-                    <td className="text-center">
-                      {t("purchases.viewInvoice")}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>{displayName}</td>
-                    <td>{address}</td>
-                    <td></td>
-                    <td></td>
-                  </tr>
-                  <tr>
-                    <td>{tel}</td>
-                  </tr>
-                </table>
-                // </div>
-              );
-            })
-          : data.map((purchase) => {
-              const {
-                id,
-                productData,
-                productQuantity,
-                tax,
-                checkoutTotal,
-                shippingPrice,
-                purchaseId,
-                email,
-                displayName,
-                address,
-                city,
-                state,
-                tel,
-                cardNumber,
-                timeOfOrder,
-                dayOfOrder,
-              } = purchase;
-
-              return (
-                <div className="border-1 border-black rounded-lg" key={id}>
+                return (
+                  // <div key={id}>
                   <table
                     key={id}
-                    className="rounded-lg w-full border-2 border-black mb-2"
+                    // style={TABLE_STYLES.table}
+                    className="rounded-lg text-center w-full border-2 border-black mb-2"
                   >
                     <tr
                       style={TABLE_STYLES.purchaseInfo}
@@ -289,13 +178,7 @@ export default function PurchasePage() {
                           </td>
                           <td className="text-center">{item[key].brand}</td>
                           <td className="text-center">
-                            {FORMAT_MONEY(
-                              DISCOUNT_PRICE(
-                                item[key].discountPercentage,
-                                CONVERT_CURRENCY(item[key].price)
-                              ),
-                              CURRENCY
-                            )}
+                            {FORMAT_MONEY(item[key].price, CURRENCY)}
                           </td>
                           <td className="text-center">
                             {t("purchases.transit")}
@@ -304,9 +187,7 @@ export default function PurchasePage() {
                               className="ml-2"
                             />
                           </td>
-                          <td className="text-center text-gray-800">
-                            {t("purchases.view")}
-                          </td>
+                          <td className="text-center">{t("purchases.view")}</td>
                         </tr>
                       ))
                     )}
@@ -326,14 +207,9 @@ export default function PurchasePage() {
                         {t("endsWith")} ({HIDE_CARD_NUMBER(cardNumber)})
                       </td>
                       <td className="text-center">{productQuantity}</td>
+
                       <td className="text-center">
-                        <Link
-                          target="_blank"
-                          className="text-gray-800"
-                          to={`/purchases/${id}/${purchaseId}`}
-                        >
-                          {t("purchases.viewInvoice")}
-                        </Link>
+                        {t("purchases.viewInvoice")}
                       </td>
                     </tr>
                     <tr>
@@ -346,12 +222,139 @@ export default function PurchasePage() {
                       <td>{tel}</td>
                     </tr>
                   </table>
-                </div>
-              );
-            })}
-      </div>
-    );
-  }
+                  // </div>
+                );
+              })
+            : data.map((purchase) => {
+                const {
+                  id,
+                  productData,
+                  productQuantity,
+                  tax,
+                  checkoutTotal,
+                  shippingPrice,
+                  purchaseId,
+                  email,
+                  displayName,
+                  address,
+                  city,
+                  state,
+                  tel,
+                  cardNumber,
+                  timeOfOrder,
+                  dayOfOrder,
+                } = purchase;
+
+                return (
+                  <div className="border-1 border-black rounded-lg" key={id}>
+                    <table
+                      key={id}
+                      className="rounded-lg w-full border-2 border-black mb-2"
+                    >
+                      <tr
+                        style={TABLE_STYLES.purchaseInfo}
+                        className="bg-gray-300 p-8 text-center"
+                      >
+                        <th>{t("purchases.datePlaced")}</th>
+                        <th>{t("purchases.invoiceNo")}</th>
+                        <th>{t("checkoutForm.taxes")}</th>
+                        <th>{t("checkoutForm.shipping")}</th>
+                        <th>{t("purchases.totalAmount")}</th>
+                      </tr>
+                      <tr>
+                        <td>
+                          {dayOfOrder} {timeOfOrder}
+                        </td>
+                        <td>{purchaseId}</td>
+                        <td className="text-center">
+                          {FORMAT_MONEY(parseInt(tax), CURRENCY)}
+                        </td>
+                        <td className="text-center">
+                          {FORMAT_MONEY(parseInt(shippingPrice), CURRENCY)}
+                        </td>
+                        <td className="text-center">
+                          {FORMAT_MONEY(parseInt(checkoutTotal), CURRENCY)}
+                        </td>
+                      </tr>
+                      <tr className="bg-gray-300">
+                        <th>{t("purchases.product")}</th>
+                        <th>{t("purchases.brand")}</th>
+                        <th>{t("purchases.price")}</th>
+                        <th>{t("purchases.status")}</th>
+                        <th>{t("purchases.info")}</th>
+                      </tr>
+                      {productData.map((item) =>
+                        Object.keys(item).map((key) => (
+                          <tr key={key}>
+                            <td>
+                              {getName(item[key].title)} x {item[key].quantity}
+                            </td>
+                            <td className="text-center">{item[key].brand}</td>
+                            <td className="text-center">
+                              {FORMAT_MONEY(
+                                DISCOUNT_PRICE(
+                                  item[key].discountPercentage,
+                                  CONVERT_CURRENCY(item[key].price)
+                                ),
+                                CURRENCY
+                              )}
+                            </td>
+                            <td className="text-center">
+                              {t("purchases.transit")}
+                              <IonIcon
+                                icon={paperPlaneOutline}
+                                className="ml-2"
+                              />
+                            </td>
+                            <td className="text-center text-gray-800">
+                              {t("purchases.view")}
+                            </td>
+                          </tr>
+                        ))
+                      )}
+                      <tr className="bg-gray-300 text-center">
+                        <th>{t("purchases.userInfo")}</th>
+                        <th>{t("purchases.deliveryInfo")}</th>
+                        <th>{t("purchases.paymentInfo")}</th>
+                        <th>{t("purchases.prodQuant")}</th>
+                        <th>{t("purchases.invoice")}</th>
+                      </tr>
+                      <tr>
+                        <td>{email}</td>
+                        <td>
+                          {city}, {state}
+                        </td>
+                        <td>
+                          {t("endsWith")} ({HIDE_CARD_NUMBER(cardNumber)})
+                        </td>
+                        <td className="text-center">{productQuantity}</td>
+                        <td className="text-center">
+                          <Link
+                            target="_blank"
+                            className="text-gray-800"
+                            to={`/purchases/${id}/${purchaseId}`}
+                          >
+                            {t("purchases.viewInvoice")}
+                          </Link>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>{displayName}</td>
+                        <td>{address}</td>
+                        <td></td>
+                        <td></td>
+                      </tr>
+                      <tr>
+                        <td>{tel}</td>
+                      </tr>
+                    </table>
+                  </div>
+                );
+              })}
+        </div>
+      );
+    }
+  };
 
   return (
     <Fragment>
@@ -360,7 +363,7 @@ export default function PurchasePage() {
           {t("auth.purchases")} <span>({data.length})</span>
         </h1>
       </div>
-      <div className="mt-2">{purchase}</div>
+      <div className="mt-2">{renderPurchaseContent()}</div>
     </Fragment>
   );
 }
