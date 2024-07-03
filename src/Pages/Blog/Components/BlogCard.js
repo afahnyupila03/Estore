@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom";
+
 export default function BlogCard({ blogData }) {
   const { title, id, urlToImage, name, publishedAt, author, description, url } =
     blogData || [];
@@ -31,10 +33,10 @@ export default function BlogCard({ blogData }) {
 
       <div className="group relative">
         <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-          <a href="#">
+          <Link to="#">
             <span className="absolute inset-0" />
             {title}
-          </a>
+          </Link>
         </h3>
         <p className="mt-5 line-clamp-3 text-sm leading-6 text-gray-600">
           {description}
