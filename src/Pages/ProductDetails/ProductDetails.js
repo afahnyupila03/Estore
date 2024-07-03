@@ -16,6 +16,8 @@ import loading from "react-useanimations/lib/loading";
 import { star, starHalfOutline } from "ionicons/icons";
 import { useAuth, useCart, useWishList } from "../../Store";
 import { t } from "i18next";
+import Slider from "react-slick";
+import ReviewCard from "./components/ReviewCard";
 
 function PRODUCT_RATINGS(stars) {
   const fullStars = Math.floor(stars);
@@ -314,6 +316,44 @@ function ProductDetails() {
     </div>
   );
 
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    arrows: true,
+    responsive: [
+      {
+        breakpoint: 1024,
+        settings: {
+          slidesToShow: 2,
+        },
+      },
+      {
+        breakpoint: 600,
+        settings: {
+          slidesToShow: 1,
+        },
+      },
+    ],
+  };
+
+  const renderReviews = (data) => (
+    <>
+      <h2 className="text-gray-900 font-medium text-3xl">
+        {t("productDetails.productReviews")}
+      </h2>
+      <Slider {...settings}>
+        {data.reviews?.map((reviews, index) => (
+          <div key={index} className="p-4">
+            <ReviewCard reviewCard={reviews} />
+          </div>
+        ))}
+      </Slider>
+    </>
+  );
+
   const renderProductDetails = () => {
     if (isLoading) {
       return renderLoading();
@@ -335,6 +375,7 @@ function ProductDetails() {
           </div>
           {renderProductImages(data)}
         </div>
+        {renderReviews(data)}
       </div>
     );
   };

@@ -362,6 +362,7 @@
     "productMeta": "Product Meta-data",
     "sku": "Sku",
     "barCode": "Bar-code",
-    "qrCode": "QR Code"
+    "qrCode": "QR Code",
+    "productReviews": "Product Reviews"
   }
 }
