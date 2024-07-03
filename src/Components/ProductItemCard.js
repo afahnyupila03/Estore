@@ -217,9 +217,7 @@ export default function ProductItemCard({ productData }) {
     if (window.innerWidth <= 767) {
       event.preventDefault();
       window.location.href = `/product-details/${id}/${title}`;
-    } else {
-      handleShowProductModal();
-    }
+    } 
   };
 
   const PRODUCT_MODAL = (
