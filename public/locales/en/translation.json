@@ -342,5 +342,26 @@
       "checkStatus": "You can check the status of your order by logging into your account on our website or by contacting our customer support team.",
       "expeditedShipping": "Yes, we offer expedited shipping options for an additional fee. You can select this option during the checkout process."
     }
+  },
+  "productDetails": {
+    "productInformation": "Product Information",
+    "category": "Category",
+    "brand": "Brand",
+    "tags": "Tags",
+    "productPrice": "Product Price",
+    "minimumOrder": "Minimum order quantity",
+    "productDimension": "Product Dimensions",
+    "weight": "Weight",
+    "width": "Width",
+    "height": "Height",
+    "depth": "Depth",
+    "WarrantyInformation": "Warranty Information",
+    "warranty": "Warranty",
+    "shippingInformation": "Shipping Information",
+    "returnPolicy": "Return Policy",
+    "productMeta": "Product Meta-data",
+    "sku": "Sku",
+    "barCode": "Bar-code",
+    "qrCode": "QR Code"
   }
 }

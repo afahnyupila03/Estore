@@ -140,20 +140,24 @@ function ProductDetails() {
       {/* PRODUCT INFORMATION */}
       <div className="border-t border-gray-200 pt-4">
         <dt className="font-medium text-xl text-gray-900">
-          Product Information
+          {t("productDetails.productInformation")}
         </dt>
         <dd className="mt-2 text-lg text-gray-800">
-          Category: {data.category}
+          {t("productDetails.category")}: {data.category}
         </dd>
-        <dd className="mt-2 text-lg text-gray-800">Brand: {data.brand}</dd>
         <dd className="mt-2 text-lg text-gray-800">
-          Tags: {data.tags.join(", ")}
+          {t("productDetails.brand")}: {data.brand}
+        </dd>
+        <dd className="mt-2 text-lg text-gray-800">
+          {t("productDetails.tags")}: {data.tags.join(", ")}
         </dd>
       </div>
 
       {/* PRODUCT PRICE INFORMATION */}
       <div className="border-t border-gray-200 pt-4">
-        <dt className="font-medium text-xl text-gray-900">Product Price</dt>
+        <dt className="font-medium text-xl text-gray-900">
+          {t("productDetails.productPrice")}
+        </dt>
         <dd className="mt-2 text-lg text-gray-800">{DISCOUNT}</dd>
         <dd className="mt-2 text-lg text-gray-800">
           <span className="line-through">{formatMoney(XAF_PRICE, "XAF")}</span>
@@ -165,30 +169,30 @@ function ProductDetails() {
           {t("inStock")}: {data.stock}
         </dd>
         <dd className="mt-2 text-lg text-gray-800">
-          Minimum order quantity: {data.minimumOrderQuantity}
+          {t("productDetails.minimumOrder")}: {data.minimumOrderQuantity}
         </dd>
       </div>
     </dl>
   );
 
-  const renderProductDimensionsAndPrice = (data) => (
+  const renderProductDimensionsAndWarranty = (data) => (
     <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
       {/* PRODUCT DIMENSIONS */}
       <div className="border-t border-gray-200 pt-4">
         <dt className="font-medium text-xl text-gray-900">
-          Product Dimensions
+          {t("productDetails.productDimension")}
         </dt>
         <dd className="mt-2 text-lg text-gray-800">Weight: {data.weight}</dd>
         {data.dimensions && (
           <>
             <dd className="mt-2 text-lg text-gray-800">
-              Width: {`${data.dimensions.width} Kg`}
+              {t("productDetails.width")}: {`${data.dimensions.width} Kg`}
             </dd>
             <dd className="mt-2 text-lg text-gray-800">
-              Height: {`${data.dimensions.height} Cm`}
+              {t("productDetails.height")}: {`${data.dimensions.height} Cm`}
             </dd>
             <dd className="mt-2 text-lg text-gray-800">
-              Depth: {`${data.dimensions.depth} Ft`}
+              {t("productDetails.depth")}: {`${data.dimensions.depth} Ft`}
             </dd>
           </>
         )}
@@ -197,35 +201,37 @@ function ProductDetails() {
       {/* WARRANTY INFORMATION */}
       <div className="border-t border-gray-200 pt-4">
         <dt className="font-medium text-xl text-gray-900">
-          Warranty Information
+          {t("productDetails.WarrantyInformation")}
         </dt>
         <dd className="mt-2 text-lg text-gray-800">
-          Warranty: {data.warrantyInformation}
+          {t("productDetails.warranty")}: {data.warrantyInformation}
         </dd>
         <dd className="mt-2 text-lg text-gray-800">
-          Shipping information: {data.shippingInformation}
+          {t("productDetails.shippingInformation")}: {data.shippingInformation}
         </dd>
         <dd className="mt-2 text-lg text-gray-800">
-          Return Policy: {data.returnPolicy}
+          {t("productDetails.returnPolicy")}: {data.returnPolicy}
         </dd>
       </div>
     </dl>
   );
 
   const renderProductMetaDataAndActionButtons = (data) => (
-    <dl className="mt-16 grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
+    <dl className="mt-16 grid grid-cols-1 gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-y-16 lg:gap-x-8">
       {/* META-DATA */}
       <div className="border-t border-gray-200 pt-4">
-        <dt className="font-medium text-xl text-gray-900">Product Meta-data</dt>
+        <dt className="font-medium text-xl text-gray-900">
+          {t("productDetails.productMeta")}
+        </dt>
         <dd className="mt-2 text-lg text-gray-800">Sku: {data.sku}</dd>
         {data.meta && (
           <>
             <dd className="mt-2 text-lg text-gray-800">
-              Bar-code: {data.meta.barcode}
+              {t("productDetails.barCode")}: {data.meta.barcode}
             </dd>
             <dd className="mt-2 text-lg text-gray-800">
               <div className="flex justify-between">
-                <div>QRCode:</div>
+                <div>{t("productDetails.qrCode")}:</div>
                 <div>
                   <img src={data.meta.qrCode} alt={data.meta.qrCode} />
                 </div>
@@ -249,7 +255,7 @@ function ProductDetails() {
                 quantity: data.quantity,
               })
             }
-            className="font-medium text-lg flex justify-center my-4 py-2 items-center sm:w-full text-white rounded bg-gray-900"
+            className="font-medium text-lg flex justify-center my-4 mx-4 py-2 px-2 text-center items-center sm:w-full text-white rounded bg-gray-900"
           >
             <Icon
               style={{
@@ -278,7 +284,7 @@ function ProductDetails() {
                       quantity: data.quantity,
                     })
             }
-            className="font-medium text-lg flex justify-center my-4 py-2 items-center sm:w-full text-white rounded bg-gray-900"
+            className="font-medium text-lg flex justify-center my-4 mx-4 px-2 text-center py-2 items-center sm:w-full text-white rounded bg-gray-900"
           >
             <Icon
               style={{
@@ -324,7 +330,7 @@ function ProductDetails() {
             </h2>
             <p className="mt-4 text-gray-800">{data.description}</p>
             {renderProductInfoAndPrice(data)}
-            {renderProductDimensionsAndPrice(data)}
+            {renderProductDimensionsAndWarranty(data)}
             {renderProductMetaDataAndActionButtons(data)}
           </div>
           {renderProductImages(data)}
