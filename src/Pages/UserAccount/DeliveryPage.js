@@ -2,8 +2,8 @@ import React, { useEffect, useState } from "react";
 import DeliveryModal from "./Components/ModalComponents/DeliveryModal";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
-import { Field, Form, Formik } from "formik";
-import CustomTextInput from "../../Components/TextInput";
+import { Form, Formik } from "formik";
+import { CustomInput } from "../../Components/TextInput";
 import { useQuery } from "react-query";
 import { DeliveryAddressSchema } from "../../ValidationSchemas/DeliverySchema";
 import DeliveryCardItem from "./Components/CardComponents/DeliveryCardItem";
@@ -247,12 +247,18 @@ export default function DeliveryPage() {
               }
         }
         onSubmit={editModal ? editAddressHandler : submitAddressHandler}
-        // validationSchema={DeliveryAddressSchema}
+        validationSchema={DeliveryAddressSchema}
       >
-        {({ values, handleChange, handleBlur, isSubmitting }) => (
-          <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
-            <Field
-              component={CustomTextInput}
+        {({
+          values,
+          handleChange,
+          handleBlur,
+          isSubmitting,
+          errors,
+          touched,
+        }) => (
+          <Form className="w-full max-w-md rounded-lg">
+            <CustomInput
               id="firstName"
               name="firstName"
               type="text"
@@ -261,10 +267,11 @@ export default function DeliveryPage() {
               onBlur={handleBlur}
               label={t("checkoutForm.firstName")}
               placeholder={t("checkoutForm.firstName")}
-              autoComplete="true"
+              autoComplete="false"
+              errors={errors}
+              touched={touched}
             />
-            <Field
-              component={CustomTextInput}
+            <CustomInput
               id="lastName"
               name="lastName"
               type="text"
@@ -273,10 +280,11 @@ export default function DeliveryPage() {
               onBlur={handleBlur}
               label={t("checkoutForm.lastName")}
               placeholder={t("checkoutForm.lastName")}
-              autoComplete="true"
+              autoComplete="false"
+              errors={errors}
+              touched={touched}
             />
-            <Field
-              component={CustomTextInput}
+            <CustomInput
               id="address"
               name="address"
               type="search"
@@ -286,9 +294,10 @@ export default function DeliveryPage() {
               label={`* ${t("checkoutForm.address")}`}
               placeholder="Enter your street address"
               autoComplete="false"
+              errors={errors}
+              touched={touched}
             />
-            <Field
-              component={CustomTextInput}
+            <CustomInput
               id="aptSuite"
               name="aptSuite"
               type="text"
@@ -298,9 +307,10 @@ export default function DeliveryPage() {
               label={t("checkoutForm.apartment")}
               placeholder="Enter your street address"
               autoComplete="false"
+              errors={errors}
+              touched={touched}
             />
-            <Field
-              component={CustomTextInput}
+            <CustomInput
               id="zip"
               name="zip"
               type="text"
@@ -310,9 +320,10 @@ export default function DeliveryPage() {
               label={`*${t("checkoutForm.postalCode")}`}
               placeholder="Zip/postal code"
               autoComplete="false"
+              errors={errors}
+              touched={touched}
             />
-            <Field
-              component={CustomTextInput}
+            <CustomInput
               id="city"
               name="city"
               type="text"
@@ -322,9 +333,10 @@ export default function DeliveryPage() {
               label={`*${t("delivery.city")}`}
               placeholder="City"
               autoComplete="false"
+              errors={errors}
+              touched={touched}
             />
-            <Field
-              component={CustomTextInput}
+            <CustomInput
               id="state"
               name="state"
               type="text"
@@ -334,6 +346,8 @@ export default function DeliveryPage() {
               label={`*${t("checkoutForm.state")}`}
               placeholder="State/province"
               autoComplete="false"
+              errors={errors}
+              touched={touched}
             />
             <div className="flex justify-center">
               <button
@@ -346,6 +360,9 @@ export default function DeliveryPage() {
                 }
               >
                 {t("delivery.save")}
+                {isSubmitting && (
+                  <UseAnimation className="ml-4" animation={loading} />
+                )}
               </button>
             </div>
             <div className="flex justify-center">
