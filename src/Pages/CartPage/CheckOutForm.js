@@ -4,6 +4,7 @@
 import { Field, Form, Formik } from "formik";
 import CustomTextInput, {
   CustomCheckbox,
+  CustomInput,
   CustomSelect,
 } from "../../Components/TextInput";
 import SummaryCardItems from "./Components/SummaryCardItems";
@@ -283,14 +284,15 @@ export default function CheckOutForm() {
       throw error;
     }
   };
+  console.log(`checkout names: ${userFirstName} and ${userLastName}`)
 
   return (
     <div className="container mx-auto mt-4 lg:px-4">
       <Formik
         initialValues={{
           email: "",
-          firstName: "",
-          lastName: "",
+          firstName: userFirstName,
+          lastName: userLastName,
           company: "",
           address: "",
           aptSuite: "",
@@ -347,7 +349,7 @@ export default function CheckOutForm() {
                     onChange={handleChange}
                     onBlur={handleBlur}
                     label={t("checkoutForm.firstName")}
-                    placeholder={t("checkoutForm.firstName")}
+                    // placeholder={t("checkoutForm.firstName")}
                     autoComplete="true"
                   />
 
@@ -380,20 +382,56 @@ export default function CheckOutForm() {
                       autoComplete="false"
                     />
                   ) : (
-                    <div className="grid">
-                      <label
-                        htmlFor="address"
-                        className="font-semibold font-mono"
-                        id="address"
-                      >
-                        {t("checkoutForm.address")}
-                      </label>
-                      <Field
-                        component="select"
-                        id="address"
-                        name="address"
-                        placeholder={t("checkoutForm.selectAddress")}
-                        label="Address"
+                    <>
+                      {/* <div className="grid">
+                        <label
+                          htmlFor="address"
+                          className="font-semibold font-mono"
+                          id="address"
+                        >
+                          {t("checkoutForm.address")}
+                        </label>
+                        <Field
+                          component="select"
+                          id="address"
+                          name="address"
+                          placeholder={t("checkoutForm.selectAddress")}
+                          label="Address"
+                          onChange={(e) => {
+                            if (e.target.value === "otherAddress") {
+                              setOtherAddress(true);
+                            } else {
+                              setOtherAddress(false);
+                            }
+                          }}
+                          style={{
+                            backgroundColor: "#9ca3af",
+                            borderRadius: ".4rem",
+                            padding: ".5rem",
+                            textAlign: "left",
+                            margin: ".5rem",
+                            width: "20rem",
+                            color: "#020617",
+                          }}
+                        >
+                          <option value="address">
+                            {t("checkoutForm.selectAddress")}
+                          </option>
+                          {deliveryAddresses.map((deliveryAddress) => {
+                            const { id, address } = deliveryAddress;
+                            return (
+                              <option value={address} key={id}>
+                                {address}
+                              </option>
+                            );
+                          })}
+                          <option value="otherAddress">
+                            {t("checkoutForm.other")}
+                          </option>
+                        </Field>
+                      </div> */}
+                      <CustomInput
+                        label="Select address"
                         onChange={(e) => {
                           if (e.target.value === "otherAddress") {
                             setOtherAddress(true);
@@ -401,15 +439,7 @@ export default function CheckOutForm() {
                             setOtherAddress(false);
                           }
                         }}
-                        style={{
-                          backgroundColor: "#9ca3af",
-                          borderRadius: ".4rem",
-                          padding: ".5rem",
-                          textAlign: "left",
-                          margin: ".5rem",
-                          width: "20rem",
-                          color: "#020617",
-                        }}
+                        as="select"
                       >
                         <option value="address">
                           {t("checkoutForm.selectAddress")}
@@ -425,9 +455,52 @@ export default function CheckOutForm() {
                         <option value="otherAddress">
                           {t("checkoutForm.other")}
                         </option>
-                      </Field>
-                    </div>
+                      </CustomInput>
+                    </>
                   )}
+
+                  {/* TEST FIELD */}
+                  <CustomInput
+                    label="Select address new"
+                    value={values.address}
+                    name="address"
+                    id="address"
+                    autoComplete="false"
+                    onChange={
+                      otherAddress
+                        ? handleChange
+                        : (e) => {
+                            if (e.target.value === "otherAddress") {
+                              setOtherAddress(true);
+                            } else {
+                              setOtherAddress(false);
+                              handleChange(e);
+                            }
+                          }
+                    }
+                    onBlur={handleBlur}
+                    as={!otherAddress && "select"}
+                  >
+                    {!otherAddress && (
+                      <>
+                        <option value="address">
+                          {t("checkoutForm.selectAddress")}
+                        </option>
+                        {deliveryAddresses.map((deliveryAddress) => {
+                          const { id, address } = deliveryAddress;
+                          return (
+                            <option value={address} key={id}>
+                              {address}
+                            </option>
+                          );
+                        })}
+                        <option value="otherAddress">
+                          {t("checkoutForm.other")}
+                        </option>
+                      </>
+                    )}
+                  </CustomInput>
+                  {/* TEST FIELD */}
 
                   {otherApt ? (
                     <Field

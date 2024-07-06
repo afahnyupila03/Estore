@@ -31,7 +31,18 @@
     "needHelp": "Besoin d'Aide ?",
     "yourAccount": "Votre Compte",
     "accountSettings": "Paramètres du Compte",
-    "logout": "Se déconnecter"
+    "logout": "Se déconnecter",
+    "createAccount": "Créer un compte",
+    "signIn": "Se connecter",
+    "firstName": "Prénom",
+    "lastName": "Nom de famille",
+    "password": "Mot de passe",
+    "confirmPassword": "Confirmer le mot de passe",
+    "enterPassword": "Entrez le mot de passe",
+    "enterEmail": "Entrez l'email",
+    "email": "Email",
+    "user": "Déjà un utilisateur ? Connectez-vous.",
+    "newUser": "Nouvel utilisateur ? Créer un compte."
   },
   "category": {
     "shopBy": "Acheter par Catégorie",

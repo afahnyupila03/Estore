@@ -5,12 +5,43 @@ import Discover from "../Assets/Cards/discover.png";
 import Visa from "../Assets/Cards/visa.png";
 import Mtn from "../Assets/Cards/MTN.jpg";
 import Orange from "../Assets/Cards/orange.png";
+import { Field } from "formik";
+import { IonIcon } from "@ionic/react";
+import { eyeOffOutline, eyeOutline, eyeSharp } from "ionicons/icons";
+
+const getCardType = (cardNumber) => {
+  const visaRegex = /^(?<VISA>4\d{3}[\s-]?(?:\d{4}[\s-]?){2}\d(?:\d{3})?)$/;
+  const mastercardRegex =
+    /^(?<MASTERCARD>5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4})$/;
+  const amexRegex = /^(?<AMEX>3[47]\d{13,14})$/;
+  const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
+  const orangeCameroonRegex = /^(6[5-7]\d{7})$/;
+  const mtnCameroonRegex = /^(6[8-9]\d{7})$/;
+
+  if (visaRegex.test(cardNumber)) {
+    return "visa";
+  } else if (mastercardRegex.test(cardNumber)) {
+    return "mastercard";
+  } else if (amexRegex.test(cardNumber)) {
+    return "amex";
+  } else if (discoverRegex.test(cardNumber)) {
+    return "discover";
+  } else if (orangeCameroonRegex.test(cardNumber)) {
+    return "orange";
+  } else if (mtnCameroonRegex.test(cardNumber)) {
+    return "mtn";
+  } else {
+    return "Invalid number";
+  }
+};
 
 export default function CustomTextInput({
   field,
   form,
   renderCardImage,
   className,
+  togglePassword,
+  showPassword,
   ...props
 }) {
   const { name, value, onChange, onBlur } = field;
@@ -39,31 +70,6 @@ export default function CustomTextInput({
   };
 
   // Function to detect the card type based on the card number
-  const getCardType = (cardNumber) => {
-    const visaRegex = /^(?<VISA>4\d{3}[\s-]?(?:\d{4}[\s-]?){2}\d(?:\d{3})?)$/;
-    const mastercardRegex =
-      /^(?<MASTERCARD>5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4})$/;
-    const amexRegex = /^(?<AMEX>3[47]\d{13,14})$/;
-    const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
-    const orangeCameroonRegex = /^(6[5-7]\d{7})$/;
-    const mtnCameroonRegex = /^(6[8-9]\d{7})$/;
-
-    if (visaRegex.test(cardNumber)) {
-      return "visa";
-    } else if (mastercardRegex.test(cardNumber)) {
-      return "mastercard";
-    } else if (amexRegex.test(cardNumber)) {
-      return "amex";
-    } else if (discoverRegex.test(cardNumber)) {
-      return "discover";
-    } else if (orangeCameroonRegex.test(cardNumber)) {
-      return "orange";
-    } else if (mtnCameroonRegex.test(cardNumber)) {
-      return "mtn";
-    } else {
-      return "Invalid number";
-    }
-  };
 
   const cardType = getCardType(value);
 
@@ -84,6 +90,7 @@ export default function CustomTextInput({
           placeholder={placeholder}
           style={errors[name] && touched[name] ? errorInput : inputField}
         />
+
         {/* Display the detected card type image if renderCardImage is true */}
         {renderCardImage && cardType && (
           <img
@@ -200,6 +207,157 @@ export function CustomSelect({ field, form, className, ...props }) {
       {errors[name] && touched[name] && (
         <div style={{ color: "red" }}>{errors[name]}</div>
       )}
+    </div>
+  );
+}
+
+export function CustomInput({
+  id,
+  className,
+  name,
+  label,
+  type,
+  onChange,
+  onBlur,
+  placeholder,
+  value,
+  as,
+  children,
+  row,
+  togglePassword,
+  showPassword,
+  showConfirmPassword,
+  toggleShowConfirmPassword,
+  autoComplete,
+  renderImage,
+  errors,
+  touched,
+}) {
+  const inputField = {
+    backgroundColor: "#9ca3af",
+    borderRadius: ".4rem",
+    padding: ".5rem",
+    width: "20rem",
+    color: "#020617",
+  };
+
+  const errorStyle = {
+    backgroundColor: "#9ca3af",
+    borderRadius: ".4rem",
+    padding: ".5rem",
+    width: "20rem",
+    borderColor: "red",
+    borderWidth: ".15rem",
+    color: "#020617",
+  };
+
+  const inputProps = {
+    id,
+    name,
+    onChange,
+    onBlur,
+    value,
+    className: className,
+    autoComplete: autoComplete,
+    placeholder,
+    errors,
+    touched,
+  };
+
+  const cardType = getCardType(value);
+
+  const renderCardImage = () => {
+    if (renderImage && cardType) {
+      const cardTypeToImageMap = {
+        amex: AmericanExpress,
+        mastercard: Mastercard,
+        discover: Discover,
+        visa: Visa,
+        mtn: Mtn,
+        orange: Orange,
+      };
+
+      const imageSrc = cardTypeToImageMap[cardType];
+
+      return (
+        <img
+          src={imageSrc}
+          alt={cardType}
+          className="h-6 w-6 absolute 
+          inset-y-0 right-0 pr-3 
+          flex items-center text-sm 
+          leading-3"
+        />
+      );
+    }
+  };
+
+  const passwordToggle = () => {
+    if ((name === "password" || name === "confirmPassword") && value) {
+      return (
+        <button
+          type="button"
+          onClick={
+            name === "password" ? togglePassword : toggleShowConfirmPassword
+          }
+          className="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5"
+        >
+          {showPassword || showConfirmPassword ? (
+            <IonIcon
+              icon={eyeOffOutline}
+              className="h-6 w-6"
+              aria-hidden="true"
+            />
+          ) : (
+            <IonIcon icon={eyeOutline} className="h-6 w-6" aria-hidden="true" />
+          )}
+        </button>
+      );
+    }
+    return null;
+  };
+
+  return (
+    <div className="sm:col-span-4 grid justify-center">
+      <label htmlFor={id} className="block text-lg font-medium text-gray-900">
+        {label}
+      </label>
+      <div className="mt-2">
+        <div
+          className="flex rounded-lg shadow-lg 
+          ring-1 ring-inset ring-gray-900
+          focus-within:ring-2 focus-within:ring-inset 
+          focus-within:ring-gray-900 sm:max-w-md relative"
+        >
+          {as === "select" ? (
+            <Field
+              as="select"
+              {...inputProps}
+              style={errors[name] && touched[name] ? errorStyle : inputField}
+            >
+              {children}
+            </Field>
+          ) : as === "textarea" ? (
+            <Field
+              as="textarea"
+              {...inputProps}
+              rows={row || 3}
+              style={errors[name] && touched[name] ? errorStyle : inputField}
+            />
+          ) : (
+            <Field
+              type={type}
+              {...inputProps}
+              style={errors[name] && touched[name] ? errorStyle : inputField}
+            />
+          )}
+          {passwordToggle()}
+          {renderCardImage()}
+        </div>
+        {errors[name] && touched[name] && (
+          <p className="text-red-500">{errors[name]}</p>
+        )}
+      </div>
     </div>
   );
 }

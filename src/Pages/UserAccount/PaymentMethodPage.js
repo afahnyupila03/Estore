@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import PaymentModal from "./Components/ModalComponents/PaymentModal";
 import { Field, Form, Formik } from "formik";
-import CustomTextInput from "../../Components/TextInput";
+import CustomTextInput, { CustomInput } from "../../Components/TextInput";
 import { PaymentSchema } from "../../ValidationSchemas/PaymentSchema";
 import { useQuery } from "react-query";
 import UseAnimation from "../../Components/Loader";
@@ -34,6 +34,8 @@ export default function PaymentMethodPage() {
   const { t } = useTranslation();
 
   const [paymentModal, setPaymentModal] = useState(false);
+
+  const [renderImage, setRenderImage] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -269,7 +271,7 @@ export default function PaymentMethodPage() {
           }
         >
           {({ values, handleChange, handleBlur, isSubmitting }) => (
-            <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
+            <Form className="w-full max-w-md rounded-lg shadow-xl">
               {mobilePayment && (
                 <Field
                   component={CustomTextInput}
@@ -312,6 +314,28 @@ export default function PaymentMethodPage() {
                   placeholder="Card Number"
                 />
               )}
+
+              {/* TEST IMAGE INPUT FOR CARD NUMBER */}
+              {mobilePayment && (
+                <CustomInput
+                  autoComplete="false"
+                  renderImage={renderImage}
+                  name="cardNumber"
+                  value={values.cardNumber}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  id="cardNumber"
+                  type="text"
+                  label="Enter card number"
+                  placeholder="Enter card number"
+                  showImage={() => setRenderImage(!renderImage)}
+                  /* className="block flex-1 border-0 
+              bg-transparent py-1.5 pl-1 grid justify-center
+              text-gray-900 placeholder:text-gray-400 
+              focus:ring-0 sm:text-sm sm:leading-6" */
+                />
+              )}
+              {/* TEST IMAGE INPUT FOR CARD NUMBER */}
 
               {mobilePayment && (
                 <Field

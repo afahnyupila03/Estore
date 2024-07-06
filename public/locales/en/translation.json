@@ -31,7 +31,18 @@
     "needHelp": "Need Help ?",
     "yourAccount": "Your Account",
     "accountSettings": "Account Settings",
-    "logout": "Logout"
+    "logout": "Logout",
+    "createAccount": "Create Account",
+    "signIn": "Sign In",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "enterPassword": "Enter Password",
+    "enterEmail": "Enter Email",
+    "email": "Email",
+    "user": "Already a user ? Sign In.",
+    "newUser": "New user ? Create account."
   },
   "category": {
     "shopBy": "Shop By Category",
