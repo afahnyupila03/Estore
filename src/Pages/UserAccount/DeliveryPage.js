@@ -164,12 +164,10 @@ export default function DeliveryPage() {
     if (user === null) {
       return (
         <div className="mt-8">
-          <p className="mb-10 font-mono text-xl">
-            {t("delivery.deliveryAuthMessage")}
-          </p>
+          <p className="mb-10  text-xl">{t("delivery.deliveryAuthMessage")}</p>
           <Link
             to="/sign-in-&-create-account"
-            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            className="bg-black text-center text-white py-6 px-14 rounded font-medium "
           >
             {t("auth.signInCreate")}
           </Link>
@@ -214,13 +212,9 @@ export default function DeliveryPage() {
         />
       </div>
       <div className="grid justify-center">
-        <h1 className="font-semibold font-mono text-sm lg:text-2xl">
+        <h1 className="font-medium my-4 py-2 text-sm lg:text-2xl">
           {t("delivery.addAddress")}
         </h1>
-        <span className="text-center text-sm lg:text-lg">
-          <span>* </span>
-          {t("delivery.required")}
-        </span>
       </div>
 
       <Formik
@@ -291,8 +285,8 @@ export default function DeliveryPage() {
               value={values.address}
               onChange={handleChange}
               onBlur={handleBlur}
-              label={`* ${t("checkoutForm.address")}`}
-              placeholder="Enter your street address"
+              label={t("checkoutForm.address")}
+              placeholder={t("checkoutForm.address")}
               autoComplete="false"
               errors={errors}
               touched={touched}
@@ -305,7 +299,7 @@ export default function DeliveryPage() {
               onChange={handleChange}
               onBlur={handleBlur}
               label={t("checkoutForm.apartment")}
-              placeholder="Enter your street address"
+              placeholder={t("checkoutForm.apartment")}
               autoComplete="false"
               errors={errors}
               touched={touched}
@@ -317,8 +311,8 @@ export default function DeliveryPage() {
               value={values.zip}
               onChange={handleChange}
               onBlur={handleBlur}
-              label={`*${t("checkoutForm.postalCode")}`}
-              placeholder="Zip/postal code"
+              label={t("checkoutForm.postalCode")}
+              placeholder={t("checkoutForm.postalCode")}
               autoComplete="false"
               errors={errors}
               touched={touched}
@@ -330,8 +324,8 @@ export default function DeliveryPage() {
               value={values.city}
               onChange={handleChange}
               onBlur={handleBlur}
-              label={`*${t("delivery.city")}`}
-              placeholder="City"
+              label={t("delivery.city")}
+              placeholder={t("delivery.city")}
               autoComplete="false"
               errors={errors}
               touched={touched}
@@ -343,8 +337,8 @@ export default function DeliveryPage() {
               value={values.state}
               onChange={handleChange}
               onBlur={handleBlur}
-              label={`*${t("checkoutForm.state")}`}
-              placeholder="State/province"
+              label={t("checkoutForm.state")}
+              placeholder={t("checkoutForm.state")}
               autoComplete="false"
               errors={errors}
               touched={touched}
@@ -355,8 +349,8 @@ export default function DeliveryPage() {
                 disabled={isSubmitting}
                 className={
                   isSubmitting
-                    ? "mb-4 mt-4 p-2 w-40 bg-gray-400 text-white font-mono text-xl"
-                    : "mb-4 mt-4 p-2 w-40 bg-black text-white font-mono text-xl"
+                    ? "mb-4 mt-4 p-2 w-40 bg-gray-400 text-white font-medium text-xl"
+                    : "mb-4 mt-4 p-2 w-40 bg-black text-white font-medium text-xl"
                 }
               >
                 {t("delivery.save")}
@@ -369,7 +363,7 @@ export default function DeliveryPage() {
               <button
                 onClick={modalHandler}
                 type="button"
-                className="font-mono text-xl border-b-2 border-black"
+                className="font-medium text-xl border-b-2 border-black"
               >
                 {t("delivery.cancel")}
               </button>
@@ -382,9 +376,7 @@ export default function DeliveryPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-semibold font-mono">
-        {t("delivery.deliveryAddress")}
-      </h1>
+      <h1 className="text-2xl font-medium">{t("delivery.deliveryAddress")}</h1>
       {user !== null && (
         <div>
           <button onClick={modalHandler} className="p-2 border-2 border-black">

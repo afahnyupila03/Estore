@@ -318,7 +318,7 @@ export function CustomInput({
   };
 
   return (
-    <div className="sm:col-span-4 grid justify-center">
+    <div className="sm:col-span-4 grid my-2 justify-center">
       <label htmlFor={id} className="block text-lg font-medium text-gray-900">
         {label}
       </label>
