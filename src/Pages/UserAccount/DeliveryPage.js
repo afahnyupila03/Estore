@@ -382,7 +382,7 @@ export default function DeliveryPage() {
           <button onClick={modalHandler} className="p-2 border-2 border-black">
             {t("delivery.addNew")}
           </button>
-          <p>{t("delivery.checkoutFaster")}</p>
+          <p className="my-2 py-2">{t("delivery.checkoutFaster")}</p>
         </div>
       )}
 
