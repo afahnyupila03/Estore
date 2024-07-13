@@ -242,13 +242,9 @@ export function CustomInput({
   };
 
   const errorStyle = {
-    backgroundColor: "#9ca3af",
-    borderRadius: ".4rem",
-    padding: ".5rem",
-    width: "20rem",
+    ...inputField,
     borderColor: "red",
     borderWidth: ".15rem",
-    color: "#020617",
   };
 
   const inputProps = {
@@ -264,9 +260,35 @@ export function CustomInput({
     touched,
   };
 
-  const cardType = getCardType(value);
+  const getCardType = (cardNumber) => {
+    const visaRegex = /^(?<VISA>4\d{3}[\s-]?(?:\d{4}[\s-]?){2}\d(?:\d{3})?)$/;
+    const mastercardRegex =
+      /^(?<MASTERCARD>5[1-5]\d{2}[\s-]?\d{4}[\s-]?\d{4}[\s-]?\d{4})$/;
+    const amexRegex = /^(?<AMEX>3[47]\d{13,14})$/;
+    const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
+    const orangeCameroonRegex = /^(6[5-7]\d{7})$/;
+    const mtnCameroonRegex = /^(6[8-9]\d{7})$/;
+  
+    if (visaRegex.test(cardNumber)) {
+      return "visa";
+    } else if (mastercardRegex.test(cardNumber)) {
+      return "mastercard";
+    } else if (amexRegex.test(cardNumber)) {
+      return "amex";
+    } else if (discoverRegex.test(cardNumber)) {
+      return "discover";
+    } else if (orangeCameroonRegex.test(cardNumber)) {
+      return "orange";
+    } else if (mtnCameroonRegex.test(cardNumber)) {
+      return "mtn";
+    } else {
+      return "Invalid number";
+    }
+  };
 
   const renderCardImage = () => {
+    const cardType = getCardType(value);
+
     if (renderImage && cardType) {
       const cardTypeToImageMap = {
         amex: AmericanExpress,
@@ -279,17 +301,20 @@ export function CustomInput({
 
       const imageSrc = cardTypeToImageMap[cardType];
 
-      return (
-        <img
-          src={imageSrc}
-          alt={cardType}
-          className="h-6 w-6 absolute 
-          inset-y-0 right-0 pr-3 
-          flex items-center text-sm 
-          leading-3"
-        />
-      );
+      if (imageSrc) {
+        return (
+          <img
+            src={imageSrc}
+            alt={cardType}
+            className="h-6 w-6 absolute 
+            inset-y-0 right-0 pr-3 
+            flex items-center text-sm 
+            leading-3"
+          />
+        );
+      }
     }
+    return null;
   };
 
   const passwordToggle = () => {

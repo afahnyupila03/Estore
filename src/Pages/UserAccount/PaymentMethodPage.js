@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import PaymentModal from "./Components/ModalComponents/PaymentModal";
-import { Field, Form, Formik } from "formik";
-import CustomTextInput, { CustomInput } from "../../Components/TextInput";
-import { PaymentSchema } from "../../ValidationSchemas/PaymentSchema";
+import { Form, Formik } from "formik";
+import { CustomInput } from "../../Components/TextInput";
+import {
+  BankPaymentSchema,
+  MobilePaymentSchema,
+  PaymentSchema,
+} from "../../ValidationSchemas/PaymentSchema";
 import { useQuery } from "react-query";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
@@ -26,24 +30,26 @@ import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-// TODO: FIX EDIT AND DELETE PAYMENT HANDLERS.
-
 export default function PaymentMethodPage() {
   const { user } = useAuth();
 
   const { t } = useTranslation();
 
   const [paymentModal, setPaymentModal] = useState(false);
-
-  const [renderImage, setRenderImage] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
-  const [mobilePayment, setMobilePayment] = useState(true);
+  const [bankPayment, setBankPayment] = useState(true);
   const [selectedPaymentId, setSelectedPaymentId] = useState(null);
 
   const userName = user?.displayName;
   const userId = user?.uid;
+  console.log("userName: ", userName);
+
+  const bankPaymentHandler = () => {
+    setBankPayment((prevMobilePayment) => !prevMobilePayment);
+  };
+  console.log("mobile payment state: ", bankPayment.toString());
 
   const splitUserName = (userName) => {
     if (!userName) {
@@ -83,6 +89,7 @@ export default function PaymentMethodPage() {
     setPaymentModal(!paymentModal);
     setEditModal(false);
     setSelectedPaymentId(null);
+    setBankPayment(true);
   };
 
   const paymentMethodHandler = async (values, actions) => {
@@ -95,13 +102,21 @@ export default function PaymentMethodPage() {
     );
 
     try {
-      const paymentRef = await addDoc(newPaymentRef, {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        cardNumber: values.cardNumber,
-        expiryDate: values.expiryDate,
-        securityCode: values.securityCode,
-      });
+      const paymentRef = await addDoc(
+        newPaymentRef,
+        bankPayment
+          ? {
+              firstName: values.firstName,
+              lastName: values.lastName,
+              cardNumber: values.cardNumber,
+              expiryDate: values.expiryDate,
+              securityCode: values.securityCode,
+            }
+          : {
+              accountName: values.accountName,
+              accountNumber: values.accountNumber,
+            }
+      );
 
       const paymentId = paymentRef.id;
 
@@ -155,13 +170,21 @@ export default function PaymentMethodPage() {
         "bankCard",
         selectedPaymentId
       );
-      await updateDoc(paymentRef, {
-        firstName: values.firstName,
-        lastName: values.lastName,
-        cardNumber: values.cardNumber,
-        expiryDate: values.expiryDate,
-        securityCode: values.securityCode,
-      });
+      await updateDoc(
+        paymentRef,
+        bankPayment
+          ? {
+              firstName: values.firstName,
+              lastName: values.lastName,
+              cardNumber: values.cardNumber,
+              expiryDate: values.expiryDate,
+              securityCode: values.securityCode,
+            }
+          : {
+              accountName: values.accountName,
+              accountNumber: values.accountNumber,
+            }
+      );
       alert(
         `Payment details with ${selectedPaymentId} has been updated successfully.`
       );
@@ -179,14 +202,14 @@ export default function PaymentMethodPage() {
     if (user === null) {
       return (
         <div className="mt-8">
-          <p className="mb-10 font-mono text-xl">
+          <p className="mb-10  text-xl">
             No user found. Please sign in / create account to view wish list.
           </p>
           <Link
-            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            className="bg-black text-center text-white py-6 px-14 rounded font-medium "
             to="/sign-in-&-create-account"
           >
-            Sign in / Create Account
+            {t("auth.signInCreate")}
           </Link>
         </div>
       );
@@ -203,7 +226,7 @@ export default function PaymentMethodPage() {
           <button onClick={() => refetch()}>Refresh</button>
         </div>
       );
-    } else if (data === null) {
+    } else if (data === null || data.length === 0) {
       return <p>No payment methods added.</p>;
     } else {
       return data.map((payment) => (
@@ -217,6 +240,56 @@ export default function PaymentMethodPage() {
     }
   };
 
+  useEffect(() => {
+    if (editModal && singlePaymentQuery.data) {
+      if (
+        singlePaymentQuery.data.accountName &&
+        singlePaymentQuery.data.accountNumber
+      ) {
+        setBankPayment(false);
+      } else {
+        setBankPayment(true);
+      }
+    }
+  }, [editModal, singlePaymentQuery]);
+
+  const initialValues = () => {
+    if (editModal && singlePaymentQuery.data && !bankPayment) {
+      if (
+        singlePaymentQuery.data.accountName &&
+        singlePaymentQuery.data.accountNumber
+      ) {
+        return {
+          id: singlePaymentQuery.data.id,
+          accountName: singlePaymentQuery.data.accountName,
+          accountNumber: singlePaymentQuery.data.accountNumber,
+        };
+      } else {
+        return {
+          id: singlePaymentQuery.data.id,
+          firstName: singlePaymentQuery.data.firstName,
+          lastName: singlePaymentQuery.data.lastName,
+          cardNumber: singlePaymentQuery.data.cardNumber,
+          expiryDate: singlePaymentQuery.data.expiryDate,
+          securityCode: singlePaymentQuery.data.securityCode,
+        };
+      }
+    } else if (bankPayment) {
+      return {
+        firstName: "",
+        lastName: "",
+        cardNumber: "",
+        expiryDate: "",
+        securityCode: "",
+      };
+    } else if (!bankPayment) {
+      return {
+        accountName: "",
+        accountNumber: "",
+      };
+    }
+  };
+
   const PAYMENT_MODAL = (
     <PaymentModal>
       <div className="flex justify-end">
@@ -227,194 +300,147 @@ export default function PaymentMethodPage() {
         />
       </div>
       <div className="flex justify-center">
-        <h1 className="p-2 font-mono text-xl font-semibold">
-          {t("personalInfor.newCard")}
+        <h1 className="p-2  text-xl font-medium">
+          {bankPayment ? `${t("personalInfor.newCard")}` : "MOMO / OM Number"}
         </h1>
       </div>
       <div>
-        <p className="font-mono text-sm lg:text-lg flex justify-center p-4 text-center">
+        <p className=" text-sm lg:text-lg flex justify-center p-4 text-center">
           {t("personalInfor.saveCard")}
         </p>
       </div>
       <div>
-        <p className="flex justify-center font-mono font-semibold text-xl">
-          <span className="text-red-500">*</span>
-          {t("delivery.required")}
-        </p>
         {/* singleMethod */}
         <Formik
-          initialValues={
-            editModal && singlePaymentQuery.data
-              ? {
-                  id: singlePaymentQuery.data.id,
-                  firstName: singlePaymentQuery.data.firstName,
-                  lastName: singlePaymentQuery.data.lastName,
-                  cardNumber: singlePaymentQuery.data.cardNumber,
-                  expiryDate: singlePaymentQuery.data.expiryDate,
-                  securityCode: singlePaymentQuery.data.securityCode,
-                  // accountName: singlePaymentQuery.data.accountName,
-                  // accountNumber: singlePaymentQuery.data.accountNumber,
-                }
-              : {
-                  firstName: firstName,
-                  lastName: lastName,
-                  cardNumber: "",
-                  expiryDate: "",
-                  securityCode: "",
-                  // accountName: "",
-                  // accountNumber: "",
-                }
-          }
+          initialValues={initialValues()}
           // validationSchema={PaymentSchema}
           onSubmit={
             editModal ? editPaymentDetailsHandler : paymentMethodHandler
           }
         >
-          {({ values, handleChange, handleBlur, isSubmitting }) => (
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            isSubmitting,
+            errors,
+            touched,
+          }) => (
             <Form className="w-full max-w-md rounded-lg shadow-xl">
-              {mobilePayment && (
-                <Field
-                  component={CustomTextInput}
-                  values={values.firstName}
-                  name="firstName"
-                  type="text"
-                  id="firstName"
-                  autoComplete="true"
-                  label={t("checkoutForm.firstName")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  placeholder="First name"
-                />
-              )}
-              {mobilePayment && (
-                <Field
-                  component={CustomTextInput}
-                  values={values.lastName}
-                  name="lastName"
-                  type="text"
-                  id="lastName"
-                  autoComplete="true"
-                  label={t("checkoutForm.lastName")}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  placeholder="Last name"
-                />
-              )}
-              {mobilePayment && (
-                <Field
-                  component={CustomTextInput}
-                  value={values.cardNumber}
-                  name="cardNumber"
-                  type="text"
-                  id="cardNumber"
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  label={`*${t("checkoutForm.cardNumber")}`}
-                  autoComplete="false"
-                  placeholder="Card Number"
-                />
-              )}
-
-              {/* TEST IMAGE INPUT FOR CARD NUMBER */}
-              {mobilePayment && (
-                <CustomInput
-                  autoComplete="false"
-                  renderImage={renderImage}
-                  name="cardNumber"
-                  value={values.cardNumber}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  id="cardNumber"
-                  type="text"
-                  label="Enter card number"
-                  placeholder="Enter card number"
-                  showImage={() => setRenderImage(!renderImage)}
-                  /* className="block flex-1 border-0 
-              bg-transparent py-1.5 pl-1 grid justify-center
-              text-gray-900 placeholder:text-gray-400 
-              focus:ring-0 sm:text-sm sm:leading-6" */
-                />
-              )}
-              {/* TEST IMAGE INPUT FOR CARD NUMBER */}
-
-              {mobilePayment && (
-                <Field
-                  component={CustomTextInput}
-                  value={values.expiryDate.toUpperCase()}
-                  name="expiryDate"
-                  id="expiryDate"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  autoComplete="false"
-                  label={`*${t("checkoutForm.expiryDate")}`}
-                  type="text"
-                  pattern="\d{2}/\d{2}"
-                  required
-                />
-              )}
-
-              {mobilePayment && (
-                <Field
-                  component={CustomTextInput}
-                  name="securityCode"
-                  id="securityCode"
-                  type="integer"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.securityCode}
-                  label={`*${t("personalInfor.securityCode")}`}
-                  autoComplete="false"
-                />
-              )}
-
-              {!mobilePayment && (
-                <Field
-                  component={CustomTextInput}
-                  name="accountName"
-                  id="accountName"
-                  type="text"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={`${values.firstName} ${values.lastName}`}
-                  label={`*${t("personalInfor.accountName")}`}
-                  autoComplete="false"
-                />
+              {bankPayment ? (
+                <>
+                  <CustomInput
+                    errors={errors}
+                    touched={touched}
+                    value={values.firstName}
+                    name="firstName"
+                    type="text"
+                    id="firstName"
+                    autoComplete="true"
+                    label={t("checkoutForm.firstName")}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder={t("checkoutForm.firstName")}
+                  />
+                  <CustomInput
+                    errors={errors}
+                    touched={touched}
+                    value={values.lastName}
+                    name="lastName"
+                    type="text"
+                    id="lastName"
+                    autoComplete="true"
+                    label={t("checkoutForm.lastName")}
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    placeholder={t("checkoutForm.lastName")}
+                  />
+                  <CustomInput
+                    errors={errors}
+                    touched={touched}
+                    value={values.cardNumber}
+                    name="cardNumber"
+                    type="text"
+                    id="cardNumber"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    label={t("checkoutForm.cardNumber")}
+                    autoComplete="false"
+                    placeholder={t("checkoutForm.cardNumber")}
+                  />
+                  <CustomInput
+                    errors={errors}
+                    touched={touched}
+                    value={values.expiryDate}
+                    name="expiryDate"
+                    id="expiryDate"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    autoComplete="false"
+                    label={t("checkoutForm.expiryDate")}
+                    type="text"
+                    pattern="\d{2}/\d{2}"
+                    required
+                  />
+                  <CustomInput
+                    errors={errors}
+                    touched={touched}
+                    name="securityCode"
+                    id="securityCode"
+                    type="integer"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.securityCode}
+                    label={t("personalInfor.securityCode")}
+                    autoComplete="false"
+                  />
+                </>
+              ) : (
+                <>
+                  <CustomInput
+                    errors={errors}
+                    touched={touched}
+                    value={values.accountName}
+                    name="accountName"
+                    id="accountName"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    autoComplete="false"
+                    label={t("personalInfor.name")}
+                    placeholder={t("personalInfor.name")}
+                    type="text"
+                  />
+                  <CustomInput
+                    errors={errors}
+                    touched={touched}
+                    name="accountNumber"
+                    id="accountNumber"
+                    type="tel"
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                    value={values.accountNumber}
+                    label={t("checkoutForm.cardNumber")}
+                    placeholder={t("checkoutForm.cardNumber")}
+                    autoComplete="false"
+                  />
+                </>
               )}
 
-              {!mobilePayment && (
-                <Field
-                  component={CustomTextInput}
-                  name="accountNumber"
-                  id="accountNumber"
-                  type="tel"
-                  onBlur={handleBlur}
-                  onChange={handleChange}
-                  value={values.cardNumber}
-                  label={`*${t("personalInfor.momoNumber")}`}
-                  autoComplete="false"
-                />
+              {!editModal && (
+                <div className="flex justify-center">
+                  <button type="button" onClick={bankPaymentHandler}>
+                    {bankPayment
+                      ? `${t("personalInfor.payMomo")}`
+                      : `${t("personalInfor.payBank")}`}
+                  </button>
+                </div>
               )}
 
-              <div className="flex justify-center mt-2">
-                <p className="font-mono lg:text-center text-lg ">
-                  {t("personalInfor.primaryMethods")}
-                </p>
-              </div>
-              <div className="flex justify-center">
-                <button
-                  type="button"
-                  onClick={() => setMobilePayment(!mobilePayment)}
-                >
-                  {mobilePayment
-                    ? `${t("personalInfor.payMomo")}`
-                    : `${t("personalInfor.payBank")}`}
-                </button>
-              </div>
-              <div className="flex justify-center mt-4">
+              <div className="flex justify-center mx-4 my-4">
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="p-2 w-20 lg:w-40 bg-black text-white font-mono text-sm lg:text-xl"
+                  className="p-2 w-20 lg:w-40 bg-gray-800 rounded-md text-white  text-sm lg:text-xl"
                 >
                   {t("delivery.save")}
                 </button>
@@ -438,7 +464,7 @@ export default function PaymentMethodPage() {
   return (
     <div>
       <div>
-        <h1 className="text-2xl font-semibold font-mono">Payment Methods</h1>
+        <h1 className="text-2xl font-medium ">Payment Methods</h1>
         {user !== null && (
           <div>
             <button

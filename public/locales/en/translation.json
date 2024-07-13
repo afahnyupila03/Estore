@@ -181,7 +181,7 @@
     "businessDays": "business days",
     "payment": "Payment",
     "nameOnCard": "Name on card",
-    "cardNumber": "Card number",
+    "cardNumber": "Number",
     "expiryDate": "Expiry date",
     "cvc": "CVC",
     "selectCard": "Select card number",
@@ -234,10 +234,10 @@
     "newCard": "Add New Card",
     "checkoutFaster": "Checkout faster by adding one or more cards to your account.",
     "primaryMethods": "This will be your primary payment method.",
-    "saveCard": "Save your card to enable use on future TimeZone purchases. Remove this card from your TimeZone account to this service",
+    "saveCard": "Save your payment details to enable use on future TimeZone purchases.",
     "securityCode": "Security code",
     "payMomo": "Pay via MOMO / OM",
-    "payBank": "pay via bank card",
+    "payBank": "Pay via Bank Card",
     "accountName": "Account name",
     "momoNumber": "MOMO / OM number",
     "sameInfor": "This information is the same at:",
@@ -268,7 +268,8 @@
     "noUser": "No user found.",
     "personalAuthMessage": "Please sign in | create account to view user information.",
     "enterDetails": "Enter login details to delete account",
-    "areYouSure": "Are you sure you want to delete your account ?"
+    "areYouSure": "Are you sure you want to delete your account ?",
+    "noUserPay": "No user found. Please sign in | create account to view Payment cards."
   },
   "purchases": {
     "datePlaced": "Date placed",

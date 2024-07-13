@@ -181,7 +181,7 @@
     "businessDays": "jours ouvrables",
     "payment": "Paiement",
     "nameOnCard": "Nom sur la carte",
-    "cardNumber": "Numéro de carte",
+    "cardNumber": "Numéro",
     "expiryDate": "Date d'expiration",
     "cvc": "CVC",
     "selectCard": "Sélectionner le numéro de carte",
@@ -234,7 +234,7 @@
     "newCard": "Ajouter une nouvelle carte",
     "checkoutFaster": "Passez votre commande plus rapidement en ajoutant une ou plusieurs cartes à votre compte.",
     "primaryMethods": "Ceci sera votre méthode de paiement principale.",
-    "saveCard": "Enregistrez votre carte pour l'utiliser lors de vos prochains achats chez TimeZone. Supprimez cette carte de votre compte TimeZone pour ce service.",
+    "saveCard": "Enregistrez votre détails de paiement pour l'utiliser lors de vos prochains achats chez TimeZone.",
     "securityCode": "Code de sécurité",
     "payMomo": "Payer via MOMO / OM",
     "payBank": "Payer par carte bancaire",
@@ -268,7 +268,8 @@
     "noUser": "Aucun utilisateur trouvé",
     "personalAuthMessage": "Veuillez vous connecter | créer un compte pour voir les informations utilisateur.",
     "enterDetails": "Entrez les détails de connexion pour supprimer le compte.",
-    "areYouSure": "Êtes-vous sûr(e) de vouloir supprimer votre compte ?"
+    "areYouSure": "Êtes-vous sûr(e) de vouloir supprimer votre compte ?",
+    "noUserPay": "Utilisateur non trouvé. Veuillez vous connecter | Créer un compte pour voir les cartes de paiement."
   },
   "purchases": {
     "datePlaced": "Date de commande",

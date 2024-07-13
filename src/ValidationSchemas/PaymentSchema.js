@@ -1,6 +1,8 @@
 import * as Yup from "yup";
 
-export const PaymentSchema = Yup.object().shape({
+const phoneNumberRegex = /^(?:\+237|237)?(6[5789]\d{7})$/;
+
+export const BankPaymentSchema = Yup.object().shape({
   cardNumber: Yup.string()
     .matches(
       /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|6(?:011|5[0-9]{2})[0-9]{12})$/,
@@ -13,5 +15,17 @@ export const PaymentSchema = Yup.object().shape({
   securityCode: Yup.string()
     .matches(/^[0-9]{3}$/, "Invalid security code")
     .required("Security code is required"),
-  cardHolder: Yup.string().trim().required("Please enter your name."),
+  firstName: Yup.string().trim().required("Please enter your first name."),
+  lastName: Yup.string().trim().required("Please enter your last name"),
+  
+});
+
+export const MobilePaymentSchema = Yup.object().shape({
+  accountNumber: Yup.string()
+    .matches(
+      phoneNumberRegex,
+      "Phone number is not a valid MTN / ORANGE number"
+    )
+    .required("Please enter MTN / ORANGE number"),
+  accountName: Yup.string().required("Please enter your name"),
 });
