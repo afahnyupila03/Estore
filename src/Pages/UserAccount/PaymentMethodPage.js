@@ -313,7 +313,9 @@ export default function PaymentMethodPage() {
         {/* singleMethod */}
         <Formik
           initialValues={initialValues()}
-          // validationSchema={PaymentSchema}
+          validationSchema={
+            bankPayment ? BankPaymentSchema : MobilePaymentSchema
+          }
           onSubmit={
             editModal ? editPaymentDetailsHandler : paymentMethodHandler
           }
