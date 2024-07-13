@@ -10,6 +10,12 @@ import NameModal from "./Components/ModalComponents/EditNameModal";
 import DeleteModal from "./Components/ModalComponents/DeleteModal";
 import { useAuth } from "../../Store";
 import { useTranslation } from "react-i18next";
+import {
+  ChangeEmailSchema,
+  ChangePasswordSchema,
+  EditNameSchema,
+  ReAuthSchema,
+} from "../../ValidationSchemas/PersonalInformationSchema";
 
 const ActionButton = ({ actionHandler }) => {
   return (
@@ -158,7 +164,7 @@ export default function PersonalInformation() {
   };
 
   const openDeleteModal = () => {
-    setDeleteModal(!deleteModal);
+    setDeleteModal((prevState) => !prevState);
   };
   const openEmailModal = () => {
     setEditEmailModal(!editEmailModal);
@@ -175,7 +181,7 @@ export default function PersonalInformation() {
       <div className="flex justify-end">
         <ActionButton actionHandler={openEmailModal} />
       </div>
-      <div className="font-mono text-lg lg:text-xl text-start mb-4">
+      <div className=" text-lg lg:text-xl text-start mb-4">
         <h1 className="font-bold mb-4 text-center">
           {reAuth
             ? `${t("personalInfor.signIn")}`
@@ -199,6 +205,7 @@ export default function PersonalInformation() {
                 newEmail: "",
               }
         }
+        validationSchema={reAuth ? ReAuthSchema : ChangeEmailSchema}
         onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
       >
         {({
@@ -243,13 +250,13 @@ export default function PersonalInformation() {
               type={reAuth ? "password" : "email"}
             />
             {reAuth ? (
-              <div className="flex justify-center font-mono">
+              <div className="flex justify-center ">
                 <button type="button" onClick={handleResetPassword}>
                   {t("personalInfor.forgotPassword")}
                 </button>
               </div>
             ) : (
-              <div className="flex justify-center font-semibold text-lg font-mono mt-2">
+              <div className="flex justify-center font-medium text-lg  mt-2">
                 <p>
                   {t("personalInfor.byTapping")}
                   <span>
@@ -287,8 +294,8 @@ export default function PersonalInformation() {
       <div className="flex justify-end">
         <ActionButton actionHandler={openPasswordModal} />
       </div>
-      <div className="mb-4 font-mono">
-        <h1 className="text-2xl text-center mb-4 font-semibold">
+      <div className="mb-4 ">
+        <h1 className="text-2xl text-center mb-4 font-medium">
           {reAuth
             ? `${t("personalInfor.signIn")}`
             : `${t("personalInfor.changePassword")}`}
@@ -312,6 +319,7 @@ export default function PersonalInformation() {
               }
         }
         onSubmit={reAuth ? reAuthenticateUser : handlePasswordChange}
+        validationSchema={reAuth ? ReAuthSchema : ChangePasswordSchema}
       >
         {({
           values,
@@ -365,13 +373,13 @@ export default function PersonalInformation() {
               autoComplete="off"
             />
             {reAuth ? (
-              <div className="flex justify-center font-mono">
+              <div className="flex justify-center ">
                 <button type="button" onClick={handleResetPassword}>
                   {t("personalInfor.forgotPassword")}
                 </button>
               </div>
             ) : (
-              <div className="flex justify-center font-semibold text-lg font-mono px-4 mt-2">
+              <div className="flex justify-center font-medium text-lg  px-4 mt-2">
                 <p>
                   {t("personalInfor.tapChangePassword")}
                   <span>
@@ -414,7 +422,7 @@ export default function PersonalInformation() {
       <div className="flex justify-end">
         <ActionButton actionHandler={openNameModal} />
       </div>
-      <div className="font-mono mb-6 font-semibold text-2xl">
+      <div className=" mb-6 font-medium text-2xl">
         <h1 className="text-center">Edit your name</h1>
       </div>
       <Formik
@@ -423,6 +431,7 @@ export default function PersonalInformation() {
           lastName: lastName,
         }}
         onSubmit={updateUserName}
+        validationSchema={EditNameSchema}
       >
         {({
           values,
@@ -463,7 +472,7 @@ export default function PersonalInformation() {
               <button
                 type="submit"
                 disabled={isSubmitting}
-                className="p-2 rounded w-40 bg-black font-mono text-white text-lg"
+                className="p-2 rounded w-40 bg-black  text-white text-lg"
               >
                 {t("delivery.edit")}
               </button>
@@ -474,13 +483,15 @@ export default function PersonalInformation() {
     </NameModal>
   );
 
+  console.log("Delete modal state: ", deleteModal.toString());
+
   const DELETE_MODAL = (
     <DeleteModal>
       <div className="flex justify-end">
         <ActionButton actionHandler={openDeleteModal} />
       </div>
-      <div className="font-mono mb-6">
-        <h1 className="text-2xl font-semibold mb-4">
+      <div className=" mb-6">
+        <h1 className="text-2xl font-medium mb-4">
           {reAuth
             ? `${t("personalInfor.signIn")}`
             : `${t("personalInfor.deleteTimezone")}`}
@@ -494,7 +505,7 @@ export default function PersonalInformation() {
       {reAuth ? (
         <Formik
           initialValues={{ email: "", password: "" }}
-          // onSubmit={reAuthenticateUser}
+          validationSchema={ReAuthSchema}
           onSubmit={handleDeleteAccount}
         >
           {({
@@ -571,11 +582,11 @@ export default function PersonalInformation() {
 
   const NullUser = () => {
     return (
-      <div className="text-xl font-mono font-medium">
+      <div className="text-xl  font-medium">
         <p>{t("personalInfor.noUser")}</p>
         <p className="mb-10">{t("personalInfor.personalAuthMessage")}</p>
         <Link
-          className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+          className="bg-black text-center text-white py-6 px-14 rounded font-medium "
           to="/sign-in-&-create-account"
         >
           {t("auth.signInCreate")}
@@ -586,27 +597,23 @@ export default function PersonalInformation() {
 
   const PageContent = () => {
     return (
-      <div>
+      <div className="mb-40 pb-20">
         {/* Password & Personal Information */}
         <div>
-          <h1 className="text-2xl font-semibold font-mono">
+          <h1 className="text-2xl font-medium ">
             {t("auth.password&Personal")}
           </h1>
           <div>
-            <div className="text-lg mt-4 font-mono">
+            <div className="text-lg mt-4 ">
               <p>
                 {t("personalInfor.sameInfor")} <br />
-                <span className="text-2xl font-semibold font-mono">
-                  TIMEZONE
-                </span>
+                <span className="text-2xl font-medium ">TIMEZONE</span>
               </p>
             </div>
 
             <div className="mt-6">
-              <h1 className="text-3xl font-mono">
-                {t("personalInfor.signInInfo")}
-              </h1>
-              <div className="font-mono text-lg mt-4">
+              <h1 className="text-3xl ">{t("personalInfor.signInInfo")}</h1>
+              <div className=" text-lg mt-4">
                 <h1 className="font-medium">{t("checkoutForm.email")}</h1>
                 <p
                   style={{ width: "18rem" }}
@@ -620,7 +627,7 @@ export default function PersonalInformation() {
                 <hr className="border-black" style={{ width: "7.5rem" }} />
               </div>
 
-              <div className="font-mono text-lg mt-4">
+              <div className=" text-lg mt-4">
                 <h1 className="font-medium">{t("personalInfor.password")}</h1>
                 <button onClick={openPasswordModal}>
                   {t("personalInfor.changePassword")}
@@ -632,8 +639,8 @@ export default function PersonalInformation() {
         </div>
 
         {/* Personal Information */}
-        <div className="mt-14 font-mono">
-          <h1 className="text-2xl font-semibold">
+        <div className="mt-14 ">
+          <h1 className="text-2xl font-medium">
             {t("personalInfor.personalInfor")}
           </h1>
           <div>
@@ -647,8 +654,8 @@ export default function PersonalInformation() {
         </div>
 
         {/* Security */}
-        <div className="mt-10 font-mono text-lg">
-          <h1 className="text-2xl font-semibold font-mono">
+        <div className="mt-10  text-lg">
+          <h1 className="text-2xl font-medium ">
             {t("personalInfor.security")}
           </h1>
           <p>{t("personalInfor.logoutAccount")}</p>
@@ -661,12 +668,12 @@ export default function PersonalInformation() {
         </div>
 
         {/* Delete Account */}
-        <div className="mt-4 font-mono text-lg">
+        <div className="mt-4 mb-40 pb-40  text-lg">
           <p className="mb-2">{t("personalInfor.deleteTimezone")}</p>
           <button
             type="button"
             onClick={openDeleteModal}
-            className="p-2 bg-red-600 text-white font-mono rounded"
+            className="p-2 bg-red-600 text-white  rounded"
           >
             {t("personalInfor.deleteAccount")}
           </button>

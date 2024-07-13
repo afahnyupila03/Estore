@@ -60,11 +60,11 @@ export default function AccountLandingPage() {
   };
 
   return (
-    <div className="flex h-screen mb-20 pb-20 bg-gray-100">
+    <div className="flex h-screen mb-40 pb-20 bg-gray-100">
       {user !== null && (
         <div
           className="w-100 bg-gray-800 rounded-r"
-          style={{ marginBottom: "-10rem" }}
+          style={{ marginBottom: "-16rem" }}
         >
           <ul className="py-6 space-y-8">
             <li>
@@ -96,11 +96,11 @@ export default function AccountLandingPage() {
               </li>
             ))}
 
-            <li className="flex justify-center items-center">
+            <li className="flex justify-center mt-40 items-center">
               {user !== null && (
                 <button
                   onClick={handleLogout}
-                  className="p-4 text-white bg-gray-500 rounded-lg"
+                  className="px-2 mx-4 py-2 my-4 text-white bg-gray-500 rounded-md"
                 >
                   {t("auth.logout")}
                 </button>
