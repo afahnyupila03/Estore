@@ -217,7 +217,7 @@ export default function ProductItemCard({ productData }) {
     if (window.innerWidth <= 767) {
       event.preventDefault();
       window.location.href = `/product-details/${id}/${title}`;
-    } 
+    }
   };
 
   const PRODUCT_MODAL = (
@@ -226,7 +226,7 @@ export default function ProductItemCard({ productData }) {
       style={{ fontSize: "2rem", fontWeight: "bold" }}
       actionHandler={handleShowProductModal}
     >
-      <div className="grid grid-cols-2 gap-x-10 font-mono text-2xl font-medium px-6">
+      <div className="grid grid-cols-2 gap-x-10  text-2xl font-medium px-6">
         <div>
           <img
             src={currImageIndex !== null ? images[currImageIndex] : thumbnail}
@@ -270,12 +270,12 @@ export default function ProductItemCard({ productData }) {
             <p>{DISCOUNT}</p>
           </div>
           <div className="mt-6">
-            <p className="font-mono text-1xl font-medium">{description}</p>
+            <p className=" text-1xl font-medium">{description}</p>
 
             <div className="grid justify-start mt-8 ">
               <button
                 onClick={() => handleAddProduct(productData)}
-                className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium font-mono items-center text-center"
+                className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium  items-center text-center"
               >
                 <IonIcon
                   icon={productAdded ? checkmark : bagHandleOutline}
@@ -336,14 +336,14 @@ export default function ProductItemCard({ productData }) {
         />
       </div>
 
-      <div className="mt-4 text-xs lg:text-lg grid font-semibold">
+      <div className="mt-4 text-xs lg:text-lg grid font-medium">
         <div className="flex justify-between items-center">
           <div>
             <p className="flex text-xs lg:text-lg justify-start text-gray-700">
               {brand}
             </p>
 
-            <h4 className="font-mono text-sm font-semibold lg:font-semibold lg:text-lg flex text-left">
+            <h4 className=" text-sm font-medium lg:font-medium lg:text-lg flex text-left">
               <span aria-hidden="true">{getName(title)}</span>
             </h4>
           </div>

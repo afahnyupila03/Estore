@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
@@ -6,21 +5,34 @@ import { useRef, useState } from "react";
 
 export function Component() {
   const [openModal, setOpenModal] = useState(true);
-  const emailInputRef = useRef<HTMLInputElement>(null);
+  const emailInputRef = useRef < HTMLInputElement > null;
 
   return (
     <>
       <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
-      <Modal show={openModal} size="md" popup onClose={() => setOpenModal(false)} initialFocus={emailInputRef}>
+      <Modal
+        show={openModal}
+        size="md"
+        popup
+        onClose={() => setOpenModal(false)}
+        initialFocus={emailInputRef}
+      >
         <Modal.Header />
         <Modal.Body>
           <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Sign in to our platform</h3>
+            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
+              Sign in to our platform
+            </h3>
             <div>
               <div className="mb-2 block">
                 <Label htmlFor="email" value="Your email" />
               </div>
-              <TextInput id="email" ref={emailInputRef} placeholder="name@company.com" required />
+              <TextInput
+                id="email"
+                ref={emailInputRef}
+                placeholder="name@company.com"
+                required
+              />
             </div>
             <div>
               <div className="mb-2 block">
@@ -33,7 +45,10 @@ export function Component() {
                 <Checkbox id="remember" />
                 <Label htmlFor="remember">Remember me</Label>
               </div>
-              <a href="#" className="text-sm text-cyan-700 hover:underline dark:text-cyan-500">
+              <a
+                href="#"
+                className="text-sm text-cyan-700 hover:underline dark:text-cyan-500"
+              >
                 Lost Password?
               </a>
             </div>
@@ -42,7 +57,10 @@ export function Component() {
             </div>
             <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
               Not registered?&nbsp;
-              <a href="#" className="text-cyan-700 hover:underline dark:text-cyan-500">
+              <a
+                href="#"
+                className="text-cyan-700 hover:underline dark:text-cyan-500"
+              >
                 Create account
               </a>
             </div>
@@ -54,23 +72,5 @@ export function Component() {
 }
 
 
-American Express
-Card Number: 371449635398431
-Expiration Date: Any future date
-Security Code (CVV): Any 4 digits
-Visa
-Card Number: 4111111111111111
-Expiration Date: Any future date
-Security Code (CVV): Any 3 digits
-Mastercard
-Card Number: 5555555555554444
-Expiration Date: Any future date
-Security Code (CVV): Any 3 digits
-Discover
-Card Number: 6011111111111117
-Expiration Date: Any future date
-Security Code (CVV): Any 3 digits
 
-american express card has a CVV of 4 digits, Visa, master card, discover all have 3 digits,
 
-              

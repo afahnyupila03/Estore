@@ -155,7 +155,7 @@
     "checkout": "Checkout",
     "quantity": "Quantity",
     "remove": "Remove",
-    "continueShopping": "Continuer Shopping",
+    "continueShopping": "Continue Shopping",
     "noUser": "No user found. Please Sign in | Create Account to see product(s) in bag.",
     "checkoutDelivery": "Delivery and taxes will be calculated at checkout.",
     "subTotal": "Subtotal"

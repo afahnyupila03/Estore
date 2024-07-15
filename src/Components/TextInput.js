@@ -268,7 +268,7 @@ export function CustomInput({
     const discoverRegex = /^(?<DISCOVER>6(?:011|22(?:[2-8]|9\d))\d{12})$/;
     const orangeCameroonRegex = /^(6[5-7]\d{7})$/;
     const mtnCameroonRegex = /^(6[8-9]\d{7})$/;
-  
+
     if (visaRegex.test(cardNumber)) {
       return "visa";
     } else if (mastercardRegex.test(cardNumber)) {
@@ -368,6 +368,12 @@ export function CustomInput({
               {...inputProps}
               rows={row || 3}
               style={errors[name] && touched[name] ? errorStyle : inputField}
+            />
+          ) : type === "checkbox" || type === "radio" ? (
+            <Field
+              type={type}
+              {...inputProps}
+              className={`form-checkbox h-4 w-4 text-indigo-600 transition duration-150 ease-in-out ${className}`}
             />
           ) : (
             <Field
