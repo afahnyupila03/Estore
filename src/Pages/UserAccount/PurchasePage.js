@@ -70,11 +70,9 @@ export default function PurchasePage() {
     if (user === null) {
       return (
         <div className="mt-8">
-          <p className="mb-10 font-mono text-xl">
-            {t("purchases.purchaseAuthMessage")}
-          </p>
+          <p className="mb-10  text-xl">{t("purchases.purchaseAuthMessage")}</p>
           <Link
-            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            className="bg-black text-center text-white py-6 px-14 rounded font-medium "
             to="/sign-in-&-create-account"
           >
             {t("auth.signInCreate")}
@@ -359,7 +357,7 @@ export default function PurchasePage() {
   return (
     <Fragment>
       <div>
-        <h1 className="text-2xl font-semibold font-mono">
+        <h1 className="text-2xl font-medium ">
           {t("auth.purchases")} <span>({data.length})</span>
         </h1>
       </div>

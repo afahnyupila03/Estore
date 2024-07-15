@@ -32,7 +32,7 @@ export default function BlogCard({ blogData }) {
       </div>
 
       <div className="group relative">
-        <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
+        <h3 className="mt-3 text-lg font-medium leading-6 text-gray-900 group-hover:text-gray-600">
           <Link to="#">
             <span className="absolute inset-0" />
             {title}
@@ -45,7 +45,7 @@ export default function BlogCard({ blogData }) {
       <div className="relative mt-8 flex  items-center gap-x-4">
         <div className="text-sm leading-6">
           <p className="text-gray-600">{name}</p>
-          <p className="font-semibold text-gray-900">
+          <p className="font-medium text-gray-900">
             <a href={url}>
               <span className="absolute inset-0" />
               Read more

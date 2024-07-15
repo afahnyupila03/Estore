@@ -15,11 +15,11 @@ export default function ContactPage() {
   return (
     <div>
       <div>
-        <div className="text-2xl flex justify-start mb-6 font-semibold font-mono">
+        <div className="text-2xl flex justify-start mb-6 font-medium ">
           <h1>{t("auth.customerService")}</h1>
         </div>
         <div className="grid justify-center mb-14">
-          <h1 className="text-2xl text-center font-semibold font-mono">
+          <h1 className="text-2xl text-center font-medium ">
            {t("contact.hereForYou")}
           </h1>
           <p className="text-center">{t("contact.callOrChat")}</p>
@@ -28,7 +28,7 @@ export default function ContactPage() {
         <div className="mb-20">
 
           <div className=" grid justify-center mb-10">
-            <h1 className="text-2xl text-center font-semibold font-mono">
+            <h1 className="text-2xl text-center font-medium ">
               {t("auth.needHelp")}
             </h1>
             <p className="text-center">

@@ -79,7 +79,7 @@ export default function () {
         <Popover.Button
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
-          className="flex items-center gap-x-1 text-sm font-semibold font-mono leading-6 text-gray-900"
+          className="flex items-center gap-x-1 text-sm font-medium  leading-6 text-gray-900"
         >
           <IonIcon icon={personOutline} className="ml-2" />
         </Popover.Button>
@@ -87,7 +87,7 @@ export default function () {
         <Popover.Button
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
-          className="flex items-center gap-x-1 text-lg font-semibold font-mono leading-6 text-gray-900"
+          className="flex items-center gap-x-1 text-lg font-medium  leading-6 text-gray-900"
         >
           {userName}
           <IonIcon icon={chevronDownOutline} className="ml-2" />
@@ -114,7 +114,7 @@ export default function () {
               {user === null ? authenticationRoute : userAccount}
 
               {/* Your Account Routes */}
-              <h4 className="text-left px-4 font-semibold font-mono mt-2 mb-2">
+              <h4 className="text-left px-4 font-medium  mt-2 mb-2">
                 {t("auth.yourAccount")}
               </h4>
               {accountNavigation.map((accountNav) => (
@@ -126,7 +126,7 @@ export default function () {
                 />
               ))}
               {/* Account Settings Routes */}
-              <h4 className="text-left font-mono px-4 font-semibold mt-2 mb-2">
+              <h4 className="text-left  px-4 font-medium mt-2 mb-2">
                 {t("auth.accountSettings")}
               </h4>
               {accSettingsNavigation.map((accSettings) => (
@@ -138,7 +138,7 @@ export default function () {
                 />
               ))}
               {/* Customer Line Route */}
-              <h4 className="text-left font-mono px-4 font-semibold mt-4 mb-2">
+              <h4 className="text-left  px-4 font-medium mt-4 mb-2">
                 {t("auth.needHelp")}
               </h4>
               <MenuItemsCard

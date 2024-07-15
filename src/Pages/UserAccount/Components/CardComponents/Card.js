@@ -10,9 +10,9 @@ export default function Card({
 }) {
   return (
     <Link to="#">
-      <div className="gap-x-2 flex items-center font-mono">
+      <div className="gap-x-2 flex items-center ">
         <div>
-          <h2 className="text-sm md:text-sm lg:text-lg font-semibold">{actionHeader}</h2>
+          <h2 className="text-sm md:text-sm lg:text-lg font-medium">{actionHeader}</h2>
           <p className="text-sm md:text-sm lg:text-lg">{actionText}</p>
           <Link to="#" className="underline text-sm md:text-sm lg:text-lg">
             {actionButton}

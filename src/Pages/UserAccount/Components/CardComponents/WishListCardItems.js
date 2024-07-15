@@ -64,7 +64,7 @@ export default function WishListCardItems({
   const DISCOUNT = DISCOUNT_PRICE(discountPercentage, XAF_PRICE);
 
   return (
-    <div className="flex gap-x-10 gap-y-2 items-center font-mono text-xl justify-between">
+    <div className="flex gap-x-10 gap-y-2 items-center  text-xl justify-between">
       <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-40">
         <img
           src={thumbnail}
@@ -88,7 +88,7 @@ export default function WishListCardItems({
             paddingRight: "1rem",
             width: "11.8rem",
           }}
-          className=" bg-black text-white text-center flex items-center w-58 py-2 rounded font-mono text-xl mb-2"
+          className=" bg-black text-white text-center flex items-center w-58 py-2 rounded  text-xl mb-2"
           type="button"
         >
           <IonIcon
@@ -100,7 +100,7 @@ export default function WishListCardItems({
         </button>
         <button
           onClick={removeItemHandler}
-          className=" bg-black text-white flex items-center px-10 py-2 rounded font-mono text-xl"
+          className=" bg-black text-white flex items-center px-10 py-2 rounded  text-xl"
           type="button"
         >
           <IonIcon
