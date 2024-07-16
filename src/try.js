@@ -1,76 +1,207 @@
-"use client";
-
-import { Button, Checkbox, Label, Modal, TextInput } from "flowbite-react";
+import { Button, Modal } from "flowbite-react";
 import { useRef, useState } from "react";
 
-export function Component() {
-  const [openModal, setOpenModal] = useState(true);
-  const emailInputRef = useRef < HTMLInputElement > null;
+export function ReusableModal({
+  isOpen,
+  onClose,
+  modalHeader,
+  modalBody,
+  modalFooter,
+}) {
+  const emailInputRef = useRef(null);
 
   return (
-    <>
-      <Button onClick={() => setOpenModal(true)}>Toggle modal</Button>
-      <Modal
-        show={openModal}
-        size="md"
-        popup
-        onClose={() => setOpenModal(false)}
-        initialFocus={emailInputRef}
-      >
-        <Modal.Header />
-        <Modal.Body>
-          <div className="space-y-6">
-            <h3 className="text-xl font-medium text-gray-900 dark:text-white">
-              Sign in to our platform
-            </h3>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="email" value="Your email" />
-              </div>
-              <TextInput
-                id="email"
-                ref={emailInputRef}
-                placeholder="name@company.com"
-                required
-              />
-            </div>
-            <div>
-              <div className="mb-2 block">
-                <Label htmlFor="password" value="Your password" />
-              </div>
-              <TextInput id="password" type="password" required />
-            </div>
-            <div className="flex justify-between">
-              <div className="flex items-center gap-2">
-                <Checkbox id="remember" />
-                <Label htmlFor="remember">Remember me</Label>
-              </div>
-              <a
-                href="#"
-                className="text-sm text-cyan-700 hover:underline dark:text-cyan-500"
-              >
-                Lost Password?
-              </a>
-            </div>
-            <div className="w-full">
-              <Button>Log in to your account</Button>
-            </div>
-            <div className="flex justify-between text-sm font-medium text-gray-500 dark:text-gray-300">
-              Not registered?&nbsp;
-              <a
-                href="#"
-                className="text-cyan-700 hover:underline dark:text-cyan-500"
-              >
-                Create account
-              </a>
-            </div>
-          </div>
-        </Modal.Body>
-      </Modal>
-    </>
+    <Modal
+      show={isOpen}
+      size="md"
+      popup
+      onClose={onClose}
+      initialFocus={emailInputRef}
+    >
+      <Modal.Header>{modalHeader}</Modal.Header>
+      <Modal.Body>{modalBody}</Modal.Body>
+      <Modal.Footer>{modalFooter}</Modal.Footer>
+    </Modal>
   );
 }
 
+<ModalComponent
+  isOpen={openProductModal}
+  position="center"
+  onClose={handleShowProductModal}
+  size="lg"
+  className="mt-8 mx-8 bg-black bg-opacity-75"
+  modalBody={
+    <div className="grid grid-cols-2 gap-x-10 text-2xl font-medium px-6">
+      <div>
+        <img
+          src={currImageIndex !== null ? images[currImageIndex] : thumbnail}
+          alt={title}
+          loading="eager"
+          className="object-fill h-80 rounded w-full"
+        />
+        <div className="flex items-center justify-center mt-4">
+          <Icon
+            icon={chevronBackOutline}
+            actionButton={() =>
+              handleImageClick(
+                (currImageIndex - 1 + images.length) % images.length
+              )
+            }
+          />
+          <span className="mx-2">
+            {`${currImageIndex + 1}/${images.length}`}
+          </span>
+          <Icon
+            icon={chevronForwardOutline}
+            actionButton={() =>
+              handleImageClick((currImageIndex + 1) % images.length)
+            }
+          />
+        </div>
+      </div>
+      <div className="text-lg">
+        <div className="flex flex-col justify-start">
+          <p className="flex">{PRODUCT_RATING(rating)}</p>
+          <p>{`${t("inStock")}: ${stock}`}</p>
+          <Link
+            to={`/product-details/${id}/${title}`}
+            className="hover:underline"
+          >
+            {title}
+          </Link>
+          <p>{brand}</p>
+          <p>{DISCOUNT}</p>
+        </div>
+        <div className="mt-6">
+          <p className=" text-1xl font-medium">{description}</p>
+          <div className="grid justify-start mt-8 ">
+            <button
+              onClick={() => handleAddProduct(productData)}
+              className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium items-center text-center"
+            >
+              <IonIcon
+                icon={productAdded ? checkmark : bagHandleOutline}
+                className="mr-2"
+                style={{ fontSize: "1.5rem" }}
+              />
+              {productAdded ? `${t("home.added")}` : `${t("home.addToBag")}`}
+            </button>
+            <button
+              onClick={
+                isInWishList
+                  ? () => handleDisLikedProducts(id)
+                  : () => handleWishListedProducts(productData)
+              }
+              className="underline flex items-center"
+            >
+              <IonIcon
+                icon={isInWishList ? heartDislike : add}
+                className="mr-1"
+                style={{ fontSize: "1.5rem" }}
+              />
+              {isInWishList ? `${t("home.dislike")}` : `${t("auth.wishList")}`}
+            </button>
+          </div>
+        </div>
+        <div className="flex justify-center mx-4 mt-4 items-center">
+          <Link
+            to={`/product-details/${id}/${title}`}
+            className="underline text-lg"
+          >
+            {t("home.seeDetails")}
+          </Link>
+        </div>
+      </div>
+    </div>
+  }
+/>;
 
+export default ExampleComponent;
 
-
+<ProductModal
+  icon={closeOutline}
+  style={{ fontSize: "2rem", fontWeight: "bold" }}
+  actionHandler={handleShowProductModal}
+>
+  <div className="grid grid-cols-2 gap-x-10 text-2xl font-medium px-6">
+    <div>
+      <img
+        src={currImageIndex !== null ? images[currImageIndex] : thumbnail}
+        alt={title}
+        loading="eager"
+        className="object-fill h-80 rounded w-full"
+      />
+      <div className="flex items-center justify-center mt-4">
+        <Icon
+          icon={chevronBackOutline}
+          actionButton={() =>
+            handleImageClick(
+              (currImageIndex - 1 + images.length) % images.length
+            )
+          }
+        />
+        <span className="mx-2">{`${currImageIndex + 1}/${images.length}`}</span>
+        <Icon
+          icon={chevronForwardOutline}
+          actionButton={() =>
+            handleImageClick((currImageIndex + 1) % images.length)
+          }
+        />
+      </div>
+    </div>
+    <div className="text-lg">
+      <div className="flex flex-col justify-start">
+        <p className="flex">{PRODUCT_RATING(rating)}</p>
+        <p>{`${t("inStock")}: ${stock}`}</p>
+        <Link
+          to={`/product-details/${id}/${title}`}
+          className="hover:underline"
+        >
+          {title}
+        </Link>
+        <p>{brand}</p>
+        <p>{DISCOUNT}</p>
+      </div>
+      <div className="mt-6">
+        <p className=" text-1xl font-medium">{description}</p>
+        <div className="grid justify-start mt-8 ">
+          <button
+            onClick={() => handleAddProduct(productData)}
+            className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium items-center text-center"
+          >
+            <IonIcon
+              icon={productAdded ? checkmark : bagHandleOutline}
+              className="mr-2"
+              style={{ fontSize: "1.5rem" }}
+            />
+            {productAdded ? `${t("home.added")}` : `${t("home.addToBag")}`}
+          </button>
+          <button
+            onClick={
+              isInWishList
+                ? () => handleDisLikedProducts(id)
+                : () => handleWishListedProducts(productData)
+            }
+            className="underline flex items-center"
+          >
+            <IonIcon
+              icon={isInWishList ? heartDislike : add}
+              className="mr-1"
+              style={{ fontSize: "1.5rem" }}
+            />
+            {isInWishList ? `${t("home.dislike")}` : `${t("auth.wishList")}`}
+          </button>
+        </div>
+      </div>
+      <div className="flex justify-center mx-4 mt-4 items-center">
+        <Link
+          to={`/product-details/${id}/${title}`}
+          className="underline text-lg"
+        >
+          {t("home.seeDetails")}
+        </Link>
+      </div>
+    </div>
+  </div>
+</ProductModal>;

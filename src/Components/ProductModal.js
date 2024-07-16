@@ -1,8 +1,10 @@
+"use client";
 import { Fragment } from "react";
 import ReactDOM from "react-dom";
 import { IonIcon } from "@ionic/react";
 
 import classes from "./ProductModal.module.css";
+import { Modal } from "flowbite-react";
 
 const backdropColor = {
   backgroundColor: "hsla(0, 0%, 0%, 0.749)",
@@ -46,5 +48,30 @@ export default function ProductModal({ children, icon, style, actionHandler }) {
         portalElement
       )}
     </Fragment>
+  );
+}
+
+export function ModalComponent({
+  isOpen,
+  onClose,
+  modalHeader,
+  modalBody,
+  modalFooter,
+  size,
+  position,
+  className
+}) {
+  return (
+    <Modal
+      show={isOpen}
+      onClose={onClose}
+      className={className}
+      size={size}
+      position={position}
+    >
+      <Modal.Header>{modalHeader}</Modal.Header>
+      <Modal.Body>{modalBody}</Modal.Body>
+      <Modal.Footer>{modalFooter}</Modal.Footer>
+    </Modal>
   );
 }
