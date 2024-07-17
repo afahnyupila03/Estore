@@ -94,9 +94,9 @@ export default function CartPage() {
     if (user === null) {
       return (
         <div className="mt-8">
-          <p className="mb-10 font-mono text-xl">{t("cart.noUser")}</p>
+          <p className="mb-10  text-xl">{t("cart.noUser")}</p>
           <Link
-            className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
+            className="bg-black text-center text-white py-6 px-14 rounded font-medium text-xl "
             to="/sign-in-&-create-account"
           >
             {t("auth.signInCreate")}
@@ -106,10 +106,10 @@ export default function CartPage() {
     } else if (cartTotalQuantity === 0 && user !== null) {
       return (
         <div className="mt-8">
-          <p className="mb-10 text-xl font-mono">{t("cart.emptyBag")}</p>
+          <p className="mb-10 text-xl ">{t("cart.emptyBag")}</p>
           <Link
             to="/home"
-            className="bg-black text-center text-white py-6 px-14 rounded font-semibold text-xl font-mono"
+            className="bg-black text-center text-white py-6 px-14 rounded font-medium text-xl "
           >
             {t("cart.continueShopping")}
           </Link>
@@ -134,20 +134,20 @@ export default function CartPage() {
             style={{ width: "70%", borderWidth: "1" }}
           />
 
-          <div className="mx-auto mt-10 container text-xl font-mono px-10">
+          <div className="mx-auto mt-10 container text-xl  px-10">
             <div className="flex justify-around">
               <div>
-                <p className="font-semibold">{t("cart.subTotal")}</p>
+                <p className="font-medium">{t("cart.subTotal")}</p>
                 <p>{t("cart.checkoutDelivery")}</p>
               </div>
               <div>
-                <p className="font-semibold">{cartTotal}</p>
+                <p className="font-medium">{cartTotal}</p>
               </div>
             </div>
             <div className="grid justify-center">
               <button
                 onClick={() => CheckoutHandler(userId)}
-                className="mt-10 bg-black text-white px-10 py-2 rounded text-xl font-mono"
+                className="mt-10 bg-black text-white px-10 py-2 rounded text-xl "
               >
                 {t("cart.checkout")}
               </button>
@@ -155,7 +155,7 @@ export default function CartPage() {
                 <span className="mr-10">{t("cart.or")}</span>
                 <Link
                   to="/home"
-                  className="flex items-center bg-black text-white px-10 py-2 rounded text-xl font-mono"
+                  className="flex items-center bg-black text-white px-10 py-2 rounded text-xl "
                 >
                   <span className="mr-2">{t("cart.continueShopping")}</span>
                   <Icon icon={arrowForwardOutline} />
@@ -170,7 +170,7 @@ export default function CartPage() {
 
   return (
     <div className="mx-auto container px-4">
-      <div className="flex justify-center px-40 py-8 font-semibold font-mono text-lg">
+      <div className="flex justify-center px-40 py-8 font-medium  text-lg">
         <div className="border-2 border-r-0 border-black px-8 py-4">
           <p>
             {t("cart.shoppingBag")} <span>({cartTotalQuantity})</span>

@@ -41,13 +41,13 @@ export default function FAQ() {
   } else {
     FAQ = (
       <Fragment>
-        <h1 className="text-2xl font-semibold text-center my-4">
+        <h1 className="text-2xl font-medium text-center my-4">
           {t("faq.frequentlyAsked")}
         </h1>
         {data.map((faq, index) => (
           <div key={faq.id} className="mb-4">
             <div className="mb-2">
-              <h1 className="text-2xl font-semibold">
+              <h1 className="text-2xl font-medium">
                 <span>{index + 1}. </span>
                 {faq.question}
               </h1>

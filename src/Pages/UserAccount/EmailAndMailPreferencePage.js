@@ -10,7 +10,7 @@ export const BRAND = "TIME ZONE";
 export default function EmailAndMailPreferencePage() {
   const { user } = useAuth();
 
-  const {t} = useTranslation()
+  const { t } = useTranslation();
 
   const userEmail = user?.email;
 

@@ -52,7 +52,7 @@ export default function CartItemsCard({
   const totalPriceByQuantity = FINAL_PRICE * parseInt(CALC_QUANTITY(quantity));
 
   return (
-    <div className="flex font-mono text-xl justify-around">
+    <div className="flex  text-xl justify-around">
       <div className="flex justify-evenly gap-x-10 items-center">
         <div>
           <img src={thumbnail} alt={title} className="h-40 w-40 rounded" />
@@ -72,7 +72,7 @@ export default function CartItemsCard({
         <div>
           <button
             onClick={removeItemHandler}
-            className=" bg-black text-white px-10 py-2 rounded font-mono text-xl"
+            className=" bg-black text-white px-10 py-2 rounded  text-xl"
             type="button"
           >
             {t("cart.remove")}

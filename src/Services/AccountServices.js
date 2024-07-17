@@ -76,6 +76,8 @@ export const PaymentMethodServices = async (userId) => {
         cardNumber: doc.data().cardNumber,
         expiryDate: doc.data().expiryDate,
         securityCode: doc.data().securityCode,
+        accountName: doc.data().accountName,
+        accountNumber: doc.data().accountNumber,
       });
     });
     // console.log(paymentInfo.)
@@ -101,6 +103,8 @@ export const PaymentMethodService = async (userId, paymentId) => {
         cardNumber: paymentSnapshot.data().cardNumber,
         expiryDate: paymentSnapshot.data().expiryDate,
         securityCode: paymentSnapshot.data().securityCode,
+        accountName: paymentSnapshot.data().accountName,
+        accountNumber: paymentSnapshot.data().accountNumber,
       };
       console.log("payment service:", paymentMethod);
       return paymentMethod;

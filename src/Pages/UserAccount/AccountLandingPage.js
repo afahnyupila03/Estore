@@ -60,15 +60,15 @@ export default function AccountLandingPage() {
   };
 
   return (
-    <div className="flex h-screen bg-gray-100">
+    <div className="flex h-screen mb-40 pb-20 bg-gray-100">
       {user !== null && (
         <div
           className="w-100 bg-gray-800 rounded-r"
-          style={{ marginBottom: "-10rem" }}
+          style={{ marginBottom: "-16rem" }}
         >
           <ul className="py-6 space-y-8">
             <li>
-              <ul className="text-gray-300 flex justify-center text-xl font-semibold font-mono items-center">
+              <ul className="text-gray-300 flex justify-center text-xl font-medium  items-center">
                 <p className="rounded-full mr-2 p-2 bg-red-500">
                   {getFirstTwoLetters(userName)}
                 </p>
@@ -83,7 +83,7 @@ export default function AccountLandingPage() {
                     item.current
                       ? "text-white font-bold"
                       : "text-gray-300 hover:text-white",
-                    "flex justify-start pl-10 pr-2 py-2 font-mono items-center text-xl"
+                    "flex justify-start pl-10 pr-2 py-2  items-center text-xl"
                   )}
                 >
                   <IonIcon
@@ -96,11 +96,11 @@ export default function AccountLandingPage() {
               </li>
             ))}
 
-            <li className="flex justify-center items-center">
+            <li className="flex justify-center mt-40 items-center">
               {user !== null && (
                 <button
                   onClick={handleLogout}
-                  className="p-4 text-white bg-gray-500 rounded-lg"
+                  className="px-2 mx-4 py-2 my-4 text-white bg-gray-500 rounded-md"
                 >
                   {t("auth.logout")}
                 </button>

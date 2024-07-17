@@ -29,8 +29,8 @@ export default function () {
           className="
         inline-flex w-40 justify-center 
         gap-x-1.5 rounded-md bg-gray-400 px-2
-        py-2 text-sm font-semibold text-gray-900 
-        shadow-sm ring-inset font-mono items-center
+        py-2 text-sm font-medium text-gray-900 
+        shadow-sm ring-inset  items-center
         ring-gray-300 hover:bg-gray-500"
         >
           {curLang === "en" ? (
@@ -70,7 +70,7 @@ export default function () {
                 <div className="flex space-between">
                   <button
                     onClick={() => handleLanguageSwitch("fr")}
-                    className="block w-40 px-4 py-2 text-sm font-mono font-semibold rounded-md"
+                    className="block w-40 px-4 py-2 text-sm  font-medium rounded-md"
                   >
                     <ReactCountryFlag svg countryCode="FR" className="mr-2" />
                     {t("french")}
@@ -81,7 +81,7 @@ export default function () {
               <Menu.Item>
                 <button
                   onClick={() => handleLanguageSwitch("en")}
-                  className="block w-40 px-4 py-2 font-mono font-semibold text-sm rounded-md"
+                  className="block w-40 px-4 py-2  font-medium text-sm rounded-md"
                 >
                   <ReactCountryFlag svg countryCode="GB" className="mr-2" />
                   {t("english")}

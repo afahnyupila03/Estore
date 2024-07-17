@@ -4,7 +4,6 @@ import { shareOutline } from "ionicons/icons";
 import { Link } from "react-router-dom";
 import { useAuth, useCart, useWishList } from "../../Store";
 import WishListCardItems from "./Components/CardComponents/WishListCardItems";
-import { remove } from "firebase/database";
 import { useTranslation } from "react-i18next";
 
 export default function WishlistPage() {
@@ -53,11 +52,11 @@ export default function WishlistPage() {
     if (user === null) {
       return (
         <div className="mt-8">
-          <p className="mb-10 font-mono text-xl">
+          <p className="mb-10  text-xl">
             {t("wishlist.wishlistAuthMessage")}
           </p>
           <Link
-            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            className="bg-black text-center text-white py-6 px-14 rounded font-medium "
             to="/sign-in-&-create-account"
           >
             {t("auth.signInCreate")}
@@ -67,11 +66,11 @@ export default function WishlistPage() {
     } else if (user !== null && wishListProducts.length === 0) {
       return (
         <div className="mt-8">
-          <p className="mb-10 text-xl font-mono">
+          <p className="mb-10 text-xl ">
             {t("wishlist.emptyWishlist")}
           </p>
           <Link
-            className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
+            className="bg-black text-center text-white py-6 px-14 rounded font-medium "
             to="/home"
           >
             {t("wishlist.visitShop")}
@@ -99,7 +98,7 @@ export default function WishlistPage() {
   return (
     <div>
       <div className="flex justify-between items-center">
-        <h1 className="text-2xl font-semibold font-mono">
+        <h1 className="text-2xl font-medium ">
           {t("auth.wishList")}
           <span>({wishListProducts.length})</span>
         </h1>

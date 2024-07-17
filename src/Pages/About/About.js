@@ -21,7 +21,7 @@ export default function About() {
 
         {AboutData(t).map((about) => (
           <div className="mt-4" key={about.category}>
-            <h1 className="font-semibold text-2xl text-gray-900 mt-4">
+            <h1 className="font-medium text-2xl text-gray-900 mt-4">
               <span className="mr-4">-</span>
               {about.category}
             </h1>
@@ -40,7 +40,7 @@ export default function About() {
       {AboutCommitment(t).map((commitment) => (
         <div className="flex mt-4" key={commitment.commitment}>
           <p>
-            <span className="font-semibold text-2xl text-gray-900 mt-4">
+            <span className="font-medium text-2xl text-gray-900 mt-4">
               {commitment.commitment}
             </span>{" "}
             : <span className="mt-4 text-lg">{commitment.commitmentIntro}</span>
