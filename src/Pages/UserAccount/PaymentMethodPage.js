@@ -1,11 +1,9 @@
 import React, { Fragment, useEffect, useState } from "react";
-import PaymentModal from "./Components/ModalComponents/PaymentModal";
 import { Form, Formik } from "formik";
 import { CustomInput } from "../../Components/TextInput";
 import {
   BankPaymentSchema,
   MobilePaymentSchema,
-  PaymentSchema,
 } from "../../ValidationSchemas/PaymentSchema";
 import { useQuery } from "react-query";
 import UseAnimation from "../../Components/Loader";
@@ -15,10 +13,7 @@ import {
   PaymentMethodService,
   PaymentMethodServices,
 } from "../../Services/AccountServices";
-import { ref, remove } from "firebase/database";
 import PaymentCardItem from "./Components/CardComponents/PaymentCardItem";
-import ActionButton from "./Components/ActionButton";
-import { closeOutline } from "ionicons/icons";
 import {
   addDoc,
   collection,

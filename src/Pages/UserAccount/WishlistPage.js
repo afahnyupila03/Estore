@@ -4,7 +4,6 @@ import { shareOutline } from "ionicons/icons";
 import { Link } from "react-router-dom";
 import { useAuth, useCart, useWishList } from "../../Store";
 import WishListCardItems from "./Components/CardComponents/WishListCardItems";
-import { remove } from "firebase/database";
 import { useTranslation } from "react-i18next";
 
 export default function WishlistPage() {

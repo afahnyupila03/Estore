@@ -1,7 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { ModalComponent } from "../../Components/ProductModal";
-import ActionButton from "./Components/ActionButton";
-import { closeOutline } from "ionicons/icons";
 import { Form, Formik } from "formik";
 import { CustomInput } from "../../Components/TextInput";
 import { useQuery } from "react-query";

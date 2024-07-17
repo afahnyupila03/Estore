@@ -1,13 +1,7 @@
 import React, { useState } from "react";
-import EmailModal from "./Components/ModalComponents/EditNameModal";
-import { Form, Formik, Field } from "formik";
-import CustomTextInput, { CustomInput } from "../../Components/TextInput";
-import { IonIcon } from "@ionic/react";
-import { closeOutline } from "ionicons/icons";
+import { Form, Formik } from "formik";
+import { CustomInput } from "../../Components/TextInput";
 import { Link } from "react-router-dom";
-import PasswordModal from "./Components/ModalComponents/EditPasswordModal";
-import NameModal from "./Components/ModalComponents/EditNameModal";
-import DeleteModal from "./Components/ModalComponents/DeleteModal";
 import { useAuth } from "../../Store";
 import { useTranslation } from "react-i18next";
 import {
@@ -17,16 +11,6 @@ import {
   ReAuthSchema,
 } from "../../ValidationSchemas/PersonalInformationSchema";
 import { ModalComponent } from "../../Components/ProductModal";
-
-const ActionButton = ({ actionHandler }) => {
-  return (
-    <IonIcon
-      icon={closeOutline}
-      onClick={actionHandler}
-      style={{ fontSize: "2rem" }}
-    />
-  );
-};
 
 export default function PersonalInformation() {
   const { t } = useTranslation();
