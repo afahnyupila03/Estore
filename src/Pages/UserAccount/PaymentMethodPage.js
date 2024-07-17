@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import PaymentModal from "./Components/ModalComponents/PaymentModal";
 import { Form, Formik } from "formik";
 import { CustomInput } from "../../Components/TextInput";
@@ -29,6 +29,7 @@ import {
 import { useAuth } from "../../Store";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { ModalComponent } from "../../Components/ProductModal";
 
 export default function PaymentMethodPage() {
   const { user } = useAuth();
@@ -142,6 +143,16 @@ export default function PaymentMethodPage() {
     setSelectedPaymentId(paymentId);
     setEditModal(true);
     setPaymentModal(true);
+    if (editModal && singlePaymentQuery.data) {
+      if (
+        singlePaymentQuery.data.accountName &&
+        singlePaymentQuery.data.accountNumber
+      ) {
+        setBankPayment(true);
+      } else {
+        setBankPayment(false);
+      }
+    }
   };
 
   const deletePaymentHandler = async (userId, paymentId) => {
@@ -290,27 +301,51 @@ export default function PaymentMethodPage() {
     }
   };
 
+  function ModalHeaderText() {
+    if (bankPayment) {
+      return `${t("personalInfor.newCard")}`;
+    } else if (editModal) {
+      if (editModal && bankPayment) {
+        setBankPayment(true);
+        return "Edit Bank Card";
+      } else {
+        return "Edit MOMO / OM Number";
+      }
+    } else {
+      return "Add MOMO / OM Number";
+    }
+  }
+
   const PAYMENT_MODAL = (
-    <PaymentModal>
-      <div className="flex justify-end">
-        <ActionButton
-          style={{ fontSize: "2.5rem", fontWeight: "bold" }}
-          icon={closeOutline}
-          actionButton={modalHandler}
-        />
-      </div>
-      <div className="flex justify-center">
-        <h1 className="p-2  text-xl font-medium">
-          {bankPayment ? `${t("personalInfor.newCard")}` : "MOMO / OM Number"}
-        </h1>
-      </div>
-      <div>
-        <p className=" text-sm lg:text-lg flex justify-center p-4 text-center">
-          {t("personalInfor.saveCard")}
-        </p>
-      </div>
-      <div>
-        {/* singleMethod */}
+    <ModalComponent
+      isOpen={paymentModal}
+      onClose={modalHandler}
+      size="md"
+      position="center"
+      modalHeader={
+        <Fragment>
+          <div className="flex mt-4 justify-center">
+            <h1 className="text-black  text-xl font-medium">
+              {ModalHeaderText()}
+            </h1>
+          </div>
+          {editModal && (
+            <p
+              className="
+            flex justify-center text-center 
+            text-red-500 font-medium my-4 py-2"
+            >
+              Please re-enter all fields...!
+            </p>
+          )}
+          <div>
+            <p className=" text-sm mt-4 text-black lg:text-lg flex justify-center text-center">
+              {t("personalInfor.saveCard")}
+            </p>
+          </div>
+        </Fragment>
+      }
+      modalBody={
         <Formik
           initialValues={initialValues()}
           validationSchema={
@@ -328,7 +363,7 @@ export default function PaymentMethodPage() {
             errors,
             touched,
           }) => (
-            <Form className="w-full max-w-md rounded-lg shadow-xl">
+            <Form className="w-full max-w-md">
               {bankPayment ? (
                 <>
                   <CustomInput
@@ -430,7 +465,11 @@ export default function PaymentMethodPage() {
 
               {!editModal && (
                 <div className="flex justify-center">
-                  <button type="button" onClick={bankPaymentHandler}>
+                  <button
+                    type="button"
+                    className="font-medium"
+                    onClick={bankPaymentHandler}
+                  >
                     {bankPayment
                       ? `${t("personalInfor.payMomo")}`
                       : `${t("personalInfor.payBank")}`}
@@ -447,7 +486,7 @@ export default function PaymentMethodPage() {
                   {t("delivery.save")}
                 </button>
               </div>
-              <div className="flex justify-center text-sm lg:text-xl pb-8 mt-4">
+              <div className="flex justify-center text-sm lg:text-xl mt-4">
                 <button
                   type="button"
                   className="border-b-2 border-black"
@@ -459,8 +498,8 @@ export default function PaymentMethodPage() {
             </Form>
           )}
         </Formik>
-      </div>
-    </PaymentModal>
+      }
+    />
   );
 
   return (

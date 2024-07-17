@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import DeliveryModal from "./Components/ModalComponents/DeliveryModal";
+import { ModalComponent } from "../../Components/ProductModal";
 import ActionButton from "./Components/ActionButton";
 import { closeOutline } from "ionicons/icons";
 import { Form, Formik } from "formik";
@@ -203,175 +203,175 @@ export default function DeliveryPage() {
   };
 
   const DELIVERY_MODAL = (
-    <DeliveryModal>
-      <div className="flex justify-end">
-        <ActionButton
-          actionButton={modalHandler}
-          icon={closeOutline}
-          style={{ fontSize: "2.5rem", fontWeight: "bold" }}
-        />
-      </div>
-      <div className="grid justify-center">
-        <h1 className="font-medium my-4 py-2 text-sm lg:text-2xl">
-          {t("delivery.addAddress")}
-        </h1>
-      </div>
-
-      <Formik
-        initialValues={
-          editModal && singleAddressQuery.data
-            ? {
-                id: singleAddressQuery.data.id,
-                firstName: singleAddressQuery.data.firstName,
-                lastName: singleAddressQuery.data.lastName,
-                address: singleAddressQuery.data.address,
-                aptSuite: singleAddressQuery.data.apt,
-                zip: singleAddressQuery.data.zip,
-                city: singleAddressQuery.data.city,
-                state: singleAddressQuery.data.state,
-              }
-            : {
-                firstName: firstName,
-                lastName: lastName,
-                address: "",
-                aptSuite: "",
-                zip: "",
-                city: "",
-                state: "",
-              }
-        }
-        onSubmit={editModal ? editAddressHandler : submitAddressHandler}
-        validationSchema={DeliveryAddressSchema}
-      >
-        {({
-          values,
-          handleChange,
-          handleBlur,
-          isSubmitting,
-          errors,
-          touched,
-        }) => (
-          <Form className="w-full max-w-md rounded-lg">
-            <CustomInput
-              id="firstName"
-              name="firstName"
-              type="text"
-              value={values.firstName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label={t("checkoutForm.firstName")}
-              placeholder={t("checkoutForm.firstName")}
-              autoComplete="false"
-              errors={errors}
-              touched={touched}
-            />
-            <CustomInput
-              id="lastName"
-              name="lastName"
-              type="text"
-              value={values.lastName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label={t("checkoutForm.lastName")}
-              placeholder={t("checkoutForm.lastName")}
-              autoComplete="false"
-              errors={errors}
-              touched={touched}
-            />
-            <CustomInput
-              id="address"
-              name="address"
-              type="search"
-              value={values.address}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label={t("checkoutForm.address")}
-              placeholder={t("checkoutForm.address")}
-              autoComplete="false"
-              errors={errors}
-              touched={touched}
-            />
-            <CustomInput
-              id="aptSuite"
-              name="aptSuite"
-              type="text"
-              value={values.aptSuite}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label={t("checkoutForm.apartment")}
-              placeholder={t("checkoutForm.apartment")}
-              autoComplete="false"
-              errors={errors}
-              touched={touched}
-            />
-            <CustomInput
-              id="zip"
-              name="zip"
-              type="text"
-              value={values.zip}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label={t("checkoutForm.postalCode")}
-              placeholder={t("checkoutForm.postalCode")}
-              autoComplete="false"
-              errors={errors}
-              touched={touched}
-            />
-            <CustomInput
-              id="city"
-              name="city"
-              type="text"
-              value={values.city}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label={t("delivery.city")}
-              placeholder={t("delivery.city")}
-              autoComplete="false"
-              errors={errors}
-              touched={touched}
-            />
-            <CustomInput
-              id="state"
-              name="state"
-              type="text"
-              value={values.state}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label={t("checkoutForm.state")}
-              placeholder={t("checkoutForm.state")}
-              autoComplete="false"
-              errors={errors}
-              touched={touched}
-            />
-            <div className="flex justify-center">
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className={
-                  isSubmitting
-                    ? "mb-4 mt-4 p-2 w-40 bg-gray-400 text-white font-medium text-xl"
-                    : "mb-4 mt-4 p-2 w-40 bg-black text-white font-medium text-xl"
+    <ModalComponent
+      isOpen={modal}
+      onClose={modalHandler}
+      position="center"
+      size="md"
+      modalHeader={
+        <div className="flex justify-center px-24">
+          <h1 className="font-medium text-black text-center py-2 text-sm lg:text-2xl">
+            {editModal ? "Edit Address" : t("delivery.addAddress")}
+          </h1>
+        </div>
+      }
+      modalBody={
+        <Formik
+          initialValues={
+            editModal && singleAddressQuery.data
+              ? {
+                  id: singleAddressQuery.data.id,
+                  firstName: singleAddressQuery.data.firstName,
+                  lastName: singleAddressQuery.data.lastName,
+                  address: singleAddressQuery.data.address,
+                  aptSuite: singleAddressQuery.data.apt,
+                  zip: singleAddressQuery.data.zip,
+                  city: singleAddressQuery.data.city,
+                  state: singleAddressQuery.data.state,
                 }
-              >
-                {t("delivery.save")}
-                {isSubmitting && (
-                  <UseAnimation className="ml-4" animation={loading} />
-                )}
-              </button>
-            </div>
-            <div className="flex justify-center">
-              <button
-                onClick={modalHandler}
-                type="button"
-                className="font-medium text-xl border-b-2 border-black"
-              >
-                {t("delivery.cancel")}
-              </button>
-            </div>
-          </Form>
-        )}
-      </Formik>
-    </DeliveryModal>
+              : {
+                  firstName: firstName,
+                  lastName: lastName,
+                  address: "",
+                  aptSuite: "",
+                  zip: "",
+                  city: "",
+                  state: "",
+                }
+          }
+          onSubmit={editModal ? editAddressHandler : submitAddressHandler}
+          validationSchema={DeliveryAddressSchema}
+        >
+          {({
+            values,
+            handleChange,
+            handleBlur,
+            isSubmitting,
+            errors,
+            touched,
+          }) => (
+            <Form className="w-full max-w-md rounded-lg">
+              <CustomInput
+                id="firstName"
+                name="firstName"
+                type="text"
+                value={values.firstName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label={t("checkoutForm.firstName")}
+                placeholder={t("checkoutForm.firstName")}
+                autoComplete="false"
+                errors={errors}
+                touched={touched}
+              />
+              <CustomInput
+                id="lastName"
+                name="lastName"
+                type="text"
+                value={values.lastName}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label={t("checkoutForm.lastName")}
+                placeholder={t("checkoutForm.lastName")}
+                autoComplete="false"
+                errors={errors}
+                touched={touched}
+              />
+              <CustomInput
+                id="address"
+                name="address"
+                type="search"
+                value={values.address}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label={t("checkoutForm.address")}
+                placeholder={t("checkoutForm.address")}
+                autoComplete="false"
+                errors={errors}
+                touched={touched}
+              />
+              <CustomInput
+                id="aptSuite"
+                name="aptSuite"
+                type="text"
+                value={values.aptSuite}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label={t("checkoutForm.apartment")}
+                placeholder={t("checkoutForm.apartment")}
+                autoComplete="false"
+                errors={errors}
+                touched={touched}
+              />
+              <CustomInput
+                id="zip"
+                name="zip"
+                type="text"
+                value={values.zip}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label={t("checkoutForm.postalCode")}
+                placeholder={t("checkoutForm.postalCode")}
+                autoComplete="false"
+                errors={errors}
+                touched={touched}
+              />
+              <CustomInput
+                id="city"
+                name="city"
+                type="text"
+                value={values.city}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label={t("delivery.city")}
+                placeholder={t("delivery.city")}
+                autoComplete="false"
+                errors={errors}
+                touched={touched}
+              />
+              <CustomInput
+                id="state"
+                name="state"
+                type="text"
+                value={values.state}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                label={t("checkoutForm.state")}
+                placeholder={t("checkoutForm.state")}
+                autoComplete="false"
+                errors={errors}
+                touched={touched}
+              />
+              <div className="flex justify-center">
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className={
+                    isSubmitting
+                      ? "mb-4 mt-4 p-2 w-40 bg-gray-400 text-white font-medium text-xl"
+                      : "mb-4 mt-4 p-2 w-40 bg-black text-white font-medium text-xl"
+                  }
+                >
+                  {t("delivery.save")}
+                  {isSubmitting && (
+                    <UseAnimation className="ml-4" animation={loading} />
+                  )}
+                </button>
+              </div>
+              <div className="flex justify-center">
+                <button
+                  onClick={modalHandler}
+                  type="button"
+                  className="font-medium text-xl border-b-2 border-black"
+                >
+                  {t("delivery.cancel")}
+                </button>
+              </div>
+            </Form>
+          )}
+        </Formik>
+      }
+    />
   );
 
   return (
