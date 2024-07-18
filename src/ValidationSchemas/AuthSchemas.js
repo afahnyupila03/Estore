@@ -4,10 +4,12 @@ import {
   fetchSignInMethodsForEmail,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+import { useTranslation } from "react-i18next";
 
 export const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
 
 export const isEmailTaken = async (email) => {
+  const { t } = useTranslation();
   try {
     // Use the appropriate method to check if the email is already in use with Firebase Authentication
     const methods = await fetchSignInMethodsForEmail(auth, email);
@@ -19,7 +21,6 @@ export const isEmailTaken = async (email) => {
   }
 };
 
-
 export const isWrongPassword = (error) => {
   return error.code === "auth/wrong-password";
 };
@@ -27,43 +28,45 @@ export const isWrongPassword = (error) => {
 export const SignUpAuthSchema = Yup.object().shape({
   email: Yup.string()
     .trim()
-    .email("Please enter valid email!")
-    .test("email-is-taken", "Email already exist!", async (value) => {
+    .email(t("validators.auth.validEmail"))
+    .test("email-is-taken", t("validators.auth.emailTaken"), async (value) => {
       // CHECK FOR IS EMAIL ALREADY EXIST
       const isTaken = await isEmailTaken(value);
       // RETURN THE OPPOSITE RESULT IF EMAIL DOESN'T EXIST.
       return !isTaken;
     })
-    .required("* Email is required"),
+    .required(t("validators.auth.emailRequired")),
   firstName: Yup.string()
     .trim()
-    .min(4, "Must be a min of 4 characters!")
-    .required("* First name is required!"),
+    .min(4, t("validators.auth.minChar"))
+    .required(t("validators.auth.firstName")),
   lastName: Yup.string()
     .trim()
-    .min(4, "Must be a min of 4 characters!")
-    .required("* Last name is required!"),
+    .min(4, t("validators.auth.minChar"))
+    .required(t("validators.auth.lastName")),
   password: Yup.string()
     .trim()
-    .matches(passwordRegex, { message: "Please create a strong password" })
-    .required("* Password is required!"),
+    .matches(passwordRegex, {
+      message: t("validators.personalInfor.strongPassword"),
+    })
+    .required(t("validators.auth.passwordRequired")),
   confirmPassword: Yup.string()
     .trim()
-    .oneOf([Yup.ref("password")], "Passwords do not match!")
-    .required("* Confirm password is required!"),
+    .oneOf([Yup.ref("password")], t("validators.auth.confirmPassword"))
+    .required(t("validators.auth.confirmPasswordRequired")),
 });
 
 export const LoginAuthSchema = Yup.object().shape({
   email: Yup.string()
     .trim()
-    .email("*Please enter a valid email")
-    .required("*Email is required to sign into account"),
+    .email(t("validators.auth.validEmail"))
+    .required(t("validators.auth.emailRequired")),
   password: Yup.string()
     .trim()
-    .required("* Password is required!")
+    .required(t("validators.auth.passwordRequired"))
     .test(
       "check-wrong-credentials",
-      "Invalid email or password",
+      t("validators.auth.invalidEmailPassword"),
       async function (value) {
         try {
           // Use the appropriate method to sign in with email and password
