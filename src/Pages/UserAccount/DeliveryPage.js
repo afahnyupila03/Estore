@@ -238,7 +238,7 @@ export default function DeliveryPage() {
                 }
           }
           onSubmit={editModal ? editAddressHandler : submitAddressHandler}
-          validationSchema={DeliveryAddressSchema}
+          validationSchema={DeliveryAddressSchema(t)}
         >
           {({
             values,

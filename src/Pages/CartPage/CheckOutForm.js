@@ -307,7 +307,7 @@ export default function CheckOutForm() {
       <Formik
         initialValues={initialValues()}
         onSubmit={checkFormSubmitHandler}
-        validationSchema={CheckoutFormSchema}
+        validationSchema={CheckoutFormSchema(t)}
       >
         {({
           values,

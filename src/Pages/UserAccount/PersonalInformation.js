@@ -197,7 +197,7 @@ export default function PersonalInformation() {
                   newEmail: "",
                 }
           }
-          validationSchema={reAuth ? ReAuthSchema : ChangeEmailSchema}
+          validationSchema={reAuth ? ReAuthSchema(t) : ChangeEmailSchema(t)}
           onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
         >
           {({
@@ -320,7 +320,7 @@ export default function PersonalInformation() {
                 }
           }
           onSubmit={reAuth ? reAuthenticateUser : handlePasswordChange}
-          validationSchema={reAuth ? ReAuthSchema : ChangePasswordSchema}
+          validationSchema={reAuth ? ReAuthSchema(t) : ChangePasswordSchema(t)}
         >
           {({
             values,
@@ -442,7 +442,7 @@ export default function PersonalInformation() {
             lastName: lastName,
           }}
           onSubmit={updateUserName}
-          validationSchema={EditNameSchema}
+          validationSchema={EditNameSchema(t)}
         >
           {({
             values,
@@ -520,7 +520,7 @@ export default function PersonalInformation() {
         reAuth ? (
           <Formik
             initialValues={{ email: "", password: "" }}
-            validationSchema={ReAuthSchema}
+            validationSchema={ReAuthSchema(t)}
             onSubmit={handleDeleteAccount}
           >
             {({

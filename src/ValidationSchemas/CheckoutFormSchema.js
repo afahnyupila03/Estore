@@ -1,6 +1,6 @@
 import * as Yup from "yup";
 
-export const CheckoutFormSchema = Yup.object()
+export const CheckoutFormSchema = (t) => Yup.object()
   .shape({
     email: Yup.string()
       .trim()

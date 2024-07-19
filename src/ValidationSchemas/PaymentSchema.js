@@ -4,7 +4,7 @@ const phoneNumberRegex = /^(?:\+237|237)?(6[5789]\d{7})$/;
 const cardNumberRegex =
   /^(?:4[0-9]{12}(?:[0-9]{3})?|5[1-5][0-9]{14}|3[47][0-9]{13}|6(?:011|5[0-9]{2})[0-9]{12})$/;
 
-export const BankPaymentSchema = Yup.object().shape({
+export const BankPaymentSchema = (t) => Yup.object().shape({
   cardNumber: Yup.string()
     .matches(cardNumberRegex, t("validators.payment.invalidCardNumber"))
     .required(t("validators.payment.cardNumberRequired")),
@@ -27,7 +27,7 @@ export const BankPaymentSchema = Yup.object().shape({
   lastName: Yup.string().trim().required(t("validators.auth.lastName")),
 });
 
-export const MobilePaymentSchema = Yup.object().shape({
+export const MobilePaymentSchema = (t) => Yup.object().shape({
   accountNumber: Yup.string()
     .matches(phoneNumberRegex, t("validators.payment.accountNumber"))
     .required(t("validators.payment.accountNumberRequired")),

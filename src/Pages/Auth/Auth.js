@@ -80,7 +80,7 @@ export default function Auth() {
                 password: "",
               }
         }
-        validationSchema={isSignUp ? SignUpAuthSchema : LoginAuthSchema}
+        validationSchema={isSignUp ? SignUpAuthSchema(t) : LoginAuthSchema(t)}
         onSubmit={isSignUp ? handleCreateUser : handleUserLogin}
       >
         {({
