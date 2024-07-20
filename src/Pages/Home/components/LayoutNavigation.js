@@ -30,7 +30,7 @@ export const AuthRoute = (t) => [
 
 export const UserAccountRoute = (t, userName) => [
   {
-    navLink: `${t("auth.account")} ${userName}`,
+    navLink: `${userName}`,
     navRoute: "my-account/landing/password-&-personal-information",
   },
 ];

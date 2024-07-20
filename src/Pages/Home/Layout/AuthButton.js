@@ -24,11 +24,19 @@ import {
 import MenuItemsCard from "../../../Components/MenuItemsCard";
 
 export default function () {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const curLang = localStorage.getItem("lang");
   const [menuOpen, setMenuOpen] = useState(false);
   const { signOutHandler, user } = useAuth();
 
+
+
   const userName = user?.displayName;
+
+  const displayUserName =
+    i18n.language === "en"
+      ? `${userName}${t("auth.account")}`
+      : `${t("auth.account")} ${userName}`;
 
   const handleUserSignOut = async () => {
     try {
@@ -53,7 +61,7 @@ export default function () {
   );
 
   const authRoutes = AuthRoute(t);
-  const accountPage = UserAccountRoute(t, userName);
+  const accountPage = UserAccountRoute(t, displayUserName);
 
   const authenticationRoute = authRoutes.map((authKey) => (
     <MenuItemsCard
