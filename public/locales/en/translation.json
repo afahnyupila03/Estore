@@ -194,7 +194,11 @@
     "confirmOrder": "Confirm order",
     "loadingInvoice": "loading incvoice",
     "noProducts": "No products to checkout...!",
-    "selectCity": "Select city"
+    "selectCity": "Select city",
+    "addMomo": "Add MOMO / OM Number",
+    "editMomo": "Edit MOMO / OM Number",
+    "editBank": "Edit Bank Card",
+    "please": "Please re-enter all fields...!"
   },
   "contact": {
     "hereForYou": "We're Here for You",
@@ -225,9 +229,11 @@
     "city": "City",
     "deliveryAuthMessage": "No user found. Please sign in | create account to view delivery address(s).",
     "tryAgain": "Try again",
-    "noAddress": "No address added"
+    "noAddress": "No address added",
+    "editAddress": "Edit Address"
   },
   "personalInfor": {
+    "editName": "Edit your name",
     "aboutSales": "TZ Hear about sales and more at TIMEZONE.",
     "emailAuthMessage": "No user found. Please sign in | create account to view user email.",
     "paymentMethods": "Payment Methods",

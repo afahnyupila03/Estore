@@ -165,7 +165,7 @@ export default function DeliveryPage() {
           <p className="mb-10  text-xl">{t("delivery.deliveryAuthMessage")}</p>
           <Link
             to="/sign-in-&-create-account"
-            className="bg-black text-center text-white py-6 px-14 rounded font-medium "
+            className="bg-gray-800 text-center text-white py-6 px-14 rounded font-medium "
           >
             {t("auth.signInCreate")}
           </Link>
@@ -208,15 +208,20 @@ export default function DeliveryPage() {
       size="md"
       modalHeader={
         <div className="flex justify-center px-24">
-          <h1 className="font-medium text-black text-center py-2 text-sm lg:text-2xl">
-            {editModal ? "Edit Address" : t("delivery.addAddress")}
+          <h1 className="font-medium flex justify-center text-black text-center py-2 text-sm lg:text-2xl">
+            {editModal ? t("delivery.editAddress") : t("delivery.addAddress")}
           </h1>
         </div>
       }
       modalBody={
         <Formik
+          key={
+            editModal && singleAddressQuery?.data
+              ? singleAddressQuery.data.id
+              : "new-address"
+          }
           initialValues={
-            editModal && singleAddressQuery.data
+            editModal && singleAddressQuery?.data
               ? {
                   id: singleAddressQuery.data.id,
                   firstName: singleAddressQuery.data.firstName,
@@ -347,7 +352,7 @@ export default function DeliveryPage() {
                   className={
                     isSubmitting
                       ? "mb-4 mt-4 p-2 w-40 bg-gray-400 text-white font-medium text-xl"
-                      : "mb-4 mt-4 p-2 w-40 bg-black text-white font-medium text-xl"
+                      : "mb-4 mt-4 p-2 w-40 bg-gray-800 text-white font-medium text-xl"
                   }
                 >
                   {t("delivery.save")}

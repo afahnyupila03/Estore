@@ -12,6 +12,121 @@ import {
 } from "../../ValidationSchemas/PersonalInformationSchema";
 import { ModalComponent } from "../../Components/ProductModal";
 
+function UPPERCASE_NAME(name = "") {
+  if (name === null) {
+    return "";
+  } else {
+    return name.toUpperCase();
+  }
+}
+
+const NullUser = ({ t }) => {
+  return (
+    <div className="text-xl  font-medium">
+      <p>{t("personalInfor.noUser")}</p>
+      <p className="mb-10">{t("personalInfor.personalAuthMessage")}</p>
+      <Link
+        className="bg-gray-800 text-center text-white py-6 px-14 rounded font-medium "
+        to="/sign-in-&-create-account"
+      >
+        {t("auth.signInCreate")}
+      </Link>
+    </div>
+  );
+};
+
+const PageContent = ({
+  t,
+  openEmailModal,
+  openPasswordModal,
+  userName,
+  openNameModal,
+  handleLogout,
+  openDeleteModal,
+  userEmail,
+}) => {
+  return (
+    <div className="mb-40 pb-20">
+      {/* Password & Personal Information */}
+      <div>
+        <h1 className="text-2xl font-medium ">{t("auth.password&Personal")}</h1>
+        <div>
+          <div className="text-lg mt-4 ">
+            <p>
+              {t("personalInfor.sameInfor")} <br />
+              <span className="text-2xl font-medium ">TIMEZONE</span>
+            </p>
+          </div>
+
+          <div className="mt-6">
+            <h1 className="text-3xl ">{t("personalInfor.signInInfo")}</h1>
+            <div className=" text-lg mt-4">
+              <h1 className="font-medium">{t("checkoutForm.email")}</h1>
+              <p
+                style={{ width: "18rem" }}
+                className=" p-4 bg-gray-800 text-white text-center rounded"
+              >
+                {userEmail}
+              </p>
+              <button className="mt-2" onClick={openEmailModal}>
+                {t("personalInfor.changeEmail")}
+              </button>
+              <hr className="border-black" style={{ width: "7.5rem" }} />
+            </div>
+
+            <div className=" text-lg mt-4">
+              <h1 className="font-medium">{t("personalInfor.password")}</h1>
+              <button onClick={openPasswordModal}>
+                {t("personalInfor.changePassword")}
+              </button>
+              <hr className="border-black" style={{ width: "9.5rem" }} />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Personal Information */}
+      <div className="mt-14 ">
+        <h1 className="text-2xl font-medium">
+          {t("personalInfor.personalInfor")}
+        </h1>
+        <div>
+          <h1 className="font-medium mb-2">{t("personalInfor.name")}</h1>
+          <p className="mb-2 p-4 bg-gray-800 text-white w-60 text-center rounded">
+            {UPPERCASE_NAME(userName)}
+          </p>
+          <button onClick={openNameModal}>{t("delivery.edit")}</button>
+          <hr className="w-8 border-black" />
+        </div>
+      </div>
+
+      {/* Security */}
+      <div className="mt-10  text-lg">
+        <h1 className="text-2xl font-medium ">{t("personalInfor.security")}</h1>
+        <p>{t("personalInfor.logoutAccount")}</p>
+        <button
+          onClick={handleLogout}
+          className="p-2 bg-gray-800 text-white w-40 rounded mt-2 text-center"
+        >
+          {t("auth.logout")}
+        </button>
+      </div>
+
+      {/* Delete Account */}
+      <div className="mt-4 mb-40 pb-40  text-lg">
+        <p className="mb-2">{t("personalInfor.deleteTimezone")}</p>
+        <button
+          type="button"
+          onClick={openDeleteModal}
+          className="p-2 bg-red-600 text-white  rounded"
+        >
+          {t("personalInfor.deleteAccount")}
+        </button>
+      </div>
+    </div>
+  );
+};
+
 export default function PersonalInformation() {
   const { t } = useTranslation();
 
@@ -38,14 +153,6 @@ export default function PersonalInformation() {
 
   const userEmail = user?.email;
   const userName = user?.displayName;
-
-  function UPPERCASE_NAME(name = "") {
-    if (name === null) {
-      return "";
-    } else {
-      return name.toUpperCase();
-    }
-  }
 
   const handleLogout = async () => {
     try {
@@ -172,251 +279,45 @@ export default function PersonalInformation() {
           className="text-black grid justify-center text-center
          text-lg lg:text-xl text-start mb-4"
         >
-          <h1 className="font-medium my-4 text-center">
-            {reAuth
-              ? `${t("personalInfor.signIn")}`
-              : `${t("personalInfor.changeEmail")}`}
-          </h1>
-          <p className="flex justify-center px-6 text-center">
-            {reAuth
-              ? `${t("personalInfor.reAuthenticate")}`
-              : `${t("personalInfor.enterNew")}`}
-          </p>
+          <h1 className="font-medium">Change Email Address</h1>
         </div>
       }
       modalBody={
-        <Formik
-          initialValues={
-            reAuth
-              ? {
-                  email: "",
-                  password: "",
-                }
-              : {
-                  currentEmail: "",
-                  newEmail: "",
-                }
-          }
-          validationSchema={reAuth ? ReAuthSchema(t) : ChangeEmailSchema(t)}
-          onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
-        >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            isSubmitting,
-            errors,
-            touched,
-          }) => (
-            <Form className="grid text-sm xl:text-xl justify-start lg:justify-center">
-              <CustomInput
-                errors={errors}
-                touched={touched}
-                value={reAuth ? values.email : values.currentEmail}
-                name={reAuth ? "email" : "currentEmail"}
-                id={reAuth ? "email" : "currentEmail"}
-                label={
-                  reAuth
-                    ? `${t("checkoutForm.email")}`
-                    : `${t("personalInfor.currentEmail")}`
-                }
-                onChange={handleChange}
-                onBlur={handleBlur}
-                autoComplete="off"
-                type="email"
-              />
-              <CustomInput
-                errors={errors}
-                touched={touched}
-                value={reAuth ? values.password : values.newEmail}
-                name={reAuth ? "password" : "newEmail"}
-                id={reAuth ? "password" : "newEmail"}
-                label={
-                  reAuth
-                    ? `${t("personalInfor.password")}`
-                    : `${t("personalInfor.newEmail")}`
-                }
-                onChange={handleChange}
-                onBlur={handleBlur}
-                autoComplete="off"
-                type={reAuth ? "password" : "email"}
-              />
-
-              <div className="grid justify-center">
-                {reAuth ? (
-                  <div className="grid justify-center ">
-                    <button type="button" onClick={handleResetPassword}>
-                      {t("personalInfor.forgotPassword")}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex justify-center font-medium text-lg  mt-2">
-                    <p>
-                      {t("personalInfor.byTapping")}
-                      <span>
-                        <Link className="underline ml-2 mr-2">
-                          {t("personalInfor.privacyPolicy")}
-                        </Link>
-                      </span>
-                      {t("and")}
-                      <span>
-                        <Link className="underline ml-2 mr-2">
-                          {t("personalInfor.termsCondition")}
-                        </Link>
-                      </span>
-                    </p>
-                  </div>
-                )}
-                <div className="grid justify-center">
+        <div className="text-black text-base">
+          <Formik
+            initialValues={{ currentEmail: "", newEmail: "" }}
+            validationSchema={ChangeEmailSchema}
+            onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
+          >
+            {({ errors, touched }) => (
+              <Form className="space-y-4">
+                <CustomInput
+                  label={t("personalInfor.currentEmail")}
+                  name="currentEmail"
+                  type="email"
+                  placeholder={userEmail}
+                  disabled={true}
+                />
+                <CustomInput
+                  label={t("personalInfor.newEmail")}
+                  name="newEmail"
+                  type="email"
+                  placeholder={t("personalInfor.newEmail")}
+                  errors={errors.newEmail}
+                  touched={touched.newEmail}
+                />
+                <div className="text-center ">
                   <button
                     type="submit"
-                    className="p-2 mb-4 w-60 mt-6 rounded bg-black text-white"
+                    className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
                   >
-                    {reAuth
-                      ? `${t("personalInfor.signIn")}`
-                      : `${t("personalInfor.changeEmail")}`}
+                    {t("personalInfor.changeEmail")}
                   </button>
                 </div>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      }
-    />
-  );
-
-  const PASSWORD_MODAL = (
-    <ModalComponent
-      position="center"
-      size="md"
-      className="py-20"
-      isOpen={editPasswordModal}
-      onClose={openPasswordModal}
-      modalHeader={
-        <div className="grid text-black py-4 justify-center">
-          <h1 className="text-2xl text-center mb-4 font-medium">
-            {reAuth
-              ? `${t("personalInfor.signIn")}`
-              : `${t("personalInfor.changePassword")}`}
-          </h1>
-          <p className="text-lg pt-2 px-5 flex justify-center text-center">
-            {reAuth
-              ? `${t("personalInfor.reAuthPassword")}`
-              : `${t("personalInfor.currentNewPassword")}`}
-          </p>
+              </Form>
+            )}
+          </Formik>
         </div>
-      }
-      modalBody={
-        <Formik
-          initialValues={
-            reAuth
-              ? {
-                  email: userEmail,
-                  password: "",
-                }
-              : {
-                  currentPassword: "",
-                  newPassword: "",
-                }
-          }
-          onSubmit={reAuth ? reAuthenticateUser : handlePasswordChange}
-          validationSchema={reAuth ? ReAuthSchema(t) : ChangePasswordSchema(t)}
-        >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            isSubmitting,
-            errors,
-            touched,
-          }) => (
-            <Form>
-              <CustomInput
-                errors={errors}
-                touched={touched}
-                id={reAuth ? "email" : "currentPassword"}
-                name={reAuth ? "email" : "currentPassword"}
-                type={reAuth ? "email" : "password"}
-                value={reAuth ? values.email : values.currentPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label={
-                  reAuth
-                    ? `${t("checkoutForm.email")}`
-                    : `${t("personalInfor.currentPassword")}`
-                }
-                placeholder={
-                  reAuth
-                    ? `${t("checkoutForm.email")}`
-                    : `${t("personalInfor.currentPassword")}`
-                }
-                autoComplete="off"
-              />
-              <CustomInput
-                errors={errors}
-                touched={touched}
-                id={reAuth ? "password" : "newPassword"}
-                name={reAuth ? "password" : "newPassword"}
-                type="password"
-                value={reAuth ? values.password : values.newPassword}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                label={
-                  reAuth
-                    ? `${t("personalInfor.password")}`
-                    : `${t("personalInfor.newPassword")}`
-                }
-                placeholder={
-                  reAuth
-                    ? `${t("personalInfor.password")}`
-                    : `${t("personalInfor.newPassword")}`
-                }
-                autoComplete="off"
-              />
-              <div className="grid justify-center">
-                {reAuth ? (
-                  <div className="flex font-medium justify-center ">
-                    <button type="button" onClick={handleResetPassword}>
-                      {t("personalInfor.forgotPassword")}
-                    </button>
-                  </div>
-                ) : (
-                  <div className="flex justify-center font-medium text-lg  px-4 mt-2">
-                    <p>
-                      {t("personalInfor.tapChangePassword")}
-                      <span>
-                        <Link className="underline ml-2 mr-2">
-                          {t("personalInfor.privacyPolicy")}
-                        </Link>
-                      </span>
-                      {t("and")}
-                      <span>
-                        <Link className="underline ml-2 mr-2">
-                          {t("personalInfor.termsCondition")}
-                        </Link>
-                      </span>
-                    </p>
-                  </div>
-                )}
-                <div className="flex mt-6 justify-center">
-                  <button
-                    disabled={isSubmitting}
-                    className={
-                      isSubmitting
-                        ? "p-2 bg-gray-400 text-white w-40 rounded"
-                        : "p-2 bg-black text-white w-40 rounded"
-                    }
-                    type="submit"
-                  >
-                    {reAuth
-                      ? `${t("personalInfor.signIn")}`
-                      : `${t("personalInfor.changePassword")}`}
-                  </button>
-                </div>
-              </div>
-            </Form>
-          )}
-        </Formik>
       }
     />
   );
@@ -425,288 +326,176 @@ export default function PersonalInformation() {
     <ModalComponent
       size="md"
       position="center"
-      className="py-20"
       isOpen={editNameModal}
       onClose={openNameModal}
       modalHeader={
-        <div className=" my-6 font-medium text-black flex justify-center text-2xl">
-          <h1 className="flex justify-center mx-28 text-center">
-            Edit your name
-          </h1>
+        <div className="text-black grid justify-center text-center  text-lg lg:text-xl text-start mb-4">
+          <h1 className="font-medium">{t("personalInfor.name")}</h1>
         </div>
       }
       modalBody={
-        <Formik
-          initialValues={{
-            firstName: firstName,
-            lastName: lastName,
-          }}
-          onSubmit={updateUserName}
-          validationSchema={EditNameSchema(t)}
-        >
-          {({
-            values,
-            handleChange,
-            handleBlur,
-            isSubmitting,
-            errors,
-            touched,
-          }) => (
-            <Form>
-              <CustomInput
-                errors={errors}
-                touched={touched}
-                name="firstName"
-                id="firstName"
-                type="text"
-                label={t("checkoutForm.firstName")}
-                placeholder={t("checkoutForm.firstName")}
-                autoComplete="true"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.firstName}
-              />
-              <CustomInput
-                errors={errors}
-                touched={touched}
-                name="lastName"
-                id="lastName"
-                type="text"
-                label={t("checkoutForm.lastName")}
-                placeholder={t("checkoutForm.lastName")}
-                autoComplete="true"
-                onChange={handleChange}
-                onBlur={handleBlur}
-                value={values.lastName}
-              />
-              <div className="flex justify-center mt-6">
-                <button
-                  type="submit"
-                  disabled={isSubmitting}
-                  className="p-2 rounded w-40 bg-black  text-white text-lg"
-                >
-                  {t("delivery.edit")}
-                </button>
-              </div>
-            </Form>
-          )}
-        </Formik>
-      }
-    />
-  );
-
-  const DELETE_MODAL = (
-    <ModalComponent
-      className="py-20"
-      size="md"
-      position="center"
-      isOpen={deleteModal}
-      onClose={openDeleteModal}
-      modalHeader={
-        <div className="text-black mx-6">
-          <h1 className="text-2xl flex justify-center text-center font-medium mx-10 mt-6 mb-4">
-            {reAuth
-              ? `${t("personalInfor.signIn")}`
-              : `${t("personalInfor.deleteTimezone")}`}
-          </h1>
-          <p className="flex justify-center text-center text-lg mx-6">
-            {reAuth
-              ? `${t("personalInfor.enterDetails")}`
-              : `${t("personalInfor.areYouSure")}`}
-          </p>
-        </div>
-      }
-      modalBody={
-        reAuth ? (
+        <div className="text-black text-base">
           <Formik
-            initialValues={{ email: "", password: "" }}
-            validationSchema={ReAuthSchema(t)}
-            onSubmit={handleDeleteAccount}
+            initialValues={{ firstName: "", lastName: "" }}
+            validationSchema={EditNameSchema}
+            onSubmit={updateUserName}
           >
-            {({
-              values,
-              handleChange,
-              handleBlur,
-              isSubmitting,
-              errors,
-              touched,
-            }) => (
-              <Form>
+            {({ errors, touched }) => (
+              <Form className="space-y-4">
                 <CustomInput
-                  errors={errors}
-                  touched={touched}
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={values.email}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  label={t("checkoutForm.email")}
-                  placeholder={t("checkoutForm.email")}
-                  autoComplete="off"
+                  label={t("personalInfor.firstName")}
+                  name="firstName"
+                  type="text"
+                  placeholder={t("personalInfor.firstName")}
+                  errors={errors.firstName}
+                  touched={touched.firstName}
                 />
                 <CustomInput
-                  errors={errors}
-                  touched={touched}
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={values.password}
-                  onChange={handleChange}
-                  onBlur={handleBlur}
-                  label={t("personalInfor.password")}
-                  placeholder={t("personalInfor.password")}
-                  autoComplete="off"
+                  label={t("personalInfor.lastName")}
+                  name="lastName"
+                  type="text"
+                  placeholder={t("personalInfor.lastName")}
+                  errors={errors.lastName}
+                  touched={touched.lastName}
                 />
-                <div className="my-8 flex justify-center">
+                <div className="text-center ">
                   <button
-                    disabled={isSubmitting}
                     type="submit"
-                    className={
-                      isSubmitting
-                        ? "p-2 bg-gray-400 text-white w-40 rounded-md"
-                        : "p-2 bg-gray-800 text-white w-40 rounded-md"
-                    }
+                    className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
                   >
-                    {t("personalInfor.signIn")}
+                    {t("delivery.edit")}
                   </button>
                 </div>
               </Form>
             )}
           </Formik>
-        ) : (
-          <div className="flex justify-around">
-            <button
-              type="button"
-              onClick={handleDeleteAccount}
-              className="bg-red-600 text-white text-lg p-2 w-40 rounded"
-            >
-              {t("yes")}
-            </button>
-            <button
-              onClick={openDeleteModal}
-              type="button"
-              className="bg-gray-800 text-white text-lg p-2 w-40 rounded"
-            >
-              {t("no")}
-            </button>
-          </div>
-        )
+        </div>
       }
     />
   );
 
-  const NullUser = () => {
-    return (
-      <div className="text-xl  font-medium">
-        <p>{t("personalInfor.noUser")}</p>
-        <p className="mb-10">{t("personalInfor.personalAuthMessage")}</p>
-        <Link
-          className="bg-black text-center text-white py-6 px-14 rounded font-medium "
-          to="/sign-in-&-create-account"
+  const PASSWORD_MODAL = (
+    <ModalComponent
+      size="md"
+      position="center"
+      isOpen={editPasswordModal}
+      onClose={openPasswordModal}
+      modalHeader={
+        <div
+          className="text-black grid justify-center text-center
+         text-lg lg:text-xl text-start mb-4"
         >
-          {t("auth.signInCreate")}
-        </Link>
-      </div>
-    );
-  };
-
-  const PageContent = () => {
-    return (
-      <div className="mb-40 pb-20">
-        {/* Password & Personal Information */}
-        <div>
-          <h1 className="text-2xl font-medium ">
-            {t("auth.password&Personal")}
-          </h1>
-          <div>
-            <div className="text-lg mt-4 ">
-              <p>
-                {t("personalInfor.sameInfor")} <br />
-                <span className="text-2xl font-medium ">TIMEZONE</span>
-              </p>
-            </div>
-
-            <div className="mt-6">
-              <h1 className="text-3xl ">{t("personalInfor.signInInfo")}</h1>
-              <div className=" text-lg mt-4">
-                <h1 className="font-medium">{t("checkoutForm.email")}</h1>
-                <p
-                  style={{ width: "18rem" }}
-                  className=" p-4 bg-black text-white text-center rounded"
-                >
-                  {userEmail}
-                </p>
-                <button className="mt-2" onClick={openEmailModal}>
-                  {t("personalInfor.changeEmail")}
-                </button>
-                <hr className="border-black" style={{ width: "7.5rem" }} />
-              </div>
-
-              <div className=" text-lg mt-4">
-                <h1 className="font-medium">{t("personalInfor.password")}</h1>
-                <button onClick={openPasswordModal}>
-                  {t("personalInfor.changePassword")}
-                </button>
-                <hr className="border-black" style={{ width: "9.5rem" }} />
-              </div>
-            </div>
-          </div>
+          <h1 className="font-medium">{t("personalInfor.changePassword")}</h1>
         </div>
-
-        {/* Personal Information */}
-        <div className="mt-14 ">
-          <h1 className="text-2xl font-medium">
-            {t("personalInfor.personalInfor")}
-          </h1>
-          <div>
-            <h1 className="font-medium mb-2">{t("personalInfor.name")}</h1>
-            <p className="mb-2 p-4 bg-black text-white w-60 text-center rounded">
-              {UPPERCASE_NAME(userName)}
-            </p>
-            <button onClick={openNameModal}>{t("delivery.edit")}</button>
-            <hr className="w-8 border-black" />
-          </div>
-        </div>
-
-        {/* Security */}
-        <div className="mt-10  text-lg">
-          <h1 className="text-2xl font-medium ">
-            {t("personalInfor.security")}
-          </h1>
-          <p>{t("personalInfor.logoutAccount")}</p>
-          <button
-            onClick={handleLogout}
-            className="p-2 bg-black text-white w-40 rounded mt-2 text-center"
+      }
+      modalBody={
+        <div className="text-black text-base">
+          <Formik
+            initialValues={{ currentPassword: "", newPassword: "" }}
+            validationSchema={ChangePasswordSchema}
+            onSubmit={reAuth ? reAuthenticateUser : handlePasswordChange}
           >
-            {t("auth.logout")}
-          </button>
+            {({ errors, touched }) => (
+              <Form className="space-y-4">
+                <CustomInput
+                  label={t("personalInfor.newPassword")}
+                  name="newPassword"
+                  type="password"
+                  placeholder={t("personalInfor.newPassword")}
+                  errors={errors.newPassword}
+                  touched={touched.newPassword}
+                />
+                <div className="text-center ">
+                  <button
+                    type="submit"
+                    className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
+                  >
+                    {t("delivery.edit")}
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
         </div>
+      }
+    />
+  );
 
-        {/* Delete Account */}
-        <div className="mt-4 mb-40 pb-40  text-lg">
-          <p className="mb-2">{t("personalInfor.deleteTimezone")}</p>
-          <button
-            type="button"
-            onClick={openDeleteModal}
-            className="p-2 bg-red-600 text-white  rounded"
-          >
-            {t("personalInfor.deleteAccount")}
-          </button>
+  const DELETE_ACCOUNT_MODAL = (
+    <ModalComponent
+      size="md"
+      position="center"
+      isOpen={deleteModal}
+      onClose={openDeleteModal}
+      modalHeader={
+        <div
+          className="text-black grid justify-center text-center
+         text-lg lg:text-xl text-start mb-4"
+        >
+          <h1 className="font-medium">{t("personalInfor.deleteAccount")}</h1>
         </div>
-      </div>
-    );
-  };
+      }
+      modalBody={
+        <div className="text-black text-base">
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            validationSchema={ReAuthSchema}
+            onSubmit={reAuth ? reAuthenticateUser : handleDeleteAccount}
+          >
+            {({ errors, touched }) => (
+              <Form className="space-y-4">
+                <CustomInput
+                  label={t("checkoutForm.email")}
+                  name="email"
+                  type="email"
+                  placeholder={t("checkoutForm.email")}
+                  errors={errors.email}
+                  touched={touched.email}
+                />
+                <CustomInput
+                  label={t("personalInfor.password")}
+                  name="password"
+                  type="password"
+                  placeholder={t("personalInfor.password")}
+                  errors={errors.password}
+                  touched={touched.password}
+                />
+                <div className="text-center ">
+                  <button
+                    type="submit"
+                    className="bg-red-600 text-white py-2 px-12 rounded font-medium"
+                  >
+                    {t("personalInfor.deleteAccount")}
+                  </button>
+                </div>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      }
+    />
+  );
+
+  if (user === null) {
+    return <NullUser t={t} />;
+  }
 
   return (
-    <div>
-      {user === null ? NullUser() : PageContent()}
-
-      {/* MODALS SECTION */}
-      {editEmailModal && EMAIL_MODAL}
-      {editPasswordModal && PASSWORD_MODAL}
-      {editNameModal && NAME_MODAL}
-      {deleteModal && DELETE_MODAL}
+    <div className="mt-14">
+      <PageContent
+        t={t}
+        openEmailModal={openEmailModal}
+        openPasswordModal={openPasswordModal}
+        userName={userName}
+        openNameModal={openNameModal}
+        handleLogout={handleLogout}
+        openDeleteModal={openDeleteModal}
+        userEmail={userEmail}
+      />
+      {EMAIL_MODAL}
+      {NAME_MODAL}
+      {PASSWORD_MODAL}
+      {DELETE_ACCOUNT_MODAL}
     </div>
   );
 }

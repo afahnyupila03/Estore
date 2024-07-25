@@ -194,7 +194,11 @@
     "confirmOrder": "Confirmer la commande",
     "loadingInvoice": "Chargement de la facture",
     "noProducts": "Aucun produit à commander...!",
-    "selectCity": "Sélectionner une ville"
+    "selectCity": "Sélectionner une ville",
+    "addMomo": "Ajouter un numéro MOMO / OM",
+    "editMomo": "Modifier le numéro MOMO / OM",
+    "editBank": "Modifier la carte bancaire",
+    "please": "Veuillez saisir à nouveau tous les champs...!"
   },
   "contact": {
     "hereForYou": "Nous sommes là pour vous",
@@ -225,9 +229,11 @@
     "city": "Ville",
     "deliveryAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'adresse de livraison.",
     "tryAgain": "Réessayer",
-    "noAddress": "Aucune adresse ajoutée"
+    "noAddress": "Aucune adresse ajoutée",
+    "editAddress": "Modifier l'adresse"
   },
   "personalInfor": {
+    "editName": "Modifiez votre nom",
     "aboutSales": "Découvrez les ventes et plus encore chez TIMEZONE.",
     "emailAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'e-mail de l'utilisateur.",
     "paymentMethods": "Méthodes de paiement",
