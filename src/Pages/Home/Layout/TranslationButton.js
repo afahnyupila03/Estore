@@ -1,19 +1,23 @@
-import { useState, Fragment } from "react";
+import { useState, useEffect, Fragment } from "react";
 import { Menu, Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
 import ReactCountryFlag from "react-country-flag";
 
-function classNames(...classes) {
-  return classes.filter(Boolean).join(" ");
-}
-
 export default function () {
   const { t, i18n } = useTranslation();
-  const [curLang, setCurLang] = useState("en");
+  const [curLang, setCurLang] = useState(
+    localStorage.getItem ("lang") || "en" );
+
+  useEffect(() => {
+    // Set the initial language when the component mounts
+    i18n.changeLanguage(curLang);
+  }, [curLang, i18n]);
 
   const handleLanguageSwitch = (lang) => {
     i18n.changeLanguage(lang);
     setCurLang(lang);
+    // Save selected language to localStorage
+    localStorage.setItem("lang", lang);
   };
 
   return (
@@ -21,22 +25,22 @@ export default function () {
       <div>
         <Menu.Button
           className="
-        inline-flex w-full justify-center 
-        gap-x-1.5 rounded-md bg-gray-400 px-5 
-        py-2 text-sm font-semibold text-gray-900 
-        shadow-sm ring-inset 
-        ring-gray-300 hover:bg-gray-50"
+        inline-flex w-40 justify-center 
+        gap-x-1.5 rounded-md bg-gray-400 px-2
+        py-2 text-sm font-medium text-gray-900 
+        shadow-sm ring-inset  items-center
+        ring-gray-300 hover:bg-gray-500"
         >
           {curLang === "en" ? (
-            <div>
-              <ReactCountryFlag svg countryCode="Us" className="mr-2" />
+            <>
+              <ReactCountryFlag svg countryCode="GB" className="mr-2" />
               {t("english")}
-            </div>
+            </>
           ) : (
-            <div>
+            <>
               <ReactCountryFlag svg countryCode="FR" className="mr-2" />
               {t("french")}
-            </div>
+            </>
           )}
         </Menu.Button>
       </div>
@@ -61,39 +65,25 @@ export default function () {
           <div>
             {curLang === "en" ? (
               <Menu.Item>
-                {({ active }) => (
-                  <div className="flex space-between">
-                    <button
-                      onClick={() => handleLanguageSwitch("fr")}
-                      className={classNames(
-                        active
-                          ? "bg-gray-100 rounded-md text-gray-900"
-                          : "text-gray-700",
-                        "block px-4 py-2 text-sm rounded-md"
-                      )}
-                    >
-                      <ReactCountryFlag svg countryCode="FR" className="mr-2" />
-                      {t("french")}
-                    </button>
-                  </div>
-                )}
+                <div className="flex space-between">
+                  <button
+                    onClick={() => handleLanguageSwitch("fr")}
+                    className="block w-40 px-4 py-2 text-sm  font-medium rounded-md"
+                  >
+                    <ReactCountryFlag svg countryCode="FR" className="mr-2" />
+                    {t("french")}
+                  </button>
+                </div>
               </Menu.Item>
             ) : (
               <Menu.Item>
-                {({ active }) => (
-                  <button
-                    onClick={() => handleLanguageSwitch("en")}
-                    className={classNames(
-                      active
-                        ? "bg-gray-100 rounded-md text-gray-900"
-                        : "text-gray-700",
-                      "block px-4 py-2 text-sm rounded-md"
-                    )}
-                  >
-                    <ReactCountryFlag svg countryCode="US" className="mr-2" />
-                    {t("english")}
-                  </button>
-                )}
+                <button
+                  onClick={() => handleLanguageSwitch("en")}
+                  className="block w-40 px-4 py-2  font-medium text-sm rounded-md"
+                >
+                  <ReactCountryFlag svg countryCode="GB" className="mr-2" />
+                  {t("english")}
+                </button>
               </Menu.Item>
             )}
           </div>

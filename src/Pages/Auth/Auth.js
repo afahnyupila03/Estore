@@ -1,125 +1,216 @@
 import { Field, Form, Formik } from "formik";
-import CustomTextInput, { CustomCheckbox } from "../../Components/TextInput";
-import { AuthSchema } from "../../ValidationSchemas/AuthSchemas";
-import NewSignup from "./NewSignup";
+import UseAnimation from "../../Components/Loader";
+import loading from "react-useanimations/lib/loading";
+import { CustomInput } from "../../Components/TextInput";
+import {
+  SignUpAuthSchema,
+  LoginAuthSchema,
+} from "../../ValidationSchemas/AuthSchemas";
+import { useState } from "react";
+import { useAuth } from "../../Store";
+import { useTranslation } from "react-i18next";
 
-export default function () {
-  const onSubmit = (values, actions) => {
+export default function Auth() {
+  const [isSignUp, setIsSignUp] = useState(true);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const { signUpHandler, signInHandler } = useAuth();
+  const { t } = useTranslation();
+
+  const handleExistingUserAuth = () => {
     setTimeout(() => {
-      console.log(values);
-      console.log(actions);
-      actions.resetForm({
-        values: {
-          email: "",
-          firstName: "",
-          lastName: "",
-          password: "",
-          confirmPassword: "",
-          checkbox: "",
-        },
-      });
+      setIsSignUp((prevAuthState) => !prevAuthState);
     }, 1000);
   };
 
-  return (
-    <div>
-      <Formik
-        initialValues={{
-          email: "",
-          firstName: "",
-          lastName: "",
-          password: "",
+  const handleCreateUser = async (values, actions) => {
+    try {
+      await signUpHandler(
+        values.email,
+        values.password,
+        values.firstName,
+        values.lastName,
+        values.confirmPassword
+      );
+      actions.resetForm({
+        values: {
+          email: " ",
+          firstName: " ",
+          lastName: " ",
+          password: " ",
           confirmPassword: "",
-          checkbox: "",
-        }}
-        validationSchema={AuthSchema}
-        onSubmit={onSubmit}
+        },
+      });
+    } catch (error) {
+      console.error(`Sign up error: ${error}`);
+    }
+  };
+  const handleUserLogin = async (values, actions) => {
+    try {
+      await signInHandler(values.email, values.password);
+      actions.resetForm({
+        values: {
+          email: " ",
+          password: " ",
+        },
+      });
+    } catch (error) {
+      console.error(`sign in error: ${error}`);
+    }
+  };
+
+  return (
+    <div
+      className="mt-10 mb-10 
+    flex items-center 
+    justify-center min-h-screen"
+    >
+      <Formik
+        initialValues={
+          isSignUp
+            ? {
+                email: "",
+                firstName: "",
+                lastName: "",
+                password: "",
+                confirmPassword: "",
+              }
+            : {
+                email: "",
+                password: "",
+              }
+        }
+        validationSchema={isSignUp ? SignUpAuthSchema(t) : LoginAuthSchema(t)}
+        onSubmit={isSignUp ? handleCreateUser : handleUserLogin}
       >
-        {({ values, handleChange, handleBlur, isSubmitting }) => (
-          <Form className="column">
-            <Field
-              component={CustomTextInput}
+        {({
+          values,
+          handleChange,
+          handleBlur,
+          isSubmitting,
+          errors,
+          touched,
+        }) => (
+          <Form className="w-full bg-gray-300 py-10 max-w-md rounded-lg shadow-xl">
+            <h1
+              className="text center 
+            font-medium text-2xl my-4
+            flex justify-center"
+            >
+              {isSignUp ? `${t("auth.createAccount")}` : `${t("auth.signIn")}`}
+            </h1>
+
+            <CustomInput
               id="email"
               name="email"
               type="email"
               value={values.email}
               onChange={handleChange}
               onBlur={handleBlur}
-              label="Email Address"
-              placeholder="Enter Email"
+              placeholder={t("auth.enterEmail")}
+              label={t("auth.email")}
+              errors={errors}
+              touched={touched}
             />
-            <Field
-              component={CustomTextInput}
-              id="firstName"
-              name="firstName"
-              type="text"
-              value={values.firstName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="First Name"
-              placeholder="First Name"
-            />
-            <Field
-              component={CustomTextInput}
-              id="lastName"
-              name="lastName"
-              type="text"
-              value={values.lastName}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="Last Name"
-              placeholder="Last Name"
-            />
-            <Field
-              component={CustomTextInput}
+
+            {isSignUp && (
+              <CustomInput
+                id="firstName"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="firstName"
+                type="text"
+                value={values.firstName}
+                placeholder={t("auth.firstName")}
+                label={t("auth.firstName")}
+                errors={errors}
+                touched={touched}
+              />
+            )}
+            {isSignUp && (
+              <CustomInput
+                id="lastName"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="lastName"
+                type="text"
+                value={values.lastName}
+                placeholder={t("auth.lastName")}
+                label={t("auth.lastName")}
+                errors={errors}
+                touched={touched}
+              />
+            )}
+
+            <CustomInput
               id="password"
+              onChange={handleChange}
+              onBlur={handleBlur}
               name="password"
-              type="password"
+              type={showPassword ? "text" : "password"}
               value={values.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="Password"
-              placeholder="Enter Password"
+              placeholder={t("auth.enterPassword")}
+              label={t("auth.password")}
+              togglePassword={() => setShowPassword(!showPassword)}
+              showPassword={showPassword}
+              errors={errors}
+              touched={touched}
             />
-            <Field
-              component={CustomTextInput}
-              id="confirmPassword"
-              name="confirmPassword"
-              type="password"
-              value={values.confirmPassword}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="Confirm Password"
-              placeholder="Confirm Password"
-            />
-            <Field
-              type="checkbox"
-              name="checkbox"
-              id="checkbox"
-              component={CustomCheckbox}
-              value={values.checkbox}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              label="I accept the terms and conditions"
-            />
-            <div className="my-4 flex justify-center text-white">
+            {isSignUp && (
+              <CustomInput
+                id="confirmPassword"
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="confirmPassword"
+                type={showConfirmPassword ? "text" : "password"}
+                value={values.confirmPassword}
+                placeholder={t("auth.confirmPassword")}
+                label={t("auth.confirmPassword")}
+                toggleShowConfirmPassword={() =>
+                  setShowConfirmPassword(!showConfirmPassword)
+                }
+                showConfirmPassword={showConfirmPassword}
+                errors={errors}
+                touched={touched}
+              />
+            )}
+
+            <div className="my-4 flex justify-center">
+              <button
+                className="font-medium text-lg"
+                type="button"
+                onClick={handleExistingUserAuth}
+              >
+                {isSignUp ? `${t("auth.user")}` : `${t("auth.newUser")}`}
+              </button>
+            </div>
+
+            <div className="my-4 w-full flex justify-center text-white">
               <button
                 disabled={isSubmitting}
-                className={
-                  isSubmitting
-                    ? "bg-gray-300 p-2 rounded-lg text-sm"
-                    : "bg-gray-500 p-2 rounded-lg text-sm"
-                }
+                className="bg-gray-500 font-medium text-lg text-black px-6 py-2 rounded"
                 type="submit"
               >
-                Submit
+                {isSignUp ? (
+                  <>
+                    {t("auth.createAccount")}
+                    {isSubmitting && (
+                      <UseAnimation className="ml-4" animation={loading} />
+                    )}
+                  </>
+                ) : (
+                  <>
+                    {t("auth.signIn")}
+                    {isSubmitting && (
+                      <UseAnimation className="ml-4" animation={loading} />
+                    )}
+                  </>
+                )}
               </button>
             </div>
           </Form>
         )}
       </Formik>
-
-      <NewSignup />
     </div>
   );
 }

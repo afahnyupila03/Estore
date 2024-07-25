@@ -4,7 +4,7 @@
 //  API: https://code.visualstudio.com/api/references/vscode-api
 
 function activate(_context) {
-   window.showInformationMessage('Hello, World!');
+   window.showInformationMessage('Happy, Hacking!');
 }
 
 function deactivate() {}

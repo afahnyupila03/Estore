@@ -1,9 +1,13 @@
-import { NavbarRoutes } from "./NavbarRoutes/NavbarRoutes"
-import { FooterRoutes } from "./FooterRoutes/FooterRoutes"
-import { ProductDetailsRoute } from "./ProductDetails/productsDetailsRoute";
+import { NavbarRoutes } from "./NavbarRoutes"
+import { ProductDetailsRoute } from "./productsDetailsRoute";
+import { CategoryRoute } from "./CategoryRoute";
+import { AccountRoute } from "./AccountRoute";
+import { InvoiceRoute } from "./InvoiceRoute";
 
 export const routes = [
   ...NavbarRoutes,
   ...ProductDetailsRoute,
-  ...FooterRoutes
+  ...CategoryRoute,
+  ...AccountRoute,
+  ...InvoiceRoute
 ];

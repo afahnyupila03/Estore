@@ -1,115 +1,243 @@
 export const NavbarRoutes = (t) => [
   {
-    navLink: "Home",
-    navRoute: "home",
+    navLink: t("navbar.home"),
+    navRoute: "/home",
   },
   {
-    navLink: "Shop",
+    navLink: t("navbar.shop"),
     navRoute: "shop",
   },
   {
-    navLink: "About",
+    navLink: t("navbar.about"),
     navRoute: "about",
   },
   {
-    navLink: "Latest",
-    navRoute: "latest",
+    navLink: t("navbar.latest"),
+    navRoute: "latest-products",
   },
   {
-    navLink: "Blog",
+    navLink: t("navbar.blog"),
     navRoute: "blog",
-  },
-  {
-    navLink: "Contact",
-    navRoute: "contact",
   },
 ];
 
 export const AuthRoute = (t) => [
-  { 
-    navLink: "Sign In | Create Account", 
-    navRoute: "/sign-in-&-create-account" 
+  {
+    navLink: t("auth.signInCreate"),
+    navRoute: "/sign-in-&-create-account",
   },
 ];
 
-export const AccountRoutes = (t, heartOutline, cardOutline, bicycleOutline) => [
+export const UserAccountRoute = (t, userName) => [
+  {
+    navLink: `${userName}`,
+    navRoute: "my-account/landing/password-&-personal-information",
+  },
+];
+
+export const AccountRoutes = (
+  t,
+  cubeOutline,
+  heartOutline,
+  cardOutline,
+  bicycleOutline
+) => [
+  {
+    iconName: cubeOutline,
+    navRoute: "my-account/landing/purchases",
+    navLink: t("auth.purchases"),
+  },
   {
     iconName: heartOutline,
-    navRoute: "account/wish-list",
-    navLink: "Wish List",
+    navRoute: "my-account/landing/wish-lists",
+    navLink: t("auth.wishList"),
   },
   {
     iconName: bicycleOutline,
-    navRoute: "account/delivery",
-    navLink: "Delivery",
+    navRoute: "my-account/landing/delivery",
+    navLink: t("auth.delivery"),
   },
   {
     iconName: cardOutline,
-    navRoute: "account/payment-method",
-    navLink: "Payment Method",
+    navRoute: "my-account/landing/payment-method",
+    navLink: t("auth.paymentMethod"),
   },
 ];
 
 export const AccountSettingsRoutes = (t, mailOutline, lockClosedOutline) => [
   {
     iconName: lockClosedOutline,
-    navLink: "Password & Personal Info",
-    navRoute: "password-&-personal-info",
+    navLink: t("auth.password&Personal"),
+    navRoute: "my-account/landing/password-&-personal-information",
   },
   {
     iconName: mailOutline,
-    navLink: "Email & Mail Preferences",
-    navRoute: "email-&-mail-preferences",
+    navLink: t("auth.email&Mail"),
+    navRoute: "my-account/landing/email-&-mail-preferences",
   },
 ];
 
 export const CustomerServiceRoutes = (t) => [
   {
-    navLink: "Contact Us",
+    navLink: t("home.contactUs"),
     navRoute: "contact",
   },
   {
-    navLink: "Order Status",
+    navLink: t("home.orderStatus"),
     navRoute: "order-status",
   },
   {
-    navLink: "Delivery",
+    navLink: t("auth.delivery"),
     navRoute: "delivery",
   },
   {
-    navLink: "Return Policy & Exchanges",
+    navLink: t("home.returnPolicy"),
     navRoute: "return-policy-&-exchanges",
   },
   {
-    navLink: "Price Adjustments",
+    navLink: t("home.priceAdjustment"),
     navRoute: "price-adjustments",
   },
   {
-    navLink: "Gift Cards",
+    navLink: t("home.giftCard"),
     navRoute: "gift-cards",
   },
   {
-    navLink: "FAQ",
+    navLink: t("home.FAQ"),
     navRoute: "FAQ",
   },
   {
-    navLink: "Product Recalls",
+    navLink: t("home.productRecalls"),
     navRoute: "product-recalls",
   },
 ];
+
 export const AboutRoutes = (t) => [
-  { navLink: "All Brands", navRoute: "brands" },
-  { navLink: "Careers", navRoute: "careers" },
+  { navLink: t("home.allBrands"), navRoute: "brands" },
+  { navLink: t("home.career"), navRoute: "careers" },
   {
-    navLink: "Corporate Social Responsibility",
+    navLink: t("home.corporateSocial"),
     navRoute: "corporate-social-responsibility",
   },
   {
-    navLink: "Diversity, Equity, Inclusion & Belonging",
+    navLink: t("home.diversity"),
     navRoute: "diversity-equity-inclusion-&-belonging",
   },
-  { navLink: "Get Email Updates", navRoute: "email-updates" },
-  { navLink: "TimeZone Blog", navRoute: "blog" },
-  { navLink: "The Thread", navRoute: "thread" },
-  { navLink: "TimeZone Podcast", navRoute: "podcast" },
+  { navLink: t("home.emailUpdates"), navRoute: "email-updates" },
+  { navLink: t("home.timezoneBlog"), navRoute: "blog" },
+  { navLink: t("home.theThread"), navRoute: "thread" },
+  { navLink: t("home.timezonePodcast"), navRoute: "podcast" },
+];
+
+export const AccessoriesRoute = (t, kitchen, mobile, sports) => [
+  {
+    icon: kitchen,
+    name: t("category.kitchenAccess"),
+    route: "/shop/kitchen-accessories",
+  },
+  {
+    icon: mobile,
+    name: t("category.mobileAccess"),
+    route: "/shop/mobile-accessories",
+  },
+  {
+    icon: sports,
+    name: t("category.sportsAccess"),
+    route: "/shop/sports-accessories",
+  },
+];
+
+export const AutoMobileRoutes = (t, vehicle, bike) => [
+  {
+    icon: bike,
+    name: t("category.motorcycle"),
+    route: "/shop/motorcycle",
+  },
+  {
+    icon: vehicle,
+    name: t("category.vehicle"),
+    route: "/shop/vehicle",
+  },
+];
+
+export const ElectronicRoutes = (t, laptop, smartphone, tablet) => [
+  {
+    icon: laptop,
+    name: t("category.laptops"),
+    route: "/shop/laptops",
+  },
+  {
+    icon: smartphone,
+    name: t("category.smartphones"),
+    route: "/shop/smartphones",
+  },
+  {
+    icon: tablet,
+    name: t("category.tablets"),
+    route: "/shop/tablets",
+  },
+];
+
+export const MenRoutes = (t, footwear, shirts, watches) => [
+  {
+    icon: footwear,
+    name: t("category.menFoot"),
+    route: "/shop/mens-shoes",
+  },
+  {
+    icon: shirts,
+    name: t("category.menShirts"),
+    route: "/shop/mens-shirts",
+  },
+  {
+    icon: watches,
+    name: t("category.menWatches"),
+    route: "/shop/mens-watches",
+  },
+];
+
+export const WomenRoutes = (
+  t,
+  beauty,
+  bags,
+  cloths,
+  footwear,
+  jewelry,
+  watches
+) => [
+  {
+    icon: beauty,
+    name: t("category.beauty"),
+    route: "/shop/beauty",
+  },
+  {
+    icon: bags,
+    name: t("category.womenBags"),
+    route: "/shop/womens-bags",
+  },
+  {
+    icon: cloths,
+    name: t("category.womenCloths"),
+    route: "/shop/womens-dresses",
+  },
+  {
+    icon: footwear,
+    name: t("category.womenFoot"),
+    route: "/shop/womens-shoes",
+  },
+  {
+    icon: jewelry,
+    name: t("category.womenJewelry"),
+    route: "/shop/womens-jewellery",
+  },
+  {
+    icon: cloths,
+    name: t("category.tops"),
+    route: "/shop/tops",
+  },
+  {
+    icon: watches,
+    name: t("category.womenWatches"),
+    route: "/shop/womens-watches",
+  },
 ];

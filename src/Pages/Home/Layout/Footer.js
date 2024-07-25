@@ -1,45 +1,68 @@
-import { Link } from "react-router-dom"
-import { CustomerServiceRoutes, AboutRoutes } from "../components/LayoutNavigation"
-import ReactCountryFlag from "react-country-flag"
-import { useTranslation } from 'react-i18next';
+import { Link } from "react-router-dom";
+import {
+  CustomerServiceRoutes,
+  AboutRoutes,
+} from "../components/LayoutNavigation";
+import ReactCountryFlag from "react-country-flag";
+import { useTranslation } from "react-i18next";
 
-export default function(){
+const date = new Date();
+const currentYear = date.getFullYear();
 
-    const {t} = useTranslation()
-    const customerNavigation = CustomerServiceRoutes(t)
-    const aboutNavigation = AboutRoutes(t)
+export default function () {
+  const { t } = useTranslation();
+  const customerNavigation = CustomerServiceRoutes(t);
+  const aboutNavigation = AboutRoutes(t);
 
-    return (
-        <div className='container mx-auto px-4 py-2 text-lg'>
-            <div className='mx-2 grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1'>
-            
-            <div>
-                <h3 className='py-4'>Customer Service</h3>
-                <ul>
-                {customerNavigation.map((customerRoutes, customerIndex) => (
-                    <li key={customerIndex} className='py-1'>
-                        <Link to={customerRoutes.navRoute}>{customerRoutes.navLink}</Link>
-                    </li>
-                ))}
-                </ul>
-                <div className='flex py-2'>
-                    <ReactCountryFlag countryCode='CM' svg className='mr-2 my-2' />
-                    <p>Cameroon</p>
-                </div>
-            </div>
+  return (
+    <div className="container mx-auto lg:pt-10 lg:mt-10 px-10 lg:px-4 pb-10 text-lg">
+      <div className="mx- text-sm lg:text-lg grid lg:grid-cols-3 md:grid-cols-3 sm:grid-cols-1">
 
-            <div>
-                <h3 className='py-4'>About Us</h3>
-                <ul>
-                {aboutNavigation.map((aboutRoutes, aboutIndex) => (
-                    <li key={aboutIndex} className='py-1'>
-                        <Link to={aboutRoutes.navRoute}>{aboutRoutes.navLink}</Link>
-                    </li>
-                ))}
-                </ul>
-            </div>
-
-            </div>
+        <div>
+          <h3 className="py-4 font-medium ">{t("auth.customerService")}</h3>
+          <ul>
+            {customerNavigation.map((customerRoutes) => (
+              <li key={customerRoutes.navLink} className="py-1">
+                <Link
+                  to={customerRoutes.navRoute}
+                  className="font-medium "
+                >
+                  {customerRoutes.navLink}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <div className="flex items-center py-2">
+            <ReactCountryFlag countryCode="CM" svg className="mr-2 my-2" />
+            <p className="font-medium ">{t("home.cameroon")}</p>
+          </div>
         </div>
-    )
+
+        <div>
+          <h3 className="py-4 font-medium ">{t("home.aboutUs")}</h3>
+          <ul>
+            {aboutNavigation.map((aboutRoutes) => (
+              <li key={aboutRoutes.navLink} className="py-1">
+                <Link
+                  to={aboutRoutes.navRoute}
+                  className="font-medium "
+                >
+                  {aboutRoutes.navLink}
+                </Link>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+      </div>
+
+      <div className="flex mt-4 items-center justify-center">
+        <hr className="border-1 border-red-500 w-10 lg:w-80 mr-2" />
+        <p className="font-medium lg:text-lg text-xs ">
+          All Copyrights reserved &copy;{currentYear}
+        </p>
+        <hr className="border-1 border-red-500 w-10 lg:w-80 ml-2" />
+      </div>
+    </div>
+  );
 }

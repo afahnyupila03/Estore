@@ -1,0 +1,13 @@
+export const Constants = {
+  ADD: "ADD",
+  REMOVE: "REMOVE",
+  CLEAR: "CLEAR",
+  SIGN_UP: "SIGN_UP",
+  SIGN_IN: "SIGN_IN",
+  SIGN_OUT: "SIGN_OUT",
+  SET_USER: "SET_USER",
+  RESET_PASSWORD: "RESET_PASSWORD",
+  DELETE: "DELETE",
+  ERROR: "ERROR",
+  SET: "SET",
+};

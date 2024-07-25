@@ -1,11 +1,13 @@
 import { useState, Fragment } from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { useTranslation } from "react-i18next";
+import { useAuth } from "../../../Store";
 
 import {
   AccountRoutes,
   AccountSettingsRoutes,
   AuthRoute,
+  UserAccountRoute,
 } from "../components/LayoutNavigation";
 import { IonIcon } from "@ionic/react";
 import {
@@ -15,16 +17,39 @@ import {
   mailOutline,
   chatbubblesOutline,
   bicycleOutline,
+  cubeOutline,
+  personOutline,
   chevronDownOutline,
 } from "ionicons/icons";
 import MenuItemsCard from "../../../Components/MenuItemsCard";
 
 export default function () {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const curLang = localStorage.getItem("lang");
   const [menuOpen, setMenuOpen] = useState(false);
+  const { signOutHandler, user } = useAuth();
+
+
+
+  const userName = user?.displayName;
+
+  const displayUserName =
+    i18n.language === "en"
+      ? `${userName}${t("auth.account")}`
+      : `${t("auth.account")} ${userName}`;
+
+  const handleUserSignOut = async () => {
+    try {
+      await signOutHandler();
+      console.log("logged out successfully");
+    } catch (error) {
+      console.error("Error logging out: ", error);
+    }
+  };
 
   const accountNavigation = AccountRoutes(
     t,
+    cubeOutline,
     heartOutline,
     cardOutline,
     bicycleOutline
@@ -34,18 +59,48 @@ export default function () {
     mailOutline,
     lockClosedOutline
   );
-  const authRoutes = AuthRoute(t)
+
+  const authRoutes = AuthRoute(t);
+  const accountPage = UserAccountRoute(t, displayUserName);
+
+  const authenticationRoute = authRoutes.map((authKey) => (
+    <MenuItemsCard
+      key={authKey.navLink}
+      navigationLink={authKey.navLink}
+      navigationRoute={authKey.navRoute}
+      style={{ fontWeight: "bold" }}
+    />
+  ));
+
+  const userAccount = accountPage.map((account) => (
+    <MenuItemsCard
+      key={account.navLink}
+      navigationLink={account.navLink}
+      navigationRoute={account.navRoute}
+      style={{ fontWeight: "bold" }}
+    />
+  ));
 
   return (
     <Popover as="div" className="relative mt-2 text-center">
-      <Popover.Button
-        onMouseEnter={() => setMenuOpen(true)}
-        onMouseLeave={() => setMenuOpen(false)}
-        className="flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-900"
-      >
-        Sign In
-        <IonIcon icon={chevronDownOutline} className="ml-2" />
-      </Popover.Button>
+      {user === null ? (
+        <Popover.Button
+          onMouseEnter={() => setMenuOpen(true)}
+          onMouseLeave={() => setMenuOpen(false)}
+          className="flex items-center gap-x-1 text-sm font-medium  leading-6 text-gray-900"
+        >
+          <IonIcon icon={personOutline} className="ml-2" />
+        </Popover.Button>
+      ) : (
+        <Popover.Button
+          onMouseEnter={() => setMenuOpen(true)}
+          onMouseLeave={() => setMenuOpen(false)}
+          className="flex items-center gap-x-1 text-lg font-medium  leading-6 text-gray-900"
+        >
+          {userName}
+          <IonIcon icon={chevronDownOutline} className="ml-2" />
+        </Popover.Button>
+      )}
 
       <Transition
         show={menuOpen}
@@ -60,23 +115,15 @@ export default function () {
         <Popover.Panel
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
-          className="absolute left-1/2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 px-4"
+          className="absolute left-2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 px-4"
         >
           <div className="w-80  flex-auto overflow-hidden rounded-3xl bg-white text-sm leading-6 shadow-lg  ring-gray-900/5">
             <div className="p-4">
-
-              {authRoutes.map((authKey) => (
-                <MenuItemsCard 
-                  key={authKey.navLink}
-                  navigationLink={authKey.navLink}
-                  navigationRoute={authKey.navRoute}
-                  style={{fontWeight: 'bold'}}
-                />
-              ))}
+              {user === null ? authenticationRoute : userAccount}
 
               {/* Your Account Routes */}
-              <h4 className="text-left px-4 font-semibold mt-2 mb-2">
-                Your Account
+              <h4 className="text-left px-4 font-medium  mt-2 mb-2">
+                {t("auth.yourAccount")}
               </h4>
               {accountNavigation.map((accountNav) => (
                 <MenuItemsCard
@@ -87,26 +134,35 @@ export default function () {
                 />
               ))}
               {/* Account Settings Routes */}
-              <h4 className="text-left px-4 font-semibold mt-2 mb-2">
-                Account Settings
+              <h4 className="text-left  px-4 font-medium mt-2 mb-2">
+                {t("auth.accountSettings")}
               </h4>
               {accSettingsNavigation.map((accSettings) => (
                 <MenuItemsCard
                   key={accSettings.navLink}
-                  navigationLink={accSettings.navLink}
+                  navigationLink={REDUCED_CHARS(accSettings.navLink)}
                   navigationRoute={accSettings.navRoute}
                   icon={accSettings.iconName}
                 />
               ))}
               {/* Customer Line Route */}
-              <h4 className="text-left px-4 font-semibold mt-4 mb-2">
-                Need Help ?
+              <h4 className="text-left  px-4 font-medium mt-4 mb-2">
+                {t("auth.needHelp")}
               </h4>
               <MenuItemsCard
-                navigationRoute="/account/customer-service"
-                navigationLink="Contact Us"
+                navigationRoute="my-account/landing/customer-service"
+                navigationLink={t("auth.customerService")}
                 icon={chatbubblesOutline}
               />
+
+              {user && (
+                <button
+                  className="bg-red-500 text-white px-4 py-2 rounded-lg mt-4"
+                  onClick={handleUserSignOut}
+                >
+                  {t("auth.logout")}
+                </button>
+              )}
             </div>
           </div>
         </Popover.Panel>
@@ -114,3 +170,11 @@ export default function () {
     </Popover>
   );
 }
+
+const REDUCED_CHARS = (name) => {
+  const MAX_CHARS = 20;
+  if (name.length > MAX_CHARS) {
+    return `${name.slice(0, MAX_CHARS)}...`;
+  }
+  return name;
+};
