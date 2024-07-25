@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useMemo, useState } from "react";
 import { Form, Formik } from "formik";
 import { CustomInput } from "../../Components/TextInput";
 import {
@@ -45,7 +45,6 @@ export default function PaymentMethodPage() {
   const bankPaymentHandler = () => {
     setBankPayment((prevMobilePayment) => !prevMobilePayment);
   };
-  console.log("mobile payment state: ", bankPayment.toString());
 
   const splitUserName = (userName) => {
     if (!userName) {
@@ -138,14 +137,14 @@ export default function PaymentMethodPage() {
     setSelectedPaymentId(paymentId);
     setEditModal(true);
     setPaymentModal(true);
-    if (editModal && singlePaymentQuery.data) {
+    if (editModal && singlePaymentQuery?.data) {
       if (
-        singlePaymentQuery.data.accountName &&
-        singlePaymentQuery.data.accountNumber
+        singlePaymentQuery.data?.accountName &&
+        singlePaymentQuery.data?.accountNumber
       ) {
-        setBankPayment(true);
-      } else {
         setBankPayment(false);
+      } else {
+        setBankPayment(true);
       }
     }
   };
@@ -212,7 +211,7 @@ export default function PaymentMethodPage() {
             No user found. Please sign in / create account to view wish list.
           </p>
           <Link
-            className="bg-black text-center text-white py-6 px-14 rounded font-medium "
+            className="bg-gray-800 text-center text-white py-6 px-14 rounded font-medium "
             to="/sign-in-&-create-account"
           >
             {t("auth.signInCreate")}
@@ -259,18 +258,31 @@ export default function PaymentMethodPage() {
     }
   }, [editModal, singlePaymentQuery]);
 
-  const initialValues = () => {
-    if (editModal && singlePaymentQuery.data && !bankPayment) {
-      if (
-        singlePaymentQuery.data.accountName &&
-        singlePaymentQuery.data.accountNumber
-      ) {
-        return {
-          id: singlePaymentQuery.data.id,
-          accountName: singlePaymentQuery.data.accountName,
-          accountNumber: singlePaymentQuery.data.accountNumber,
-        };
+  const initialValues = useMemo(() => {
+    if (editModal && singlePaymentQuery?.data) {
+      if (!bankPayment) {
+        // Handling mobile payment case
+        if (
+          singlePaymentQuery.data?.accountName &&
+          singlePaymentQuery.data?.accountNumber
+        ) {
+          return {
+            id: singlePaymentQuery.data.id,
+            accountName: singlePaymentQuery.data.accountName,
+            accountNumber: singlePaymentQuery.data.accountNumber,
+          };
+        } else {
+          return {
+            id: singlePaymentQuery.data.id,
+            firstName: singlePaymentQuery.data.firstName,
+            lastName: singlePaymentQuery.data.lastName,
+            cardNumber: singlePaymentQuery.data.cardNumber,
+            expiryDate: singlePaymentQuery.data.expiryDate,
+            securityCode: singlePaymentQuery.data.securityCode,
+          };
+        }
       } else {
+        // Handling bank payment case
         return {
           id: singlePaymentQuery.data.id,
           firstName: singlePaymentQuery.data.firstName,
@@ -288,13 +300,13 @@ export default function PaymentMethodPage() {
         expiryDate: "",
         securityCode: "",
       };
-    } else if (!bankPayment) {
+    } else {
       return {
         accountName: "",
         accountNumber: "",
       };
     }
-  };
+  }, [editModal, singlePaymentQuery, bankPayment]);
 
   function ModalHeaderText() {
     if (bankPayment) {
@@ -302,12 +314,12 @@ export default function PaymentMethodPage() {
     } else if (editModal) {
       if (editModal && bankPayment) {
         setBankPayment(true);
-        return "Edit Bank Card";
+        return `${t("checkoutForm.editBank")}`;
       } else {
-        return "Edit MOMO / OM Number";
+        return `${t("checkoutForm.editMomo")}`;
       }
     } else {
-      return "Add MOMO / OM Number";
+      return `${t("checkoutForm.addMomo")}`;
     }
   }
 
@@ -324,13 +336,13 @@ export default function PaymentMethodPage() {
               {ModalHeaderText()}
             </h1>
           </div>
-          {editModal && (
+          {editModal && !bankPayment && (
             <p
               className="
             flex justify-center text-center 
             text-red-500 font-medium my-4 py-2"
             >
-              Please re-enter all fields...!
+              {t("checkoutForm.please")}
             </p>
           )}
           <div>
@@ -342,9 +354,14 @@ export default function PaymentMethodPage() {
       }
       modalBody={
         <Formik
-          initialValues={initialValues()}
+          key={
+            singlePaymentQuery?.data
+              ? singlePaymentQuery.data.id
+              : "new-payment"
+          }
+          initialValues={initialValues}
           validationSchema={
-            bankPayment ? BankPaymentSchema : MobilePaymentSchema
+            bankPayment ? BankPaymentSchema(t) : MobilePaymentSchema(t)
           }
           onSubmit={
             editModal ? editPaymentDetailsHandler : paymentMethodHandler

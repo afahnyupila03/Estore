@@ -6,9 +6,7 @@ import ReactCountryFlag from "react-country-flag";
 export default function () {
   const { t, i18n } = useTranslation();
   const [curLang, setCurLang] = useState(
-    localStorage.getItem
-    ("lang") || "en"
-  );
+    localStorage.getItem ("lang") || "en" );
 
   useEffect(() => {
     // Set the initial language when the component mounts

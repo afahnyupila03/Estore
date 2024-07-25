@@ -1,48 +1,56 @@
 import * as Yup from "yup";
 import { passwordRegex } from "./AuthSchemas";
 
-export const EditNameSchema = Yup.object().shape({
-  firstName: Yup.string().trim().required("Please enter your first name"),
-  lastName: Yup.string().trim().required("Please enter your last name"),
-});
+export const EditNameSchema = (t) =>
+  Yup.object().shape({
+    firstName: Yup.string().trim().required(t("validators.auth.firstName")),
+    lastName: Yup.string().trim().required(t("validators.auth.lastName")),
+  });
 
-export const ReAuthSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("please enter a valid email")
-    .required("Please enter your email"),
-  password: Yup.string().trim().required("Please enter your password"),
-});
+export const ReAuthSchema = (t) =>
+  Yup.object().shape({
+    email: Yup.string()
+      .email(t("validators.auth.validEmail"))
+      .required(t("validators.auth.emailRequired")),
+    password: Yup.string()
+      .trim()
+      .required(t("validators.auth.passwordRequired")),
+  });
 
-export const ChangeEmailSchema = Yup.object().shape({
-  currentEmail: Yup.string()
-    .trim()
-    .email("Please enter a valid email")
-    .required("Please enter your email"),
-  newEmail: Yup.string()
-    .trim()
-    .email("Please enter a valid email")
-    .test(
-      "not-same-as-current",
-      "New email can not be the same as current email",
-      function (value) {
-        return value !== this.parent.currentEmail;
-      }
-    )
-    .required("Please enter your new email address"),
-});
+export const ChangeEmailSchema = (t) =>
+  Yup.object().shape({
+    currentEmail: Yup.string()
+      .trim()
+      .email(t("validators.auth.validEmail"))
+      .required(t("validators.auth.emailRequired")),
+    newEmail: Yup.string()
+      .trim()
+      .email(t("validators.auth.validEmail"))
+      .test(
+        "not-same-as-current",
+        t("validators.personalInfor.newEmailCheck"),
+        function (value) {
+          return value !== this.parent.currentEmail;
+        }
+      )
+      .required(t("validators.personalInfor.newEmail")),
+  });
 
-export const ChangePasswordSchema = Yup.object().shape({
-  currentPassword: Yup.string()
-    .trim()
-    .required("Please enter your current password"),
-  newPassword: Yup.string()
-    .trim()
-    .matches(passwordRegex, { message: "Please a strong password" })
-    .test(
-      "not-same-as-current",
-      "New password can not be the same as current password",
-      function (value) {
-        return value !== this.parent.currentPassword;
-      }
-    ),
-});
+export const ChangePasswordSchema = (t) =>
+  Yup.object().shape({
+    currentPassword: Yup.string()
+      .trim()
+      .required(t("validators.personalInfor.currentPassword")),
+    newPassword: Yup.string()
+      .trim()
+      .matches(passwordRegex, {
+        message: t("validators.personalInfor.strongPassword"),
+      })
+      .test(
+        "not-same-as-current",
+        t("validators.personalInfor.newPasswordCheck"),
+        function (value) {
+          return value !== this.parent.currentPassword;
+        }
+      ),
+  });

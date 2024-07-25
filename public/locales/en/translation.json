@@ -194,7 +194,11 @@
     "confirmOrder": "Confirm order",
     "loadingInvoice": "loading incvoice",
     "noProducts": "No products to checkout...!",
-    "selectCity": "Select city"
+    "selectCity": "Select city",
+    "addMomo": "Add MOMO / OM Number",
+    "editMomo": "Edit MOMO / OM Number",
+    "editBank": "Edit Bank Card",
+    "please": "Please re-enter all fields...!"
   },
   "contact": {
     "hereForYou": "We're Here for You",
@@ -225,9 +229,11 @@
     "city": "City",
     "deliveryAuthMessage": "No user found. Please sign in | create account to view delivery address(s).",
     "tryAgain": "Try again",
-    "noAddress": "No address added"
+    "noAddress": "No address added",
+    "editAddress": "Edit Address"
   },
   "personalInfor": {
+    "editName": "Edit your name",
     "aboutSales": "TZ Hear about sales and more at TIMEZONE.",
     "emailAuthMessage": "No user found. Please sign in | create account to view user email.",
     "paymentMethods": "Payment Methods",
@@ -376,5 +382,53 @@
     "barCode": "Bar-code",
     "qrCode": "QR Code",
     "productReviews": "Product Reviews"
+  },
+  "validators": {
+    "auth": {
+      "wrongPassword": "Wrong password",
+      "validEmail": "Please enter valid email!",
+      "emailTaken": "Email already exist!",
+      "emailRequired": "Email is required",
+      "minChar": "Must be a min of 4 characters",
+      "firstName": "First name is required!",
+      "lastName": "Last name is required!",
+      "passwordRequired": "Password is required!",
+      "confirmPassword": "Passwords do not match!",
+      "confirmPasswordRequired": "Confirm password is required!",
+      "checkPassword": "check-wrong-credentials",
+      "invalidEmailPassword": "Invalid email or password"
+    },
+    "checkoutForm": {
+      "address": "Please enter your address",
+      "aptSuite": "Please enter apartment / suite etc",
+      "city": "Please enter city name",
+      "state": "Please enter state name",
+      "phone": "Please enter phone number",
+      "postalCode": "Please enter zip or postal code",
+      "cardHolder": "Please enter name on bank card / mobile number name",
+      "CardNumber": "Please enter bank number / mobile number",
+      "cardNumberMatch": "The card number must contain only digits",
+      "cardNumberMin": "The card number must be at least 9 digits long",
+      "deliveryMethod": "Please select either standard or express delivery"
+    },
+    "payment": {
+      "invalidCardNumber": "Invalid card number",
+      "cardNumberRequired": "Card number required",
+      "expiryDateMatches": "Invalid expiry date",
+      "expiryDateRequired": "Expiry date is required",
+      "securityCodeAmerican": "Invalid security code for American Express",
+      "securityCodeRequired": "Security code is required",
+      "securityCodeVisa": "Invalid security code for Visa, Master or Discover",
+      "accountNumber": "Phone number is not a valid MTN / ORANGE number",
+      "accountNumberRequired": "Please enter MTN / ORANGE number",
+      "accountName": "Please enter name on mobile account number"
+    },
+    "personalInfor": {
+      "newEmailCheck": "New email can not be the same as current email",
+      "newEmail": "Please enter new email",
+      "currentPassword": "Please enter current password",
+      "strongPassword": "Please create a strong password",
+      "newPasswordCheck": "New password can not be the same as current password"
+    }
   }
 }

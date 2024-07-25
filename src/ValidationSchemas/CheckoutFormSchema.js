@@ -1,43 +1,49 @@
 import * as Yup from "yup";
 
-export const CheckoutFormSchema = Yup.object()
+export const CheckoutFormSchema = (t) => Yup.object()
   .shape({
     email: Yup.string()
       .trim()
-      .email("Please enter a valid email")
-      .required("Please enter your email"),
-    firstName: Yup.string().trim().required("Please enter first name"),
-    lastName: Yup.string().trim().required("Please enter your last name"),
-    address: Yup.string().trim().required("Please enter your address"),
+      .email(t("validators.auth.validEmail"))
+      .required(t("validators.auth.emailRequired")),
+    firstName: Yup.string().trim().required(t("validators.auth.firstName")),
+    lastName: Yup.string().trim().required(t("validators.auth.lastName")),
+    address: Yup.string().trim().required(t("validators.checkoutForm.address")),
     aptSuite: Yup.string()
       .trim()
-      .required("Please enter your apartment / suite etc"),
-    city: Yup.string().trim().required("Please enter your city name"),
-    state: Yup.string().trim().required("Please enter your state name"),
-    tel: Yup.string().trim().required("Please enter your phone number"),
-    postalCode: Yup.string().trim().required("Please enter your postal code"),
+      .required(t("validators.checkoutForm.aptSuite")),
+    city: Yup.string().trim().required(t("validators.checkoutForm.city")),
+    state: Yup.string().trim().required(t("validators.checkoutForm.state")),
+    tel: Yup.string().trim().required(t("validators.checkoutForm.phone")),
+    postalCode: Yup.string()
+      .trim()
+      .required(t("validators.checkoutForm.postalCode")),
     cardHolder: Yup.string()
       .trim()
-      .required("Please enter name on bank card / mobile number name"),
+      .required(t("validators.checkoutForm.cardHolder")),
     cardNumber: Yup.string()
       .trim()
-      .required("Please enter bank number / mobile number")
-      .matches(/^\d+$/, "The card number must contain only digits")
-      .min(9, "The card number must be at least 9 digits long"),
+      .required(t("validators.checkoutForm.cardNumber"))
+      .matches(/^\d+$/, t("validators.checkoutForm.cardNumberMatch"))
+      .min(9, t("validators.checkoutForm.cardNumberMin")),
     standard: Yup.boolean(),
     express: Yup.boolean(),
   })
   .test(
     "delivery-method",
-    "Please select either standard or express delivery",
+    t("validators.checkoutForm.deliveryMethod"),
     function (value) {
       const { standard, express } = value;
       if (!standard && !express) {
         return this.createError({
           path: "standard", // Path to the first radio button
-          message: "Please select either standard or express delivery",
+          message: t("validators.checkoutForm.deliveryMethod"),
         });
       }
-      return true;
+      return this.createError({
+        path: "",
+        message: "",
+      }) || true;
     }
   );
+  

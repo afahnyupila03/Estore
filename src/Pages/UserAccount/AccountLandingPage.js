@@ -9,10 +9,12 @@ import {
   mailOutline,
 } from "ionicons/icons";
 import { NAV_CONST } from "./Components/AccountNavConst";
-import { Routes, Route, Link, Outlet } from "react-router-dom";
+import { Routes, Route, Link, Outlet, useLocation } from "react-router-dom";
 import { AccountRoute } from "../../Routes/AccountRoute";
 import { useAuth } from "../../Store";
 import { useTranslation } from "react-i18next";
+import { Fragment } from "react";
+import { t } from "i18next";
 
 export const getFirstTwoLetters = (displayName) => {
   if (displayName) {
@@ -29,110 +31,38 @@ export const getFirstTwoLetters = (displayName) => {
   }
 };
 
-export default function AccountLandingPage() {
-  const { user, signOutHandler } = useAuth();
+const routeTitles = (t) => ({
+  "/my-account/landing/password-&-personal-information": t(
+    "auth.password&Personal"
+  ),
+  "/my-account/landing/purchases": t("auth.purchases"),
+  "/my-account/landing/wish-lists": t("auth.wishList"),
+  "/my-account/landing/delivery": t("auth.delivery"),
+  "/my-account/landing/payment-method": t("auth.paymentMethod"),
+  "/my-account/landing/email-&-mail-preferences": t("auth.email&Mail"),
+  "/my-account/landing/customer-service": t("auth.customerService"),
+});
 
+export default function AccountLandingPage() {
   const { t } = useTranslation();
 
-  const userName = user?.displayName;
-
-  const navigation = NAV_CONST(
-    t,
-    bicycleOutline,
-    cardOutline,
-    chatbubbleOutline,
-    cubeOutline,
-    heartOutline,
-    lockClosedOutline,
-    mailOutline
-  );
-
-  function classNames(...classes) {
-    return classes.filter(Boolean).join(" ");
-  }
-
-  const handleLogout = async () => {
-    try {
-      await signOutHandler();
-    } catch (error) {
-      console.error("Error signing out: ", error);
-    }
-  };
+  const location = useLocation();
+  const currPath = location.pathname;
+  const title = routeTitles(t)[currPath];
 
   return (
-    <div className="flex h-screen mb-40 pb-20 bg-gray-100">
-      {user !== null && (
-        <div
-          className="w-100 bg-gray-800 rounded-r"
-          style={{ marginBottom: "-16rem" }}
-        >
-          <ul className="py-6 space-y-8">
-            <li>
-              <ul className="text-gray-300 flex justify-center text-xl font-medium  items-center">
-                <p className="rounded-full mr-2 p-2 bg-red-500">
-                  {getFirstTwoLetters(userName)}
-                </p>
-                <p>{userName}'s Account</p>
-              </ul>
-            </li>
-            {navigation.map((item) => (
-              <li key={item.name}>
-                <Link
-                  to={item.href}
-                  className={classNames(
-                    item.current
-                      ? "text-white font-bold"
-                      : "text-gray-300 hover:text-white",
-                    "flex justify-start pl-10 pr-2 py-2  items-center text-xl"
-                  )}
-                >
-                  <IonIcon
-                    icon={item.icon}
-                    className="mr-4"
-                    style={{ fontSize: "1.5rem" }}
-                  />
-                  {REDUCE_TITLE(item.name)}
-                </Link>
-              </li>
-            ))}
-
-            <li className="flex justify-center mt-40 items-center">
-              {user !== null && (
-                <button
-                  onClick={handleLogout}
-                  className="px-2 mx-4 py-2 my-4 text-white bg-gray-500 rounded-md"
-                >
-                  {t("auth.logout")}
-                </button>
-              )}
-            </li>
-          </ul>
-        </div>
-      )}
       <div className="flex-1 bg-white">
         <main>
           <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
-            <Routes>
-              {AccountRoute.map((route) => (
-                <Route
-                  key={route.path}
-                  path={route.path}
-                  element={route.element}
-                />
-              ))}
-            </Routes>
+            <p className="text-xl mb-4 font-medium text-gray-800">
+              {t("auth.yourAccount")} &gt;{" "}
+              <span className="underline">{title}</span>
+            </p>
+          </div>
+          <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
             <Outlet />
           </div>
         </main>
       </div>
-    </div>
   );
 }
-
-const REDUCE_TITLE = (title) => {
-  const MAX = 20;
-  if (title.length > MAX) {
-    return `${title.slice(0, MAX)}...`;
-  }
-  return title;
-};

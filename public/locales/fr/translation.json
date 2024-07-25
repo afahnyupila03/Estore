@@ -194,7 +194,11 @@
     "confirmOrder": "Confirmer la commande",
     "loadingInvoice": "Chargement de la facture",
     "noProducts": "Aucun produit à commander...!",
-    "selectCity": "Sélectionner une ville"
+    "selectCity": "Sélectionner une ville",
+    "addMomo": "Ajouter un numéro MOMO / OM",
+    "editMomo": "Modifier le numéro MOMO / OM",
+    "editBank": "Modifier la carte bancaire",
+    "please": "Veuillez saisir à nouveau tous les champs...!"
   },
   "contact": {
     "hereForYou": "Nous sommes là pour vous",
@@ -225,9 +229,11 @@
     "city": "Ville",
     "deliveryAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'adresse de livraison.",
     "tryAgain": "Réessayer",
-    "noAddress": "Aucune adresse ajoutée"
+    "noAddress": "Aucune adresse ajoutée",
+    "editAddress": "Modifier l'adresse"
   },
   "personalInfor": {
+    "editName": "Modifiez votre nom",
     "aboutSales": "Découvrez les ventes et plus encore chez TIMEZONE.",
     "emailAuthMessage": "Aucun utilisateur trouvé. Veuillez vous connecter | créer un compte pour voir l'e-mail de l'utilisateur.",
     "paymentMethods": "Méthodes de paiement",
@@ -376,5 +382,53 @@
     "barCode": "Code-barres",
     "qrCode": "QR Code",
     "productReviews": "Avis sur le produit"
+  },
+  "validators": {
+    "auth": {
+      "wrongPassword": "Mot de passe incorrect",
+      "validEmail": "Veuillez entrer une adresse e-mail valide!",
+      "emailTaken": "L'email existe déjà!",
+      "emailRequired": "L'email est requis",
+      "minChar": "Doit contenir au moins 4 caractères",
+      "firstName": "Le prénom est requis!",
+      "lastName": "Le nom de famille est requis!",
+      "passwordRequired": "Le mot de passe est requis!",
+      "confirmPassword": "Les mots de passe ne correspondent pas!",
+      "confirmPasswordRequired": "La confirmation du mot de passe est requise!",
+      "checkPassword": "vérifier les mauvaises informations d'identification",
+      "invalidEmailPassword": "Email ou mot de passe invalide"
+    },
+    "checkoutForm": {
+      "address": "Veuillez entrer votre adresse",
+      "aptSuite": "Veuillez entrer l'appartement / la suite, etc.",
+      "city": "Veuillez entrer le nom de la ville",
+      "state": "Veuillez entrer le nom de l'état",
+      "phone": "Veuillez entrer le numéro de téléphone",
+      "postalCode": "Veuillez entrer le code postal",
+      "cardHolder": "Veuillez entrer le nom sur la carte bancaire / le numéro de mobile",
+      "CardNumber": "Veuillez entrer le numéro de la carte bancaire / du mobile",
+      "cardNumberMatch": "Le numéro de la carte doit contenir uniquement des chiffres",
+      "cardNumberMin": "Le numéro de la carte doit contenir au moins 9 chiffres",
+      "deliveryMethod": "Veuillez sélectionner la livraison standard ou express"
+    },
+    "payment": {
+      "invalidCardNumber": "Numéro de carte invalide",
+      "cardNumberRequired": "Numéro de carte requis",
+      "expiryDateMatches": "Date d'expiration invalide",
+      "expiryDateRequired": "La date d'expiration est requise",
+      "securityCodeAmerican": "Code de sécurité invalide pour American Express",
+      "securityCodeRequired": "Le code de sécurité est requis",
+      "securityCodeVisa": "Code de sécurité invalide pour Visa, Master ou Discover",
+      "accountNumber": "Le numéro de téléphone n'est pas un numéro MTN / ORANGE valide",
+      "accountNumberRequired": "Veuillez entrer le numéro MTN / ORANGE",
+      "accountName": "Veuillez entrer le nom sur le numéro de compte mobile"
+    },
+    "personalInfor": {
+      "newEmailCheck": "Le nouvel email ne peut pas être identique à l'email actuel",
+      "newEmail": "Veuillez entrer un nouvel email",
+      "currentPassword": "Veuillez entrer le mot de passe actuel",
+      "strongPassword": "Veuillez créer un mot de passe fort",
+      "newPasswordCheck": "Le nouveau mot de passe ne peut pas être identique à l'ancien mot de passe"
+    }
   }
 }
