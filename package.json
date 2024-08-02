@@ -1,5 +1,4 @@
 {
-  "homepage": "https://afahnyupila03.github.io/Estore",
   "name": "ecommerce-app",
   "version": "0.1.0",
   "private": true,
@@ -38,8 +37,6 @@
     "yup": "^1.3.2"
   },
   "scripts": {
-    "redeploy": "yarn build",
-    "deploy": "gh-pages -d build",
     "start": "craco start",
     "build": "craco build",
     "test": "react-scripts test",
