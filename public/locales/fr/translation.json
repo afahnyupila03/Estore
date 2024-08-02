@@ -275,7 +275,8 @@
     "personalAuthMessage": "Veuillez vous connecter | créer un compte pour voir les informations utilisateur.",
     "enterDetails": "Entrez les détails de connexion pour supprimer le compte.",
     "areYouSure": "Êtes-vous sûr(e) de vouloir supprimer votre compte ?",
-    "noUserPay": "Utilisateur non trouvé. Veuillez vous connecter | Créer un compte pour voir les cartes de paiement."
+    "noUserPay": "Utilisateur non trouvé. Veuillez vous connecter | Créer un compte pour voir les cartes de paiement.",
+    "warning": "Avertissement : Cette action est irréversible. Une fois votre compte supprimé, il ne pourra pas être récupéré."
   },
   "purchases": {
     "datePlaced": "Date de commande",

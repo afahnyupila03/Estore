@@ -275,7 +275,8 @@
     "personalAuthMessage": "Please sign in | create account to view user information.",
     "enterDetails": "Enter login details to delete account",
     "areYouSure": "Are you sure you want to delete your account ?",
-    "noUserPay": "No user found. Please sign in | create account to view Payment cards."
+    "noUserPay": "No user found. Please sign in | create account to view Payment cards.",
+    "warning": "Warning: This action is irreversible. Once your account is deleted, it cannot be recovered."
   },
   "purchases": {
     "datePlaced": "Date placed",
