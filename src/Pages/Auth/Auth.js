@@ -9,6 +9,7 @@ import {
 import { useState } from "react";
 import { useAuth } from "../../Store";
 import { useTranslation } from "react-i18next";
+import Image from "./auth-bgImage.jpeg";
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(true);
@@ -61,8 +62,8 @@ export default function Auth() {
 
   return (
     <div
-      className="mt-10 mb-10 
-    flex items-center 
+      className="py-20
+    flex items-center bg-gray-800
     justify-center min-h-screen"
     >
       <Formik
@@ -91,7 +92,7 @@ export default function Auth() {
           errors,
           touched,
         }) => (
-          <Form className="w-full bg-gray-300 py-10 max-w-md rounded-lg shadow-xl">
+          <Form className="w-full bg-gray-200 py-10 max-w-md rounded-lg shadow-xl">
             <h1
               className="text center 
             font-medium text-2xl my-4
@@ -151,8 +152,13 @@ export default function Auth() {
               value={values.password}
               placeholder={t("auth.enterPassword")}
               label={t("auth.password")}
-              togglePassword={() => setShowPassword(!showPassword)}
               showPassword={showPassword}
+              togglePassword={() => {
+                setShowPassword((prev) => !prev);
+                setTimeout(() => {
+                  setShowPassword((prev) => !prev);
+                }, 1000);
+              }}
               errors={errors}
               touched={touched}
             />
@@ -166,10 +172,13 @@ export default function Auth() {
                 value={values.confirmPassword}
                 placeholder={t("auth.confirmPassword")}
                 label={t("auth.confirmPassword")}
-                toggleShowConfirmPassword={() =>
-                  setShowConfirmPassword(!showConfirmPassword)
-                }
-                showConfirmPassword={showConfirmPassword}
+                togglePassword={() => {
+                  setShowConfirmPassword((prev) => !prev);
+                  setTimeout(() => {
+                    setShowConfirmPassword((prev) => !prev);
+                  }, 1000);
+                }}
+                showPassword={showConfirmPassword}
                 errors={errors}
                 touched={touched}
               />

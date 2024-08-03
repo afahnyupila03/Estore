@@ -46,7 +46,7 @@ const PageContent = ({
   userEmail,
 }) => {
   return (
-    <div className="mb-40 pb-20">
+    <div>
       {/* Password & Personal Information */}
       <div>
         <h1 className="text-2xl font-medium ">{t("auth.password&Personal")}</h1>
@@ -283,14 +283,14 @@ export default function PersonalInformation() {
       modalHeader={
         <div
           className="text-black grid justify-center text-center
-         text-lg lg:text-xl text-start mb-4"
+         text-lg lg:text-xl text-start my-2"
         >
           <h1 className="font-medium text-center">
             {t("personalInfor.changeEmail")}
           </h1>
 
           {reAuth && (
-            <p className="font-medium my-4 text-center">
+            <p className="font-medium mt-4 text-center">
               {t("personalInfor.reAuthenticate")}
             </p>
           )}
@@ -307,8 +307,15 @@ export default function PersonalInformation() {
             validationSchema={reAuth ? ReAuthSchema(t) : ChangeEmailSchema(t)}
             onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
           >
-            {({ errors, touched, values, handleChange, handleBlur }) => (
-              <Form className="space-y-4">
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
+              <Form className="space-y-2">
                 <CustomInput
                   label={
                     reAuth
@@ -357,9 +364,10 @@ export default function PersonalInformation() {
                     }, 1000);
                   }}
                 />
-                <div className="text-center ">
+                <div className="text-center my-4">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
                   >
                     {t("personalInfor.changeEmail")}
@@ -380,7 +388,11 @@ export default function PersonalInformation() {
       isOpen={editNameModal}
       onClose={openNameModal}
       modalHeader={
-        <div className="text-black grid justify-center text-center  text-lg lg:text-xl text-start mb-4">
+        <div
+          className="text-black grid 
+        justify-center text-center  
+        text-lg lg:text-xl text-start my-2"
+        >
           <h1 className="font-medium text-center">
             {t("personalInfor.editName")}
           </h1>
@@ -393,8 +405,15 @@ export default function PersonalInformation() {
             validationSchema={EditNameSchema(t)}
             onSubmit={updateUserName}
           >
-            {({ errors, touched, values, handleChange, handleBlur }) => (
-              <Form className="space-y-4">
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
+              <Form className="space-y-2">
                 <CustomInput
                   label={t("checkoutForm.firstName")}
                   name="firstName"
@@ -418,9 +437,10 @@ export default function PersonalInformation() {
                   onBlur={handleBlur}
                   value={values.lastName}
                 />
-                <div className="text-center ">
+                <div className="text-center my-4">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
                   >
                     {t("delivery.edit")}
@@ -442,15 +462,16 @@ export default function PersonalInformation() {
       onClose={openPasswordModal}
       modalHeader={
         <div
-          className="text-black grid justify-center text-center
-         text-lg lg:text-xl text-start mb-4"
+          className="text-black grid 
+          justify-center text-center
+         text-lg lg:text-xl text-start my-2"
         >
           <h1 className="font-medium text-center">
             {t("personalInfor.changePassword")}
           </h1>
 
           {reAuth && (
-            <p className="font-medium text-center my-4">
+            <p className="font-medium text-center mt-4">
               {t("personalInfor.reAuthPassword")}
             </p>
           )}
@@ -469,8 +490,15 @@ export default function PersonalInformation() {
             }
             onSubmit={reAuth ? reAuthenticateUser : handlePasswordChange}
           >
-            {({ errors, touched, values, handleChange, handleBlur }) => (
-              <Form className="space-y-4">
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
+              <Form className="space-y-2">
                 <CustomInput
                   id={reAuth ? "email" : "currentPassword"}
                   label={
@@ -531,9 +559,10 @@ export default function PersonalInformation() {
                     }, 1000);
                   }}
                 />
-                <div className="text-center ">
+                <div className="text-center my-4">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
                   >
                     {t("delivery.edit")}
@@ -555,8 +584,9 @@ export default function PersonalInformation() {
       onClose={openDeleteModal}
       modalHeader={
         <div
-          className="text-black grid justify-center text-center
-         text-lg lg:text-xl text-start mb-4"
+          className="text-black grid 
+          justify-center text-center
+         text-lg lg:text-xl text-start my-2"
         >
           <h1 className="font-medium text-center">
             {t("personalInfor.deleteAccount")}
@@ -573,7 +603,14 @@ export default function PersonalInformation() {
             validationSchema={ReAuthSchema(t)}
             onSubmit={reAuth ? reAuthenticateUser : handleDeleteAccount}
           >
-            {({ errors, touched, values, handleChange, handleBlur }) => (
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
               <Form className="space-y-4">
                 <CustomInput
                   label={t("checkoutForm.email")}
@@ -597,9 +634,10 @@ export default function PersonalInformation() {
                   onBlur={handleBlur}
                   value={values.password}
                 />
-                <div className="text-center ">
+                <div className="text-center my-4">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="bg-red-600 text-white py-2 px-12 rounded font-medium"
                   >
                     {t("personalInfor.deleteAccount")}

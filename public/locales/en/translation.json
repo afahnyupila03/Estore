@@ -407,7 +407,7 @@
       "phone": "Please enter phone number",
       "postalCode": "Please enter zip or postal code",
       "cardHolder": "Please enter name on bank card / mobile number name",
-      "CardNumber": "Please enter bank number / mobile number",
+      "cardNumber": "Please enter bank number / mobile number",
       "cardNumberMatch": "The card number must contain only digits",
       "cardNumberMin": "The card number must be at least 9 digits long",
       "deliveryMethod": "Please select either standard or express delivery"

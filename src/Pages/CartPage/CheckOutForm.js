@@ -428,6 +428,19 @@ export default function CheckOutForm() {
                   </CustomInput>
 
                   <CustomInput
+                    label={
+                      otherApt
+                        ? t("checkoutForm.apartment")
+                        : t("checkoutForm.selectApart")
+                    }
+                    value={values.aptSuite}
+                    placeholder={otherApt && t("checkoutForm.apartment")}
+                    name="aptSuite"
+                    type="text"
+                    id="aptSuite"
+                    errors={errors}
+                    touched={touched}
+                    autoComplete="false"
                     onChange={
                       otherApt
                         ? handleChange
@@ -441,20 +454,7 @@ export default function CheckOutForm() {
                           }
                     }
                     onBlur={handleBlur}
-                    errors={errors}
-                    touched={touched}
-                    name="aptSuite"
-                    id="aptSuite"
-                    autoComplete="false"
-                    label={
-                      otherApt
-                        ? t("checkoutForm.apartment")
-                        : t("checkoutForm.selectApart")
-                    }
-                    value={values.aptSuite}
-                    type="text"
                     as={!otherApt && "select"}
-                    placeholder={otherApt && t("checkoutForm.apartment")}
                   >
                     {!otherApt && (
                       <>
@@ -620,12 +620,14 @@ export default function CheckOutForm() {
                   className="flex justify-around items-center"
                 >
                   <div className="border-2 border-black rounded p-4">
-                    <h1 className="text-center flex justify-center">
+                    <h1 className="text-center text-lg font-medium flex justify-center">
                       {t("checkoutForm.standard")}
                     </h1>
                     <div className="flex justify-around gap-x-10 items-center">
                       <div>
-                        <p>4-10 {t("checkoutForm.businessDays")}</p>
+                        <p className="font-medium text-lg">
+                          4-10 {t("checkoutForm.businessDays")}
+                        </p>
                       </div>
                       <div>
                         <CustomInput
@@ -643,16 +645,18 @@ export default function CheckOutForm() {
                         />
                       </div>
                     </div>
-                    <p>{STANDARD}</p>
+                    <p className="font-medium text-lg">{STANDARD}</p>
                   </div>
 
                   <div className="border-2 border-black rounded p-4">
-                    <h1 className="text-center flex justify-center">
+                    <h1 className="text-center text-lg font-medium flex justify-center">
                       {t("checkoutForm.express")}
                     </h1>
                     <div className="flex justify-around gap-x-10 items-center">
                       <div>
-                        <p>2-5 {t("checkoutForm.businessDays")}</p>
+                        <p className="font-medium text-lg">
+                          2-5 {t("checkoutForm.businessDays")}
+                        </p>
                       </div>
                       <div>
                         <CustomInput
@@ -670,7 +674,7 @@ export default function CheckOutForm() {
                         />
                       </div>
                     </div>
-                    <p>{EXPRESS}</p>
+                    <p className="font-medium text-lg">{EXPRESS}</p>
                   </div>
                 </div>
 
@@ -856,7 +860,8 @@ export default function CheckOutForm() {
 
                           <div className="flex justify-center mt-2">
                             <button
-                              className="text-white text-center bg-gray-900 font-medium px-4 py-2 rounded-md"
+                              className="text-white text-center bg-gray-800
+                               font-medium px-4 py-2 rounded-md"
                               type="submit"
                               disabled={isSubmitting}
                             >
