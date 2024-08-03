@@ -253,7 +253,7 @@ export default function DeliveryPage() {
             errors,
             touched,
           }) => (
-            <Form className="w-full max-w-md rounded-lg">
+            <Form className="space-y-2">
               <CustomInput
                 id="firstName"
                 name="firstName"

@@ -226,8 +226,8 @@ export default function ProductItemCard({ productData }) {
       isOpen={openProductModal}
       position="center"
       onClose={handleShowProductModal}
-      size="lg"
-      className="py-14 px-10 bg-black bg-opacity-75"
+      size="5xl"
+      className="bg-black bg-opacity-75"
       modalBody={
         <div className="grid grid-cols-2 gap-x-10 text-2xl font-medium px-6">
           <div>

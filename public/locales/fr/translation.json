@@ -275,7 +275,8 @@
     "personalAuthMessage": "Veuillez vous connecter | créer un compte pour voir les informations utilisateur.",
     "enterDetails": "Entrez les détails de connexion pour supprimer le compte.",
     "areYouSure": "Êtes-vous sûr(e) de vouloir supprimer votre compte ?",
-    "noUserPay": "Utilisateur non trouvé. Veuillez vous connecter | Créer un compte pour voir les cartes de paiement."
+    "noUserPay": "Utilisateur non trouvé. Veuillez vous connecter | Créer un compte pour voir les cartes de paiement.",
+    "warning": "Avertissement : Cette action est irréversible. Une fois votre compte supprimé, il ne pourra pas être récupéré."
   },
   "purchases": {
     "datePlaced": "Date de commande",
@@ -406,7 +407,7 @@
       "phone": "Veuillez entrer le numéro de téléphone",
       "postalCode": "Veuillez entrer le code postal",
       "cardHolder": "Veuillez entrer le nom sur la carte bancaire / le numéro de mobile",
-      "CardNumber": "Veuillez entrer le numéro de la carte bancaire / du mobile",
+      "cardNumber": "Veuillez entrer le numéro de la carte bancaire / du mobile",
       "cardNumberMatch": "Le numéro de la carte doit contenir uniquement des chiffres",
       "cardNumberMin": "Le numéro de la carte doit contenir au moins 9 chiffres",
       "deliveryMethod": "Veuillez sélectionner la livraison standard ou express"

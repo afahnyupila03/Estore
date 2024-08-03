@@ -46,7 +46,7 @@ const PageContent = ({
   userEmail,
 }) => {
   return (
-    <div className="mb-40 pb-20">
+    <div>
       {/* Password & Personal Information */}
       <div>
         <h1 className="text-2xl font-medium ">{t("auth.password&Personal")}</h1>
@@ -144,7 +144,8 @@ export default function PersonalInformation() {
     resetPasswordHandler,
   } = useAuth();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
+  const [showCurrentPassword, setShowCurrentPassword] = useState(false);
   const [deleteModal, setDeleteModal] = useState(false);
   const [editNameModal, setEditNameModal] = useState(false);
   const [editEmailModal, setEditEmailModal] = useState(false);
@@ -167,14 +168,19 @@ export default function PersonalInformation() {
     try {
       const email = values.email;
       const password = values.password;
+
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       await reAuthUser(email, password);
-      setReAuth(!reAuth);
+
       actions.resetForm({
         values: {
-          email: " ",
-          password: " ",
+          email: "",
+          password: "",
         },
       });
+
+      setReAuth(!reAuth);
     } catch (error) {
       console.error("Error re-authenticating user: ", error);
     }
@@ -207,7 +213,7 @@ export default function PersonalInformation() {
         },
       });
     } catch (error) {
-      console.error("error updating current-user-name: ", error);
+      console.error("error updating current-user-name: ", error.message);
     }
   };
 
@@ -277,38 +283,91 @@ export default function PersonalInformation() {
       modalHeader={
         <div
           className="text-black grid justify-center text-center
-         text-lg lg:text-xl text-start mb-4"
+         text-lg lg:text-xl text-start my-2"
         >
-          <h1 className="font-medium">Change Email Address</h1>
+          <h1 className="font-medium text-center">
+            {t("personalInfor.changeEmail")}
+          </h1>
+
+          {reAuth && (
+            <p className="font-medium mt-4 text-center">
+              {t("personalInfor.reAuthenticate")}
+            </p>
+          )}
         </div>
       }
       modalBody={
         <div className="text-black text-base">
           <Formik
-            initialValues={{ currentEmail: "", newEmail: "" }}
-            validationSchema={ChangeEmailSchema}
+            initialValues={
+              reAuth
+                ? { email: "", password: "" }
+                : { currentEmail: userEmail, newEmail: "" }
+            }
+            validationSchema={reAuth ? ReAuthSchema(t) : ChangeEmailSchema(t)}
             onSubmit={reAuth ? reAuthenticateUser : updateUserEmail}
           >
-            {({ errors, touched }) => (
-              <Form className="space-y-4">
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
+              <Form className="space-y-2">
                 <CustomInput
-                  label={t("personalInfor.currentEmail")}
-                  name="currentEmail"
+                  label={
+                    reAuth
+                      ? t("checkoutForm.email")
+                      : t("personalInfor.currentEmail")
+                  }
+                  id={reAuth ? "email" : "currentEmail"}
+                  name={reAuth ? "email" : "currentEmail"}
                   type="email"
-                  placeholder={userEmail}
-                  disabled={true}
+                  placeholder={
+                    reAuth ? t("checkoutForm.email") : values.currentEmail
+                  }
+                  value={reAuth ? values.email : values.currentEmail}
+                  disabled={reAuth ? false : true}
+                  errors={errors}
+                  touched={touched}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
                 />
                 <CustomInput
                   label={t("personalInfor.newEmail")}
-                  name="newEmail"
-                  type="email"
-                  placeholder={t("personalInfor.newEmail")}
-                  errors={errors.newEmail}
-                  touched={touched.newEmail}
+                  name={reAuth ? "password" : "newEmail"}
+                  id={reAuth ? "password" : "newEmail"}
+                  type={
+                    reAuth
+                      ? reAuth && showPassword
+                        ? "text"
+                        : "password"
+                      : "email"
+                  }
+                  placeholder={
+                    reAuth
+                      ? t("personalInfor.password")
+                      : t("personalInfor.newEmail")
+                  }
+                  value={reAuth ? values.password : values.newEmail}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={errors}
+                  touched={touched}
+                  showPassword={showPassword}
+                  togglePassword={() => {
+                    setShowPassword((prev) => !prev);
+                    setTimeout(() => {
+                      setShowPassword((prev) => !prev);
+                    }, 1000);
+                  }}
                 />
-                <div className="text-center ">
+                <div className="text-center my-4">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
                   >
                     {t("personalInfor.changeEmail")}
@@ -329,38 +388,59 @@ export default function PersonalInformation() {
       isOpen={editNameModal}
       onClose={openNameModal}
       modalHeader={
-        <div className="text-black grid justify-center text-center  text-lg lg:text-xl text-start mb-4">
-          <h1 className="font-medium">{t("personalInfor.name")}</h1>
+        <div
+          className="text-black grid 
+        justify-center text-center  
+        text-lg lg:text-xl text-start my-2"
+        >
+          <h1 className="font-medium text-center">
+            {t("personalInfor.editName")}
+          </h1>
         </div>
       }
       modalBody={
         <div className="text-black text-base">
           <Formik
             initialValues={{ firstName: "", lastName: "" }}
-            validationSchema={EditNameSchema}
+            validationSchema={EditNameSchema(t)}
             onSubmit={updateUserName}
           >
-            {({ errors, touched }) => (
-              <Form className="space-y-4">
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
+              <Form className="space-y-2">
                 <CustomInput
-                  label={t("personalInfor.firstName")}
+                  label={t("checkoutForm.firstName")}
                   name="firstName"
                   type="text"
-                  placeholder={t("personalInfor.firstName")}
-                  errors={errors.firstName}
-                  touched={touched.firstName}
+                  placeholder={t("checkoutForm.firstName")}
+                  errors={errors}
+                  touched={touched}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.firstName}
                 />
                 <CustomInput
-                  label={t("personalInfor.lastName")}
+                  label={t("checkoutForm.lastName")}
+                  id="lastName"
                   name="lastName"
                   type="text"
-                  placeholder={t("personalInfor.lastName")}
-                  errors={errors.lastName}
-                  touched={touched.lastName}
+                  placeholder={t("checkoutForm.lastName")}
+                  errors={errors}
+                  touched={touched}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.lastName}
                 />
-                <div className="text-center ">
+                <div className="text-center my-4">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
                   >
                     {t("delivery.edit")}
@@ -382,32 +462,107 @@ export default function PersonalInformation() {
       onClose={openPasswordModal}
       modalHeader={
         <div
-          className="text-black grid justify-center text-center
-         text-lg lg:text-xl text-start mb-4"
+          className="text-black grid 
+          justify-center text-center
+         text-lg lg:text-xl text-start my-2"
         >
-          <h1 className="font-medium">{t("personalInfor.changePassword")}</h1>
+          <h1 className="font-medium text-center">
+            {t("personalInfor.changePassword")}
+          </h1>
+
+          {reAuth && (
+            <p className="font-medium text-center mt-4">
+              {t("personalInfor.reAuthPassword")}
+            </p>
+          )}
         </div>
       }
       modalBody={
         <div className="text-black text-base">
           <Formik
-            initialValues={{ currentPassword: "", newPassword: "" }}
-            validationSchema={ChangePasswordSchema}
+            initialValues={
+              reAuth
+                ? { email: "", password: "" }
+                : { currentPassword: "", newPassword: "" }
+            }
+            validationSchema={
+              reAuth ? ReAuthSchema(t) : ChangePasswordSchema(t)
+            }
             onSubmit={reAuth ? reAuthenticateUser : handlePasswordChange}
           >
-            {({ errors, touched }) => (
-              <Form className="space-y-4">
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
+              <Form className="space-y-2">
                 <CustomInput
-                  label={t("personalInfor.newPassword")}
-                  name="newPassword"
-                  type="password"
-                  placeholder={t("personalInfor.newPassword")}
-                  errors={errors.newPassword}
-                  touched={touched.newPassword}
+                  id={reAuth ? "email" : "currentPassword"}
+                  label={
+                    reAuth
+                      ? t("checkoutForm.email")
+                      : t("personalInfor.currentPassword")
+                  }
+                  name={reAuth ? "email" : "currentPassword"}
+                  type={
+                    reAuth
+                      ? "email"
+                      : !reAuth && showCurrentPassword
+                      ? "text"
+                      : "password"
+                  }
+                  placeholder={
+                    reAuth
+                      ? t("checkoutForm.email")
+                      : t("personalInfor.currentPassword")
+                  }
+                  value={reAuth ? values.email : values.currentPassword}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  errors={errors}
+                  touched={touched}
+                  showPassword={showCurrentPassword}
+                  togglePassword={() => {
+                    setShowCurrentPassword((prev) => !prev);
+                    setTimeout(() => {
+                      setShowCurrentPassword((prev) => !prev);
+                    }, 1000);
+                  }}
                 />
-                <div className="text-center ">
+                <CustomInput
+                  id={reAuth ? "password" : "newPassword"}
+                  label={
+                    reAuth
+                      ? t("personalInfor.password")
+                      : t("personalInfor.newPassword")
+                  }
+                  name={reAuth ? "password" : "newPassword"}
+                  type={showPassword ? "text" : "password"}
+                  placeholder={
+                    reAuth
+                      ? t("personalInfor.password")
+                      : t("personalInfor.newPassword")
+                  }
+                  errors={errors}
+                  touched={touched}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={reAuth ? values.password : values.newPassword}
+                  showPassword={showPassword}
+                  togglePassword={() => {
+                    setShowPassword((prev) => !prev);
+                    setTimeout(() => {
+                      setShowPassword((prev) => !prev);
+                    }, 1000);
+                  }}
+                />
+                <div className="text-center my-4">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="bg-gray-800 text-white py-2 px-12 rounded font-medium"
                   >
                     {t("delivery.edit")}
@@ -429,40 +584,60 @@ export default function PersonalInformation() {
       onClose={openDeleteModal}
       modalHeader={
         <div
-          className="text-black grid justify-center text-center
-         text-lg lg:text-xl text-start mb-4"
+          className="text-black grid 
+          justify-center text-center
+         text-lg lg:text-xl text-start my-2"
         >
-          <h1 className="font-medium">{t("personalInfor.deleteAccount")}</h1>
+          <h1 className="font-medium text-center">
+            {t("personalInfor.deleteAccount")}
+          </h1>
+          <p className="text-center mt-4 font-medium">
+            {t("personalInfor.warning")}
+          </p>
         </div>
       }
       modalBody={
         <div className="text-black text-base">
           <Formik
             initialValues={{ email: "", password: "" }}
-            validationSchema={ReAuthSchema}
+            validationSchema={ReAuthSchema(t)}
             onSubmit={reAuth ? reAuthenticateUser : handleDeleteAccount}
           >
-            {({ errors, touched }) => (
+            {({
+              errors,
+              touched,
+              values,
+              handleChange,
+              handleBlur,
+              isSubmitting,
+            }) => (
               <Form className="space-y-4">
                 <CustomInput
                   label={t("checkoutForm.email")}
                   name="email"
                   type="email"
                   placeholder={t("checkoutForm.email")}
-                  errors={errors.email}
-                  touched={touched.email}
+                  errors={errors}
+                  touched={touched}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.email}
                 />
                 <CustomInput
                   label={t("personalInfor.password")}
                   name="password"
                   type="password"
                   placeholder={t("personalInfor.password")}
-                  errors={errors.password}
-                  touched={touched.password}
+                  errors={errors}
+                  touched={touched}
+                  onChange={handleChange}
+                  onBlur={handleBlur}
+                  value={values.password}
                 />
-                <div className="text-center ">
+                <div className="text-center my-4">
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     className="bg-red-600 text-white py-2 px-12 rounded font-medium"
                   >
                     {t("personalInfor.deleteAccount")}

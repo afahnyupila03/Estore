@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
 import { arrowForwardOutline } from "ionicons/icons";
@@ -10,6 +10,7 @@ import { useTranslation } from "react-i18next";
 
 export default function CartPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const { user } = useAuth();
   const { addProductHandler, removeProductHandler } = useCart();
@@ -82,7 +83,7 @@ export default function CartPage() {
       });
       const refId = ref.id;
       alert("Success adding checkout: ", refId);
-      window.location.href = "/checkout-form";
+      navigate("/checkout-form", { replace: true });
     } catch (error) {
       alert("Error adding");
       console.error(error);
