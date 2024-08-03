@@ -1,4 +1,4 @@
-import { Field, Form, Formik } from "formik";
+import { Form, Formik } from "formik";
 import UseAnimation from "../../Components/Loader";
 import loading from "react-useanimations/lib/loading";
 import { CustomInput } from "../../Components/TextInput";
@@ -9,7 +9,7 @@ import {
 import { useState } from "react";
 import { useAuth } from "../../Store";
 import { useTranslation } from "react-i18next";
-import Image from "./auth-bgImage.jpeg";
+import { useNavigate } from "react-router-dom";
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(true);
@@ -17,6 +17,7 @@ export default function Auth() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signUpHandler, signInHandler } = useAuth();
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const handleExistingUserAuth = () => {
     setTimeout(() => {
@@ -42,6 +43,7 @@ export default function Auth() {
           confirmPassword: "",
         },
       });
+      navigate("/", { replace: true });
     } catch (error) {
       console.error(`Sign up error: ${error}`);
     }
@@ -55,6 +57,7 @@ export default function Auth() {
           password: " ",
         },
       });
+      navigate("/", { replace: true });
     } catch (error) {
       console.error(`sign in error: ${error}`);
     }

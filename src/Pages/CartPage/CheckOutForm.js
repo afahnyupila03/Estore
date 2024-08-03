@@ -1,10 +1,10 @@
-import { Field, Form, Formik } from "formik";
-import { CustomCheckbox, CustomInput } from "../../Components/TextInput";
+import { Form, Formik } from "formik";
+import { CustomInput } from "../../Components/TextInput";
 import SummaryCardItems from "./Components/SummaryCardItems";
 import { useAuth, useCart } from "../../Store";
 import { useQuery } from "react-query";
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import loading from "react-useanimations/lib/loading";
 import {
   DeliveryServices,
@@ -49,6 +49,7 @@ export default function CheckOutForm() {
   const { removeProductHandler, clearProductHandler } = useCart();
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const splitUserName = (userName) => {
     if (!userName) {
@@ -272,6 +273,7 @@ export default function CheckOutForm() {
       );
       await deleteDoc(checkoutRef);
       alert("delete success");
+      navigate("/purchases", { replace: true });
     } catch (error) {
       console.error("Error deleting", error.message);
       alert("error deleting", error.message);
