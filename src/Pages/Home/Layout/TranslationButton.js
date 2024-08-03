@@ -1,12 +1,17 @@
 import { useState, useEffect, Fragment } from "react";
-import { Menu, Transition } from "@headlessui/react";
+import {
+  Menu,
+  MenuButton,
+  MenuItems,
+  MenuItem,
+  Transition,
+} from "@headlessui/react";
 import { useTranslation } from "react-i18next";
 import ReactCountryFlag from "react-country-flag";
 
 export default function () {
   const { t, i18n } = useTranslation();
-  const [curLang, setCurLang] = useState(
-    localStorage.getItem ("lang") || "en" );
+  const [curLang, setCurLang] = useState(localStorage.getItem("lang") || "en");
 
   useEffect(() => {
     // Set the initial language when the component mounts
@@ -23,13 +28,13 @@ export default function () {
   return (
     <Menu as="div" className="relative inline-block text-center">
       <div>
-        <Menu.Button
+        <MenuButton
           className="
         inline-flex w-40 justify-center 
-        gap-x-1.5 rounded-md bg-gray-400 px-2
-        py-2 text-sm font-medium text-gray-900 
-        shadow-sm ring-inset  items-center
-        ring-gray-300 hover:bg-gray-500"
+        gap-x-1.5 rounded-md bg-gray-800 px-2
+        py-2 text-lg font-medium 
+        shadow-sm ring-inset text-white items-center
+        ring-gray-300"
         >
           {curLang === "en" ? (
             <>
@@ -42,7 +47,7 @@ export default function () {
               {t("french")}
             </>
           )}
-        </Menu.Button>
+        </MenuButton>
       </div>
 
       <Transition
@@ -54,7 +59,7 @@ export default function () {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Menu.Items
+        <MenuItems
           className="
         absolute right-0 z-10 mt-2 
         w-50 origin-top-right rounded-md 
@@ -64,30 +69,32 @@ export default function () {
         >
           <div>
             {curLang === "en" ? (
-              <Menu.Item>
+              <MenuItem>
                 <div className="flex space-between">
                   <button
                     onClick={() => handleLanguageSwitch("fr")}
-                    className="block w-40 px-4 py-2 text-sm  font-medium rounded-md"
+                    className="block w-40 px-4 py-2 text-lg 
+                    text-gray-800 font-medium rounded-md"
                   >
                     <ReactCountryFlag svg countryCode="FR" className="mr-2" />
                     {t("french")}
                   </button>
                 </div>
-              </Menu.Item>
+              </MenuItem>
             ) : (
-              <Menu.Item>
+              <MenuItem>
                 <button
                   onClick={() => handleLanguageSwitch("en")}
-                  className="block w-40 px-4 py-2  font-medium text-sm rounded-md"
+                  className="block w-40 px-4 py-2 text-gray-800 
+                  font-medium text-lg rounded-md"
                 >
                   <ReactCountryFlag svg countryCode="GB" className="mr-2" />
                   {t("english")}
                 </button>
-              </Menu.Item>
+              </MenuItem>
             )}
           </div>
-        </Menu.Items>
+        </MenuItems>
       </Transition>
     </Menu>
   );
