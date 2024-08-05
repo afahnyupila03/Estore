@@ -64,18 +64,30 @@ export default function WishListCardItems({
   const DISCOUNT = DISCOUNT_PRICE(discountPercentage, XAF_PRICE);
 
   return (
-    <div className="flex gap-x-10 gap-y-2 items-center  text-xl justify-between">
-      <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-md bg-red-200 lg:aspect-none group-hover:opacity-75 lg:h-40">
+    <div
+      className="flex space-x-6 space-y-2 items-center
+     text-xl justify-between"
+    >
+      <div
+        className="aspect-h-1 aspect-w-1 w-80
+      overflow-hidden rounded-md bg-gray-800 
+      lg:aspect-none group-hover:opacity-75 lg:h-40"
+      >
         <img
           src={thumbnail}
           alt={title}
-          className="h-40 w-40 fixed object-cover object-center lg:h-40 lg:w-40"
+          className="h-40 w-40 fixed object-cover 
+          object-center lg:h-40 lg:w-40"
         />
       </div>
 
-      <div className="p-4">
+      <div
+        className="p-4 m-4 text-white 
+      bg-gray-800 text-white rounded-md
+       text-lg font-medium "
+      >
         <span>{PRODUCT_RATING(rating)}</span>
-        <p>{title}</p>
+        <p className="underline">{title}</p>
         <p>{description}</p>
         <p>{FORMAT_MONEY(DISCOUNT, CURRENCY)}</p>
       </div>
@@ -88,7 +100,9 @@ export default function WishListCardItems({
             paddingRight: "1rem",
             width: "11.8rem",
           }}
-          className=" bg-black text-white text-center flex items-center w-58 py-2 rounded  text-xl mb-2"
+          className=" bg-gray-800 text-white text-center 
+          flex items-center w-58 py-2 rounded-md
+           font-medium text-lg mb-2"
           type="button"
         >
           <IonIcon
@@ -100,7 +114,9 @@ export default function WishListCardItems({
         </button>
         <button
           onClick={removeItemHandler}
-          className=" bg-black text-white flex items-center px-10 py-2 rounded  text-xl"
+          className=" bg-red-600 text-white 
+          flex items-center px-10 py-2 
+          rounded-md font-medium text-lg"
           type="button"
         >
           <IonIcon

@@ -9,15 +9,19 @@ import {
 import { useState } from "react";
 import { useAuth } from "../../Store";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 export default function Auth() {
   const [isSignUp, setIsSignUp] = useState(true);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+
   const { signUpHandler, signInHandler } = useAuth();
+
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
 
   const handleExistingUserAuth = () => {
     setTimeout(() => {
@@ -43,7 +47,7 @@ export default function Auth() {
           confirmPassword: "",
         },
       });
-      navigate("/", { replace: true });
+      navigate(from, { replace: true });
     } catch (error) {
       console.error(`Sign up error: ${error}`);
     }
@@ -57,7 +61,7 @@ export default function Auth() {
           password: " ",
         },
       });
-      navigate("/", { replace: true });
+      navigate(from, { replace: true });
     } catch (error) {
       console.error(`sign in error: ${error}`);
     }

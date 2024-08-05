@@ -1,5 +1,5 @@
 import React, { Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Store";
 import { useQuery } from "react-query";
 import { PurchaseServices } from "../../Services/AccountServices";
@@ -32,6 +32,8 @@ export default function PurchasePage() {
   const { user } = useAuth();
 
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const userId = user?.uid;
 
@@ -70,12 +72,16 @@ export default function PurchasePage() {
       return (
         <div className="mt-8">
           <p className="mb-10  text-xl">{t("purchases.purchaseAuthMessage")}</p>
-          <Link
+          <button
             className="bg-black text-center text-white py-6 px-14 rounded font-medium "
-            to="/sign-in-&-create-account"
+            onClick={() =>
+              navigate("/sign-in-&-create-account", {
+                state: { from: location },
+              })
+            }
           >
             {t("auth.signInCreate")}
-          </Link>
+          </button>
         </div>
       );
     } else if (isLoading) {

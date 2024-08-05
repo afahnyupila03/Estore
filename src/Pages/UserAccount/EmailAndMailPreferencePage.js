@@ -1,5 +1,5 @@
 import { getFirstTwoLetters } from "./AccountLandingPage";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Store";
 import { useTranslation } from "react-i18next";
 
@@ -11,6 +11,8 @@ export default function EmailAndMailPreferencePage() {
   const { user } = useAuth();
 
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const userEmail = user?.email;
 
@@ -26,12 +28,16 @@ export default function EmailAndMailPreferencePage() {
           <p className="mb-10 font-mono text-xl">
             {t("personalInfor.emailAuthMessage")}
           </p>
-          <Link
+          <button
             className="bg-black text-center text-white py-6 px-14 rounded font-semibold font-mono"
-            to="/sign-in-&-create-account"
+            onClick={() =>
+              navigate("/sign-in-&-create-account", {
+                state: { from: location },
+              })
+            }
           >
             {t("auth.signInCreate")}
-          </Link>
+          </button>
         </div>
       ) : (
         <div>

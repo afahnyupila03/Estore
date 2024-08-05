@@ -22,7 +22,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useAuth } from "../../Store";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { ModalComponent } from "../../Components/ProductModal";
 
@@ -30,6 +30,8 @@ export default function PaymentMethodPage() {
   const { user } = useAuth();
 
   const { t } = useTranslation();
+  const navigate = useNavigate()
+  const location = useLocation();
 
   const [paymentModal, setPaymentModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
@@ -40,7 +42,6 @@ export default function PaymentMethodPage() {
 
   const userName = user?.displayName;
   const userId = user?.uid;
-  console.log("userName: ", userName);
 
   const bankPaymentHandler = () => {
     setBankPayment((prevMobilePayment) => !prevMobilePayment);
@@ -210,12 +211,12 @@ export default function PaymentMethodPage() {
           <p className="mb-10  text-xl">
             No user found. Please sign in / create account to view wish list.
           </p>
-          <Link
+          <button
             className="bg-gray-800 text-center text-white py-6 px-14 rounded font-medium "
-            to="/sign-in-&-create-account"
+            onClick={() => navigate("/sign-in-&-create-account", {state: {from : location}})}
           >
             {t("auth.signInCreate")}
-          </Link>
+          </button>
         </div>
       );
     } else if (isLoading) {

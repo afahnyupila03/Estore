@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import CartItemsCard from "./Components/CartItemsCard";
 import Icon from "../../Components/Icon";
 import { arrowForwardOutline } from "ionicons/icons";
@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 export default function CartPage() {
   const { t } = useTranslation();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { user } = useAuth();
   const { addProductHandler, removeProductHandler } = useCart();
@@ -96,12 +97,16 @@ export default function CartPage() {
       return (
         <div className="mt-8">
           <p className="mb-10  text-xl">{t("cart.noUser")}</p>
-          <Link
+          <button
             className="bg-black text-center text-white py-6 px-14 rounded font-medium text-xl "
-            to="/sign-in-&-create-account"
+            onClick={() =>
+              navigate("/sign-in-&-create-account", {
+                state: { from: location },
+              })
+            }
           >
             {t("auth.signInCreate")}
-          </Link>
+          </button>
         </div>
       );
     } else if (cartTotalQuantity === 0 && user !== null) {

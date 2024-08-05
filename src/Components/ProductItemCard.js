@@ -1,5 +1,5 @@
 import React, { useState, useEffect, Fragment } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import ProductModal, { ModalComponent } from "./ProductModal";
 import { IonIcon } from "@ionic/react";
 import {
@@ -88,6 +88,9 @@ export default function ProductItemCard({ productData }) {
   const [updatedWishList, setUpdatedWishList] = useState(false);
   const [isInWishList, setIsInWishList] = useState(false);
 
+  const navigate = useNavigate();
+  const location = useLocation();
+
   const {
     title,
     price,
@@ -102,8 +105,6 @@ export default function ProductItemCard({ productData }) {
     thumbnail,
     quantity,
   } = productData || [];
-
-  const userId = user?.uid;
 
   const handleMouseOver = () => {
     setMouseIsOver(true);
@@ -127,11 +128,10 @@ export default function ProductItemCard({ productData }) {
     return title;
   };
 
-  const handleUserAuthState = () => {
-    handleShowProductModal();
-    setTimeout(() => {
-      window.location.replace("/sign-in-&-create-account");
-    }, 1000);
+  const handleUserAuthState = (action, data) => {
+    navigate("/sign-in-&-create-account", {
+      state: { from: location, action: action, data },
+    });
   };
 
   const XAF_PRICE = CONVERT_CURRENCY(price);
@@ -147,7 +147,7 @@ export default function ProductItemCard({ productData }) {
 
   const handleAddProduct = (product) => {
     if (user === null) {
-      handleUserAuthState();
+      handleUserAuthState("addProduct", product);
     } else {
       setAddingProduct(true);
       addProductHandler(product);
@@ -163,7 +163,7 @@ export default function ProductItemCard({ productData }) {
 
   const handleWishListedProducts = (data) => {
     if (user === null) {
-      handleUserAuthState();
+      handleUserAuthState("wishlist", data)
     } else {
       addProductToWishList(data);
       setIsInWishList(true);
@@ -178,14 +178,21 @@ export default function ProductItemCard({ productData }) {
   };
 
   const handleDisLikedProducts = (id) => {
-    removeProductFromWishList(id);
-    setIsInWishList(false);
-    const storedWishListData =
-      JSON.parse(sessionStorage.getItem("wishListData")) || [];
-    const updatedWishListData = storedWishListData.filter(
-      (product) => product.id !== id
-    );
-    sessionStorage.setItem("wishListData", JSON.stringify(updatedWishListData));
+    if (user === null) {
+      handleUserAuthState("removeWishlist", id)
+    } else {
+      removeProductFromWishList(id);
+      setIsInWishList(false);
+      const storedWishListData =
+        JSON.parse(sessionStorage.getItem("wishListData")) || [];
+      const updatedWishListData = storedWishListData.filter(
+        (product) => product.id !== id
+      );
+      sessionStorage.setItem(
+        "wishListData",
+        JSON.stringify(updatedWishListData)
+      );
+    }
   };
 
   const getAllLocalStorageData = () => {
@@ -210,9 +217,6 @@ export default function ProductItemCard({ productData }) {
     const isInWishList = storedSessionData.some((product) => product.id === id);
     setIsInWishList(isInWishList);
   }, [id]);
-
-  console.log("Products:", products);
-  console.log("Wishlist State:", { wishListed, updatedWishList });
 
   const handleItemClick = (event) => {
     if (window.innerWidth <= 767) {

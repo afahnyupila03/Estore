@@ -1,14 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { IonIcon } from "@ionic/react";
 import { shareOutline } from "ionicons/icons";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth, useCart, useWishList } from "../../Store";
 import WishListCardItems from "./Components/CardComponents/WishListCardItems";
 import { useTranslation } from "react-i18next";
 
 export default function WishlistPage() {
   const { removeProductFromWishList } = useWishList();
+
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { user } = useAuth();
   const { addProductHandler } = useCart();
@@ -52,23 +55,25 @@ export default function WishlistPage() {
     if (user === null) {
       return (
         <div className="mt-8">
-          <p className="mb-10  text-xl">
-            {t("wishlist.wishlistAuthMessage")}
-          </p>
-          <Link
-            className="bg-black text-center text-white py-6 px-14 rounded font-medium "
-            to="/sign-in-&-create-account"
+          <p className="mb-10  text-xl">{t("wishlist.wishlistAuthMessage")}</p>
+          <button
+            className="bg-gray-800 text-center text-white py-6 px-14 rounded font-medium "
+            onClick={() =>
+              navigate("/sign-in-&-create-account", {
+                state: {
+                  from: location,
+                },
+              })
+            }
           >
             {t("auth.signInCreate")}
-          </Link>
+          </button>
         </div>
       );
     } else if (user !== null && wishListProducts.length === 0) {
       return (
         <div className="mt-8">
-          <p className="mb-10 text-xl ">
-            {t("wishlist.emptyWishlist")}
-          </p>
+          <p className="mb-10 text-xl ">{t("wishlist.emptyWishlist")}</p>
           <Link
             className="bg-black text-center text-white py-6 px-14 rounded font-medium "
             to="/home"

@@ -20,7 +20,7 @@ import {
   updateDoc,
 } from "firebase/firestore";
 import { useAuth } from "../../Store";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 export default function DeliveryPage() {
@@ -31,6 +31,8 @@ export default function DeliveryPage() {
   const [selectedAddressId, setSelectedAddressId] = useState(null);
 
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const { user } = useAuth();
   const userId = user?.uid;
@@ -163,12 +165,16 @@ export default function DeliveryPage() {
       return (
         <div className="mt-8">
           <p className="mb-10  text-xl">{t("delivery.deliveryAuthMessage")}</p>
-          <Link
-            to="/sign-in-&-create-account"
+          <button
+            onClick={() =>
+              navigate("/sign-in-&-create-account", {
+                state: { from: location },
+              })
+            }
             className="bg-gray-800 text-center text-white py-6 px-14 rounded font-medium "
           >
             {t("auth.signInCreate")}
-          </Link>
+          </button>
         </div>
       );
     } else if (isLoading) {

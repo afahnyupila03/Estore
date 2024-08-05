@@ -1,5 +1,10 @@
 import { useState, Fragment } from "react";
-import { Popover, Transition } from "@headlessui/react";
+import {
+  Popover,
+  PopoverButton,
+  PopoverPanel,
+  Transition,
+} from "@headlessui/react";
 import { useTranslation } from "react-i18next";
 import { useAuth } from "../../../Store";
 
@@ -28,8 +33,6 @@ export default function () {
   const curLang = localStorage.getItem("lang");
   const [menuOpen, setMenuOpen] = useState(false);
   const { signOutHandler, user } = useAuth();
-
-
 
   const userName = user?.displayName;
 
@@ -84,22 +87,22 @@ export default function () {
   return (
     <Popover as="div" className="relative mt-2 text-center">
       {user === null ? (
-        <Popover.Button
+        <PopoverButton
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
           className="flex items-center gap-x-1 text-sm font-medium  leading-6 text-gray-900"
         >
           <IonIcon icon={personOutline} className="ml-2" />
-        </Popover.Button>
+        </PopoverButton>
       ) : (
-        <Popover.Button
+        <PopoverButton
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
           className="flex items-center gap-x-1 text-lg font-medium  leading-6 text-gray-900"
         >
           {userName}
           <IonIcon icon={chevronDownOutline} className="ml-2" />
-        </Popover.Button>
+        </PopoverButton>
       )}
 
       <Transition
@@ -112,7 +115,7 @@ export default function () {
         leaveFrom="transform opacity-100 scale-100"
         leaveTo="transform opacity-0 scale-95"
       >
-        <Popover.Panel
+        <PopoverPanel
           onMouseEnter={() => setMenuOpen(true)}
           onMouseLeave={() => setMenuOpen(false)}
           className="absolute left-2 z-10 mt-3 flex w-screen max-w-max -translate-x-1/2 px-4"
@@ -165,7 +168,7 @@ export default function () {
               )}
             </div>
           </div>
-        </Popover.Panel>
+        </PopoverPanel>
       </Transition>
     </Popover>
   );

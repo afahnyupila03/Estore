@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Form, Formik } from "formik";
 import { CustomInput } from "../../Components/TextInput";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { useAuth } from "../../Store";
 import { useTranslation } from "react-i18next";
 import {
@@ -20,17 +20,17 @@ function UPPERCASE_NAME(name = "") {
   }
 }
 
-const NullUser = ({ t }) => {
+const NullUser = ({ t, nullUserHandler }) => {
   return (
     <div className="text-xl  font-medium">
       <p>{t("personalInfor.noUser")}</p>
       <p className="mb-10">{t("personalInfor.personalAuthMessage")}</p>
-      <Link
+      <button
         className="bg-gray-800 text-center text-white py-6 px-14 rounded font-medium "
-        to="/sign-in-&-create-account"
+        onClick={nullUserHandler}
       >
         {t("auth.signInCreate")}
-      </Link>
+      </button>
     </div>
   );
 };
@@ -129,6 +129,8 @@ const PageContent = ({
 
 export default function PersonalInformation() {
   const { t } = useTranslation();
+  const location = useLocation();
+  const navigate = useNavigate();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -652,7 +654,14 @@ export default function PersonalInformation() {
   );
 
   if (user === null) {
-    return <NullUser t={t} />;
+    return (
+      <NullUser
+        t={t}
+        nullUserHandler={() =>
+          navigate("/sign-in-&-create-account", { state: { from: location } })
+        }
+      />
+    );
   }
 
   return (

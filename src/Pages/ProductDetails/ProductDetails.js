@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useQuery } from "react-query";
 import { getFeaturedProductService } from "../../Services/HomeService";
 import { CategoryServiceItem } from "../../Services/CategoryService";
@@ -62,6 +62,9 @@ function ProductDetails() {
   const { addProductToWishList, wishListed, removeProductFromWishList } =
     useWishList();
 
+  const location = useLocation();
+  const navigate = useNavigate();
+
   const [productAdded, setProductAdded] = useState(false);
   const [wishList, setWishList] = useState(wishListed);
 
@@ -80,16 +83,16 @@ function ProductDetails() {
   const FINAL_PRICE = DISCOUNT_PRICE(data?.discountPercentage, XAF_PRICE);
   const DISCOUNT = formatMoney(FINAL_PRICE, "XAF");
 
-  const handleUserAuthState = useCallback(() => {
-    setTimeout(() => {
-      window.location.replace("/sign-in-&-create-account");
-    }, 1000);
+  const handleUserAuthState = useCallback((action, data) => {
+    navigate("/sign-in-&-create-account", {
+      state: { from: location, action: action, data },
+    });
   }, []);
 
   const handleAddProduct = useCallback(
     (data) => {
       if (user === null) {
-        handleUserAuthState();
+        handleUserAuthState("addProduct", data);
       } else {
         addProductHandler(data);
         setProductAdded(true);
@@ -104,7 +107,7 @@ function ProductDetails() {
   const handleWishListedProduct = useCallback(
     (data) => {
       if (user === null) {
-        handleUserAuthState();
+        handleUserAuthState("wishlist", data);
       } else {
         addProductToWishList(data);
         setWishList(!wishList);
@@ -115,8 +118,12 @@ function ProductDetails() {
 
   const handleDisLikedProducts = useCallback(
     (id) => {
-      setWishList(!wishList);
-      removeProductFromWishList(id);
+      if (user === null) {
+        handleUserAuthState("removeWishlist", id);
+      } else {
+        setWishList(!wishList);
+        removeProductFromWishList(id);
+      }
     },
     [wishList, removeProductFromWishList]
   );
