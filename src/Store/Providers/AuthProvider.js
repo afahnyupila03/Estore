@@ -1,7 +1,7 @@
-import { useEffect, useReducer } from "react";
-import { AuthContext } from "../Context/AuthContext";
-import { DefaultAuthState, AuthReducer } from "../Reducers/AuthReducer";
-import { Constants } from "../Constants";
+import React, { useEffect, useReducer } from 'react'
+import { AuthContext } from '../Context/AuthContext'
+import { DefaultAuthState, AuthReducer } from '../Reducers/AuthReducer'
+import { Constants } from '../Constants'
 import {
   EmailAuthProvider,
   createUserWithEmailAndPassword,
@@ -10,30 +10,31 @@ import {
   signInWithEmailAndPassword,
   updateEmail,
   updateProfile,
-  updatePassword,
-  sendPasswordResetEmail,
-} from "firebase/auth";
-import { auth } from "../../FirebaseConfigs/Firesbase";
+  updatePassword
+  // sendPasswordResetEmail
+} from 'firebase/auth'
+import { auth } from '../../FirebaseConfigs/Firesbase'
+import PropTypes from 'prop-types'
 
-export default function AuthProvider({ children }) {
-  const [state, dispatch] = useReducer(AuthReducer, DefaultAuthState);
+export default function AuthProvider ({ children }) {
+  const [state, dispatch] = useReducer(AuthReducer, DefaultAuthState)
 
   useEffect(() => {
     const unSubscribed = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch({
           type: Constants.SET_USER,
-          payload: { user },
-        });
+          payload: { user }
+        })
       } else {
         dispatch({
-          type: Constants.SIGN_OUT,
-        });
+          type: Constants.SIGN_OUT
+        })
       }
-    });
+    })
 
-    return () => unSubscribed;
-  }, []);
+    return () => unSubscribed
+  }, [])
 
   const signUpHandler = async (email, password, firstName, lastName) => {
     try {
@@ -41,23 +42,23 @@ export default function AuthProvider({ children }) {
         auth,
         email,
         password
-      );
+      )
       await updateProfile(userCredentials.user, {
-        displayName: `${firstName} ${lastName}`,
-      });
+        displayName: `${firstName} ${lastName}`
+      })
 
       dispatch({
         type: Constants.SIGN_UP,
-        payload: { user: userCredentials.user },
-      });
+        payload: { user: userCredentials.user }
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const signInHandler = async (email, password) => {
     try {
@@ -65,139 +66,139 @@ export default function AuthProvider({ children }) {
         auth,
         email,
         password
-      );
+      )
       dispatch({
         type: Constants.SIGN_IN,
-        payload: { user: userCredentials.user },
-      });
+        payload: { user: userCredentials.user }
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const reAuthUser = async (email, password) => {
     try {
-      const user = auth.currentUser;
-      const authCredentials = EmailAuthProvider.credential(email, password);
+      const user = auth.currentUser
+      const authCredentials = EmailAuthProvider.credential(email, password)
       const reAuthUser = await reauthenticateWithCredential(
         user,
         authCredentials
-      );
+      )
       dispatch({
         type: Constants.SIGN_IN,
-        payload: { user: reAuthUser.user },
-      });
+        payload: { user: reAuthUser.user }
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const updateCurrentUserName = async (firstName, lastName) => {
     try {
-      const currentUser = auth.currentUser;
+      const currentUser = auth.currentUser
       const updateCurrentUserName = await updateProfile(currentUser, {
-        displayName: `${firstName} ${lastName}`,
-      });
+        displayName: `${firstName} ${lastName}`
+      })
       dispatch({
         type: Constants.SET_USER,
-        payload: { user: updateCurrentUserName.user },
-      });
+        payload: { user: updateCurrentUserName.user }
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const updateCurrentUserEmail = async (newEmail) => {
     try {
-      const currentUser = auth.currentUser;
-      const newUserEmail = await updateEmail(currentUser, newEmail);
+      const currentUser = auth.currentUser
+      const newUserEmail = await updateEmail(currentUser, newEmail)
       dispatch({
         type: Constants.SET_USER,
-        payload: { user: newUserEmail.user },
-      });
+        payload: { user: newUserEmail.user }
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const updateCurrentUserPassword = async (newPassword) => {
     try {
-      const currentUser = auth.currentUser;
-      const updateUserPassword = await updatePassword(currentUser, newPassword);
+      const currentUser = auth.currentUser
+      const updateUserPassword = await updatePassword(currentUser, newPassword)
       dispatch({
         type: Constants.SET_USER,
-        payload: { user: updateUserPassword.user },
-      });
+        payload: { user: updateUserPassword.user }
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const deleteCurrentUserAccount = async () => {
     try {
-      const user = auth.currentUser;
-      await user.delete();
+      const user = auth.currentUser
+      await user.delete()
       dispatch({
-        type: Constants.DELETE,
-      });
+        type: Constants.DELETE
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const signOutHandler = async () => {
     try {
-      await auth.signOut();
+      await auth.signOut()
       dispatch({
-        type: Constants.SIGN_OUT,
-      });
+        type: Constants.SIGN_OUT
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const resetPasswordHandler = async (userEmail) => {
     try {
-      const resetHandler = await sendPasswordResetEmail(auth, userEmail);
+      // const resetHandler = await sendPasswordResetEmail(auth, userEmail)
       dispatch({
-        type: Constants.RESET_PASSWORD,
-      });
+        type: Constants.RESET_PASSWORD
+      })
     } catch (error) {
       dispatch({
         type: Constants.ERROR,
-        payload: { error },
-      });
-      throw error;
+        payload: { error }
+      })
+      throw error
     }
-  };
+  }
 
   const value = {
     user: state.user,
@@ -210,8 +211,12 @@ export default function AuthProvider({ children }) {
     updateCurrentUserEmail,
     updateCurrentUserPassword,
     deleteCurrentUserAccount,
-    resetPasswordHandler,
-  };
+    resetPasswordHandler
+  }
 
-  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+  return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
+}
+
+AuthProvider.propTypes = {
+  children: PropTypes.node
 }

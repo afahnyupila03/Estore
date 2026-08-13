@@ -1,4 +1,6 @@
+import React from 'react'
 import { Menu } from '@headlessui/react'
+import PropTypes from 'prop-types'
 
 export default function ({menuItem}){
     return (
@@ -17,3 +19,4 @@ export default function ({menuItem}){
             </Menu.Item>
     )
 }
+

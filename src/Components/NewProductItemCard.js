@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import ProductModal from "./ProductModal";
-import { IonIcon } from "@ionic/react";
+import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import ProductModal from './ProductModal'
+import { IonIcon } from '@ionic/react'
 import {
   star,
   starHalfOutline,
@@ -12,63 +12,76 @@ import {
   chevronForwardOutline,
   checkmark,
   heart,
-  heartDislike,
-} from "ionicons/icons";
-import classes from "./ProductItemCard.module.css";
-import Icon from "./Icon";
-import { useAuth, useCart, useWishList } from "../Store";
-import { database, realTimeDatabase } from "../FirebaseConfigs/Firesbase";
-import { ref, set } from "firebase/database";
-import { addDoc, collection } from "firebase/firestore";
-import { useQuery } from "react-query";
-import { WishListPostItemsServices } from "../Services/CartService";
-import { useTranslation } from "react-i18next";
-import UseAnimation from "../Components/Loader";
-import loading from "react-useanimations/lib/loading";
+  heartDislike
+} from 'ionicons/icons'
+import classes from './ProductItemCard.module.css'
+import Icon from './Icon'
+import { useAuth, useCart, useWishList } from '../Store'
+import {
+  // database,
+  realTimeDatabase
+} from '../FirebaseConfigs/Firesbase'
+import { ref, set } from 'firebase/database'
+// import { addDoc, collection } from 'firebase/firestore'
+// import { useQuery } from 'react-query'
+import { WishListPostItemsServices } from '../Services/CartService'
+import { useTranslation } from 'react-i18next'
+import Loader from '../Components/Loader'
+import loading from 'react-useanimations/lib/loading'
+import PropTypes from 'prop-types'
 
-function PRODUCT_RATING(stars) {
-  const fullStars = Math.floor(stars);
-  const halfStar = stars - fullStars >= 0.5;
-  const starsArray = [];
+function PRODUCT_RATING (stars) {
+  const fullStars = Math.floor(stars)
+  const halfStar = stars - fullStars >= 0.5
+  const starsArray = []
 
   for (let i = 0; i < fullStars; i++) {
-    starsArray.push(<Icon icon={star} key={`full-${i}`} />);
+    starsArray.push(<Icon icon={star} key={`full-${i}`} />)
   }
 
   if (halfStar) {
-    starsArray.push(<Icon icon={starHalfOutline} key="half" />);
+    starsArray.push(<Icon icon={starHalfOutline} key='half' />)
   }
 
-  return <div>{starsArray}</div>;
+  return <div>{starsArray}</div>
 }
 
-export default function NewProductItemCard({ productData }) {
-  const [openProductModal, setOpenProductModal] = useState(false);
-  const [mouseIsOver, setMouseIsOver] = useState(false);
-  const [currImageIndex, setCurrImageIndex] = useState(0);
-  const [addingProduct, setAddingProduct] = useState(false);
-  const [productAdded, setProductAdded] = useState(false);
+export default function NewProductItemCard ({ productData }) {
+  const [openProductModal, setOpenProductModal] = useState(false)
+  const [
+    // mouseIsOver,
+    setMouseIsOver
+  ] = useState(false)
+  const [currImageIndex, setCurrImageIndex] = useState(0)
+  const [addingProduct, setAddingProduct] = useState(false)
+  const [productAdded, setProductAdded] = useState(false)
 
-  const { t } = useTranslation();
+  const { t } = useTranslation()
 
-  const { addProductHandler } = useCart();
-  const { user } = useAuth();
+  const { addProductHandler } = useCart()
+  const { user } = useAuth()
   const {
     addProductToWishList,
     wishListed,
-    removeProductFromWishList,
-    setWishListState,
-  } = useWishList();
+    removeProductFromWishList
+    // setWishListState,
+  } = useWishList()
 
-  const [wishList, setWishList] = useState(wishListed);
-  const [updatedWishList, setUpdatedWishList] = useState(false);
-  const [isInWishList, setIsInWishList] = useState(false);
+  const [
+    // wishList,
+    setWishList
+  ] = useState(wishListed)
+  const [
+    // updatedWishList,
+    setUpdatedWishList
+  ] = useState(false)
+  const [isInWishList, setIsInWishList] = useState(false)
 
   const {
     title,
     price,
     id,
-    category,
+    // category,
     description,
     brand,
     discountPercentage,
@@ -76,68 +89,68 @@ export default function NewProductItemCard({ productData }) {
     stock,
     images,
     thumbnail,
-    quantity,
-  } = productData || [];
+    quantity
+  } = productData || []
 
-  const userId = user?.uid;
+  const userId = user?.uid
 
   const handleMouseOver = () => {
-    setMouseIsOver(true);
-  };
+    setMouseIsOver(true)
+  }
   const handleMouseOut = () => {
-    setMouseIsOver(false);
-  };
+    setMouseIsOver(false)
+  }
   const handleImageClick = (index) => {
-    setCurrImageIndex(index);
-  };
+    setCurrImageIndex(index)
+  }
 
-  function handleShowProductModal() {
-    setOpenProductModal(!openProductModal);
+  function handleShowProductModal () {
+    setOpenProductModal(!openProductModal)
   }
 
   const getName = (title) => {
-    const MAX_NAME_CHARS = 15;
+    const MAX_NAME_CHARS = 15
     if (title.length > MAX_NAME_CHARS) {
-      return `${title.slice(0, MAX_NAME_CHARS)}...`;
+      return `${title.slice(0, MAX_NAME_CHARS)}...`
     }
-    return title;
-  };
+    return title
+  }
 
   const handleUserAuthState = () => {
-    handleShowProductModal();
+    handleShowProductModal()
     setTimeout(() => {
-      window.location.replace("/sign-in-&-create-account");
-    }, 1000);
-  };
-
-  function CONVERT_CURRENCY(priceInUSD) {
-    const exchangeRate = 608.58;
-    const convertedPrice = Math.round(priceInUSD * exchangeRate);
-    return convertedPrice;
+      window.location.replace('/sign-in-&-create-account')
+    }, 1000)
   }
 
-  const XAF_PRICE = CONVERT_CURRENCY(price);
-
-  function DISCOUNT_PRICE(discountPercentage, price) {
-    const discount = (discountPercentage / 100) * price;
-    const discountedPrice = Math.round(price - discount);
-    return discountedPrice;
+  function CONVERT_CURRENCY (priceInUSD) {
+    const exchangeRate = 608.58
+    const convertedPrice = Math.round(priceInUSD * exchangeRate)
+    return convertedPrice
   }
 
-  function formatMoney(amount, currency) {
-    const formatter = new Intl.NumberFormat("fr", {
-      style: "currency",
-      currency: currency,
-    });
+  const XAF_PRICE = CONVERT_CURRENCY(price)
 
-    return formatter.format(amount);
+  function DISCOUNT_PRICE (discountPercentage, price) {
+    const discount = (discountPercentage / 100) * price
+    const discountedPrice = Math.round(price - discount)
+    return discountedPrice
   }
-  const discountedPrice = DISCOUNT_PRICE(discountPercentage, price);
+
+  function formatMoney (amount, currency) {
+    const formatter = new Intl.NumberFormat('fr', {
+      style: 'currency',
+      currency
+    })
+
+    return formatter.format(amount)
+  }
+  const discountedPrice = DISCOUNT_PRICE(discountPercentage, price)
 
   const handleAddProductToCart = async () => {
     if (!userId) {
-      handleUserAuthState();
-      return;
+      handleUserAuthState()
+      return
     }
 
     const product = {
@@ -149,32 +162,32 @@ export default function NewProductItemCard({ productData }) {
       brand,
       stock,
       quantity,
-      description,
-    };
+      description
+    }
 
-    setAddingProduct(true);
+    setAddingProduct(true)
 
     const cartRef = ref(
       realTimeDatabase,
       `cart/${userId}/${product.id}`
-    );
+    )
 
-    await set(cartRef, product);
+    await set(cartRef, product)
 
-    setAddingProduct(false);
-    setProductAdded(true);
+    setAddingProduct(false)
+    setProductAdded(true)
     setTimeout(() => {
-      setProductAdded(false);
-    }, 1000);
-  };
+      setProductAdded(false)
+    }, 1000)
+  }
 
   const handleAddToWishList = async () => {
     if (!userId) {
-      handleUserAuthState();
-      return;
+      handleUserAuthState()
+      return
     }
 
-    setUpdatedWishList(true);
+    setUpdatedWishList(true)
 
     const newProduct = {
       id,
@@ -185,47 +198,47 @@ export default function NewProductItemCard({ productData }) {
       brand,
       stock,
       quantity,
-      description,
-    };
+      description
+    }
 
     await WishListPostItemsServices({
       path: `wishlist/${userId}`,
-      product: newProduct,
-    });
+      product: newProduct
+    })
 
-    addProductToWishList(newProduct);
-    setIsInWishList(true);
-  };
+    addProductToWishList(newProduct)
+    setIsInWishList(true)
+  }
 
   const handleRemoveFromWishList = (productId) => {
-    removeProductFromWishList(productId);
-    setIsInWishList(false);
-  };
+    removeProductFromWishList(productId)
+    setIsInWishList(false)
+  }
 
   useEffect(() => {
-    setWishList(wishListed);
-  }, [wishListed]);
+    setWishList(wishListed)
+  }, [wishListed])
 
   useEffect(() => {
     if (wishListed && wishListed.length) {
       const isWishListed = wishListed.some(
         (item) => item.id === productData.id
-      );
-      setIsInWishList(isWishListed);
+      )
+      setIsInWishList(isWishListed)
     }
-  }, [wishListed, productData.id]);
+  }, [wishListed, productData.id])
 
   const handleNavigateToPrevImage = () => {
     setCurrImageIndex((prevIndex) =>
       prevIndex === 0 ? images.length - 1 : prevIndex - 1
-    );
-  };
+    )
+  }
 
   const handleNavigateToNextImage = () => {
     setCurrImageIndex((prevIndex) =>
       prevIndex === images.length - 1 ? 0 : prevIndex + 1
-    );
-  };
+    )
+  }
 
   return (
     <>
@@ -244,22 +257,22 @@ export default function NewProductItemCard({ productData }) {
           </Link>
           <button
             className={`${classes.addButton} ${
-              addingProduct ? classes.loading : ""
+              addingProduct ? classes.loading : ''
             }`}
             onClick={handleAddProductToCart}
             disabled={addingProduct}
           >
-            {addingProduct ? (
-              <UseAnimation animation={loading} size={20} />
-            ) : productAdded ? (
-              <IonIcon icon={checkmark} />
-            ) : (
-              <IonIcon icon={add} />
-            )}
+            {
+              addingProduct
+                ? <Loader animation={loading} size={20} />
+                : productAdded
+                  ? <IonIcon icon={checkmark} />
+                  : <IonIcon icon={add} />
+            }
           </button>
           <button
             className={`${classes.wishlistButton} ${
-              isInWishList ? classes.wishlisted : ""
+              isInWishList ? classes.wishlisted : ''
             }`}
             onClick={
               isInWishList
@@ -290,16 +303,16 @@ export default function NewProductItemCard({ productData }) {
           <div className={classes.rating}>
             {PRODUCT_RATING(rating)}
             <span className={classes.stock}>
-              {t("in_stock", { count: stock })}
+              {t('in_stock', { count: stock })}
             </span>
           </div>
           <div className={classes.priceContainer}>
             <span className={classes.discountedPrice}>
-              {formatMoney(XAF_PRICE, "XAF")}
+              {formatMoney(XAF_PRICE, 'XAF')}
             </span>
             {discountPercentage > 0 && (
               <span className={classes.originalPrice}>
-                {formatMoney(discountedPrice, "XAF")}
+                {formatMoney(discountedPrice, 'XAF')}
               </span>
             )}
           </div>
@@ -309,13 +322,13 @@ export default function NewProductItemCard({ productData }) {
               onClick={() => addProductHandler(productData)}
             >
               <IonIcon icon={bagHandleOutline} />
-              {t("add_to_cart")}
+              {t('add_to_cart')}
             </button>
             <button
               className={classes.actionButton}
               onClick={handleShowProductModal}
             >
-              {t("view_product")}
+              {t('view_product')}
             </button>
           </div>
         </div>
@@ -323,38 +336,38 @@ export default function NewProductItemCard({ productData }) {
       {openProductModal && (
         <ProductModal
           icon={closeOutline}
-          style={{ fontSize: "2rem" }}
+          style={{ fontSize: '2rem' }}
           actionHandler={handleShowProductModal}
         >
-          <div className="product-modal-content">
-            <h2 className="product-modal-title">{title}</h2>
-            <p className="product-modal-description">{description}</p>
-            <div className="product-modal-details">
-              <div className="product-modal-price">
-                <span className="discounted-price">
-                  {formatMoney(XAF_PRICE, "XAF")}
+          <div className='product-modal-content'>
+            <h2 className='product-modal-title'>{title}</h2>
+            <p className='product-modal-description'>{description}</p>
+            <div className='product-modal-details'>
+              <div className='product-modal-price'>
+                <span className='discounted-price'>
+                  {formatMoney(XAF_PRICE, 'XAF')}
                 </span>
                 {discountPercentage > 0 && (
-                  <span className="original-price">
-                    {formatMoney(discountedPrice, "XAF")}
+                  <span className='original-price'>
+                    {formatMoney(discountedPrice, 'XAF')}
                   </span>
                 )}
               </div>
-              <div className="product-modal-rating">
+              <div className='product-modal-rating'>
                 {PRODUCT_RATING(rating)}
               </div>
-              <div className="product-modal-stock">
-                {t("in_stock", { count: stock })}
+              <div className='product-modal-stock'>
+                {t('in_stock', { count: stock })}
               </div>
             </div>
-            <div className="product-modal-images">
+            <div className='product-modal-images'>
               {images.map((img, index) => (
                 <img
                   key={index}
                   src={img}
                   alt={`${title} - ${index}`}
                   className={`product-modal-image ${
-                    index === currImageIndex ? "active" : ""
+                    index === currImageIndex ? 'active' : ''
                   }`}
                   onClick={() => handleImageClick(index)}
                 />
@@ -364,5 +377,9 @@ export default function NewProductItemCard({ productData }) {
         </ProductModal>
       )}
     </>
-  );
+  )
+}
+
+NewProductItemCard.propTypes = {
+  productData: PropTypes.object
 }

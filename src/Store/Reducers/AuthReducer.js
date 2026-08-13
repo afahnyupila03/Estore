@@ -1,9 +1,9 @@
-import { Constants } from "../Constants";
+import { Constants } from '../Constants'
 
 export const DefaultAuthState = {
   user: null,
-  error: null,
-};
+  error: null
+}
 
 export const AuthReducer = (state, action) => {
   switch (action.type) {
@@ -12,31 +12,31 @@ export const AuthReducer = (state, action) => {
       return {
         ...state,
         user: action.payload.user,
-        error: null,
-      };
+        error: null
+      }
     case Constants.SET_USER:
       return {
         ...state,
-        user: action.payload.user,
-      };
+        user: action.payload.user
+      }
     case Constants.SIGN_OUT:
       return {
         ...state,
         user: null,
-        error: null,
-      };
+        error: null
+      }
     case Constants.ERROR:
       return {
         ...state,
-        error: action.payload.error,
-      };
+        error: action.payload.error
+      }
     case Constants.RESET_PASSWORD:
       return {
         ...state,
-        error: null,
-      };
+        error: null
+      }
 
     default:
-      return state;
+      return state
   }
-};
+}

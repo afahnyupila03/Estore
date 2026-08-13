@@ -1,4 +1,3 @@
+import React from 'react'
 
-import React from "react";
-
-export const WishListContext = React.createContext();
+export const WishListContext = React.createContext()

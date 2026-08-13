@@ -1,12 +1,14 @@
-import { faqQuestionBase } from "../Pages/Home/components/FAQQuestionBase";
+/* eslint-disable no-prototype-builtins */
+import { faqQuestionBase } from '../Pages/Home/components/FAQQuestionBase'
 
 export const getFeaturedProducts = async () => {
   try {
-    const response = await fetch("https://dummyjson.com/products?limit=8");
-    const data = await response.json();
-    const productData = data.products;
-    const productItems = [];
+    const response = await fetch('https://dummyjson.com/products?limit=8')
+    const data = await response.json()
+    const productData = data.products
+    const productItems = []
     for (const key in productData) {
+      // eslint-disable-next-line no-prototype-builtins
       if (productData.hasOwnProperty(key)) {
         productItems.push({
           id: productData[key].id,
@@ -31,29 +33,28 @@ export const getFeaturedProducts = async () => {
           sku: productData[key].sku,
           tags: productData[key].tags,
           warrantyInformation: productData[key].warrantyInformation,
-          weight: productData[key].weight,
-        });
+          weight: productData[key].weight
+        })
       }
     }
-    return productItems;
+    return productItems
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const getFeaturedProductService = async (id, title) => {
   try {
     const response = await fetch(
       `https://dummyjson.com/products/${id}?title=${title}`
-    );
+    )
 
-    const data = await response.json();
-    const dataProduct = data.product;
-    console.log("Data detail call: ", data);
-    console.log("Product Detail Call:", dataProduct);
+    const data = await response.json()
+    // const dataProduct = data.product
+
     const product = {
-      id: id,
-      title: title,
+      id,
+      title,
       thumbnail: data.thumbnail,
       price: data.price,
       brand: data.brand,
@@ -74,22 +75,22 @@ export const getFeaturedProductService = async (id, title) => {
       sku: data.sku,
       tags: data.tags,
       warrantyInformation: data.warrantyInformation,
-      weight: data.weight,
-    };
-    return product;
+      weight: data.weight
+    }
+    return product
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const getLatestProducts = async () => {
   try {
     const response = await fetch(
-      "https://dummyjson.com/products?limit=28&skip=9"
-    );
-    const data = await response.json();
-    const productData = data.products;
-    const productItems = [];
+      'https://dummyjson.com/products?limit=28&skip=9'
+    )
+    const data = await response.json()
+    const productData = data.products
+    const productItems = []
     for (const key in productData) {
       if (productData.hasOwnProperty(key)) {
         productItems.push({
@@ -115,29 +116,29 @@ export const getLatestProducts = async () => {
           sku: productData[key].sku,
           tags: productData[key].tags,
           warrantyInformation: productData[key].warrantyInformation,
-          weight: productData[key].weight,
-        });
+          weight: productData[key].weight
+        })
       }
     }
-    return productItems;
+    return productItems
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const getLatestProduct = async (id, title) => {
   try {
     const response = await fetch(
       `https://dummyjson.com/products/${id}?title=${title}`
-    );
+    )
 
-    const data = await response.json();
-    const dataProduct = data.product;
-    console.log("Data detail call: ", data);
-    console.log("Product Detail Call:", dataProduct);
+    const data = await response.json()
+    const dataProduct = data.product
+    console.log('Data detail call: ', data)
+    console.log('Product Detail Call:', dataProduct)
     const product = {
-      id: id,
-      title: title,
+      id,
+      title,
       thumbnail: data.thumbnail,
       price: data.price,
       brand: data.brand,
@@ -158,19 +159,19 @@ export const getLatestProduct = async (id, title) => {
       sku: data.sku,
       tags: data.tags,
       warrantyInformation: data.warrantyInformation,
-      weight: data.weight,
-    };
-    return product;
+      weight: data.weight
+    }
+    return product
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const FAQServices = async (t) => {
   // Simulating an async operation, as if fetching from an API
   return new Promise((resolve) => {
     setTimeout(() => {
-      resolve(faqQuestionBase(t));
-    }, 500); // Delay to simulate network latency
-  });
-};
+      resolve(faqQuestionBase(t))
+    }, 500) // Delay to simulate network latency
+  })
+}

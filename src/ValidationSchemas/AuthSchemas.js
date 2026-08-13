@@ -1,94 +1,94 @@
-import * as Yup from "yup";
-import { auth } from "../FirebaseConfigs/Firesbase";
+import * as Yup from 'yup'
+import { auth } from '../FirebaseConfigs/Firesbase'
 import {
   fetchSignInMethodsForEmail,
-  signInWithEmailAndPassword,
-} from "firebase/auth";
+  signInWithEmailAndPassword
+} from 'firebase/auth'
 
-export const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+export const passwordRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/
 
 export const isEmailTaken = async (email) => {
   try {
     // Use the appropriate method to check if the email is already in use with Firebase Authentication
-    const methods = await fetchSignInMethodsForEmail(auth, email);
+    const methods = await fetchSignInMethodsForEmail(auth, email)
     // If methods array is not empty, it means the email is already in use
-    return methods.length > 0;
+    return methods.length > 0
   } catch (error) {
-    console.error("Error:", error);
-    return false; // Return false to indicate that the email is not taken (or handle other errors accordingly)
+    console.error('Error:', error)
+    return false // Return false to indicate that the email is not taken (or handle other errors accordingly)
   }
-};
+}
 
 export const isWrongPassword = (error) => {
-  return error.code === "auth/wrong-password";
-};
+  return error.code === 'auth/wrong-password'
+}
 
 export const SignUpAuthSchema = (t) =>
   Yup.object().shape({
     email: Yup.string()
       .trim()
-      .email(t("validators.auth.validEmail"))
+      .email(t('validators.auth.validEmail'))
       .test(
-        "email-is-taken",
-        t("validators.auth.emailTaken"),
+        'email-is-taken',
+        t('validators.auth.emailTaken'),
         async (value) => {
           // CHECK FOR IS EMAIL ALREADY EXIST
-          const isTaken = await isEmailTaken(value);
+          const isTaken = await isEmailTaken(value)
           // RETURN THE OPPOSITE RESULT IF EMAIL DOESN'T EXIST.
-          return !isTaken;
+          return !isTaken
         }
       )
-      .required(t("validators.auth.emailRequired")),
+      .required(t('validators.auth.emailRequired')),
     firstName: Yup.string()
       .trim()
-      .min(4, t("validators.auth.minChar"))
-      .required(t("validators.auth.firstName")),
+      .min(4, t('validators.auth.minChar'))
+      .required(t('validators.auth.firstName')),
     lastName: Yup.string()
       .trim()
-      .min(4, t("validators.auth.minChar"))
-      .required(t("validators.auth.lastName")),
+      .min(4, t('validators.auth.minChar'))
+      .required(t('validators.auth.lastName')),
     password: Yup.string()
       .trim()
       .matches(passwordRegex, {
-        message: t("validators.personalInfor.strongPassword"),
+        message: t('validators.personalInfor.strongPassword')
       })
-      .required(t("validators.auth.passwordRequired")),
+      .required(t('validators.auth.passwordRequired')),
     confirmPassword: Yup.string()
       .trim()
-      .oneOf([Yup.ref("password")], t("validators.auth.confirmPassword"))
-      .required(t("validators.auth.confirmPasswordRequired")),
-  });
+      .oneOf([Yup.ref('password')], t('validators.auth.confirmPassword'))
+      .required(t('validators.auth.confirmPasswordRequired'))
+  })
 
 export const LoginAuthSchema = (t) =>
   Yup.object().shape({
     email: Yup.string()
       .trim()
-      .email(t("validators.auth.validEmail"))
-      .required(t("validators.auth.emailRequired")),
+      .email(t('validators.auth.validEmail'))
+      .required(t('validators.auth.emailRequired')),
     password: Yup.string()
       .trim()
-      .required(t("validators.auth.passwordRequired"))
+      .required(t('validators.auth.passwordRequired'))
       .test(
-        "check-wrong-credentials",
-        t("validators.auth.invalidEmailPassword"),
+        'check-wrong-credentials',
+        t('validators.auth.invalidEmailPassword'),
         async function (value) {
           try {
             // Use the appropriate method to sign in with email and password
-            await signInWithEmailAndPassword(auth, this.parent.email, value);
-            return true; // No error, return true
+            await signInWithEmailAndPassword(auth, this.parent.email, value)
+            return true // No error, return true
           } catch (error) {
             if (
-              error.code === "auth/user-not-found" ||
-              error.code === "auth/wrong-password"
+              error.code === 'auth/user-not-found' ||
+              error.code === 'auth/wrong-password'
             ) {
-              // If the error is "auth/user-not-found" or "auth/wrong-password", it means wrong credentials
-              return false; // Return false to indicate validation failure
+              // If the error is 'auth/user-not-found' or 'auth/wrong-password', it means wrong credentials
+              return false // Return false to indicate validation failure
             } else {
               // Handle other errors if needed
-              console.error("Error:", error);
-              return true; // Return true to indicate validation success for other errors
+              console.error('Error:', error)
+              return true // Return true to indicate validation success for other errors
             }
           }
         }
-      ),
-  });
+      )
+  })

@@ -1,20 +1,21 @@
-import { useReducer } from "react";
-import { CartContext } from "../Context/CartContext";
-import { DefaultCartState, CartReducer } from "../Reducers/CartReducer";
-import { Constants } from "../Constants";
-import { database } from "../../FirebaseConfigs/Firesbase";
-import { addDoc, collection, Firestore } from "firebase/firestore";
+import React, { useReducer } from 'react'
+import { CartContext } from '../Context/CartContext'
+import { DefaultCartState, CartReducer } from '../Reducers/CartReducer'
+import { Constants } from '../Constants'
+// import { database } from '../../FirebaseConfigs/Firesbase'
+// import { addDoc, collection, Firestore } from "firebase/firestore";
+import PropTypes from 'prop-types'
 
-export default function CartProvider({ children }) {
-  const [cartState, cartDispatch] = useReducer(CartReducer, DefaultCartState);
+export default function CartProvider ({ children }) {
+  const [cartState, cartDispatch] = useReducer(CartReducer, DefaultCartState)
 
   const addProductHandler = (product) =>
-    cartDispatch({ type: Constants.ADD, payload: { product: product } });
+    cartDispatch({ type: Constants.ADD, payload: { product } })
 
   const removeProductHandler = (id) =>
-    cartDispatch({ type: Constants.REMOVE, payload: { id: id } });
+    cartDispatch({ type: Constants.REMOVE, payload: { id } })
 
-  const clearProductHandler = () => cartDispatch({ type: Constants.CLEAR });
+  const clearProductHandler = () => cartDispatch({ type: Constants.CLEAR })
 
   const cartValue = {
     products: cartState.products,
@@ -22,10 +23,14 @@ export default function CartProvider({ children }) {
     productQuantity: cartState.productQuantity,
     addProductHandler,
     removeProductHandler,
-    clearProductHandler,
-  };
+    clearProductHandler
+  }
 
   return (
     <CartContext.Provider value={cartValue}>{children}</CartContext.Provider>
-  );
+  )
+}
+
+CartProvider.propTypes = {
+  children: PropTypes.node
 }

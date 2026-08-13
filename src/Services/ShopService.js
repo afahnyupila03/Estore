@@ -1,11 +1,12 @@
+/* eslint-disable no-prototype-builtins */
 export const ShopProductsServices = async () => {
   try {
     const response = await fetch(
-      "https://dummyjson.com/products?limit=12&skip=32&sortBy=title&order=asc"
-    );
-    const data = await response.json();
-    const productData = data.products;
-    const productItems = [];
+      'https://dummyjson.com/products?limit=12&skip=32&sortBy=title&order=asc'
+    )
+    const data = await response.json()
+    const productData = data.products
+    const productItems = []
     for (const key in productData) {
       if (productData.hasOwnProperty(key)) {
         productItems.push({
@@ -31,29 +32,29 @@ export const ShopProductsServices = async () => {
           sku: productData[key].sku,
           tags: productData[key].tags,
           warrantyInformation: productData[key].warrantyInformation,
-          weight: productData[key].weight,
-        });
+          weight: productData[key].weight
+        })
       }
     }
-    return productItems;
+    return productItems
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const shopProductService = async (id, title) => {
   try {
     const response = await fetch(
       `https://dummyjson.com/products/${id}?title=${title}`
-    );
+    )
 
-    const data = await response.json();
-    const dataProduct = data.product;
-    console.log("Data detail call: ", data);
-    console.log("Product Detail Call:", dataProduct);
+    const data = await response.json()
+    const dataProduct = data.product
+    console.log('Data detail call: ', data)
+    console.log('Product Detail Call:', dataProduct)
     const product = {
-      id: id,
-      title: title,
+      id,
+      title,
       thumbnail: data.thumbnail,
       price: data.price,
       brand: data.brand,
@@ -74,10 +75,10 @@ export const shopProductService = async (id, title) => {
       sku: data.sku,
       tags: data.tags,
       warrantyInformation: data.warrantyInformation,
-      weight: data.weight,
-    };
-    return product;
+      weight: data.weight
+    }
+    return product
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}

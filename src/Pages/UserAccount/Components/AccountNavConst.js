@@ -6,48 +6,48 @@ export const NAV_CONST = (
   cubeOutline,
   heartOutline,
   lockClosedOutline,
-  mailOutline,
+  mailOutline
 ) => [
   {
-    name: t("auth.purchases"),
-    href: "purchases",
+    name: t('auth.purchases'),
+    href: 'purchases',
     current: false,
-    icon: cubeOutline,
+    icon: cubeOutline
   },
   {
-    name: t("auth.wishList"),
-    href: "wish-lists",
+    name: t('auth.wishList'),
+    href: 'wish-lists',
     current: false,
-    icon: heartOutline,
+    icon: heartOutline
   },
   {
-    name: t("auth.delivery"),
-    href: "delivery",
+    name: t('auth.delivery'),
+    href: 'delivery',
     current: false,
-    icon: bicycleOutline,
+    icon: bicycleOutline
   },
   {
-    name: t("auth.paymentMethod"),
-    href: "payment-method",
+    name: t('auth.paymentMethod'),
+    href: 'payment-method',
     current: false,
-    icon: cardOutline,
+    icon: cardOutline
   },
   {
-    name: t("auth.password&Personal"),
-    href: "password-&-personal-information",
+    name: t('auth.password&Personal'),
+    href: 'password-&-personal-information',
     current: false,
-    icon: lockClosedOutline,
+    icon: lockClosedOutline
   },
   {
-    name: t("auth.email&Mail"),
-    href: "email-&-mail-preferences",
+    name: t('auth.email&Mail'),
+    href: 'email-&-mail-preferences',
     current: false,
-    icon: mailOutline,
+    icon: mailOutline
   },
   {
-    name: t("auth.customerService"),
-    href: "customer-service",
+    name: t('auth.customerService'),
+    href: 'customer-service',
     current: false,
-    icon: chatbubbleOutline,
-  },
-];
+    icon: chatbubbleOutline
+  }
+]

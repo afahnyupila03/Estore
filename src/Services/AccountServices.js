@@ -1,16 +1,16 @@
-import { database } from "../FirebaseConfigs/Firesbase"; // Assuming you have initialized your Firebase app and exported the database instance as 'database'
-import { doc, getDoc, collection, getDocs, query } from "firebase/firestore";
+import { database } from '../FirebaseConfigs/Firesbase' // Assuming you have initialized your Firebase app and exported the database instance as 'database'
+import { doc, getDoc, collection, getDocs, query } from 'firebase/firestore'
 
 export const DeliveryServices = async (userId) => {
   try {
     const deliveriesRef = collection(
       database,
-      userId + "/delivery/" + "addressMe"
-    );
-    const q = query(deliveriesRef);
-    const querySnapshot = await getDocs(q);
+      userId + '/delivery/' + 'addressMe'
+    )
+    const q = query(deliveriesRef)
+    const querySnapshot = await getDocs(q)
 
-    const deliveryInfo = [];
+    const deliveryInfo = []
     querySnapshot.forEach((doc) => {
       deliveryInfo.push({
         id: doc.id,
@@ -20,22 +20,22 @@ export const DeliveryServices = async (userId) => {
         state: doc.data().state,
         apt: doc.data().apt,
         city: doc.data().city,
-        zip: doc.data().zip,
-      });
-    });
-    return deliveryInfo;
+        zip: doc.data().zip
+      })
+    })
+    return deliveryInfo
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const DeliveryAddressService = async (userId, addressId) => {
   try {
     const addressRef = doc(
       database,
-      userId + "/delivery/" + "addressMe/" + addressId
-    );
-    const docSnapshot = await getDoc(addressRef);
+      userId + '/delivery/' + 'addressMe/' + addressId
+    )
+    const docSnapshot = await getDoc(addressRef)
 
     if (docSnapshot.exists()) {
       const addressData = {
@@ -46,28 +46,28 @@ export const DeliveryAddressService = async (userId, addressId) => {
         state: docSnapshot.data().state,
         apt: docSnapshot.data().apt,
         city: docSnapshot.data().city,
-        zip: docSnapshot.data().zip,
-      };
-      console.log("service address:", addressData);
-      return addressData;
+        zip: docSnapshot.data().zip
+      }
+      console.log('service address:', addressData)
+      return addressData
     } else {
-      return null || "Error loading address card details";
+      return null || 'Error loading address card details'
     }
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const PaymentMethodServices = async (userId) => {
   try {
     const paymentRef = collection(
       database,
-      userId + "/payment-method/" + "bankCard"
-    );
-    const q = query(paymentRef);
-    const querySnapshot = await getDocs(q);
+      userId + '/payment-method/' + 'bankCard'
+    )
+    const q = query(paymentRef)
+    const querySnapshot = await getDocs(q)
 
-    const paymentInfo = [];
+    const paymentInfo = []
     querySnapshot.forEach((doc) => {
       paymentInfo.push({
         id: doc.id,
@@ -77,23 +77,23 @@ export const PaymentMethodServices = async (userId) => {
         expiryDate: doc.data().expiryDate,
         securityCode: doc.data().securityCode,
         accountName: doc.data().accountName,
-        accountNumber: doc.data().accountNumber,
-      });
-    });
+        accountNumber: doc.data().accountNumber
+      })
+    })
     // console.log(paymentInfo.)
-    return paymentInfo;
+    return paymentInfo
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const PaymentMethodService = async (userId, paymentId) => {
   try {
     const paymentRef = doc(
       database,
       `${userId}/payment-method/bankCard/${paymentId}`
-    );
-    const paymentSnapshot = await getDoc(paymentRef);
+    )
+    const paymentSnapshot = await getDoc(paymentRef)
 
     if (paymentSnapshot.exists()) {
       const paymentMethod = {
@@ -104,26 +104,26 @@ export const PaymentMethodService = async (userId, paymentId) => {
         expiryDate: paymentSnapshot.data().expiryDate,
         securityCode: paymentSnapshot.data().securityCode,
         accountName: paymentSnapshot.data().accountName,
-        accountNumber: paymentSnapshot.data().accountNumber,
-      };
-      console.log("payment service:", paymentMethod);
-      return paymentMethod;
+        accountNumber: paymentSnapshot.data().accountNumber
+      }
+      console.log('payment service:', paymentMethod)
+      return paymentMethod
     } else {
-      return null || "Error loading payment card details";
+      return null || 'Error loading payment card details'
     }
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const PurchaseServices = async (userId) => {
   try {
-    const db = database;
-    const purchaseRef = collection(db, userId + "/purchase/" + "products");
-    const q = query(purchaseRef);
-    const purchaseSnapShot = await getDocs(q);
+    const db = database
+    const purchaseRef = collection(db, userId + '/purchase/' + 'products')
+    const q = query(purchaseRef)
+    const purchaseSnapShot = await getDocs(q)
 
-    const purchaseData = [];
+    const purchaseData = []
     purchaseSnapShot.forEach((doc) => {
       purchaseData.push({
         id: doc.id,
@@ -141,23 +141,23 @@ export const PurchaseServices = async (userId) => {
         tel: doc.data().tel,
         timeOfOrder: doc.data().timeOfOrder,
         dayOfOrder: doc.data().dayOfOrder,
-        cardNumber: doc.data().cardNumber,
-      });
-    });
-    return purchaseData;
+        cardNumber: doc.data().cardNumber
+      })
+    })
+    return purchaseData
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const PurchaseService = async (userId, serviceId) => {
   try {
     const purchaseRef = doc(
       database,
-      userId + "/purchase/" + "products/" + serviceId
-    );
+      userId + '/purchase/' + 'products/' + serviceId
+    )
 
-    const purchaseSnapshot = await getDoc(purchaseRef);
+    const purchaseSnapshot = await getDoc(purchaseRef)
 
     if (purchaseSnapshot.exists()) {
       const purchaseData = {
@@ -174,14 +174,14 @@ export const PurchaseService = async (userId, serviceId) => {
         state: purchaseSnapshot.data().state,
         tax: purchaseSnapshot.data().tax,
         timeOfOrder: purchaseSnapshot.data().timeOfOrder,
-        dayOfOrder: purchaseSnapshot.data().dayOfOrder,
-      };
-      console.log("service products: ", purchaseData);
-      return purchaseData;
+        dayOfOrder: purchaseSnapshot.data().dayOfOrder
+      }
+      console.log('service products: ', purchaseData)
+      return purchaseData
     } else {
-      return null || "Invoice doesn't exist";
+      return null || "Invoice doesn't exist"
     }
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}

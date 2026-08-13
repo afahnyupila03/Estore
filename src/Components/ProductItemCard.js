@@ -1,247 +1,255 @@
-import React, { useState, useEffect, Fragment } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
-import ProductModal, { ModalComponent } from "./ProductModal";
-import { IonIcon } from "@ionic/react";
+import React, { useState, useEffect, Fragment } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import
+// ProductModal,
+{ ModalComponent }
+  from './ProductModal'
+import { IonIcon } from '@ionic/react'
 import {
   star,
   starHalfOutline,
   bagHandleOutline,
   add,
-  closeOutline,
+  // closeOutline,
   chevronBackOutline,
   chevronForwardOutline,
   checkmark,
   heart,
-  heartDislike,
-} from "ionicons/icons";
-import classes from "./ProductItemCard.module.css";
-import Icon from "./Icon";
-import { useAuth, useCart, useWishList } from "../Store";
-import { database, realTimeDatabase } from "../FirebaseConfigs/Firesbase";
-import { ref, set } from "firebase/database";
-import { addDoc, collection } from "firebase/firestore";
-import { useQuery } from "react-query";
-import { WishListPostItemsServices } from "../Services/CartService";
-import { useTranslation } from "react-i18next";
-import UseAnimation from "../Components/Loader";
-import loading from "react-useanimations/lib/loading";
-import { Modal, Button } from "flowbite-react";
+  heartDislike
+} from 'ionicons/icons'
+import classes from './ProductItemCard.module.css'
+import Icon from './Icon'
+import { useAuth, useCart, useWishList } from '../Store'
+// import { database, realTimeDatabase } from '../FirebaseConfigs/Firesbase'
+// import { ref, set } from 'firebase/database'
+// import { addDoc, collection } from 'firebase/firestore'
+// import { useQuery } from 'react-query'
+// import { WishListPostItemsServices } from '../Services/CartService'
+import { useTranslation } from 'react-i18next'
+// import Loader from '../Components/Loader'
+// import loading from 'react-useanimations/lib/loading'
+// import { Modal, Button } from 'flowbite-react'
+import PropTypes from 'prop-types'
 
-function PRODUCT_RATING(stars) {
-  const fullStars = Math.floor(stars);
-  const halfStar = stars - fullStars >= 0.5;
-  const starsArray = [];
+function PRODUCT_RATING (stars) {
+  const fullStars = Math.floor(stars)
+  const halfStar = stars - fullStars >= 0.5
+  const starsArray = []
 
   // Add full stars
   for (let i = 0; i < fullStars; i++) {
-    starsArray.push(<Icon icon={star} key={`full-${i}`} />);
+    starsArray.push(<Icon icon={star} key={`full-${i}`} />)
   }
 
   // Add half star if needed
   if (halfStar) {
-    starsArray.push(<Icon icon={starHalfOutline} key="half" />);
+    starsArray.push(<Icon icon={starHalfOutline} key='half' />)
   }
 
-  return <div>{starsArray}</div>;
+  return <div>{starsArray}</div>
 }
 
-function CONVERT_CURRENCY(priceInUSD) {
-  const exchangeRate = 608.58;
-  const convertedPrice = Math.round(priceInUSD * exchangeRate);
-  const discount = convertedPrice;
-  return discount;
-}
-function DISCOUNT_PRICE(discountPercentage, price) {
-  const discount = (discountPercentage / 100) * price;
-  const discountedPrice = Math.round(price - discount);
-  return discountedPrice;
+function CONVERT_CURRENCY (priceInUSD) {
+  const exchangeRate = 608.58
+  const convertedPrice = Math.round(priceInUSD * exchangeRate)
+  const discount = convertedPrice
+  return discount
 }
 
-function formatMoney(amount, currency) {
-  const formatter = new Intl.NumberFormat("fr", {
-    style: "currency",
-    currency: currency,
-  });
-
-  return formatter.format(amount);
+function DISCOUNT_PRICE (discountPercentage, price) {
+  const discount = (discountPercentage / 100) * price
+  const discountedPrice = Math.round(price - discount)
+  return discountedPrice
 }
 
-export default function ProductItemCard({ productData }) {
-  const [openProductModal, setOpenProductModal] = useState(false);
-  const [mouseIsOver, setMouseIsOver] = useState(false);
-  const [currImageIndex, setCurrImageIndex] = useState(0);
-  const [addingProduct, setAddingProduct] = useState(false);
-  const [productAdded, setProductAdded] = useState(false);
+function formatMoney (amount, currency) {
+  const formatter = new Intl.NumberFormat('fr', {
+    style: 'currency',
+    currency
+  })
 
-  const { t } = useTranslation();
+  return formatter.format(amount)
+}
 
-  const { addProductHandler } = useCart();
-  const { user } = useAuth();
+export default function ProductItemCard ({ productData }) {
+  const [openProductModal, setOpenProductModal] = useState(false)
+  const [mouseIsOver, setMouseIsOver] = useState(false)
+  const [currImageIndex, setCurrImageIndex] = useState(0)
+  const [
+    // addingProduct,
+    setAddingProduct
+  ] = useState(false)
+  const [productAdded, setProductAdded] = useState(false)
+
+  const { t } = useTranslation()
+
+  const { addProductHandler } = useCart()
+  const { user } = useAuth()
   const {
     addProductToWishList,
-    wishListed,
-    removeProductFromWishList,
-    setWishListState,
-  } = useWishList();
+    // wishListed,
+    removeProductFromWishList
+    // setWishListState,
+  } = useWishList()
 
-  const [wishList, setWishList] = useState(wishListed);
-  const [updatedWishList, setUpdatedWishList] = useState(false);
-  const [isInWishList, setIsInWishList] = useState(false);
+  // const [wishList, setWishList] = useState(wishListed)
+  // const [updatedWishList, setUpdatedWishList] = useState(false)
+  const [isInWishList, setIsInWishList] = useState(false)
 
-  const navigate = useNavigate();
-  const location = useLocation();
+  const navigate = useNavigate()
+  const location = useLocation()
 
   const {
     title,
     price,
     id,
-    category,
+    // category,
     description,
     brand,
     discountPercentage,
     rating,
     stock,
     images,
-    thumbnail,
-    quantity,
-  } = productData || [];
+    thumbnail
+    // quantity
+  } = productData || []
 
   const handleMouseOver = () => {
-    setMouseIsOver(true);
-  };
+    setMouseIsOver(true)
+  }
   const handleMouseOut = () => {
-    setMouseIsOver(false);
-  };
+    setMouseIsOver(false)
+  }
   const handleImageClick = (index) => {
-    setCurrImageIndex(index);
-  };
+    setCurrImageIndex(index)
+  }
 
-  function handleShowProductModal() {
-    setOpenProductModal(!openProductModal);
+  function handleShowProductModal () {
+    setOpenProductModal(!openProductModal)
   }
 
   const getName = (title) => {
-    const MAX_NAME_CHARS = 15;
+    const MAX_NAME_CHARS = 15
     if (title.length > MAX_NAME_CHARS) {
-      return `${title.slice(0, MAX_NAME_CHARS)}...`;
+      return `${title.slice(0, MAX_NAME_CHARS)}...`
     }
-    return title;
-  };
+    return title
+  }
 
   const handleUserAuthState = (action, data) => {
-    navigate("/sign-in-&-create-account", {
-      state: { from: location, action: action, data },
-    });
-  };
+    navigate('/sign-in-&-create-account', {
+      state: { from: location, action, data }
+    })
+  }
 
-  const XAF_PRICE = CONVERT_CURRENCY(price);
+  const XAF_PRICE = CONVERT_CURRENCY(price)
 
-  const CURRENCY = "XAF";
+  const CURRENCY = 'XAF'
 
-  const originalPrice = XAF_PRICE;
-  const percentage = discountPercentage;
-  const FINAL_PRICE = DISCOUNT_PRICE(percentage, originalPrice);
+  const originalPrice = XAF_PRICE
+  const percentage = discountPercentage
+  const FINAL_PRICE = DISCOUNT_PRICE(percentage, originalPrice)
 
-  const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY);
-  const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY);
+  const PRODUCT_PRICE = formatMoney(CONVERT_CURRENCY(price), CURRENCY)
+  const DISCOUNT = formatMoney(FINAL_PRICE, CURRENCY)
 
   const handleAddProduct = (product) => {
     if (user === null) {
-      handleUserAuthState("addProduct", product);
+      handleUserAuthState('addProduct', product)
     } else {
-      setAddingProduct(true);
-      addProductHandler(product);
-      alert("Add success");
-      setProductAdded(true);
+      setAddingProduct(true)
+      addProductHandler(product)
+      alert('Add success')
+      setProductAdded(true)
 
       setTimeout(() => {
-        setProductAdded(false);
-      }, 1000);
-      setAddingProduct(false);
+        setProductAdded(false)
+      }, 1000)
+      setAddingProduct(false)
     }
-  };
+  }
 
   const handleWishListedProducts = (data) => {
     if (user === null) {
-      handleUserAuthState("wishlist", data)
+      handleUserAuthState('wishlist', data)
     } else {
-      addProductToWishList(data);
-      setIsInWishList(true);
+      addProductToWishList(data)
+      setIsInWishList(true)
       const storedWishListData =
-        JSON.parse(sessionStorage.getItem("wishListData")) || [];
-      const updatedWishListData = [...storedWishListData, data];
+        JSON.parse(sessionStorage.getItem('wishListData')) || []
+      const updatedWishListData = [...storedWishListData, data]
       sessionStorage.setItem(
-        "wishListData",
+        'wishListData',
         JSON.stringify(updatedWishListData)
-      );
+      )
     }
-  };
+  }
 
   const handleDisLikedProducts = (id) => {
     if (user === null) {
-      handleUserAuthState("removeWishlist", id)
+      handleUserAuthState('removeWishlist', id)
     } else {
-      removeProductFromWishList(id);
-      setIsInWishList(false);
+      removeProductFromWishList(id)
+      setIsInWishList(false)
       const storedWishListData =
-        JSON.parse(sessionStorage.getItem("wishListData")) || [];
+        JSON.parse(sessionStorage.getItem('wishListData')) || []
       const updatedWishListData = storedWishListData.filter(
         (product) => product.id !== id
-      );
+      )
       sessionStorage.setItem(
-        "wishListData",
+        'wishListData',
         JSON.stringify(updatedWishListData)
-      );
+      )
     }
-  };
+  }
 
-  const getAllLocalStorageData = () => {
-    const allData = {};
-    for (let i = 0; i < sessionStorage.length; i++) {
-      const key = sessionStorage.key(i);
-      // Exclude the language key from the retrieved data
-      if (key !== "i18nextLng") {
-        const value = sessionStorage.getItem(key);
-        allData[key] = JSON.parse(value);
-      }
-    }
-    return allData;
-  };
+  // const getAllLocalStorageData = () => {
+  //   const allData = {}
+  //   for (let i = 0; i < sessionStorage.length; i++) {
+  //     const key = sessionStorage.key(i)
+  //     // Exclude the language key from the retrieved data
+  //     if (key !== 'i18nextLng') {
+  //       const value = sessionStorage.getItem(key)
+  //       allData[key] = JSON.parse(value)
+  //     }
+  //   }
+  //   return allData
+  // }
 
-  const localStorageData = getAllLocalStorageData();
-  const products = localStorageData["wishListData"];
+  // const localStorageData = getAllLocalStorageData()
+  // const products = localStorageData['wishListData']
 
   useEffect(() => {
     const storedSessionData =
-      JSON.parse(sessionStorage.getItem("wishListData")) || [];
-    const isInWishList = storedSessionData.some((product) => product.id === id);
-    setIsInWishList(isInWishList);
-  }, [id]);
+      JSON.parse(sessionStorage.getItem('wishListData')) || []
+    const isInWishList = storedSessionData.some((product) => product.id === id)
+    setIsInWishList(isInWishList)
+  }, [id])
 
   const handleItemClick = (event) => {
     if (window.innerWidth <= 767) {
-      event.preventDefault();
-      window.location.href = `/product-details/${id}/${title}`;
+      event.preventDefault()
+      window.location.href = `/product-details/${id}/${title}`
     }
-  };
+  }
 
   const PRODUCT_MODAL = (
     <ModalComponent
       isOpen={openProductModal}
-      position="center"
+      position='center'
       onClose={handleShowProductModal}
-      size="5xl"
-      className="bg-black bg-opacity-75"
+      size='5xl'
+      className='bg-black bg-opacity-75'
       modalBody={
-        <div className="grid grid-cols-2 gap-x-10 text-2xl font-medium px-6">
+        <div className='grid grid-cols-2 gap-x-10 text-2xl font-medium px-6'>
           <div>
             <img
               src={currImageIndex !== null ? images[currImageIndex] : thumbnail}
               alt={title}
-              loading="eager"
-              className="object-fill h-80 rounded w-full"
+              loading='eager'
+              className='object-fill h-80 rounded w-full'
             />
-            <div className="flex items-center justify-center mt-4">
+            <div className='flex items-center justify-center mt-4'>
               <Icon
                 icon={chevronBackOutline}
                 actionButton={() =>
@@ -250,7 +258,7 @@ export default function ProductItemCard({ productData }) {
                   )
                 }
               />
-              <span className="mx-2">
+              <span className='mx-2'>
                 {`${currImageIndex + 1}/${images.length}`}
               </span>
               <Icon
@@ -261,34 +269,34 @@ export default function ProductItemCard({ productData }) {
               />
             </div>
           </div>
-          <div className="text-lg">
-            <div className="flex flex-col justify-start">
-              <p className="flex">{PRODUCT_RATING(rating)}</p>
-              <p>{`${t("inStock")}: ${stock}`}</p>
+          <div className='text-lg'>
+            <div className='flex flex-col justify-start'>
+              <p className='flex'>{PRODUCT_RATING(rating)}</p>
+              <p>{`${t('inStock')}: ${stock}`}</p>
               <Link
                 to={`/product-details/${id}/${title}`}
-                className="hover:underline"
+                className='hover:underline'
               >
                 {title}
               </Link>
               <p>{brand}</p>
               <p>{DISCOUNT}</p>
             </div>
-            <div className="mt-6">
-              <p className=" text-1xl font-medium">{description}</p>
-              <div className="grid justify-start mt-8 ">
+            <div className='mt-6'>
+              <p className=' text-1xl font-medium'>{description}</p>
+              <div className='grid justify-start mt-8 '>
                 <button
                   onClick={() => handleAddProduct(productData)}
-                  className="bg-black flex px-8 py-2 rounded mb-2 text-white font-medium items-center text-center"
+                  className='bg-black flex px-8 py-2 rounded mb-2 text-white font-medium items-center text-center'
                 >
                   <IonIcon
                     icon={productAdded ? checkmark : bagHandleOutline}
-                    className="mr-2"
-                    style={{ fontSize: "1.5rem" }}
+                    className='mr-2'
+                    style={{ fontSize: '1.5rem' }}
                   />
                   {productAdded
-                    ? `${t("home.added")}`
-                    : `${t("home.addToBag")}`}
+                    ? `${t('home.added')}`
+                    : `${t('home.addToBag')}`}
                 </button>
                 <button
                   onClick={
@@ -296,89 +304,97 @@ export default function ProductItemCard({ productData }) {
                       ? () => handleDisLikedProducts(id)
                       : () => handleWishListedProducts(productData)
                   }
-                  className="underline flex items-center"
+                  className='underline flex items-center'
                 >
                   <IonIcon
                     icon={isInWishList ? heartDislike : add}
-                    className="mr-1"
-                    style={{ fontSize: "1.5rem" }}
+                    className='mr-1'
+                    style={{ fontSize: '1.5rem' }}
                   />
                   {isInWishList
-                    ? `${t("home.dislike")}`
-                    : `${t("auth.wishList")}`}
+                    ? `${t('home.dislike')}`
+                    : `${t('auth.wishList')}`}
                 </button>
               </div>
             </div>
-            <div className="flex justify-center mx-4 mt-4 items-center">
+            <div className='flex justify-center mx-4 mt-4 items-center'>
               <Link
                 to={`/product-details/${id}/${title}`}
-                className="underline text-lg"
+                className='underline text-lg'
               >
-                {t("home.seeDetails")}
+                {t('home.seeDetails')}
               </Link>
             </div>
           </div>
         </div>
       }
     />
-  );
+  )
 
   return (
     <Fragment>
       {openProductModal && PRODUCT_MODAL}
-      <button
-        loading="lazy"
+      <div
+        role='button'
+        tabIndex={0}
+        // loading='lazy'
         onMouseOver={handleMouseOver}
         onMouseOut={handleMouseOut}
         onClick={handleItemClick}
+        onKeyDown={e => {
+          if (e.key === 'Enter' || e.key === '') {
+            e.preventDefault()
+            handleItemClick(e)
+          }
+        }}
       >
         <div
           id={id}
-          className="aspect-h-1 aspect-w-1 lg:w-full overflow-hidden rounded-md bg-gray-900 lg:aspect-none group-hover:opacity-75 h-80"
+          className='aspect-h-1 aspect-w-1 lg:w-full overflow-hidden rounded-md bg-gray-900 lg:aspect-none group-hover:opacity-75 h-80'
         >
           <img
             src={thumbnail}
             alt={title}
-            loading="lazy"
-            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+            loading='lazy'
+            className='h-full w-full object-cover object-center lg:h-full lg:w-full'
           />
         </div>
 
-        <div className="mt-4 text-xs lg:text-lg grid font-medium">
-          <div className="flex justify-between items-center">
+        <div className='mt-4 text-xs lg:text-lg grid font-medium'>
+          <div className='flex justify-between items-center'>
             <div>
-              <p className="flex text-xs lg:text-lg justify-start text-gray-700">
+              <p className='flex text-xs lg:text-lg justify-start text-gray-700'>
                 {brand}
               </p>
 
-              <h4 className=" text-sm font-medium lg:font-medium lg:text-lg flex text-left">
-                <span aria-hidden="true">{getName(title)}</span>
+              <h4 className=' text-sm font-medium lg:font-medium lg:text-lg flex text-left'>
+                <span aria-hidden='true'>{getName(title)}</span>
               </h4>
             </div>
             {isInWishList && (
               <div>
-                <IonIcon icon={heart} style={{ fontSize: "1.5rem" }} />
+                <IonIcon icon={heart} style={{ fontSize: '1.5rem' }} />
               </div>
             )}
           </div>
-          <div className="text-left text-sm lg:text-lg">
-            <p className="text-red-600">{DISCOUNT}</p>
-            <p className="text-red-600">
-              -{discountPercentage}% {t("home.offFor")}
+          <div className='text-left text-sm lg:text-lg'>
+            <p className='text-red-600'>{DISCOUNT}</p>
+            <p className='text-red-600'>
+              -{discountPercentage}% {t('home.offFor')}
             </p>
 
-            <p className="line-through tracking-wide font-medium">
+            <p className='line-through tracking-wide font-medium'>
               {PRODUCT_PRICE}
             </p>
 
-            <div className="flex items-center">
+            <div className='flex items-center'>
               {PRODUCT_RATING(rating)}
-              <span className="ml-2">({stock})</span>
+              <span className='ml-2'>({stock})</span>
             </div>
           </div>
         </div>
 
-        <div className="mt-2">
+        <div className='mt-2'>
           <button
             className={`${
               mouseIsOver
@@ -387,10 +403,14 @@ export default function ProductItemCard({ productData }) {
             } text-white py-2 px-6 rounded-sm font-medium text-lg bg-gray-700 w-full`}
             onClick={handleShowProductModal}
           >
-            {t("home.quickView")}
+            {t('home.quickView')}
           </button>
         </div>
-      </button>
+      </div>
     </Fragment>
-  );
+  )
+}
+
+ProductItemCard.propTypes = {
+  productData: PropTypes.object
 }

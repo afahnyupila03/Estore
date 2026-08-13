@@ -1,7 +1,9 @@
-"use client";
-import { Modal } from "flowbite-react";
+'use client'
+import React from 'react'
+import { Modal } from 'flowbite-react'
+import PropTypes from 'prop-types'
 
-export function ModalComponent({
+export function ModalComponent ({
   isOpen,
   onClose,
   modalHeader,
@@ -9,7 +11,7 @@ export function ModalComponent({
   modalFooter,
   size,
   position,
-  className,
+  className
 }) {
   return (
     <Modal
@@ -23,5 +25,17 @@ export function ModalComponent({
       <Modal.Body>{modalBody}</Modal.Body>
       <Modal.Footer>{modalFooter}</Modal.Footer>
     </Modal>
-  );
+  )
+}
+
+ModalComponent.propTypes = {
+  isOpen: PropTypes.bool,
+  onClose: PropTypes.func,
+  modalHandler: PropTypes.func,
+  modalHeader: PropTypes.element,
+  modalBody: PropTypes.element,
+  modalFooter: PropTypes.element,
+  size: PropTypes.string,
+  position: PropTypes.string,
+  className: PropTypes.string
 }

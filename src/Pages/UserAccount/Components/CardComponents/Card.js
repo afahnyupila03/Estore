@@ -1,20 +1,22 @@
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
+import React from 'react'
+import PropTypes from 'prop-types'
 
-export default function Card({
+export default function Card ({
   actionHeader,
   actionText,
   image,
   imageName,
   actionButton,
-  imageClass,
+  imageClass
 }) {
   return (
-    <Link to="#">
-      <div className="gap-x-2 flex items-center ">
+    <Link to='#'>
+      <div className='gap-x-2 flex items-center '>
         <div>
-          <h2 className="text-sm md:text-sm lg:text-lg font-medium">{actionHeader}</h2>
-          <p className="text-sm md:text-sm lg:text-lg">{actionText}</p>
-          <Link to="#" className="underline text-sm md:text-sm lg:text-lg">
+          <h2 className='text-sm md:text-sm lg:text-lg font-medium'>{actionHeader}</h2>
+          <p className='text-sm md:text-sm lg:text-lg'>{actionText}</p>
+          <Link to='#' className='underline text-sm md:text-sm lg:text-lg'>
             {actionButton}
           </Link>
         </div>
@@ -27,5 +29,14 @@ export default function Card({
         </div>
       </div>
     </Link>
-  );
+  )
+}
+
+Card.propTypes = {
+  actionHeader: PropTypes.string,
+  actionText: PropTypes.string,
+  image: PropTypes.string,
+  imageName: PropTypes.string,
+  actionButton: PropTypes.string,
+  imageClass: PropTypes.string
 }

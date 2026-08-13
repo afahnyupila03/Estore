@@ -1,12 +1,13 @@
 export const BlogServices = async () => {
   try {
     const res = await fetch(
-      "https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=01d60bb1389b466e9c9ab1a1553daa12"
-    );
-    const data = await res.json();
-    const blogArticles = data.articles;
-    const articles = [];
+      'https://newsapi.org/v2/top-headlines?sources=techcrunch&apiKey=01d60bb1389b466e9c9ab1a1553daa12'
+    )
+    const data = await res.json()
+    const blogArticles = data.articles
+    const articles = []
     for (const key in blogArticles) {
+      // eslint-disable-next-line no-prototype-builtins
       if (blogArticles.hasOwnProperty(key)) {
         articles.push({
           id: blogArticles[key].source.id,
@@ -17,22 +18,22 @@ export const BlogServices = async () => {
           url: blogArticles[key].url,
           urlToImage: blogArticles[key].urlToImage,
           publishedAt: blogArticles[key].publishedAt,
-          content: blogArticles[key].content,
-        });
+          content: blogArticles[key].content
+        })
       }
     }
-    return articles;
+    return articles
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}
 
 export const BlogService = async (id) => {
   try {
     const res = await fetch(
       `https://api.slingacademy.com/v1/sample-data/blog-posts/${id}`
-    );
-    const data = await res.json();
+    )
+    const data = await res.json()
     const blogPost = {
       userId: data.userId,
       title: data.title,
@@ -42,10 +43,10 @@ export const BlogService = async (id) => {
       id: data.id,
       description: data.description,
       category: data.category,
-      updatedAt: data.updated_at,
-    };
-    return blogPost;
+      updatedAt: data.updated_at
+    }
+    return blogPost
   } catch (err) {
-    return Promise.reject(err instanceof Error ? err : new Error(err));
+    return Promise.reject(err instanceof Error ? err : new Error(err))
   }
-};
+}

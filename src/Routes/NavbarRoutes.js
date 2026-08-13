@@ -1,78 +1,79 @@
-import Blog from "../Pages/Blog/Blog";
-import Shop from "../Pages/Shop/Shop";
-import Latest from "../Pages/Latest/Latest";
-import Home from "../Pages/Home/Home";
-import About from "../Pages/About/About";
-import CartPage from "../Pages/CartPage/CartPage";
-import AuthPage from "../Pages/Auth/Auth";
-import ProductDetails from "../Pages/ProductDetails/ProductDetails";
-import CategoryPage from "../Pages/Category/Category";
-import CheckOutForm from "../Pages/CartPage/CheckOutForm";
-import FAQ from "../Pages/Home/Layout/FAQ";
+import Blog from '../Pages/Blog/Blog'
+import Shop from '../Pages/Shop/Shop'
+import Latest from '../Pages/Latest/Latest'
+import Home from '../Pages/Home/Home'
+import About from '../Pages/About/About'
+import CartPage from '../Pages/CartPage/CartPage'
+import AuthPage from '../Pages/Auth/Auth'
+import ProductDetails from '../Pages/ProductDetails/ProductDetails'
+import CategoryPage from '../Pages/Category/Category'
+import CheckOutForm from '../Pages/CartPage/CheckOutForm'
+import FAQ from '../Pages/Home/Layout/FAQ'
+import React from 'react'
 
 export const NavbarRoutes = [
   {
-    path: "/",
+    path: '/',
     index: true,
-    element: <Home />,
+    element: <Home />
   },
   {
-    path: "/category/:category", // Static part of the path
-    element: <CategoryPage />,
+    path: '/category/:category', // Static part of the path
+    element: <CategoryPage />
   },
   {
-    path: "/home",
-    element: <Home />,
+    path: '/home',
+    element: <Home />
   },
   {
-    path: "/home/product-details/:id/:title",
-    element: <ProductDetails />,
+    path: '/home/product-details/:id/:title',
+    element: <ProductDetails />
   },
   {
-    path: "/home/shop",
-    element: <Shop />,
+    path: '/home/shop',
+    element: <Shop />
   },
   {
-    path: "/shop",
+    path: '/shop',
     element: <Shop />,
     children: [
       {
-        path: "/shop/:category",
-        element: <CategoryPage />,
-      },
-    ],
+        path: '/shop/:category',
+        element: <CategoryPage />
+      }
+    ]
   },
 
   {
-    path: "/about",
-    element: <About />,
+    path: '/about',
+    element: <About />
   },
   {
-    path: "/blog",
-    element: <Blog />,
+    path: '/blog',
+    element: <Blog />
   },
   {
-    path: "/latest-products",
-    element: <Latest />,
+    path: '/latest-products',
+    element: <Latest />
   },
   {
-    path: "/cart/sign-in-&-create-account",
-    element: <AuthPage />,
+    path: '/cart/sign-in-&-create-account',
+    element: <AuthPage />
   },
   {
-    path: "/cart",
-    element: <CartPage />,
+    path: '/cart',
+    element: <CartPage />
   },
   {
-    path: "/checkout-form",
-    element: <CheckOutForm />,
+    path: '/checkout-form',
+    element: <CheckOutForm />
   },
   {
-    path: "/sign-in-&-create-account",
-    element: <AuthPage />,
+    path: '/sign-in-&-create-account',
+    element: <AuthPage />
   },
   {
-    path: "/FAQ",
-    element: <FAQ />,
-  },
-];
+    path: '/FAQ',
+    element: <FAQ />
+  }
+]
